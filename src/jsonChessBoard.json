@@ -1,5 +1,5 @@
 [
-  [{
+  {
     "id": "a8",
     "piece": {
       "type": "rook",
@@ -70,8 +70,8 @@
       "currentPosition": "h8",
       "possibleMoves": []
     }
-  }],
-  [{
+  },
+  {
     "id": "a7",
     "piece": {
       "type": "pawn",
@@ -142,8 +142,8 @@
       "currentPosition": "h7",
       "possibleMoves": ["h6", "h5"]
     }
-  }],
-  [{
+  },
+  {
     "id": "a6",
     "piece": null
   },
@@ -174,8 +174,8 @@
   {
     "id": "h6",
     "piece": null
-  }],
-  [{
+  },
+  {
     "id": "a5",
     "piece": null
   },
@@ -206,8 +206,8 @@
   {
     "id": "h5",
     "piece": null
-  }],
-  [{
+  },
+  {
     "id": "a4",
     "piece": null
   },
@@ -238,8 +238,8 @@
   {
     "id": "h4",
     "piece": null
-  }],
-  [{
+  },
+  {
     "id": "a3",
     "piece": null
   },
@@ -270,8 +270,8 @@
   {
     "id": "h3",
     "piece": null
-  }],
-  [{
+  },
+  {
     "id": "a2",
     "piece": {
       "type": "pawn",
@@ -342,8 +342,8 @@
       "currentPosition": "h2",
       "possibleMoves": ["h3", "h4"]
     }
-  }],
-  [{
+  },
+  {
     "id": "a1",
     "piece": {
       "type": "rook",
@@ -414,5 +414,5 @@
       "currentPosition": "h1",
       "possibleMoves": []
     }
-  }]  
+  }
 ]

@@ -23,9 +23,9 @@ class Board extends Component {
   }
 
   boardRows() {
-    let counter = [0, 8, 16, 24, 32, 40, 48, 56]
+    let indices = [0, 8, 16, 24, 32, 40, 48, 56]
 
-    return counter.map((number) => {
+    return indices.map((number) => {
       return this.props.chessBoard.slice(number, number + 8)
     })
   }

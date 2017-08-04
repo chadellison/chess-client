@@ -144,12 +144,203 @@
     }
   },
   {
-    "id": "a1",
+    "id": "a6",
+    "piece": null
+  },
+  {
+    "id": "b6",
+    "piece": null
+  },
+  {
+    "id": "c6",
+    "piece": null
+  },
+  {
+    "id": "d6",
+    "piece": null
+  },
+  {
+    "id": "e6",
+    "piece": null
+  },
+  {
+    "id": "f6",
+    "piece": null
+  },
+  {
+    "id": "g6",
+    "piece": null
+  },
+  {
+    "id": "h6",
+    "piece": null
+  },
+  {
+    "id": "a5",
+    "piece": null
+  },
+  {
+    "id": "b5",
+    "piece": null
+  },
+  {
+    "id": "c5",
+    "piece": null
+  },
+  {
+    "id": "d5",
+    "piece": null
+  },
+  {
+    "id": "e5",
+    "piece": null
+  },
+  {
+    "id": "f5",
+    "piece": null
+  },
+  {
+    "id": "g5",
+    "piece": null
+  },
+  {
+    "id": "h5",
+    "piece": null
+  },
+  {
+    "id": "a4",
+    "piece": null
+  },
+  {
+    "id": "b4",
+    "piece": null
+  },
+  {
+    "id": "c4",
+    "piece": null
+  },
+  {
+    "id": "d4",
+    "piece": null
+  },
+  {
+    "id": "e4",
+    "piece": null
+  },
+  {
+    "id": "f4",
+    "piece": null
+  },
+  {
+    "id": "g4",
+    "piece": null
+  },
+  {
+    "id": "h4",
+    "piece": null
+  },
+  {
+    "id": "a3",
+    "piece": null
+  },
+  {
+    "id": "b3",
+    "piece": null
+  },
+  {
+    "id": "c3",
+    "piece": null
+  },
+  {
+    "id": "d3",
+    "piece": null
+  },
+  {
+    "id": "e3",
+    "piece": null
+  },
+  {
+    "id": "f3",
+    "piece": null
+  },
+  {
+    "id": "g3",
+    "piece": null
+  },
+  {
+    "id": "h3",
+    "piece": null
+  },
+  {
+    "id": "a2",
     "piece": {
-      "type": "rook",
+      "type": "pawn",
       "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
+      "currentPosition": "a2",
+      "possibleMoves": ["a3", "a4"]
+    }
+  },
+  {
+    "id": "b2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "b2",
+      "possibleMoves": ["b3", "b4"]
+    }
+  },
+  {
+    "id": "c2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "c2",
+      "possibleMoves": ["c3", "c4"]
+    }
+  },
+  {
+    "id": "d2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "d2",
+      "possibleMoves": ["d3", "d4"]
+    }
+  },
+  {
+    "id": "e2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "e2",
+      "possibleMoves": ["e3", "e4"]
+    }
+  },
+  {
+    "id": "f2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "f2",
+      "possibleMoves": ["f3", "f4"]
+    }
+  },
+  {
+    "id": "g2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "g2",
+      "possibleMoves": ["g3", "g4"]
+    }
+  },
+  {
+    "id": "h2",
+    "piece": {
+      "type": "pawn",
+      "color": "white",
+      "currentPosition": "h2",
+      "possibleMoves": ["h3", "h4"]
     }
   },
   {
@@ -162,416 +353,65 @@
     }
   },
   {
-    "id": "a1",
+    "id": "b1",
     "piece": {
-      "type": "rook",
+      "type": "knight",
       "color": "white",
-      "currentPosition": "a1",
+      "currentPosition": "b1",
+      "possibleMoves": ["a3", "c3"]
+    }
+  },
+  {
+    "id": "c1",
+    "piece": {
+      "type": "bishop",
+      "color": "white",
+      "currentPosition": "c1",
       "possibleMoves": []
     }
   },
   {
-    "id": "a1",
+    "id": "d1",
     "piece": {
-      "type": "rook",
+      "type": "queen",
       "color": "white",
-      "currentPosition": "a1",
+      "currentPosition": "d1",
       "possibleMoves": []
     }
   },
   {
-    "id": "a1",
+    "id": "e1",
     "piece": {
-      "type": "rook",
+      "type": "king",
       "color": "white",
-      "currentPosition": "a1",
+      "currentPosition": "e1",
       "possibleMoves": []
     }
   },
   {
-    "id": "a1",
+    "id": "f1",
     "piece": {
-      "type": "rook",
+      "type": "bishop",
       "color": "white",
-      "currentPosition": "a1",
+      "currentPosition": "f1",
       "possibleMoves": []
     }
   },
   {
-    "id": "a1",
+    "id": "g1",
     "piece": {
-      "type": "rook",
+      "type": "knight",
       "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
+      "currentPosition": "g1",
+      "possibleMoves": ["f3", "h3"]
     }
   },
   {
-    "id": "a1",
+    "id": "h1",
     "piece": {
       "type": "rook",
       "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
-      "possibleMoves": []
-    }
-  },
-  {
-    "id": "a1",
-    "piece": {
-      "type": "rook",
-      "color": "white",
-      "currentPosition": "a1",
+      "currentPosition": "h1",
       "possibleMoves": []
     }
   }

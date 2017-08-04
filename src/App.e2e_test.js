@@ -1,6 +1,5 @@
 Feature('Home Page')
 
-Scenario('test something', (I) => {
+Scenario('user can see board', (I) => {
   I.amOnPage('/')
-  I.see('Welcome to React')
 })

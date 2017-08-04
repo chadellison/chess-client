@@ -30,7 +30,7 @@ class App extends Component {
     return (
       <div className="App container-fluid">
         <div id="chessBoard">
-          // {this.currentBoard}
+            // {this.currentBoard}
         </div>
       </div>
     )

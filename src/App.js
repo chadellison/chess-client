@@ -12,25 +12,35 @@ class App extends Component {
   }
 
   get currentBoard() {
-    // return(
-    //   this.state.chessBoard.map((row, rowIndex) => {
-    //     let eachRow = row.map((square, columnIndex) => {
-    //       let offset = ""
-    //       if (columnIndex === 0) {
-    //         offset = " col-xs-offset-2"
-    //       }
-    //       return(<div key={columnIndex} className={`col-xs-1${offset}`}>square</div>)
-    //     })
-    //     return(<div key={rowIndex} className="row">{eachRow}</div>)
-    //   })
-    // )
+    return this.boardRows().map((row, rowIndex) => {
+      let eachRow = row.map((square, columnIndex) => {
+        return <div key={columnIndex} className={`col-xs-1${this.setOffset(columnIndex)} square`}>square</div>
+      })
+      return(<div key={rowIndex} className="row">{eachRow}</div>)
+    })
+  }
+
+  boardRows() {
+    let counter = [0, 8, 16, 24, 32, 40, 48, 56]
+
+    return counter.map((number) => {
+      return this.state.chessBoard.slice(number, number + 8)
+    })
+  }
+
+  setOffset(index) {
+    let offset = ''
+    if(index === 0) {
+        offset = " col-xs-offset-2"
+    }
+    return offset
   }
 
   render() {
     return (
       <div className="App container-fluid">
         <div id="chessBoard">
-            // {this.currentBoard}
+        {this.currentBoard}
         </div>
       </div>
     )

@@ -310,12 +310,33 @@ describe('App', () => {
 
   })
 
+  describe('#upAndDown', () => {
+    xit('calculates the possible moves for a piece from top to bottom', () => {
+
+    })
+  })
+
+  describe('#rightAndLeft', () => {
+    xit('calculates the possible moves for a piece from left to right', () => {
+
+    })
+  })
+
   describe('#validMovePath', () => {
     xit('returns true if there are no pieces in the way of the two coordinates', () => {
-
+      app.instance().handleSelected('d2')
+      expect(app.instance().validMovePath('d4')).toEqual(true)
     })
 
     xit('returns false if there are any pieces in the way of the two coordinates', () => {
+
+    })
+
+    xit('it returns true for diagonal moves when no pieces are in the path', () => {
+
+    })
+
+    xit('it returns false for diagonal moves when pieces are in the path', () => {
 
     })
   })

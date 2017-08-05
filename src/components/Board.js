@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import '../styles/Board.css'
 import jsonChessBoard from '../jsonChessBoard'
 
+const LETTER_KEY = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5, "f": 6, "g": 7, "h": 8}
+
 class Board extends Component {
   constructor() {
     super()
@@ -23,35 +25,25 @@ class Board extends Component {
   }
 
   boardRows() {
-    let indices = [0, 8, 16, 24, 32, 40, 48, 56]
-
-    return indices.map((number) => {
-      return this.props.chessBoard.slice(number, number + 8)
+    let index = 0
+    return Array.apply(null, {length: 8}).map(() => {
+      return this.props.chessBoard.slice(index, index += 8)
     })
   }
 
   setOffset(index) {
-    let offset = ''
-    if(index === 0) {
-        offset = " col-xs-offset-2"
-    }
-    return offset
+    return index === 0 ? ' col-xs-offset-2' : ''
   }
 
   squareColor(id) {
-    let letterKey = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5, "f": 6, "g": 7, "h": 8}
     let sum = id.split('').reduce((value, character) => {
-      if(letterKey[character]) {
-        character = letterKey[character]
+      if(LETTER_KEY[character]) {
+        character = LETTER_KEY[character]
       }
       return value + parseInt(character)
     }, 0)
 
-    if(sum % 2 === 0) {
-      return 'white'
-    } else {
-      return 'black'
-    }
+    return sum % 2 === 0 ? 'white' : 'black'
   }
 
   render() {

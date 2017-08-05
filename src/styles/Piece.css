@@ -14,3 +14,7 @@
 .piece:hover {
   color: blue;
 }
+
+.selected {
+  color: red;
+}

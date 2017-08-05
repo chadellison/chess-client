@@ -13,6 +13,7 @@ class Square extends Component {
         <Piece
           handleSelected={this.props.handleSelected}
           piece={this.props.piece}
+          isSelected={this.props.isSelected}
         />
       )
     } else {

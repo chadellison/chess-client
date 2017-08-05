@@ -28,9 +28,15 @@ class App extends Component {
   }
 
   handleSelected(id) {
-    this.setState({
-      selected: this.state.chessBoard[id].piece
-    })
+    if(!this.state.selected) {
+      this.setState({
+        selected: this.state.chessBoard[id].piece
+      })
+    } else if(this.state.selected === this.state.chessBoard[id].piece) {
+      this.setState({
+        selected: null
+      })
+    }
   }
 
   render() {
@@ -38,6 +44,7 @@ class App extends Component {
       <div className="App container-fluid">
         <Board chessBoard={this.state.chessBoard}
           handleSelected={this.handleSelected}
+          isSelected={this.state.selected}
         />
       </div>
     )

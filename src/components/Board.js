@@ -19,6 +19,7 @@ class Board extends Component {
             styles={`col-xs-1${this.setOffset(columnIndex)} square ${this.squareColor(square)}`}
             piece={this.props.chessBoard[square].piece}
             handleSelected={this.props.handleSelected}
+            isSelected={this.props.isSelected}
           />
         )
       })

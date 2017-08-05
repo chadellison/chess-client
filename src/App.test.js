@@ -272,15 +272,25 @@ describe('App', () => {
     const div = document.createElement('div')
     const app = shallow(<App />, div)
 
+    beforeEach(() => {
+      app.state().selected = null
+    })
+
     it('sets the state of selected to the selected object', () => {
       app.instance().handleSelected('e1')
       expect(app.state().selected).toEqual(app.state().chessBoard.e1.piece)
     })
 
-    it('sets the state to the selected object when another object is selected', () => {
+    it('maintains the state of the current selected object when another object is clicked', () => {
       app.instance().handleSelected('e1')
       app.instance().handleSelected('d1')
-      expect(app.state().selected).toEqual(app.state().chessBoard.d1.piece)
+      expect(app.state().selected).toEqual(app.state().chessBoard.e1.piece)
+    })
+
+    it('unselects the current object if it is clicked a second time', () => {
+      app.instance().handleSelected('e1')
+      app.instance().handleSelected('e1')
+      expect(app.state().selected).toEqual(null)
     })
   })
 })

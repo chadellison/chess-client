@@ -10,20 +10,35 @@ class App extends Component {
       chessBoard: jsonChessBoard,
       selected: null
     }
+    this.handleSelected = this.handleSelected.bind(this)
   }
 
   move(coordinate) {
-    // let board = this.state.chessBoard
-    // let square = board.filter((square) => {
-    //   square.id === selected.currentPosition
-    // })[0]
-    
+    let updatedBoard = this.state.chessBoard
+    let piece = this.state.selected
+
+    updatedBoard[piece.currentPosition].piece = null
+    piece.currentPosition = coordinate
+    updatedBoard[coordinate].piece = piece
+
+    this.setState({
+      chessBoard: updatedBoard,
+      selected: null
+    })
+  }
+
+  handleSelected(id) {
+    this.setState({
+      selected: this.state.chessBoard[id].piece
+    })
   }
 
   render() {
     return (
       <div className="App container-fluid">
-        <Board chessBoard={this.state.chessBoard} />
+        <Board chessBoard={this.state.chessBoard}
+          handleSelected={this.handleSelected}
+        />
       </div>
     )
   }

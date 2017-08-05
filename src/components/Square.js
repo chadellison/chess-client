@@ -2,23 +2,19 @@ import React, { Component } from 'react'
 import '../styles/Square.css'
 import Piece from './Piece'
 
-const PIECE_KEY = {'pawn': 'pawn',
-  'knight': 'knight',
-  'bishop': 'bishop',
-  'rook': 'tower',
-  'queen': 'queen',
-  'king': 'king'
-}
-
 class Square extends Component {
   constructor() {
     super()
   }
 
   get piece() {
-    let piece = this.props.piece
-    if(piece) {
-      return <Piece styles={`glyphicon glyphicon-${PIECE_KEY[piece.type]} piece-${piece.color} piece`}/>
+    if(this.props.piece) {
+      return(
+        <Piece
+          handleSelected={this.props.handleSelected}
+          piece={this.props.piece}
+        />
+      )
     } else {
       return null
     }

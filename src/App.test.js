@@ -258,23 +258,29 @@ describe('App', () => {
     const div = document.createElement('div')
     const app = shallow(<App />, div)
 
-    xit('can move to a different square', () => {
-      const pawn = app.state().chessBoard[8].piece
+    it('can move to a different square', () => {
+      const pawn = app.state().chessBoard.a7.piece
       app.state().selected = pawn
       app.instance().move('a6')
       expect(pawn.currentPosition).toEqual('a6')
-      expect(app.state().chessBoard[16].piece).toEqual(pawn)
-      expect(app.state().chessBoard[8].piece).toEqual(null)
+      expect(app.state().chessBoard.a6.piece).toEqual(pawn)
+      expect(app.state().chessBoard.a7.piece).toEqual(null)
     })
   })
 
   describe('#handleSelected', () => {
-    xit('sets the state of selected to the selected object', () => {
+    const div = document.createElement('div')
+    const app = shallow(<App />, div)
 
+    it('sets the state of selected to the selected object', () => {
+      app.instance().handleSelected('e1')
+      expect(app.state().selected).toEqual(app.state().chessBoard.e1.piece)
     })
 
-    xit('sets the state to the selected object when another object is selected', () => {
-
+    it('sets the state to the selected object when another object is selected', () => {
+      app.instance().handleSelected('e1')
+      app.instance().handleSelected('d1')
+      expect(app.state().selected).toEqual(app.state().chessBoard.d1.piece)
     })
   })
 })

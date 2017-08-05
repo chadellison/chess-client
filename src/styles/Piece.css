@@ -1,0 +1,12 @@
+.piece-black {
+  color: black;
+}
+
+.piece-white {
+  color: pink;
+}
+
+.piece {
+  margin-top: 50%;
+  font-size: 2em;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/Board.css'
 import jsonChessBoard from '../jsonChessBoard'
+import Square from './Square'
 
 const LETTER_KEY = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5, "f": 6, "g": 7, "h": 8}
 
@@ -14,10 +15,10 @@ class Board extends Component {
     return this.boardRows().map((row, rowIndex) => {
       let eachRow = row.map((square, columnIndex) => {
         return(
-          <div key={columnIndex}
-            className={`col-xs-1${this.setOffset(columnIndex)} square ${this.squareColor(square.id)}`}>
-            square
-          </div>
+          <Square key={columnIndex}
+            styles={`col-xs-1${this.setOffset(columnIndex)} square ${this.squareColor(square.id)}`}
+            square={square}
+          />
         )
       })
       return(<div key={rowIndex} className="row">{eachRow}</div>)
@@ -50,6 +51,7 @@ class Board extends Component {
     return(
       <div id="chessBoard">
         {this.currentSetup}
+        <i className="glyphicon glyphicon-pawn"></i>
       </div>
     )
   }

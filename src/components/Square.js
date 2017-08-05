@@ -5,6 +5,7 @@ import Piece from './Piece'
 class Square extends Component {
   constructor() {
     super()
+    this.handleMove = this.handleMove.bind(this)
   }
 
   get piece() {
@@ -21,9 +22,15 @@ class Square extends Component {
     }
   }
 
+  handleMove() {
+    if(this.props.isSelected) {
+      return this.props.move(this.props.id)
+    }
+  }
+
   render() {
     return(
-      <div className={this.props.styles}>
+      <div className={this.props.styles} onClick={this.handleMove}>
         {this.piece}
       </div>
     )

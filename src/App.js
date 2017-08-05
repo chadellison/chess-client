@@ -11,6 +11,7 @@ class App extends Component {
       selected: null
     }
     this.handleSelected = this.handleSelected.bind(this)
+    this.move = this.move.bind(this)
   }
 
   move(coordinate) {
@@ -45,6 +46,7 @@ class App extends Component {
         <Board chessBoard={this.state.chessBoard}
           handleSelected={this.handleSelected}
           isSelected={this.state.selected}
+          move={this.move}
         />
       </div>
     )

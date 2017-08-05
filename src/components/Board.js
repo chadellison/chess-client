@@ -20,6 +20,8 @@ class Board extends Component {
             piece={this.props.chessBoard[square].piece}
             handleSelected={this.props.handleSelected}
             isSelected={this.props.isSelected}
+            id={square}
+            move={this.props.move}
           />
         )
       })

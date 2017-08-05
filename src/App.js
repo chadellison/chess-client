@@ -91,6 +91,25 @@ class App extends Component {
     return moves
   }
 
+  validMovePath(coordinate) {
+    let valid = true
+    let moves = []
+
+    if(this.state.selected.currentPosition[0] === coordinate[0]) {
+      let count = parseInt(his.state.selected.currentPosition[1]) - parseInt(coordinate[1])
+      let operator = count > 0 ? '-' : '+'
+      moves = this.upAndDown(Math.abs(count) - 1, coordinate[0], operator, parseInt(coordinate[1]))
+    }
+
+    moves.forEach((move) => {
+      if(this.state.chessBoard[move].piece) {
+        valid = false
+      }
+    })
+
+    return valid
+  }
+
   render() {
     return (
       <div className='App container-fluid'>

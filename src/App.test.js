@@ -323,12 +323,19 @@ describe('App', () => {
   })
 
   describe('#validMovePath', () => {
-    xit('returns true if there are no pieces in the way of the two coordinates', () => {
+    it('returns true if there are no pieces in the way of the two coordinates', () => {
       app.instance().handleSelected('d2')
       expect(app.instance().validMovePath('d4')).toEqual(true)
     })
 
     xit('returns false if there are any pieces in the way of the two coordinates', () => {
+
+    })
+
+    xit('returns true for horizontal moves if there are no pieces in the way of the two coordinates', () => {
+    })
+
+    xit('returns false for horizontal moves if there are any pieces in the way of the two coordinates', () => {
 
     })
 

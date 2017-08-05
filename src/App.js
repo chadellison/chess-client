@@ -7,8 +7,17 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      chessBoard: jsonChessBoard
+      chessBoard: jsonChessBoard,
+      selected: null
     }
+  }
+
+  move(coordinate) {
+    // let board = this.state.chessBoard
+    // let square = board.filter((square) => {
+    //   square.id === selected.currentPosition
+    // })[0]
+    
   }
 
   render() {

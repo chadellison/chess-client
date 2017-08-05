@@ -10,3 +10,7 @@
   margin-top: 50%;
   font-size: 2em;
 }
+
+.piece:hover {
+  color: blue;
+}

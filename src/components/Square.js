@@ -16,7 +16,7 @@ class Square extends Component {
   }
 
   get piece() {
-    let piece = this.props.square.piece
+    let piece = this.props.piece
     if(piece) {
       return <Piece styles={`glyphicon glyphicon-${PIECE_KEY[piece.type]} piece-${piece.color} piece`}/>
     } else {

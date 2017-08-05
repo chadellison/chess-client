@@ -16,8 +16,8 @@ class Board extends Component {
       let eachRow = row.map((square, columnIndex) => {
         return(
           <Square key={columnIndex}
-            styles={`col-xs-1${this.setOffset(columnIndex)} square ${this.squareColor(square.id)}`}
-            square={square}
+            styles={`col-xs-1${this.setOffset(columnIndex)} square ${this.squareColor(square)}`}
+            piece={this.props.chessBoard[square].piece}
           />
         )
       })
@@ -27,8 +27,10 @@ class Board extends Component {
 
   boardRows() {
     let index = 0
+    let boardToArray = Object.keys(this.props.chessBoard)
+
     return Array.apply(null, {length: 8}).map(() => {
-      return this.props.chessBoard.slice(index, index += 8)
+      return boardToArray.slice(index, index += 8)
     })
   }
 

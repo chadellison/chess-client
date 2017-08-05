@@ -19,7 +19,7 @@ describe('App', () => {
     const board = shallow(<Board chessBoard={jsonChessBoard} />, div)
 
     it('returns eight arrays of eight board squares', () => {
-      expect(board.instance().boardRows()[0][0].id).toEqual('a8')
+      expect(board.instance().boardRows()[0][0]).toEqual('a8')
     })
   })
 

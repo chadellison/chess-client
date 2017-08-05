@@ -293,4 +293,50 @@ describe('App', () => {
       expect(app.state().selected).toEqual(null)
     })
   })
+
+  describe('#movesForRook', () => {
+    const div = document.createElement('div')
+    const app = shallow(<App />, div)
+
+    it('returns an array of possible moves for a rook on an open board given a position', () => {
+      let rookMoves = ["b1", "c1", "d1", "e1", "f1", "g1", "h1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"]
+      expect(app.instance().movesForRook('a1')).toEqual(rookMoves)
+    })
+
+    it('returns an array of possible moves for a rook on an open board given a different position', () => {
+      let rookMoves = ["e4", "f4", "g4", "h4", "c4", "b4", "a4", "d5", "d6", "d7", "d8", "d3", "d2", "d1"]
+      expect(app.instance().movesForRook('d4')).toEqual(rookMoves)
+    })
+
+  })
+
+  describe('#validMovePath', () => {
+    xit('returns true if there are no pieces in the way of the two coordinates', () => {
+
+    })
+
+    xit('returns false if there are any pieces in the way of the two coordinates', () => {
+
+    })
+  })
+
+  describe('#validDestination', () => {
+    xit('returns false if the destination is occuppied by an allied piece', () => {
+
+    })
+
+    xit('returns true if the destination is not occuppied by an allied piece', () => {
+
+    })
+  })
+
+  describe('#kingIsSafe', () => {
+    xit('returns true if the king is not in check after the move', () => {
+
+    })
+
+    xit('returns false if the king is in check after the move', () => {
+
+    })
+  })
 })

@@ -55,7 +55,7 @@ class Board extends Component {
 
   render() {
     return(
-      <div id="chessBoard">
+      <div id="chessBoard" className="container">
         {this.currentSetup}
       </div>
     )

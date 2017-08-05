@@ -96,7 +96,7 @@ class App extends Component {
     let moves = []
 
     if(this.state.selected.currentPosition[0] === coordinate[0]) {
-      let count = parseInt(his.state.selected.currentPosition[1]) - parseInt(coordinate[1])
+      let count = parseInt(this.state.selected.currentPosition[1]) - parseInt(coordinate[1])
       let operator = count > 0 ? '-' : '+'
       moves = this.upAndDown(Math.abs(count) - 1, coordinate[0], operator, parseInt(coordinate[1]))
     }

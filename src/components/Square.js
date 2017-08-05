@@ -25,6 +25,8 @@ class Square extends Component {
   handleMove() {
     if(this.props.isSelected) {
       return this.props.move(this.props.id)
+    } else {
+      return null
     }
   }
 

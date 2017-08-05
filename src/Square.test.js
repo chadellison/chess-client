@@ -28,4 +28,14 @@ describe('Square', () => {
       expect(square.instance().piece).toEqual(null)
     })
   })
+
+  describe('#handleMove', () => {
+    xit('returns the move function when a piece is selected', () => {
+
+    })
+
+    xit('returns null when a piece is not selected', () => {
+
+    })
+  })
 })

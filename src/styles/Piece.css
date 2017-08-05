@@ -12,9 +12,9 @@
 }
 
 .piece:hover {
-  color: blue;
+  color: red;
 }
 
 .selected {
-  color: red;
+  color: blue;
 }

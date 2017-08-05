@@ -57,7 +57,6 @@ class Board extends Component {
     return(
       <div id="chessBoard">
         {this.currentSetup}
-        <i className="glyphicon glyphicon-pawn"></i>
       </div>
     )
   }

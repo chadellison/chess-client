@@ -91,16 +91,23 @@ class App extends Component {
     return moves
   }
 
-  validMovePath(coordinate) {
+  validMovePath(coordinates) {
     let valid = true
     let moves = []
     let startPosition = this.state.selected.currentPosition
 
-    if(startPosition[0] === coordinate[0]) {
-      let count = parseInt(startPosition[1]) - parseInt(coordinate[1])
+    if(startPosition[0] === coordinates[0]) {
+      let count = parseInt(startPosition[1]) - parseInt(coordinates[1])
       let direction = count > 0 ? '-' : '+'
 
-      moves = this.upAndDown(Math.abs(count) - 1, coordinate[0], direction, parseInt(startPosition[1]))
+      moves = this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1]))
+    }
+
+    if(startPosition[1] === coordinates[1]) {
+      let count = LETTER_KEY[startPosition[0]] - LETTER_KEY[coordinates[0]]
+      let direction = count > 0 ? '-' : '+'
+
+      moves = this.rightAndLeft(Math.abs(count) - 1, startPosition[0], direction, startPosition[1])
     }
 
     moves.forEach((move) => {

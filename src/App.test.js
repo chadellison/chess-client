@@ -265,6 +265,16 @@ describe('App', () => {
       expect(pawn.currentPosition).toEqual('a6')
       expect(app.state().chessBoard.a6.piece).toEqual(pawn)
       expect(app.state().chessBoard.a7.piece).toEqual(null)
+
+      app.state().chessBoard.a6.piece = null
+      app.state().chessBoard.a7.piece = {
+        'piece': {
+          'type': 'pawn',
+          'color': 'black',
+          'currentPosition': 'a7',
+          'possibleMoves': ['a6', 'a5']
+        }
+      }
     })
   })
 
@@ -303,12 +313,12 @@ describe('App', () => {
     })
 
     it('returns an array of possible moves for a rook on an open board given a position', () => {
-      let rookMoves = ["b1", "c1", "d1", "e1", "f1", "g1", "h1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"]
+      let rookMoves = ['b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8']
       expect(app.instance().movesForRook('a1')).toEqual(rookMoves)
     })
 
     it('returns an array of possible moves for a rook on an open board given a different position', () => {
-      let rookMoves = ["e4", "f4", "g4", "h4", "c4", "b4", "a4", "d5", "d6", "d7", "d8", "d3", "d2", "d1"]
+      let rookMoves = ['e4', 'f4', 'g4', 'h4', 'c4', 'b4', 'a4', 'd5', 'd6', 'd7', 'd8', 'd3', 'd2', 'd1']
       expect(app.instance().movesForRook('d4')).toEqual(rookMoves)
     })
 
@@ -341,23 +351,131 @@ describe('App', () => {
       expect(app.instance().validMovePath('d5')).toEqual(true)
     })
 
-    it('returns false if there are any pieces in the way of the two coordinates', () => {
+    it('returns false if there are any pieces in the way of the two coordinates going up', () => {
       app.instance().handleSelected('d1')
       expect(app.instance().validMovePath('d3')).toEqual(false)
     })
 
-    xit('returns true for horizontal moves if there are no pieces in the way of the two coordinates', () => {
+    it('returns false if there are any pieces in the way of the two coordinates going down', () => {
+      app.instance().handleSelected('a8')
+      expect(app.instance().validMovePath('a5')).toEqual(false)
     })
 
-    xit('returns false for horizontal moves if there are any pieces in the way of the two coordinates', () => {
+    it('returns true for horizontal moves moving right if there are no pieces in the way of the two coordinates', () => {
+      const rook = {
+        'piece': {
+          'type': 'rook',
+          'color': 'black',
+          'currentPosition': 'b5'
+        }
+      }
+
+      app.state().chessBoard.b5 = rook
+      app.instance().handleSelected('b5')
+      expect(app.instance().validMovePath('f5')).toEqual(true)
+
+      app.state().chessBoard.b5.piece = null
+    })
+
+    it('returns true for horizontal moves moving left if there are no pieces in the way of the two coordinates', () => {
+      const queen = {
+        'piece': {
+          'type': 'queen',
+          'color': 'black',
+          'currentPosition': 'g5'
+        }
+      }
+
+      app.state().chessBoard.g5 = queen
+      app.instance().handleSelected('g5')
+      expect(app.instance().validMovePath('a5')).toEqual(true)
+
+      app.state().chessBoard.g5.piece = null
+    })
+
+    it('returns false for horizontal moves moving left if there are any pieces in the way of the two coordinates', () => {
+      const queen = {
+        'piece': {
+          'type': 'queen',
+          'color': 'black',
+          'currentPosition': 'd6'
+        }
+      }
+
+      const pawn = {
+        'piece': {
+          'type': 'pawn',
+          'color': 'black',
+          'currentPosition': 'b6'
+        }
+      }
+
+      app.state().chessBoard.d6 = queen
+      app.state().chessBoard.b6 = pawn
+      app.instance().handleSelected('d6')
+
+      expect(app.instance().validMovePath('a6'))
+
+      app.state().chessBoard.d6.piece = null
+      app.state().chessBoard.b6.piece = null
+    })
+
+    it('returns false for horizontal moves moving right if there are any pieces in the way of the two coordinates', () => {
+      const queen = {
+        'piece': {
+          'type': 'queen',
+          'color': 'black',
+          'currentPosition': 'a6'
+        }
+      }
+
+      const pawn = {
+        'piece': {
+          'type': 'pawn',
+          'color': 'black',
+          'currentPosition': 'c6'
+        }
+      }
+
+      app.state().chessBoard.a6 = queen
+      app.state().chessBoard.c6 = pawn
+      app.instance().handleSelected('a6')
+
+      expect(app.instance().validMovePath('d6')).toEqual(false)
+
+      app.state().chessBoard.c6.piece = null
+      app.state().chessBoard.a6.piece = null
+    })
+
+    xit('it returns true for up right diagonal moves when no pieces are in the path', () => {
 
     })
 
-    xit('it returns true for diagonal moves when no pieces are in the path', () => {
+    xit('it returns false for up right diagonal moves when pieces are in the path', () => {
 
     })
 
-    xit('it returns false for diagonal moves when pieces are in the path', () => {
+    xit('it returns true for down right diagonal moves when no pieces are in the path', () => {
+
+    })
+
+    xit('it returns false for down right diagonal moves when pieces are in the path', () => {
+
+    })
+
+    xit('it returns true for up left diagonal moves when no pieces are in the path', () => {
+
+    })
+
+    xit('it returns false for up left diagonal moves when pieces are in the path', () => {
+
+    })
+
+    xit('it returns true for down left diagonal moves when no pieces are in the path', () => {
+
+    })
+
+    xit('it returns false for down left diagonal moves when pieces are in the path', () => {
 
     })
   })

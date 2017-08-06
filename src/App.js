@@ -63,30 +63,30 @@ class App extends Component {
       .concat(this.upAndDown(numbersDown, position[0], '-', coordinates[1]))
   }
 
-  rightAndLeft(count, letter, operator, number) {
+  rightAndLeft(movementCount, column, direction, row) {
     let moves = []
-    while(count > 0) {
-      if(operator === '+') {
-        letter = String.fromCharCode(letter.charCodeAt(0) + 1)
+    while(movementCount > 0) {
+      if(direction === '+') {
+        column = String.fromCharCode(column.charCodeAt(0) + 1)
       } else {
-        letter = String.fromCharCode(letter.charCodeAt(0) - 1)
+        column = String.fromCharCode(column.charCodeAt(0) - 1)
       }
-      moves.push(letter + number)
-      count -= 1
+      moves.push(column + row)
+      movementCount -= 1
     }
     return moves
   }
 
-  upAndDown(count, letter, operator, number) {
+  upAndDown(movementCount, column, direction, row) {
     let moves = []
-    while(count > 0) {
-      if(operator === '+') {
-        number += 1
+    while(movementCount > 0) {
+      if(direction === '+') {
+        row += 1
       } else {
-        number -= 1
+        row -= 1
       }
-      moves.push(letter + number)
-      count -= 1
+      moves.push(column + row)
+      movementCount -= 1
     }
     return moves
   }
@@ -94,11 +94,13 @@ class App extends Component {
   validMovePath(coordinate) {
     let valid = true
     let moves = []
+    let startPosition = this.state.selected.currentPosition
 
-    if(this.state.selected.currentPosition[0] === coordinate[0]) {
-      let count = parseInt(this.state.selected.currentPosition[1]) - parseInt(coordinate[1])
-      let operator = count > 0 ? '-' : '+'
-      moves = this.upAndDown(Math.abs(count) - 1, coordinate[0], operator, parseInt(coordinate[1]))
+    if(startPosition[0] === coordinate[0]) {
+      let count = parseInt(startPosition[1]) - parseInt(coordinate[1])
+      let direction = count > 0 ? '-' : '+'
+
+      moves = this.upAndDown(Math.abs(count) - 1, coordinate[0], direction, parseInt(startPosition[1]))
     }
 
     moves.forEach((move) => {

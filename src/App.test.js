@@ -298,6 +298,10 @@ describe('App', () => {
     const div = document.createElement('div')
     const app = shallow(<App />, div)
 
+    beforeEach(() => {
+      app.state().selected = null
+    })
+
     it('returns an array of possible moves for a rook on an open board given a position', () => {
       let rookMoves = ["b1", "c1", "d1", "e1", "f1", "g1", "h1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"]
       expect(app.instance().movesForRook('a1')).toEqual(rookMoves)
@@ -323,13 +327,23 @@ describe('App', () => {
   })
 
   describe('#validMovePath', () => {
-    it('returns true if there are no pieces in the way of the two coordinates', () => {
+    beforeEach(() => {
+      app.state().selected = null
+    })
+
+    it('returns true if there are no pieces in the way of the two coordinates going up', () => {
       app.instance().handleSelected('d2')
       expect(app.instance().validMovePath('d4')).toEqual(true)
     })
 
-    xit('returns false if there are any pieces in the way of the two coordinates', () => {
+    it('returns true if there are no pieces in the way of the two coordinates going down', () => {
+      app.instance().handleSelected('d7')
+      expect(app.instance().validMovePath('d5')).toEqual(true)
+    })
 
+    it('returns false if there are any pieces in the way of the two coordinates', () => {
+      app.instance().handleSelected('d1')
+      expect(app.instance().validMovePath('d3')).toEqual(false)
     })
 
     xit('returns true for horizontal moves if there are no pieces in the way of the two coordinates', () => {

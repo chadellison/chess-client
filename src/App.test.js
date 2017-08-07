@@ -255,8 +255,6 @@ describe('App', () => {
   })
 
   describe('#move', () => {
-    const div = document.createElement('div')
-    const app = shallow(<App />, div)
 
     it('can move to a different square', () => {
       const pawn = app.state().chessBoard.a7.piece
@@ -279,9 +277,6 @@ describe('App', () => {
   })
 
   describe('#handleSelected', () => {
-    const div = document.createElement('div')
-    const app = shallow(<App />, div)
-
     beforeEach(() => {
       app.state().selected = null
     })
@@ -305,9 +300,6 @@ describe('App', () => {
   })
 
   describe('#movesForRook', () => {
-    const div = document.createElement('div')
-    const app = shallow(<App />, div)
-
     beforeEach(() => {
       app.state().selected = null
     })
@@ -325,14 +317,37 @@ describe('App', () => {
   })
 
   describe('#upAndDown', () => {
-    xit('calculates the possible moves for a piece from top to bottom', () => {
+    it('returns the squares between the start and finish of a piece from bottom to top starting at a1', () => {
+      let moves = ['a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8']
+      expect(app.instance().upAndDown(7, 'a', '+', 1)).toEqual(moves)
+    })
 
+    it('returns the squares between the start and finish of a piece from top to bottom starting at a8', () => {
+      let moves = ['a7', 'a6', 'a5', 'a4', 'a3', 'a2', 'a1']
+        expect(app.instance().upAndDown(7, 'a', '-', 8)).toEqual(moves)
+    })
+
+    it('returns the squares between the start and finish of a piece from bottom to top starting a3', () => {
+        let moves = ['a4', 'a5', 'a6']
+        expect(app.instance().upAndDown(3, 'a', '+', 3)).toEqual(moves)
     })
   })
 
   describe('#rightAndLeft', () => {
-    xit('calculates the possible moves for a piece from left to right', () => {
+    it('calculates the possible moves for a piece from left to right starting at a1', () => {
+      let moves = ['b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
+      expect(app.instance().rightAndLeft(7, 'a', '+', 1)).toEqual(moves)
 
+    })
+
+    it('calculates the possible moves for a piece from right to left starting at h1', () => {
+      let moves = ['g1', 'f1', 'e1', 'd1', 'c1', 'b1', 'a1']
+      expect(app.instance().rightAndLeft(7, 'h', '-', 1)).toEqual(moves)
+    })
+
+    it('calculates the possible moves for a piece from right to left starting at d1', () => {
+        let moves = ['c1', 'b1', 'a1']
+        expect(app.instance().rightAndLeft(3, 'd', '-', 1)).toEqual(moves)
     })
   })
 

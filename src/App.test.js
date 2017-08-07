@@ -352,9 +352,19 @@ describe('App', () => {
     })
 
     describe('#nthMOvesDiagonal', () => {
-        xit('returns the number of possible moves for a bishop starting at c4', () => {
-            //c 4
-            let moves = ['d5', 'e6', 'f7', 'g8']
+        it('returns the number of possible moves for a bishop starting at c4', () => {
+            let moves = ['d5', 'e6', 'f7', 'g8', 'b5', 'a6', 'd3', 'e2', 'f1', 'b3', 'a2']
+            expect(app.instance().nthMovesDiagonal('c4')).toEqual(moves)
+        })
+
+        it('returns the number of possible moves for a bishop starting at g2', () => {
+            let moves = ['h3', 'f3', 'e4', 'd5', 'c6', 'b7', 'a8', 'h1', 'f1']
+            expect(app.instance().nthMovesDiagonal('g2')).toEqual(moves)
+        })
+
+        it('returns the number of possible moves for a bishop starting at e7', () => {
+            let moves = ['f8', 'd8', 'f6', 'g5', 'h4', 'd6', 'c5', 'b4', 'a3']
+            expect(app.instance().nthMovesDiagonal('e7')).toEqual(moves)
         })
     })
 

@@ -91,22 +91,43 @@ class App extends Component {
         return moves
     }
 
+    nthMovesDiagonal(position) {
+        let possibleMoves = []
+
+        let coordinates = position.split('').map((coordinate) => {
+            if (LETTER_KEY[coordinate]) {
+                return LETTER_KEY[coordinate]
+            } else {
+                return parseInt(coordinate)
+            }
+        })
+
+        let lettersToRight = 8 - coordinates[0]
+        let lettersToLeft = 7 - lettersToRight
+        let numbersUp = 8 - coordinates[1]
+        let numbersDown = 7 - numbersUp
+
+        return possibleMoves.concat(this.diagonal(lettersToRight > numbersUp ? numbersUp : lettersToRight, '+', '+', position[0], coordinates[1]))
+            .concat(this.diagonal(lettersToLeft > numbersUp ? numbersUp : lettersToLeft, '+', '-', position[0], coordinates[1]))
+            .concat(this.diagonal(lettersToRight > numbersDown ? numbersDown : lettersToRight, '-', '+', position[0], coordinates[1]))
+            .concat(this.diagonal(lettersToLeft > numbersDown ? numbersDown : lettersToLeft, '-', '-', position[0], coordinates[1]))
+    }
+
     diagonal(movementCount, verticalDirection, horizontalDirection, column, row) {
         let moves = []
         while (movementCount > 0) {
-            if(verticalDirection === '+' && horizontalDirection ==='+') {
-                column = String.fromCharCode(column.charCodeAt(0) + 1)
+            if(verticalDirection === '+') {
                 row += 1
-            } else if (verticalDirection === '+' && horizontalDirection ==='-') {
-                column = String.fromCharCode(column.charCodeAt(0) - 1)
-                row += 1
-            } else if (verticalDirection === '-' && horizontalDirection === '+') {
-                column = String.fromCharCode(column.charCodeAt(0) + 1)
-                row -= 1
             } else {
-                column = String.fromCharCode(column.charCodeAt(0) - 1)
                 row -= 1
             }
+
+            if(horizontalDirection === '-') {
+                column = String.fromCharCode(column.charCodeAt(0) - 1)
+            } else {
+                column = String.fromCharCode(column.charCodeAt(0) + 1)
+            }
+
             moves.push(column + row)
             movementCount -= 1
         }

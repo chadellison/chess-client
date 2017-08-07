@@ -368,6 +368,23 @@ describe('App', () => {
         })
     })
 
+    describe('#convertCoordinates', () => {
+        it('converts the piece position to numeric values', () => {
+            let coordinates = [4, 4]
+            expect(app.instance().convertCoordinates('d4')).toEqual(coordinates)
+        })
+    })
+
+    describe('#lesserPosition', () => {
+        it('returns the lesser value', ()  => {
+            expect(app.instance().lesserPosition(4, 2)).toEqual(2)
+        })
+
+        it('returns either value when they are the same', ()  => {
+            expect(app.instance().lesserPosition(2, 2)).toEqual(2)
+        })
+    })
+
     describe('#diagonal', () => {
         it('returns an array of possible moves given a count, positive verticalDirection, positive horizontalDirection operator, and a column of c and a row of 4', () => {
             let moves = ['d5', 'e6', 'f7', 'g8']
@@ -501,8 +518,21 @@ describe('App', () => {
             app.state().chessBoard.a6.piece = null
         })
 
-        xit('it returns true for up right diagonal moves when no pieces are in the path', () => {
+        it('it returns true for up right diagonal moves when no pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'c3'
+                }
+            }
 
+            app.state().chessBoard.c3 = bishop
+            app.instance().handleSelected('c3')
+
+            expect(app.instance().validMovePath('f6')).toEqual(true)
+
+            app.state().chessBoard.c3.piece = null
         })
 
         xit('it returns false for up right diagonal moves when pieces are in the path', () => {

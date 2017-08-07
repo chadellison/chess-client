@@ -44,14 +44,8 @@ class App extends Component {
 
     nthMovesUpAndDown(position) {
         let possibleMoves = []
-        let coordinates = position.split('').map((coordinate) => {
-            if (LETTER_KEY[coordinate]) {
-                return LETTER_KEY[coordinate]
-            } else {
-                return parseInt(coordinate)
-            }
-        })
 
+        let coordinates = this.convertCoordinates(position)
         let lettersToRight = 8 - coordinates[0]
         let lettersToLeft = 7 - lettersToRight
         let numbersUp = 8 - coordinates[1]
@@ -94,23 +88,21 @@ class App extends Component {
     nthMovesDiagonal(position) {
         let possibleMoves = []
 
-        let coordinates = position.split('').map((coordinate) => {
-            if (LETTER_KEY[coordinate]) {
-                return LETTER_KEY[coordinate]
-            } else {
-                return parseInt(coordinate)
-            }
-        })
+        let coordinates = this.convertCoordinates(position)
 
         let lettersToRight = 8 - coordinates[0]
         let lettersToLeft = 7 - lettersToRight
         let numbersUp = 8 - coordinates[1]
         let numbersDown = 7 - numbersUp
 
-        return possibleMoves.concat(this.diagonal(lettersToRight > numbersUp ? numbersUp : lettersToRight, '+', '+', position[0], coordinates[1]))
-            .concat(this.diagonal(lettersToLeft > numbersUp ? numbersUp : lettersToLeft, '+', '-', position[0], coordinates[1]))
-            .concat(this.diagonal(lettersToRight > numbersDown ? numbersDown : lettersToRight, '-', '+', position[0], coordinates[1]))
-            .concat(this.diagonal(lettersToLeft > numbersDown ? numbersDown : lettersToLeft, '-', '-', position[0], coordinates[1]))
+        return possibleMoves.concat(this.diagonal(this.lesserPosition(lettersToRight, numbersUp), '+', '+', position[0], coordinates[1]))
+            .concat(this.diagonal(this.lesserPosition(lettersToLeft, numbersUp), '+', '-', position[0], coordinates[1]))
+            .concat(this.diagonal(this.lesserPosition(lettersToRight, numbersDown), '-', '+', position[0], coordinates[1]))
+            .concat(this.diagonal(this.lesserPosition(lettersToLeft, numbersDown), '-', '-', position[0], coordinates[1]))
+    }
+
+    lesserPosition(horizontal, vertical) {
+        return horizontal > vertical ? vertical : horizontal
     }
 
     diagonal(movementCount, verticalDirection, horizontalDirection, column, row) {
@@ -134,8 +126,19 @@ class App extends Component {
         return moves
     }
 
+    convertCoordinates(position) {
+        return position.split('').map((coordinate) => {
+            if (LETTER_KEY[coordinate]) {
+                return LETTER_KEY[coordinate]
+            } else {
+                return parseInt(coordinate)
+            }
+        })
+    }
+
     validMovePath(coordinates) {
         let valid = true
+
         let moves = []
         let startPosition = this.state.selected.currentPosition
 
@@ -151,6 +154,29 @@ class App extends Component {
             let direction = count > 0 ? '-' : '+'
 
             moves = this.rightAndLeft(Math.abs(count) - 1, startPosition[0], direction, startPosition[1])
+        }
+
+        let startingNumericCoordinates = this.convertCoordinates(startPosition)
+        let destinationNumericCoordinates = this.convertCoordinates(coordinates)
+
+        if((startingNumericCoordinates[0] - destinationNumericCoordinates[0]) === (startingNumericCoordinates[1] - destinationNumericCoordinates[1])) {
+            let movementCount = Math.abs(startingNumericCoordinates[1] - destinationNumericCoordinates[1]) - 1
+
+            let verticalDirection
+            let horizontalDirection
+
+            if(destinationNumericCoordinates[1] > startingNumericCoordinates[1]) {
+                verticalDirection = '+'
+            } else {
+                verticalDirection = '-'
+            }
+
+            if(destinationNumericCoordinates[0] > startingNumericCoordinates[0]) {
+                horizontalDirection = '+'
+            } else {
+                horizontalDirection = '-'
+            }
+            moves = this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1]))
         }
 
         moves.forEach((move) => {

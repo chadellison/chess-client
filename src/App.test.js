@@ -409,7 +409,7 @@ describe('App', () => {
 
     describe('#validMovePath', () => {
         beforeEach(() => {
-            app.state().selected = null
+            return app.state().selected = null
         })
 
         it('returns true if there are no pieces in the way of the two coordinates going up', () => {
@@ -530,12 +530,14 @@ describe('App', () => {
             app.state().chessBoard.c3 = bishop
             app.instance().handleSelected('c3')
 
-            expect(app.instance().validMovePath('f6')).toEqual(true)
+                expect(app.instance().validMovePath('f6')).toEqual(true)
 
             app.state().chessBoard.c3.piece = null
+            app.state().selected = null
         })
 
         xit('it returns false for up right diagonal moves when pieces are in the path', () => {
+
 
         })
 
@@ -551,8 +553,21 @@ describe('App', () => {
 
         })
 
-        xit('it returns false for up left diagonal moves when pieces are in the path', () => {
+        it('it returns false for up left diagonal moves when pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'e5'
+                }
+            }
 
+            app.state().chessBoard.e5 = bishop
+            app.instance().handleSelected('e5')
+
+            expect(app.instance().validMovePath('b8')).toEqual(false)
+
+            app.state().chessBoard.e5.piece = null
         })
 
         xit('it returns true for down left diagonal moves when no pieces are in the path', () => {

@@ -159,7 +159,7 @@ class App extends Component {
         let startingNumericCoordinates = this.convertCoordinates(startPosition)
         let destinationNumericCoordinates = this.convertCoordinates(coordinates)
 
-        if((startingNumericCoordinates[0] - destinationNumericCoordinates[0]) === (startingNumericCoordinates[1] - destinationNumericCoordinates[1])) {
+        if(Math.abs(startingNumericCoordinates[0] - destinationNumericCoordinates[0]) === Math.abs(startingNumericCoordinates[1] - destinationNumericCoordinates[1])) {
             let movementCount = Math.abs(startingNumericCoordinates[1] - destinationNumericCoordinates[1]) - 1
 
             let verticalDirection
@@ -176,6 +176,7 @@ class App extends Component {
             } else {
                 horizontalDirection = '-'
             }
+
             moves = this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1]))
         }
 

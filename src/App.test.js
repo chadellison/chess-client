@@ -533,24 +533,74 @@ describe('App', () => {
                 expect(app.instance().validMovePath('f6')).toEqual(true)
 
             app.state().chessBoard.c3.piece = null
-            app.state().selected = null
         })
 
-        xit('it returns false for up right diagonal moves when pieces are in the path', () => {
+        it('it returns false for up right diagonal moves when pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'f6'
+                }
+            }
 
+            app.state().chessBoard.f6 = bishop
+            app.instance().handleSelected('f6')
 
+            expect(app.instance().validMovePath('h8')).toEqual(false)
+
+            app.state().chessBoard.f6.piece = null
         })
 
-        xit('it returns true for down right diagonal moves when no pieces are in the path', () => {
+        it('it returns true for down right diagonal moves when no pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'c6'
+                }
+            }
 
+            app.state().chessBoard.c6 = bishop
+            app.instance().handleSelected('c6')
+
+            expect(app.instance().validMovePath('g2')).toEqual(true)
+
+            app.state().chessBoard.c6.piece = null
         })
 
-        xit('it returns false for down right diagonal moves when pieces are in the path', () => {
+        it('it returns false for down right diagonal moves when pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'c6'
+                }
+            }
 
+            app.state().chessBoard.c6 = bishop
+            app.instance().handleSelected('c6')
+
+            expect(app.instance().validMovePath('h1')).toEqual(false)
+
+            app.state().chessBoard.c6.piece = null
         })
 
-        xit('it returns true for up left diagonal moves when no pieces are in the path', () => {
+        it('it returns true for up left diagonal moves when no pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'h5'
+                }
+            }
 
+            app.state().chessBoard.h5 = bishop
+            app.instance().handleSelected('h5')
+
+            expect(app.instance().validMovePath('f7')).toEqual(true)
+
+            app.state().chessBoard.h5.piece = null
         })
 
         it('it returns false for up left diagonal moves when pieces are in the path', () => {
@@ -570,22 +620,81 @@ describe('App', () => {
             app.state().chessBoard.e5.piece = null
         })
 
-        xit('it returns true for down left diagonal moves when no pieces are in the path', () => {
+        it('it returns true for down left diagonal moves when no pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'g4'
+                }
+            }
 
+            app.state().chessBoard.g4 = bishop
+            app.instance().handleSelected('g4')
+
+            expect(app.instance().validMovePath('e2')).toEqual(true)
+
+            app.state().chessBoard.g4.piece = null
         })
 
-        xit('it returns false for down left diagonal moves when pieces are in the path', () => {
+        it('it returns false for down left diagonal moves when pieces are in the path', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'black',
+                    'currentPosition': 'g4'
+                }
+            }
 
+            app.state().chessBoard.g4 = bishop
+            app.instance().handleSelected('g4')
+
+            expect(app.instance().validMovePath('d1')).toEqual(false)
+
+            app.state().chessBoard.g4.piece = null
         })
     })
 
-    describe('#validDestination', () => {
-        xit('returns false if the destination is occuppied by an allied piece', () => {
-
+    describe('#validateDestination', () => {
+        beforeEach(() => {
+            return app.state().selected = null
         })
 
-        xit('returns true if the destination is not occuppied by an allied piece', () => {
+        it('returns false if the destination is occuppied by an allied piece', () => {
+            app.instance().handleSelected('c1')
+            expect(app.instance().validateDestination('d2')).toEqual(false)
+        })
 
+        it('returns true if the destination is an enemy piece', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'white',
+                    'currentPosition': 'a6'
+                }
+            }
+
+            app.state().chessBoard.a6 = bishop
+            app.instance().handleSelected('a6')
+            expect(app.instance().validateDestination('b7')).toEqual(true)
+
+            app.state().chessBoard.a6.piece = null
+        })
+
+        it('returns true if the destination is an empty square', () => {
+            const bishop = {
+                'piece': {
+                    'type': 'bishop',
+                    'color': 'white',
+                    'currentPosition': 'a6'
+                }
+            }
+
+            app.state().chessBoard.a6 = bishop
+            app.instance().handleSelected('a6')
+            expect(app.instance().validateDestination('b5')).toEqual(true)
+
+            app.state().chessBoard.a6.piece = null
         })
     })
 

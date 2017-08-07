@@ -189,6 +189,14 @@ class App extends Component {
         return valid
     }
 
+    validateDestination(destination) {
+        if(this.state.chessBoard[destination].piece) {
+            return !(this.state.selected.color === this.state.chessBoard[destination].piece.color)
+        } else {
+            return true
+        }
+    }
+
     render() {
         return (
             <div className='App container-fluid'>

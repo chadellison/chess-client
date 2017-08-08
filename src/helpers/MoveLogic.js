@@ -16,7 +16,7 @@ class MoveLogic {
     }
   }
 
-  static nthMovesUpAndDown(position) {
+  static nthMovesVerticalAndHorizontal(position) {
       let possibleMoves = []
 
       let right = this.moveCount(position).right
@@ -46,6 +46,11 @@ class MoveLogic {
           .concat(this.diagonal(this.lesserPosition(left, up), '+', '-', position[0], coordinates[1]))
           .concat(this.diagonal(this.lesserPosition(right, down), '-', '+', position[0], coordinates[1]))
           .concat(this.diagonal(this.lesserPosition(left, down), '-', '-', position[0], coordinates[1]))
+  }
+
+  static nthMovesAnyDirection(position) {
+      return this.nthMovesVerticalAndHorizontal(position)
+        .concat(this.nthMovesDiagonal(position))
   }
 
   static lesserPosition(horizontal, vertical) {
@@ -128,7 +133,7 @@ class MoveLogic {
   static fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition) {
       let movementCount = Math.abs(startCoordinates[1] - endCoordinates[1]) - 1
       let verticalDirection = endCoordinates[1] > startCoordinates[1] ? '+' : '-'
-      let horizontalDirection = endCoordinates[0] > startCoordinates[0] ? '+' : '='
+      let horizontalDirection = endCoordinates[0] > startCoordinates[0] ? '+' : '-'
 
       return this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1]))
   }

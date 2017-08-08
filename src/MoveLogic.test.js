@@ -53,15 +53,15 @@ describe('MoveLogic', () => {
       })
   })
 
-  describe('#nthMovesUpAndDown', () => {
+  describe('#nthMovesVerticalAndHorizontal', () => {
       it('returns an array of possible moves for a rook on an open board given a position', () => {
           let rookMoves = ['b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8']
-          expect(MoveLogic.nthMovesUpAndDown('a1')).toEqual(rookMoves)
+          expect(MoveLogic.nthMovesVerticalAndHorizontal('a1')).toEqual(rookMoves)
       })
 
       it('returns an array of possible moves for a rook on an open board given a different position', () => {
           let rookMoves = ['e4', 'f4', 'g4', 'h4', 'c4', 'b4', 'a4', 'd5', 'd6', 'd7', 'd8', 'd3', 'd2', 'd1']
-          expect(MoveLogic.nthMovesUpAndDown('d4')).toEqual(rookMoves)
+          expect(MoveLogic.nthMovesVerticalAndHorizontal('d4')).toEqual(rookMoves)
       })
   })
 
@@ -148,14 +148,12 @@ describe('MoveLogic', () => {
 
       it('returns true for horizontal moves moving left if there are no pieces in the way of the two coordinates', () => {
           const queen = {
-              'piece': {
-                  'type': 'queen',
-                  'color': 'black',
-                  'currentPosition': 'g5'
-              }
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'g5'
           }
 
-          jsonChessBoard.g5 = queen
+          jsonChessBoard.g5.piece = queen
           expect(MoveLogic.validMovePath('g5', 'a5', jsonChessBoard)).toEqual(true)
 
           jsonChessBoard.g5.piece = null
@@ -283,7 +281,6 @@ describe('MoveLogic', () => {
           }
 
           jsonChessBoard.h5 = bishop
-
           expect(MoveLogic.validMovePath('h5', 'f7', jsonChessBoard)).toEqual(true)
 
           jsonChessBoard.h5.piece = null
@@ -337,7 +334,7 @@ describe('MoveLogic', () => {
   })
 
   describe('#validateDestination', () => {
-      it.only('returns false if the destination is occuppied by an allied piece', () => {
+      it('returns false if the destination is occuppied by an allied piece', () => {
           const bishop = {
               'type': 'bishop',
               'color': 'white',
@@ -371,6 +368,24 @@ describe('MoveLogic', () => {
 
           jsonChessBoard.a6.piece = null
       })
+  })
+
+  describe('#nthMovesAnyDirection', () => {
+    it('calculates all possible moves for a piece in every direction given a coordinate', () => {
+      const queen = {
+          'type': 'queen',
+          'color': 'white',
+          'currentPosition': 'd4'
+      }
+
+      jsonChessBoard.d4 = queen
+      let moves = ['e4', 'f4', 'g4', 'h4', 'c4', 'b4', 'a4', 'd5', 'd6', 'd7', 'd8',
+        'd3', 'd2', 'd1', 'e5', 'f6', 'g7', 'h8', 'c5', 'b6', 'a7', 'e3', 'f2', 'g1',
+        'c3', 'b2', 'a1']
+      expect(MoveLogic.nthMovesAnyDirection('d4')).toEqual(moves)
+
+      jsonChessBoard.d4.piece = null
+    })
   })
 
   describe('#fetchVerticalMoves', () => {

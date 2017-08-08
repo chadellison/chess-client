@@ -4,8 +4,6 @@ import jsonChessBoard from './jsonChessBoard'
 import Board from './components/Board.js'
 import MoveLogic from './helpers/MoveLogic'
 
-const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
-
 class App extends Component {
     constructor() {
         super()

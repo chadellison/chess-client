@@ -53,32 +53,32 @@ describe('MoveLogic', () => {
       })
   })
 
-  describe('#nthMovesVerticalAndHorizontal', () => {
+  describe('#movesForRook', () => {
       it('returns an array of possible moves for a rook on an open board given a position', () => {
           let rookMoves = ['b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8']
-          expect(MoveLogic.nthMovesVerticalAndHorizontal('a1')).toEqual(rookMoves)
+          expect(MoveLogic.movesForRook('a1')).toEqual(rookMoves)
       })
 
       it('returns an array of possible moves for a rook on an open board given a different position', () => {
           let rookMoves = ['e4', 'f4', 'g4', 'h4', 'c4', 'b4', 'a4', 'd5', 'd6', 'd7', 'd8', 'd3', 'd2', 'd1']
-          expect(MoveLogic.nthMovesVerticalAndHorizontal('d4')).toEqual(rookMoves)
+          expect(MoveLogic.movesForRook('d4')).toEqual(rookMoves)
       })
   })
 
-  describe('#nthMOvesDiagonal', () => {
+  describe('#movesForBishop', () => {
       it('returns the number of possible moves for a bishop starting at c4', () => {
           let moves = ['d5', 'e6', 'f7', 'g8', 'b5', 'a6', 'd3', 'e2', 'f1', 'b3', 'a2']
-          expect(MoveLogic.nthMovesDiagonal('c4')).toEqual(moves)
+          expect(MoveLogic.movesForBishop('c4')).toEqual(moves)
       })
 
       it('returns the number of possible moves for a bishop starting at g2', () => {
           let moves = ['h3', 'f3', 'e4', 'd5', 'c6', 'b7', 'a8', 'h1', 'f1']
-          expect(MoveLogic.nthMovesDiagonal('g2')).toEqual(moves)
+          expect(MoveLogic.movesForBishop('g2')).toEqual(moves)
       })
 
       it('returns the number of possible moves for a bishop starting at e7', () => {
           let moves = ['f8', 'd8', 'f6', 'g5', 'h4', 'd6', 'c5', 'b4', 'a3']
-          expect(MoveLogic.nthMovesDiagonal('e7')).toEqual(moves)
+          expect(MoveLogic.movesForBishop('e7')).toEqual(moves)
       })
   })
 
@@ -370,7 +370,7 @@ describe('MoveLogic', () => {
       })
   })
 
-  describe('#nthMovesAnyDirection', () => {
+  describe('#movesForQueen', () => {
     it('calculates all possible moves for a piece in every direction given a coordinate', () => {
       const queen = {
           'type': 'queen',
@@ -382,9 +382,21 @@ describe('MoveLogic', () => {
       let moves = ['e4', 'f4', 'g4', 'h4', 'c4', 'b4', 'a4', 'd5', 'd6', 'd7', 'd8',
         'd3', 'd2', 'd1', 'e5', 'f6', 'g7', 'h8', 'c5', 'b6', 'a7', 'e3', 'f2', 'g1',
         'c3', 'b2', 'a1']
-      expect(MoveLogic.nthMovesAnyDirection('d4')).toEqual(moves)
+      expect(MoveLogic.movesForQueen('d4')).toEqual(moves)
 
       jsonChessBoard.d4.piece = null
+    })
+  })
+
+  describe('#movesForKnight', () => {
+    it('returns an array of all possible moves for a knight on b1', () => {
+      let moves = ['d2', 'c3', 'a3']
+      expect(MoveLogic.movesForKnight('b1')).toEqual(moves)
+    })
+
+    it('returns an array of all possible moves for a knight on d5', () => {
+      let moves = ["f6", "f4", "b6", "b4", "e7", "c7", "e3", "c3"]
+      expect(MoveLogic.movesForKnight('d5')).toEqual(moves)
     })
   })
 

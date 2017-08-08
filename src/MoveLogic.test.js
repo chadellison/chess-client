@@ -444,4 +444,18 @@ describe('MoveLogic', () => {
         })
     })
 
+    describe('#movesForPawn', () => {
+        xit('returns an array of all moves for a pawn given a coordinate', () => {
+
+        })
+
+        xit('returns additional moves if the pawn can capture a piece', () => {
+
+        })
+
+        xit('returns additional moves for en passant if applicable', () => {
+
+        })
+    })
+
 })

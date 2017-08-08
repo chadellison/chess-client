@@ -14,7 +14,7 @@ class MoveLogic {
             up: numbersUp,
             down: numbersDown
         }
-      }
+    }
 
     static movesForRook(position) {
         let possibleMoves = []
@@ -50,29 +50,52 @@ class MoveLogic {
 
     static movesForQueen(position) {
         return this.movesForRook(position)
-          .concat(this.movesForBishop(position))
+            .concat(this.movesForBishop(position))
     }
 
     static movesForKnight(position) {
-        let moves = []
         let coordinates = this.convertCoordinates(position)
 
-        moves.push([coordinates[0] + 2, coordinates[1] + 1])
-        moves.push([coordinates[0] + 2, coordinates[1] - 1])
-        moves.push([coordinates[0] - 2, coordinates[1] + 1])
-        moves.push([coordinates[0] - 2, coordinates[1] - 1])
-
-        moves.push([coordinates[0] + 1, coordinates[1] + 2])
-        moves.push([coordinates[0] - 1, coordinates[1] + 2])
-        moves.push([coordinates[0] + 1, coordinates[1] - 2])
-        moves.push([coordinates[0] - 1, coordinates[1] - 2])
-
-        return moves.filter((numericPosition) => {
+        return [
+            (coordinates[0] + 2).toString() + (coordinates[1] + 1),
+            (coordinates[0] + 2).toString() + (coordinates[1] - 1),
+            (coordinates[0] - 2).toString() + (coordinates[1] + 1),
+            (coordinates[0] - 2).toString() + (coordinates[1] - 1),
+            (coordinates[0] + 1).toString() + (coordinates[1] + 2),
+            (coordinates[0] - 1).toString() + (coordinates[1] + 2),
+            (coordinates[0] + 1).toString() + (coordinates[1] - 2),
+            (coordinates[0] - 1).toString() + (coordinates[1] - 2)
+        ].filter((numericPosition) => {
             return (numericPosition[0] > 0 && numericPosition[0] < 9 &&
-              numericPosition[1] > 0 && numericPosition[1] < 9)
+            numericPosition[1] > 0 && numericPosition[1] < 9)
         }).map((coordinateSet) => {
-          return ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'][coordinateSet[0] - 1] + coordinateSet[1]
+            return Object.keys(LETTER_KEY)[coordinateSet[0] - 1] + coordinateSet[1]
         })
+
+    }
+
+    static movesForKing(position) {
+        let moves = [
+            position[0] + (parseInt(position[1]) - 1),
+            position[0] + (parseInt(position[1]) + 1),
+            String.fromCharCode(position[0].charCodeAt(0) + 1) + position[1],
+            String.fromCharCode(position[0].charCodeAt(0) - 1) + position[1],
+            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) + 1),
+            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) - 1),
+            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) + 1),
+            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) - 1)
+
+        ].filter((coordinates) => {
+            return Object.keys(LETTER_KEY).includes(coordinates[0]) && Object.values(LETTER_KEY).includes(parseInt(coordinates[1]))
+        })
+
+        if (position === 'e1' || position === 'e8') {
+            moves.push('c' + position[1])
+            moves.push('g' + position[1])
+        }
+
+        return moves
+
     }
 
     static lesserPosition(horizontal, vertical) {
@@ -110,13 +133,13 @@ class MoveLogic {
     static diagonal(movementCount, verticalDirection, horizontalDirection, column, row) {
         let moves = []
         while (movementCount > 0) {
-            if(verticalDirection === '+') {
+            if (verticalDirection === '+') {
                 row += 1
             } else {
                 row -= 1
             }
 
-            if(horizontalDirection === '-') {
+            if (horizontalDirection === '-') {
                 column = String.fromCharCode(column.charCodeAt(0) - 1)
             } else {
                 column = String.fromCharCode(column.charCodeAt(0) + 1)
@@ -189,7 +212,7 @@ class MoveLogic {
     }
 
     static validateDestination(selected, destination, chessBoard) {
-        if(chessBoard[destination].piece) {
+        if (chessBoard[destination].piece) {
             return !(selected.color === chessBoard[destination].piece.color)
         } else {
             return true

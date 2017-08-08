@@ -298,4 +298,27 @@ describe('App', () => {
             expect(app.state().selected).toEqual(null)
         })
     })
+
+    describe('#handleSignUpForm', () => {
+        xit('#test', () => {
+
+        })
+    })
+    describe('#handleUserEmail', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#handleUserPassword', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#signUpForm', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

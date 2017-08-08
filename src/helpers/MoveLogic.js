@@ -19,17 +19,15 @@ class MoveLogic {
   static nthMovesUpAndDown(position) {
       let possibleMoves = []
 
-      let coordinates = this.convertCoordinates(position)
+      let right = this.moveCount(position).right
+      let left = this.moveCount(position).left
+      let up = this.moveCount(position).up
+      let down = this.moveCount(position).down
 
-      let lettersToRight = this.moveCount(position).right
-      let lettersToLeft = this.moveCount(position).left
-      let numbersUp = this.moveCount(position).up
-      let numbersDown = this.moveCount(position).down
-
-      return possibleMoves.concat(this.rightAndLeft(lettersToRight, position[0], '+', position[1]))
-          .concat(this.rightAndLeft(lettersToLeft, position[0], '-', position[1]))
-          .concat(this.upAndDown(numbersUp, position[0], '+', coordinates[1]))
-          .concat(this.upAndDown(numbersDown, position[0], '-', coordinates[1]))
+      return possibleMoves.concat(this.rightAndLeft(right, position[0], '+', position[1]))
+          .concat(this.rightAndLeft(left, position[0], '-', position[1]))
+          .concat(this.upAndDown(up, position[0], '+', this.convertCoordinates(position)[1]))
+          .concat(this.upAndDown(down, position[0], '-', this.convertCoordinates(position)[1]))
   }
 
   static nthMovesDiagonal(position) {
@@ -37,17 +35,17 @@ class MoveLogic {
 
       let coordinates = this.convertCoordinates(position)
 
-      let lettersToRight = this.moveCount(position).right
-      let lettersToLeft = this.moveCount(position).left
-      let numbersUp = this.moveCount(position).up
-      let numbersDown = this.moveCount(position).down
+      let right = this.moveCount(position).right
+      let left = this.moveCount(position).left
+      let up = this.moveCount(position).up
+      let down = this.moveCount(position).down
 
       this.convertCoordinates(position)
 
-      return possibleMoves.concat(this.diagonal(this.lesserPosition(lettersToRight, numbersUp), '+', '+', position[0], coordinates[1]))
-          .concat(this.diagonal(this.lesserPosition(lettersToLeft, numbersUp), '+', '-', position[0], coordinates[1]))
-          .concat(this.diagonal(this.lesserPosition(lettersToRight, numbersDown), '-', '+', position[0], coordinates[1]))
-          .concat(this.diagonal(this.lesserPosition(lettersToLeft, numbersDown), '-', '-', position[0], coordinates[1]))
+      return possibleMoves.concat(this.diagonal(this.lesserPosition(right, up), '+', '+', position[0], coordinates[1]))
+          .concat(this.diagonal(this.lesserPosition(left, up), '+', '-', position[0], coordinates[1]))
+          .concat(this.diagonal(this.lesserPosition(right, down), '-', '+', position[0], coordinates[1]))
+          .concat(this.diagonal(this.lesserPosition(left, down), '-', '-', position[0], coordinates[1]))
   }
 
   static lesserPosition(horizontal, vertical) {
@@ -113,46 +111,45 @@ class MoveLogic {
       })
   }
 
+  static fetchVerticalMoves(startPosition, coordinates) {
+      let count = parseInt(startPosition[1]) - parseInt(coordinates[1])
+      let direction = count > 0 ? '-' : '+'
+
+      return this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1]))
+  }
+
+  static fetchHorizontalMoves(startPosition, coordinates) {
+      let count = LETTER_KEY[startPosition[0]] - LETTER_KEY[coordinates[0]]
+      let direction = count > 0 ? '-' : '+'
+
+      return this.rightAndLeft(Math.abs(count) - 1, startPosition[0], direction, startPosition[1])
+  }
+
+  static fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition) {
+      let movementCount = Math.abs(startCoordinates[1] - endCoordinates[1]) - 1
+      let verticalDirection = endCoordinates[1] > startCoordinates[1] ? '+' : '-'
+      let horizontalDirection = endCoordinates[0] > startCoordinates[0] ? '+' : '='
+
+      return this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1]))
+  }
+
   static validMovePath(startPosition, coordinates, currentBoard) {
       let valid = true
       let moves = []
 
       if (startPosition[0] === coordinates[0]) {
-          let count = parseInt(startPosition[1]) - parseInt(coordinates[1])
-          let direction = count > 0 ? '-' : '+'
-
-          moves = this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1]))
+          moves = this.fetchVerticalMoves(startPosition, coordinates)
       }
 
       if (startPosition[1] === coordinates[1]) {
-          let count = LETTER_KEY[startPosition[0]] - LETTER_KEY[coordinates[0]]
-          let direction = count > 0 ? '-' : '+'
-
-          moves = this.rightAndLeft(Math.abs(count) - 1, startPosition[0], direction, startPosition[1])
+          moves = this.fetchHorizontalMoves(startPosition, coordinates)
       }
 
-      let startingNumericCoordinates = this.convertCoordinates(startPosition)
-      let destinationNumericCoordinates = this.convertCoordinates(coordinates)
+      let startCoordinates = this.convertCoordinates(startPosition)
+      let endCoordinates = this.convertCoordinates(coordinates)
 
-      if(Math.abs(startingNumericCoordinates[0] - destinationNumericCoordinates[0]) === Math.abs(startingNumericCoordinates[1] - destinationNumericCoordinates[1])) {
-          let movementCount = Math.abs(startingNumericCoordinates[1] - destinationNumericCoordinates[1]) - 1
-
-          let verticalDirection
-          let horizontalDirection
-
-          if(destinationNumericCoordinates[1] > startingNumericCoordinates[1]) {
-              verticalDirection = '+'
-          } else {
-              verticalDirection = '-'
-          }
-
-          if(destinationNumericCoordinates[0] > startingNumericCoordinates[0]) {
-              horizontalDirection = '+'
-          } else {
-              horizontalDirection = '-'
-          }
-
-          moves = this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1]))
+      if (Math.abs(startCoordinates[0] - endCoordinates[0]) === Math.abs(startCoordinates[1] - endCoordinates[1])) {
+          moves = this.fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition)
       }
 
       moves.forEach((move) => {
@@ -165,7 +162,6 @@ class MoveLogic {
   }
 
   static validateDestination(selected, destination, chessBoard) {
-    console.log(selected + " " + destination + " ")
       if(chessBoard[destination].piece) {
           return !(selected.color === chessBoard[destination].piece.color)
       } else {

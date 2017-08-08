@@ -373,6 +373,24 @@ describe('MoveLogic', () => {
       })
   })
 
+  describe('#fetchVerticalMoves', () => {
+    xit('handles vertical moves', () => {
+
+    })
+  })
+
+  describe('#fetchHorizontalMoves', () => {
+    xit('handles vertical moves', () => {
+
+    })
+  })
+
+  describe('#fetchDiagonalMoves', () => {
+    xit('handles vertical moves', () => {
+
+    })
+  })
+
   describe('#kingIsSafe', () => {
       xit('returns true if the king is not in check after the move', () => {
 

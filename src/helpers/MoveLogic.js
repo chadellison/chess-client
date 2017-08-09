@@ -111,11 +111,11 @@ class MoveLogic {
             let upLeft = String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) + 1)
             let upRight = String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) + 1)
 
-            if(board[upLeft].piece) {
+            if(board[upLeft].piece && board[upLeft].piece.color === 'black') {
                 moves.push(upLeft)
             }
 
-            if(board[upRight].piece) {
+            if(board[upRight].piece && board[upRight].piece.color === 'black') {
                 moves.push(upRight)
             }
 
@@ -129,11 +129,11 @@ class MoveLogic {
             let downLeft = String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) - 1)
             let downRight = String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) - 1)
 
-            if(board[downLeft].piece) {
+            if(board[downLeft].piece && board[downLeft].piece.color === 'white') {
                 moves.push(downLeft)
             }
 
-            if(board[downRight].piece) {
+            if(board[downRight].piece && board[downRight].piece.color === 'white') {
                 moves.push(downRight)
             }
         }

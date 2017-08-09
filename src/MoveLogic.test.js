@@ -445,38 +445,49 @@ describe('MoveLogic', () => {
     })
 
     describe('#movesForPawn', () => {
-        const pawn = {
-            'type': 'pawn',
-            'color': 'white',
-            'currentPosition': 'd4'
-        }
-
         it('returns an array of all moves for a pawn given a d4 position', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
+
             let moves = ['d5']
-            let board = jsonChessBoard
             jsonChessBoard.d4.piece = pawn
             expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.d4.piece = null
         })
 
         it('returns an array of all moves for a pawn given a d2', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
+
             let moves = ['d3', 'd4']
-            let updatedPawn = pawn
-            updatedPawn.currentPosition = 'd2'
-            expect(MoveLogic.movesForPawn('d2', updatedPawn, jsonChessBoard)).toEqual(moves)
+            pawn.currentPosition = 'd2'
+            expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
         })
 
         it('returns an array of all moves for a pawn given a d7', () => {
             let moves = ['d6', 'd5']
-            let updatedPawn = pawn
+            let pawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'd7'
+            }
 
-            updatedPawn.currentPosition = 'd7'
-            updatedPawn.color = 'black'
-
-            expect(MoveLogic.movesForPawn('d7', updatedPawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d7', pawn, jsonChessBoard)).toEqual(moves)
         })
 
         it('returns additional moves if a white pawn can capture a piece on the left', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
+
             let blackPawn = {
                 'type': 'pawn',
                 'color': 'black',
@@ -484,20 +495,71 @@ describe('MoveLogic', () => {
             }
 
             let moves = ['d5', 'c5']
-            let updatedPawn = pawn
 
             jsonChessBoard.c5.piece = blackPawn
-            jsonChessBoard.d4.piece = updatedPawn
-            updatedPawn.currentPosition = 'd4'
-            updatedPawn.color = 'white'
+            jsonChessBoard.d4.piece = pawn
 
-            expect(MoveLogic.movesForPawn('d4', updatedPawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+
+            jsonChessBoard.c5.piece = null
+            jsonChessBoard.d4.piece = null
+        })
+
+        it('does not return additional moves if the piece on the left is an allied pawn', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
+
+            let whitePawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'c5'
+            }
+
+            let moves = ['d5']
+
+            jsonChessBoard.c5.piece = whitePawn
+            jsonChessBoard.d4.piece = pawn
+
+            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+
+            jsonChessBoard.c5.piece = null
+            jsonChessBoard.d4.piece = null
+        })
+
+        it('does not return additional moves if the piece on the left is an allied pawn', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
+
+            let whitePawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'c5'
+            }
+
+            let moves = ['d5']
+
+            jsonChessBoard.c5.piece = whitePawn
+            jsonChessBoard.d4.piece = pawn
+
+            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
 
             jsonChessBoard.c5.piece = null
             jsonChessBoard.d4.piece = null
         })
 
         it('returns additional moves if a white pawn can capture a piece on the right', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
+
             let blackPawn = {
                 'type': 'pawn',
                 'color': 'black',
@@ -505,40 +567,75 @@ describe('MoveLogic', () => {
             }
 
             let moves = ['d5', 'e5']
-            let updatedPawn = pawn
 
             jsonChessBoard.e5.piece = blackPawn
-            jsonChessBoard.d4.piece = updatedPawn
-            updatedPawn.currentPosition = 'd4'
-            updatedPawn.color = 'white'
+            jsonChessBoard.d4.piece = pawn
+            pawn.currentPosition = 'd4'
 
-            expect(MoveLogic.movesForPawn('d4', updatedPawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.e5.piece = null
             jsonChessBoard.d4.piece = null
         })
 
-        xit('returns additional moves if a black pawn can capture a piece on the left', () => {
+        it('returns additional moves if a black pawn can capture a piece on the left', () => {
+            let whitePawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'e4'
+            }
+
             let blackPawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'f5'
+            }
+
+            let moves = ['f4', 'e4']
+
+            jsonChessBoard.f5.piece = blackPawn
+            jsonChessBoard.e4.piece = whitePawn
+            whitePawn.currentPosition = 'e4'
+            blackPawn.currentPosition = 'f5'
+
+            expect(MoveLogic.movesForPawn('f5', blackPawn, jsonChessBoard)).toEqual(moves)
+
+            jsonChessBoard.f5.piece = null
+            jsonChessBoard.e4.piece = null
+        })
+
+        it('does not return additional moves if the piece on the left is an allied pawn', () => {
+            let blackPawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'e4'
+            }
+
+            let pawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'f5'
+            }
+
+            let moves = ['f4']
+
+            jsonChessBoard.f5.piece = pawn
+            jsonChessBoard.e4.piece = blackPawn
+            blackPawn.currentPosition = 'e4'
+            pawn.currentPosition = 'f5'
+
+            expect(MoveLogic.movesForPawn('f5', pawn, jsonChessBoard)).toEqual(moves)
+
+            jsonChessBoard.f5.piece = null
+            jsonChessBoard.e4.piece = null
+        })
+
+        it('returns additional moves if a black pawn can capture a piece on the right', () => {
+            let pawn = {
                 'type': 'pawn',
                 'color': 'black',
                 'currentPosition': 'c5'
             }
 
-            let moves = ['d5', 'c5']
-            let updatedPawn = pawn
-
-            jsonChessBoard.c5.piece = blackPawn
-            jsonChessBoard.d4.piece = updatedPawn
-            updatedPawn.currentPosition = 'd4'
-            updatedPawn.color = 'white'
-
-            expect(MoveLogic.movesForPawn('d4', updatedPawn, jsonChessBoard)).toEqual(moves)
-
-            jsonChessBoard.c5.piece = null
-            jsonChessBoard.d4.piece = null
-        })
-
-        it('returns additional moves if a black pawn can capture a piece on the right', () => {
             let whitePawn = {
                 'type': 'pawn',
                 'color': 'white',
@@ -549,8 +646,29 @@ describe('MoveLogic', () => {
 
             jsonChessBoard.d4.piece = whitePawn
             jsonChessBoard.c5.piece = pawn
-            pawn.currentPosition = 'c5'
-            pawn.color = 'black'
+
+            expect(MoveLogic.movesForPawn('c5', pawn, jsonChessBoard)).toEqual(moves)
+            jsonChessBoard.d4.piece = null
+            jsonChessBoard.c5.piece = null
+        })
+
+        it('does not return additional moves if the piece on the right is another black pawn', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'c5'
+            }
+
+            let whitePawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'd4'
+            }
+
+            let moves = ['c4']
+
+            jsonChessBoard.d4.piece = whitePawn
+            jsonChessBoard.c5.piece = pawn
 
             expect(MoveLogic.movesForPawn('c5', pawn, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.d4.piece = null

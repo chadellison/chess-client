@@ -17,7 +17,7 @@ export default class SignUpForm extends Component {
                 <input onChange={this.props.handleUserEmail} value={this.props.userEmail}></input>
                 <h4>Password</h4>
                 <input type="password" onChange={this.props.handleUserPassword} value={this.props.userPassword}></input>
-                <button onClick={this.props.handleUserSubmit}>{this.buttonName}</button>
+                {this.props.signInFormActive ? <button onClick={this.props.handleUserSignIn}>{this.buttonName}</button> : <button onClick={this.props.handleUserSignUp}>{this.buttonName}</button>}
                 <button onClick={this.props.handleCredentialForm}>Cancel</button>
             </div>
         )

@@ -16,13 +16,15 @@ class App extends Component {
             email: '',
             password: '',
             token: '',
-            loggedIn: ''
+            loggedIn: '',
+            messageToUser: ''
         }
         this.handleSelected = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
         this.handleUserEmail = this.handleUserEmail.bind(this)
         this.handleUserPassword = this.handleUserPassword.bind(this)
-        this.handleUserSubmit = this.handleUserSubmit.bind(this)
+        this.handleUserSignIn = this.handleUserSignIn.bind(this)
+        this.handleUserSignUp = this.handleUserSignUp.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
         this.move = this.move.bind(this)
     }
@@ -41,20 +43,40 @@ class App extends Component {
         })
     }
 
-    handleUserSubmit() {
-        let url
-        if(this.state.signUpFormActive) {
-            url = 'http://localhost:8080/api/users'
-        } else {
-            url = 'http://localhost:8080/api/authentication'
-        }
+    handleUserSignUp() {
         let body = JSON.stringify({email: this.state.email, password: this.state.password})
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         }
+        fetch('http://localhost:8080/api/users',
+            {
+                method: "POST",
+                headers: headers,
+                body: body
+            })
+            .then(response => response.json())
+            .then(this.setState({
+                messageToUser: `Please check your email at ${this.state.email} to confirm you exist!`,
+                signUpFormActive: false,
+                email: '',
+                password: ''
+            }))
+            .catch(
+                this.setState({
+                    messageToUser: 'Please enter a valid username and password.',
+                    signUpFormActive: true
+                })
+            )
+    }
 
-        fetch(url,
+    handleUserSignIn() {
+        let body = JSON.stringify({email: this.state.email, password: this.state.password})
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+        fetch('http://localhost:8080/api/authentication',
             {
                 method: "POST",
                 headers: headers,
@@ -63,19 +85,20 @@ class App extends Component {
             .then(response => response.json())
             .then(responseJson => this.setState({
                 token: responseJson.token,
-                email: '',
-                password: '',
                 signInFormActive: false,
-                signUpFormActive: false,
-                loggedIn: responseJson.email
+                loggedIn: responseJson.email,
+                messageToUser: 'Welcome to Chess!!!'
             }))
-            .catch(error => {
-                console.log(error)
+            .catch(
                 this.setState({
-                    email: '',
-                    password: ''
+                    messageToUser: 'Please enter a valid username and password.'
                 })
-            })
+            )
+            .then(this.setState({
+                email: '',
+                password: ''
+            }))
+
     }
 
     handleSelected(id) {
@@ -104,7 +127,8 @@ class App extends Component {
         if(event.target.textContent === 'Cancel') {
             this.setState({
                 signInFormActive: false,
-                signUpFormActive: false
+                signUpFormActive: false,
+                messageToUser: ''
             })
         }
 
@@ -133,7 +157,8 @@ class App extends Component {
                 handleCredentialForm={this.handleCredentialForm}
                 userEmail={this.state.email}
                 userPassword={this.state.password}
-                handleUserSubmit={this.handleUserSubmit}
+                handleUserSignIn={this.handleUserSignIn}
+                handleUserSignUp={this.handleUserSignUp}
                 signInFormActive={this.state.signInFormActive}
             />
         } else {
@@ -164,6 +189,7 @@ class App extends Component {
             <div className='App container-fluid'>
                 {this.buttons}
                 {this.signUpForm}
+                {this.state.messageToUser}
                 <Board chessBoard={this.state.chessBoard}
                        handleSelected={this.handleSelected}
                        isSelected={this.state.selected}

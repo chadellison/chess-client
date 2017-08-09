@@ -69,6 +69,13 @@ class App extends Component {
                 signUpFormActive: false,
                 loggedIn: responseJson.email
             }))
+            .catch(error => {
+                console.log(error)
+                this.setState({
+                    email: '',
+                    password: ''
+                })
+            })
     }
 
     handleSelected(id) {

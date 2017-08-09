@@ -462,11 +462,27 @@ describe('MoveLogic', () => {
             let pawn = {
                 'type': 'pawn',
                 'color': 'white',
-                'currentPosition': 'd4'
+                'currentPosition': 'd2'
             }
 
             let moves = ['d3', 'd4']
-            pawn.currentPosition = 'd2'
+            expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
+        })
+
+        it('does not return d4 if the square is occupied', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd2'
+            }
+
+            let queen = {
+                'type': 'queen',
+                'color': 'black',
+                'currentPosition': 'd4'
+            }
+
+            let moves = ['d3']
             expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
         })
 
@@ -479,6 +495,23 @@ describe('MoveLogic', () => {
             }
 
             expect(MoveLogic.movesForPawn('d7', pawn, jsonChessBoard)).toEqual(moves)
+        })
+
+        xit('does not return d4 if the square is occupied', () => {
+            let pawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'd2'
+            }
+
+            let queen = {
+                'type': 'queen',
+                'color': 'black',
+                'currentPosition': 'd4'
+            }
+
+            let moves = ['d3']
+            expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
         })
 
         it('returns additional moves if a white pawn can capture a piece on the left', () => {

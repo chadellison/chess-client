@@ -104,41 +104,35 @@ class MoveLogic {
         if(pawn.color === 'white') {
             moves.push(position[0] + (parseInt(position[1]) + 1))
 
-            if(position[1] === '2') {
+            if(position[1] === '2' && board[position[0] + '4'].piece) {
                 moves.push(position[0] + '4')
-            }
-
-            let upLeft = String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) + 1)
-            let upRight = String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) + 1)
-
-            if(board[upLeft].piece && board[upLeft].piece.color === 'black') {
-                moves.push(upLeft)
-            }
-
-            if(board[upRight].piece && board[upRight].piece.color === 'black') {
-                moves.push(upRight)
             }
 
         } else {
             moves.push(position[0] + (parseInt(position[1]) - 1))
 
-            if(position[1] === '7') {
+            if(position[1] === '7' && board[position[0] + '5'].piece) {
                 moves.push(position[0] + '5')
             }
+        }
+        return moves.concat(this.checkProximity(position, board, pawn.color))
+    }
 
-            let downLeft = String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) - 1)
-            let downRight = String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) - 1)
+    static checkProximity(position, board, color) {
+        let toLeft = String.fromCharCode(position[0].charCodeAt(0) - 1)
+        let toRight = String.fromCharCode(position[0].charCodeAt(0) + 1)
 
-            if(board[downLeft].piece && board[downLeft].piece.color === 'white') {
-                moves.push(downLeft)
-            }
-
-            if(board[downRight].piece && board[downRight].piece.color === 'white') {
-                moves.push(downRight)
-            }
+        if (color === 'white') {
+            toLeft += (parseInt(position[1]) + 1)
+            toRight += (parseInt(position[1]) + 1)
+        } else {
+            toLeft += (parseInt(position[1]) - 1)
+            toRight += (parseInt(position[1]) - 1)
         }
 
-        return moves
+        return [toLeft, toRight].filter((coordinate) => {
+            return (board[coordinate].piece && board[coordinate].piece.color !== color)
+        })
     }
 
     static lesserPosition(horizontal, vertical) {

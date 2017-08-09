@@ -17,7 +17,8 @@ class App extends Component {
             password: '',
             token: '',
             loggedIn: '',
-            messageToUser: ''
+            messageToUser: '',
+            hashedEmail: ''
         }
         this.handleSelected = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
@@ -55,10 +56,10 @@ class App extends Component {
                 headers: headers,
                 body: body
             })
-            .then(response => response.json())
-            .then(this.setState({
+            .then(() => this.setState({
                 messageToUser: `Please check your email at ${this.state.email} to confirm you exist!`,
                 signUpFormActive: false,
+                signInFormActive: false,
                 email: '',
                 password: ''
             }))
@@ -83,12 +84,16 @@ class App extends Component {
                 body: body
             })
             .then(response => response.json())
-            .then(responseJson => this.setState({
+            .then(responseJson => {
+                console.log(responseJson)
+                this.setState({
                 token: responseJson.token,
                 signInFormActive: false,
+                signUpFormActive: false,
                 loggedIn: responseJson.email,
-                messageToUser: 'Welcome to Chess!!!'
-            }))
+                messageToUser: 'Welcome to Chess!!!',
+                hashedEmail: responseJson.hashedEmail
+            })})
             .catch(
                 this.setState({
                     messageToUser: 'Please enter a valid username and password.'
@@ -138,6 +143,8 @@ class App extends Component {
         this.setState({
             token: '',
             loggedIn: '',
+            hashedEmail: '',
+            messageToUser: ''
         })
     }
 
@@ -189,7 +196,10 @@ class App extends Component {
             <div className='App container-fluid'>
                 {this.buttons}
                 {this.signUpForm}
-                {this.state.messageToUser}
+                <div className="user-header">
+                    {this.state.messageToUser}
+                    { this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
+                </div>
                 <Board chessBoard={this.state.chessBoard}
                        handleSelected={this.handleSelected}
                        isSelected={this.state.selected}

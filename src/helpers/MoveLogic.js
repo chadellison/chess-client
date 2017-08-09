@@ -98,6 +98,49 @@ class MoveLogic {
 
     }
 
+    static movesForPawn(position, pawn, board) {
+        let moves = []
+
+        if(pawn.color === 'white') {
+            moves.push(position[0] + (parseInt(position[1]) + 1))
+
+            if(position[1] === '2') {
+                moves.push(position[0] + '4')
+            }
+
+            let upLeft = String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) + 1)
+            let upRight = String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) + 1)
+
+            if(board[upLeft].piece) {
+                moves.push(upLeft)
+            }
+
+            if(board[upRight].piece) {
+                moves.push(upRight)
+            }
+
+        } else {
+            moves.push(position[0] + (parseInt(position[1]) - 1))
+
+            if(position[1] === '7') {
+                moves.push(position[0] + '5')
+            }
+
+            let downLeft = String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) - 1)
+            let downRight = String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) - 1)
+
+            if(board[downLeft].piece) {
+                moves.push(downLeft)
+            }
+
+            if(board[downRight].piece) {
+                moves.push(downRight)
+            }
+        }
+
+        return moves
+    }
+
     static lesserPosition(horizontal, vertical) {
         return horizontal > vertical ? vertical : horizontal
     }

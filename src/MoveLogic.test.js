@@ -745,7 +745,26 @@ describe('MoveLogic', () => {
         })
 
         xit('returns additional moves for en passant if applicable', () => {
-          
+          let blackPawn = {
+              'type': 'pawn',
+              'color': 'black',
+              'currentPosition': 'c5'
+          }
+
+          let whitePawn = {
+              'type': 'pawn',
+              'color': 'black',
+              'currentPosition': 'd5'
+          }
+
+          let moves = ['d6', 'c6']
+
+          jsonChessBoard.d5.piece = whitePawn
+          jsonChessBoard.c5.piece = pawn
+
+          expect(MoveLogic.movesForPawn('d5', pawn.color, jsonChessBoard)).toEqual(moves)
+          jsonChessBoard.d5.piece = null
+          jsonChessBoard.c5.piece = null
         })
     })
 

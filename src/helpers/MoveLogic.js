@@ -279,7 +279,7 @@ class MoveLogic {
         }
     }
 
-    static kingIsSafe(piece, nextMove, chessBoard, kingLocation) {
+    static kingIsSafe(piece, nextMove, chessBoard, kingLocation, gameMoves) {
         let result = true
         let opponentColor = this.opponentColor(piece)
          let updatedBoard = JSON.parse(JSON.stringify(chessBoard))
@@ -294,7 +294,7 @@ class MoveLogic {
                 return (piece.color === opponentColor && piece.type !== 'king')
             })
         opponentPieces.forEach((eachPiece) => {
-            if(this.inCheck(eachPiece, kingLocation, updatedBoard)) {
+            if(this.inCheck(eachPiece, kingLocation, updatedBoard, gameMoves)) {
               result = false
             }
         })
@@ -305,17 +305,17 @@ class MoveLogic {
         return piece.color === 'white' ? 'black' : 'white'
     }
 
-    static inCheck(piece, kingLocation, chessBoard) {
+    static inCheck(piece, kingLocation, chessBoard, gameMoves) {
       return(
-          this.movesForPiece(piece, chessBoard)[piece.type].includes(kingLocation) &&
+          this.movesForPiece(piece, chessBoard, gameMoves)[piece.type].includes(kingLocation) &&
           this.validMovePath(piece.currentPosition, kingLocation, chessBoard) &&
           this.validateDestination(piece.currentPosition, kingLocation, chessBoard)
       )
     }
 
-    static movesForPiece(piece, chessBoard) {
+    static movesForPiece(piece, chessBoard, gameMoves) {
       return {
-        pawn: this.movesForPawn(piece.currentPosition, piece.color, chessBoard),
+        pawn: this.movesForPawn(piece.currentPosition, piece.color, chessBoard, gameMoves),
         knight: this.movesForKnight(piece.currentPosition),
         bishop: this.movesForBishop(piece.currentPosition),
         rook: this.movesForRook(piece.currentPosition),

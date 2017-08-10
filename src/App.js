@@ -48,10 +48,10 @@ class App extends Component {
         })[0].piece.currentPosition
 
         return(
-            MoveLogic.movesForPiece(piece, board)[piece.type].includes(coordinates) &&
+            MoveLogic.movesForPiece(piece, board, this.state.moves)[piece.type].includes(coordinates) &&
             MoveLogic.validMovePath(piece.currentPosition, coordinates, board) &&
             MoveLogic.validateDestination(piece, coordinates, board) &&
-            MoveLogic.kingIsSafe(piece, coordinates, board, kingLocation)
+            MoveLogic.kingIsSafe(piece, coordinates, board, kingLocation, this.state.moves)
         )
     }
 

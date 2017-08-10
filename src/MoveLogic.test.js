@@ -393,7 +393,7 @@ describe('MoveLogic', () => {
     })
 
     describe('#kingIsSafe', () => {
-        it.only('returns true if the king is not in check after the move', () => {
+        it('returns true if the king is not in check after the move', () => {
             const queen = {
                 'type': 'queen',
                 'color': 'white',
@@ -744,7 +744,7 @@ describe('MoveLogic', () => {
             jsonChessBoard.c5.piece = null
         })
 
-        xit('returns additional moves for en passant if applicable', () => {
+        it('returns additional moves for en passant if applicable', () => {
           let blackPawn = {
               'type': 'pawn',
               'color': 'black',
@@ -759,12 +759,37 @@ describe('MoveLogic', () => {
 
           let moves = ['d6', 'c6']
 
-          jsonChessBoard.d5.piece = whitePawn
-          jsonChessBoard.c5.piece = pawn
+          let gameMoves = [whitePawn, blackPawn]
 
-          expect(MoveLogic.movesForPawn('d5', pawn.color, jsonChessBoard)).toEqual(moves)
+          jsonChessBoard.d5.piece = whitePawn
+          jsonChessBoard.c5.piece = blackPawn
+          expect(MoveLogic.movesForPawn('d5', 'white', jsonChessBoard, gameMoves)).toEqual(moves)
           jsonChessBoard.d5.piece = null
           jsonChessBoard.c5.piece = null
+        })
+
+        it('returns additional moves for en passant if applicable for black pawns', () => {
+          let blackPawn = {
+              'type': 'pawn',
+              'color': 'black',
+              'currentPosition': 'c4'
+          }
+
+          let whitePawn = {
+              'type': 'pawn',
+              'color': 'black',
+              'currentPosition': 'd4'
+          }
+
+          let moves = ['c3', 'd3']
+
+          let gameMoves = [blackPawn, whitePawn]
+
+          jsonChessBoard.c4.piece = blackPawn
+          jsonChessBoard.d4.piece = whitePawn
+          expect(MoveLogic.movesForPawn('c4', 'black', jsonChessBoard, gameMoves)).toEqual(moves)
+          jsonChessBoard.c4.piece = null
+          jsonChessBoard.d4.piece = null
         })
     })
 

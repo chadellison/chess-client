@@ -96,7 +96,7 @@ class MoveLogic {
         return moves
     }
 
-    static movesForPawn(position, color, board) {
+    static movesForPawn(position, color, board, gameMoves) {
         let moves = []
         let nextSquare = this.oneForward(position, color)
         if(this.isOpen(nextSquare, board)) {
@@ -106,8 +106,7 @@ class MoveLogic {
         if(moves.length > 0 && this.isOpen(this.oneForward(nextSquare, color), board) && (position[1] === '2' || position[1] === '7')) {
           moves.push(this.oneForward(nextSquare, color))
         }
-
-        return moves.concat(this.checkProximity(position, board, color))
+        return moves.concat(this.checkProximity(position, board, color, gameMoves))
     }
 
     static oneForward(position, color) {
@@ -122,7 +121,7 @@ class MoveLogic {
         return !board[positionToCheck].piece
     }
 
-    static checkProximity(position, board, color) {
+    static checkProximity(position, board, color, gameMoves) {
         let toLeft = String.fromCharCode(position[0].charCodeAt(0) - 1)
         let toRight = String.fromCharCode(position[0].charCodeAt(0) + 1)
 
@@ -140,6 +139,20 @@ class MoveLogic {
                 Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
             )
         }).filter((coordinates) => {
+          if(coordinates[1] === '6' && color === 'white') {
+              let enPassant = board[coordinates[0] + (parseInt(coordinates[1], 10) - 1)].piece
+              if(enPassant === gameMoves[gameMoves.length - 1] && !board[coordinates].piece) {
+                  return true
+              }
+          }
+
+          if(coordinates[1] === '3' && color === 'black') {
+              let enPassant = board[coordinates[0] + (parseInt(coordinates[1], 10) + 1)].piece
+              if(enPassant === gameMoves[gameMoves.length - 1] && !board[coordinates].piece) {
+                  return true
+              }
+          }
+
           if(board[coordinates].piece) {
               return board[coordinates].piece.color !== color
           }

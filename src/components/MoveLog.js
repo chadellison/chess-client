@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 class MoveLog extends Component {
     get moves() {
-        return this.props.moves.map((piece) => {
-            return <div>{`${piece.type}: ${piece.currentPosition}`}</div>
+        return this.props.moves.map((piece, index) => {
+            return <div key={index}>{`${piece.type}: ${piece.currentPosition}`}</div>
         })
     }
     render() {

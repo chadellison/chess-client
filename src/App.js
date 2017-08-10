@@ -36,7 +36,6 @@ class App extends Component {
         let piece = this.state.selected
         let kingLocation = Object.values(board).filter((square) => {
           return(
-
               square.piece &&
               square.piece.type === 'king' &&
               square.piece.color === piece.color

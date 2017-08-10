@@ -19,7 +19,8 @@ class App extends Component {
             token: '',
             loggedIn: '',
             messageToUser: '',
-            hashedEmail: ''
+            hashedEmail: '',
+            turn: 'white'
         }
         this.handleSelected = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
@@ -60,17 +61,21 @@ class App extends Component {
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
             updatedMoves.push(piece)
-
             this.setState({
               chessBoard: updatedBoard,
-              moves: updatedMoves
+              moves: updatedMoves,
+              turn: this.updateTurn()
             })
         } else {
             console.log('invalid move')
         }
         this.setState({
-          selected: null
+            selected: null
         })
+    }
+
+    updateTurn() {
+      return this.state.turn === 'white' ? 'black' : 'white'
     }
 
     handleUserSignUp() {

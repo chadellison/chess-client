@@ -17,6 +17,10 @@ describe('App', () => {
       expect(app.state().moves).toEqual([])
     })
 
+    it('has a turn state that begins as an empty string', () => {
+      expect(app.state().turn).toEqual('white')
+    })
+
     it('has a chess board state with 64 positions', () => {
         expect(app.state().chessBoard).toEqual(jsonChessBoard)
         expect(Object.keys(app.state().chessBoard).length).toEqual(64)
@@ -258,7 +262,19 @@ describe('App', () => {
         expect(app.state().selected).toEqual(pawn)
     })
 
+    describe('#updatedTurn', () => {
+        xit('test', () => {
+
+        })
+    })
+
     describe('#move', () => {
+        beforeEach(() => {
+          app.state().moves = []
+          app.state().turn = 'white'
+          app.state().selected = null
+        })
+
         it('can move to a different square', () => {
             const pawn = app.state().chessBoard.a7.piece
             app.state().selected = pawn
@@ -269,12 +285,53 @@ describe('App', () => {
 
             app.state().chessBoard.a6.piece = null
             app.state().selected = null
-            app.state().moves = []
             app.state().chessBoard.a7.piece = {
                 'type': 'pawn',
                 'color': 'black',
                 'currentPosition': 'a7'
             }
+        })
+
+        it('changes the turn to black if white moves', () => {
+            const pawn = app.state().chessBoard.a2.piece
+            expect(app.state().turn).toEqual('white')
+            app.state().selected = pawn
+            app.instance().move('a4')
+
+            expect(app.state().turn).toEqual('black')
+
+            app.state().chessBoard.a4.piece = null
+            app.state().selected = null
+            app.state().chessBoard.a2.piece = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'a2'
+            }
+        })
+
+        it('changes the turn to white if black moves', () => {
+            const pawn = app.state().chessBoard.a7.piece
+            app.state().turn = 'black'
+            app.state().selected = pawn
+            app.instance().move('a5')
+
+            expect(app.state().turn).toEqual('white')
+
+            app.state().chessBoard.a5.piece = null
+            app.state().chessBoard.a7.piece = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'a7'
+            }
+        })
+
+        it('does not change turns if the move is invalid', () => {
+            const pawn = app.state().chessBoard.a7.piece
+            app.state().turn = 'black'
+            app.state().selected = pawn
+            app.instance().move('a1')
+
+            expect(app.state().turn).toEqual('black')
         })
 
         it('updates the state of the moves after every move', () => {

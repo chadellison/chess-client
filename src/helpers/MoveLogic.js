@@ -269,20 +269,20 @@ class MoveLogic {
     static kingIsSafe(piece, nextMove, chessBoard, kingLocation) {
         let result = true
         let opponentColor = this.opponentColor(piece)
-        chessBoard[piece.currentPosition].piece = null
-        chessBoard[nextMove].piece = piece
+         let updatedBoard = JSON.parse(JSON.stringify(chessBoard))
+        updatedBoard[piece.currentPosition].piece = null
+        updatedBoard[nextMove].piece = piece
 
-        let opponentPieces = Object.values(chessBoard)
+
+        let opponentPieces = Object.values(updatedBoard)
             .map((square) => square.piece)
             .filter((piece) => piece)
             .filter((piece) => {
                 return (piece.color === opponentColor && piece.type !== 'king')
             })
         opponentPieces.forEach((eachPiece) => {
-            if(this.inCheck(eachPiece, kingLocation, chessBoard)) {
+            if(this.inCheck(eachPiece, kingLocation, updatedBoard)) {
               result = false
-              chessBoard[piece.currentPosition].piece = piece
-              chessBoard[nextMove].piece = null
             }
         })
         return result

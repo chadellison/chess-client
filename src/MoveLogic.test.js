@@ -133,14 +133,12 @@ describe('MoveLogic', () => {
 
         it('returns true for horizontal moves moving right if there are no pieces in the way of the two coordinates', () => {
             const rook = {
-                'piece': {
-                    'type': 'rook',
-                    'color': 'black',
-                    'currentPosition': 'b5'
-                }
+                'type': 'rook',
+                'color': 'black',
+                'currentPosition': 'b5'
             }
 
-            jsonChessBoard.b5 = rook
+            jsonChessBoard.b5.piece = rook
             expect(MoveLogic.validMovePath('b5', 'f5', jsonChessBoard)).toEqual(true)
 
             jsonChessBoard.b5.piece = null
@@ -161,23 +159,19 @@ describe('MoveLogic', () => {
 
         it('returns false for horizontal moves moving left if there are any pieces in the way of the two coordinates', () => {
             const queen = {
-                'piece': {
-                    'type': 'queen',
-                    'color': 'black',
-                    'currentPosition': 'd6'
-                }
+                'type': 'queen',
+                'color': 'black',
+                'currentPosition': 'd6'
             }
 
             const pawn = {
-                'piece': {
-                    'type': 'pawn',
-                    'color': 'black',
-                    'currentPosition': 'b6'
-                }
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'b6'
             }
 
-            jsonChessBoard.d6 = queen
-            jsonChessBoard.b6 = pawn
+            jsonChessBoard.d6.piece = queen
+            jsonChessBoard.b6.piece = pawn
 
             expect(MoveLogic.validMovePath('d6', 'a6', jsonChessBoard))
 
@@ -187,23 +181,19 @@ describe('MoveLogic', () => {
 
         it('returns false for horizontal moves moving right if there are any pieces in the way of the two coordinates', () => {
             const queen = {
-                'piece': {
-                    'type': 'queen',
-                    'color': 'black',
-                    'currentPosition': 'a6'
-                }
+                'type': 'queen',
+                'color': 'black',
+                'currentPosition': 'a6'
             }
 
             const pawn = {
-                'piece': {
-                    'type': 'pawn',
-                    'color': 'black',
-                    'currentPosition': 'c6'
-                }
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'c6'
             }
 
-            jsonChessBoard.a6 = queen
-            jsonChessBoard.c6 = pawn
+            jsonChessBoard.a6.piece = queen
+            jsonChessBoard.c6.piece = pawn
 
             expect(MoveLogic.validMovePath('a6', 'd6', jsonChessBoard)).toEqual(false)
 
@@ -213,28 +203,24 @@ describe('MoveLogic', () => {
 
         it('it returns true for up right diagonal moves when no pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'c3'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'c3'
             }
 
-            jsonChessBoard.c3 = bishop
+            jsonChessBoard.c3.piece = bishop
             expect(MoveLogic.validMovePath('c3', 'f6', jsonChessBoard)).toEqual(true)
             jsonChessBoard.c3.piece = null
         })
 
         it('it returns false for up right diagonal moves when pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'f6'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'f6'
             }
 
-            jsonChessBoard.f6 = bishop
+            jsonChessBoard.f6.piece = bishop
 
             expect(MoveLogic.validMovePath('f6', 'h8', jsonChessBoard)).toEqual(false)
 
@@ -243,14 +229,12 @@ describe('MoveLogic', () => {
 
         it('it returns true for down right diagonal moves when no pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'c6'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'c6'
             }
 
-            jsonChessBoard.c6 = bishop
+            jsonChessBoard.c6.piece = bishop
 
             expect(MoveLogic.validMovePath('c6', 'g2', jsonChessBoard)).toEqual(true)
             jsonChessBoard.c6.piece = null
@@ -258,14 +242,12 @@ describe('MoveLogic', () => {
 
         it('it returns false for down right diagonal moves when pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'c6'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'c6'
             }
 
-            jsonChessBoard.c6 = bishop
+            jsonChessBoard.c6.piece = bishop
 
             expect(MoveLogic.validMovePath('c6', 'h1', jsonChessBoard)).toEqual(false)
             jsonChessBoard.c6.piece = null
@@ -273,14 +255,12 @@ describe('MoveLogic', () => {
 
         it('it returns true for up left diagonal moves when no pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'h5'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'h5'
             }
 
-            jsonChessBoard.h5 = bishop
+            jsonChessBoard.h5.piece = bishop
             expect(MoveLogic.validMovePath('h5', 'f7', jsonChessBoard)).toEqual(true)
 
             jsonChessBoard.h5.piece = null
@@ -288,14 +268,12 @@ describe('MoveLogic', () => {
 
         it('it returns false for up left diagonal moves when pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'e5'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'e5'
             }
 
-            jsonChessBoard.e5 = bishop
+            jsonChessBoard.e5.piece = bishop
 
             expect(MoveLogic.validMovePath('e5', 'b8', jsonChessBoard)).toEqual(false)
 
@@ -304,14 +282,12 @@ describe('MoveLogic', () => {
 
         it('it returns true for down left diagonal moves when no pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'g4'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'g4'
             }
 
-            jsonChessBoard.g4 = bishop
+            jsonChessBoard.g4.piece = bishop
             expect(MoveLogic.validMovePath('g4', 'e2', jsonChessBoard)).toEqual(true)
 
             jsonChessBoard.g4.piece = null
@@ -319,14 +295,12 @@ describe('MoveLogic', () => {
 
         it('it returns false for down left diagonal moves when pieces are in the path', () => {
             const bishop = {
-                'piece': {
-                    'type': 'bishop',
-                    'color': 'black',
-                    'currentPosition': 'g4'
-                }
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'g4'
             }
 
-            jsonChessBoard.g4 = bishop
+            jsonChessBoard.g4.piece = bishop
             expect(MoveLogic.validMovePath('g4', 'd1', jsonChessBoard)).toEqual(false)
 
             jsonChessBoard.g4.piece = null
@@ -350,7 +324,7 @@ describe('MoveLogic', () => {
                 'currentPosition': 'a6'
             }
 
-            jsonChessBoard.a6 = bishop
+            jsonChessBoard.a6.piece = bishop
             expect(MoveLogic.validateDestination(bishop, 'b7', jsonChessBoard)).toEqual(true)
 
             jsonChessBoard.a6.piece = null
@@ -363,7 +337,7 @@ describe('MoveLogic', () => {
                 'currentPosition': 'a6'
             }
 
-            jsonChessBoard.a6 = bishop
+            jsonChessBoard.a6.piece = bishop
             expect(MoveLogic.validateDestination(bishop, 'b5', jsonChessBoard)).toEqual(true)
 
             jsonChessBoard.a6.piece = null
@@ -378,7 +352,7 @@ describe('MoveLogic', () => {
                 'currentPosition': 'd4'
             }
 
-            jsonChessBoard.d4 = queen
+            jsonChessBoard.d4.piece = queen
             let moves = ['e4', 'f4', 'g4', 'h4', 'c4', 'b4', 'a4', 'd5', 'd6', 'd7', 'd8',
                 'd3', 'd2', 'd1', 'e5', 'f6', 'g7', 'h8', 'c5', 'b6', 'a7', 'e3', 'f2', 'g1',
                 'c3', 'b2', 'a1']
@@ -454,7 +428,7 @@ describe('MoveLogic', () => {
 
             let moves = ['d5']
             jsonChessBoard.d4.piece = pawn
-            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn.color, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.d4.piece = null
         })
 
@@ -464,9 +438,8 @@ describe('MoveLogic', () => {
                 'color': 'white',
                 'currentPosition': 'd2'
             }
-
             let moves = ['d3', 'd4']
-            expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d2', pawn.color, jsonChessBoard)).toEqual(moves)
         })
 
         it('does not return d4 if the square is occupied', () => {
@@ -483,7 +456,10 @@ describe('MoveLogic', () => {
             }
 
             let moves = ['d3']
-            expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
+            jsonChessBoard.d4.piece = queen
+            expect(MoveLogic.movesForPawn('d2', pawn.color, jsonChessBoard)).toEqual(moves)
+
+            jsonChessBoard.d4.piece = null
         })
 
         it('returns an array of all moves for a pawn given a d7', () => {
@@ -493,25 +469,26 @@ describe('MoveLogic', () => {
                 'color': 'black',
                 'currentPosition': 'd7'
             }
-
-            expect(MoveLogic.movesForPawn('d7', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d7', pawn.color, jsonChessBoard)).toEqual(moves)
         })
 
-        xit('does not return d4 if the square is occupied', () => {
+        it('does not return d4 if the square is occupied', () => {
             let pawn = {
                 'type': 'pawn',
-                'color': 'white',
-                'currentPosition': 'd2'
+                'color': 'black',
+                'currentPosition': 'd7'
             }
 
             let queen = {
                 'type': 'queen',
-                'color': 'black',
-                'currentPosition': 'd4'
+                'color': 'white',
+                'currentPosition': 'd5'
             }
 
-            let moves = ['d3']
-            expect(MoveLogic.movesForPawn('d2', pawn, jsonChessBoard)).toEqual(moves)
+            let moves = ['d6']
+            jsonChessBoard.d5.piece = queen
+            expect(MoveLogic.movesForPawn('d7', pawn.color, jsonChessBoard)).toEqual(moves)
+            jsonChessBoard.d5.piece = null
         })
 
         it('returns additional moves if a white pawn can capture a piece on the left', () => {
@@ -532,7 +509,7 @@ describe('MoveLogic', () => {
             jsonChessBoard.c5.piece = blackPawn
             jsonChessBoard.d4.piece = pawn
 
-            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn.color, jsonChessBoard)).toEqual(moves)
 
             jsonChessBoard.c5.piece = null
             jsonChessBoard.d4.piece = null
@@ -556,7 +533,7 @@ describe('MoveLogic', () => {
             jsonChessBoard.c5.piece = whitePawn
             jsonChessBoard.d4.piece = pawn
 
-            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn.color, jsonChessBoard)).toEqual(moves)
 
             jsonChessBoard.c5.piece = null
             jsonChessBoard.d4.piece = null
@@ -580,10 +557,29 @@ describe('MoveLogic', () => {
             jsonChessBoard.c5.piece = whitePawn
             jsonChessBoard.d4.piece = pawn
 
-            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn.color, jsonChessBoard)).toEqual(moves)
 
             jsonChessBoard.c5.piece = null
             jsonChessBoard.d4.piece = null
+        })
+
+        it('does not return any moves if the pawn is blocked', () => {
+          let pawn = {
+              'type': 'pawn',
+              'color': 'black',
+              'currentPosition': 'd7'
+          }
+
+          let queen = {
+              'type': 'queen',
+              'color': 'white',
+              'currentPosition': 'd6'
+          }
+
+          let moves = []
+          jsonChessBoard.d6.piece = queen
+          expect(MoveLogic.movesForPawn('d7', pawn.color, jsonChessBoard)).toEqual(moves)
+          jsonChessBoard.d6.piece = null
         })
 
         it('returns additional moves if a white pawn can capture a piece on the right', () => {
@@ -605,7 +601,7 @@ describe('MoveLogic', () => {
             jsonChessBoard.d4.piece = pawn
             pawn.currentPosition = 'd4'
 
-            expect(MoveLogic.movesForPawn('d4', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('d4', pawn.color, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.e5.piece = null
             jsonChessBoard.d4.piece = null
         })
@@ -656,7 +652,7 @@ describe('MoveLogic', () => {
             blackPawn.currentPosition = 'e4'
             pawn.currentPosition = 'f5'
 
-            expect(MoveLogic.movesForPawn('f5', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('f5', pawn.color, jsonChessBoard)).toEqual(moves)
 
             jsonChessBoard.f5.piece = null
             jsonChessBoard.e4.piece = null
@@ -680,7 +676,7 @@ describe('MoveLogic', () => {
             jsonChessBoard.d4.piece = whitePawn
             jsonChessBoard.c5.piece = pawn
 
-            expect(MoveLogic.movesForPawn('c5', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('c5', pawn.color, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.d4.piece = null
             jsonChessBoard.c5.piece = null
         })
@@ -703,7 +699,7 @@ describe('MoveLogic', () => {
             jsonChessBoard.d4.piece = whitePawn
             jsonChessBoard.c5.piece = pawn
 
-            expect(MoveLogic.movesForPawn('c5', pawn, jsonChessBoard)).toEqual(moves)
+            expect(MoveLogic.movesForPawn('c5', pawn.color, jsonChessBoard)).toEqual(moves)
             jsonChessBoard.d4.piece = null
             jsonChessBoard.c5.piece = null
         })
@@ -713,4 +709,20 @@ describe('MoveLogic', () => {
         })
     })
 
+    describe('#oneForward', () => {
+      it('test', () => {
+
+      })
+    })
+
+    describe('#checkProximity', () => {
+      it('test', () => {
+
+      })
+    })
+    describe('#isOpen', () => {
+      it('test', () => {
+
+      })
+    })
 })

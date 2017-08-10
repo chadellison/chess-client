@@ -13,6 +13,10 @@ describe('App', () => {
         ReactDOM.render(<App />, div)
     })
 
+    it('has a moves state that begins with an empty array', () => {
+      expect(app.state().moves).toEqual([])
+    })
+
     it('has a chess board state with 64 positions', () => {
         expect(app.state().chessBoard).toEqual(jsonChessBoard)
         expect(Object.keys(app.state().chessBoard).length).toEqual(64)
@@ -255,7 +259,6 @@ describe('App', () => {
     })
 
     describe('#move', () => {
-
         it('can move to a different square', () => {
             const pawn = app.state().chessBoard.a7.piece
             app.state().selected = pawn
@@ -265,14 +268,28 @@ describe('App', () => {
             expect(app.state().chessBoard.a7.piece).toEqual(null)
 
             app.state().chessBoard.a6.piece = null
+            app.state().selected = null
+            app.state().moves = []
             app.state().chessBoard.a7.piece = {
-                'piece': {
-                    'type': 'pawn',
-                    'color': 'black',
-                    'currentPosition': 'a7',
-                    'possibleMoves': ['a6', 'a5']
-                }
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'a7'
             }
+        })
+
+        it('updates the state of the moves after every move', () => {
+          const pawn = app.state().chessBoard.a7.piece
+          app.state().selected = pawn
+          app.instance().move('a6')
+          expect(app.state().moves).toEqual([pawn])
+
+          app.state().moves = []
+          app.state().chessBoard.a6.piece = null
+          app.state().chessBoard.a7.piece = {
+              'type': 'pawn',
+              'color': 'black',
+              'currentPosition': 'a7'
+          }
         })
     })
 

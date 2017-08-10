@@ -10,6 +10,7 @@ class App extends Component {
         super()
         this.state = {
             chessBoard: jsonChessBoard,
+            moves: [],
             selected: null,
             signUpFormActive: false,
             signInFormActive: false,
@@ -33,23 +34,26 @@ class App extends Component {
     move(coordinate) {
         let updatedBoard = this.state.chessBoard
         let piece = this.state.selected
+        let updatedMoves = this.state.moves
 
         updatedBoard[piece.currentPosition].piece = null
-        piece.currentPosition = coordinate
         updatedBoard[coordinate].piece = piece
+        piece.currentPosition = coordinate
+        updatedMoves.push(piece)
 
         this.setState({
             chessBoard: updatedBoard,
-            selected: null
+            selected: null,
+            moves: updatedMoves
         })
     }
 
     handleUserSignUp() {
-        let body = JSON.stringify({email: this.state.email, password: this.state.password})
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         }
+        let body = JSON.stringify({email: this.state.email, password: this.state.password})
         fetch('http://localhost:8080/api/users',
             {
                 method: "POST",
@@ -72,11 +76,11 @@ class App extends Component {
     }
 
     handleUserSignIn() {
-        let body = JSON.stringify({email: this.state.email, password: this.state.password})
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
         }
+        let body = JSON.stringify({email: this.state.email, password: this.state.password})
         fetch('http://localhost:8080/api/authentication',
             {
                 method: "POST",
@@ -85,7 +89,6 @@ class App extends Component {
             })
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson)
                 this.setState({
                 token: responseJson.token,
                 signInFormActive: false,

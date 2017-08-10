@@ -95,27 +95,33 @@ class MoveLogic {
         }
 
         return moves
-
     }
 
-    static movesForPawn(position, pawn, board) {
+    static movesForPawn(position, color, board) {
         let moves = []
+        let nextSquare = this.oneForward(position, color)
 
-        if(pawn.color === 'white') {
-            moves.push(position[0] + (parseInt(position[1]) + 1))
-
-            if(position[1] === '2' && board[position[0] + '4'].piece) {
-                moves.push(position[0] + '4')
-            }
-
-        } else {
-            moves.push(position[0] + (parseInt(position[1]) - 1))
-
-            if(position[1] === '7' && board[position[0] + '5'].piece) {
-                moves.push(position[0] + '5')
-            }
+        if(this.isOpen(nextSquare, board)) {
+            moves.push(nextSquare)
         }
-        return moves.concat(this.checkProximity(position, board, pawn.color))
+
+        if(moves.length > 0 && this.isOpen(this.oneForward(nextSquare, color), board) && (position[1] === '2' || position[1] === '7')) {
+          moves.push(this.oneForward(nextSquare, color))
+        }
+
+        return moves.concat(this.checkProximity(position, board, color))
+    }
+
+    static oneForward(position, color) {
+      if(color === 'white') {
+        return position[0] + (parseInt(position[1]) + 1)
+      } else {
+        return position[0] + (parseInt(position[1]) - 1)
+      }
+    }
+
+    static isOpen(positionToCheck, board) {
+        return !board[positionToCheck].piece
     }
 
     static checkProximity(position, board, color) {

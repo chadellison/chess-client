@@ -75,17 +75,17 @@ class MoveLogic {
 
     static movesForKing(position) {
         let moves = [
-            position[0] + (parseInt(position[1]) - 1),
-            position[0] + (parseInt(position[1]) + 1),
+            position[0] + (parseInt(position[1], 10) - 1),
+            position[0] + (parseInt(position[1], 10) + 1),
             String.fromCharCode(position[0].charCodeAt(0) + 1) + position[1],
             String.fromCharCode(position[0].charCodeAt(0) - 1) + position[1],
-            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) + 1),
-            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1]) - 1),
-            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) + 1),
-            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1]) - 1)
+            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1], 10) + 1),
+            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1], 10) - 1),
+            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1], 10) + 1),
+            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1], 10) - 1)
 
         ].filter((coordinates) => {
-            return Object.keys(LETTER_KEY).includes(coordinates[0]) && Object.values(LETTER_KEY).includes(parseInt(coordinates[1]))
+            return Object.keys(LETTER_KEY).includes(coordinates[0]) && Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
         })
 
         if (position === 'e1' || position === 'e8') {
@@ -112,9 +112,9 @@ class MoveLogic {
 
     static oneForward(position, color) {
       if(color === 'white') {
-        return position[0] + (parseInt(position[1]) + 1)
+        return position[0] + (parseInt(position[1], 10) + 1)
       } else {
-        return position[0] + (parseInt(position[1]) - 1)
+        return position[0] + (parseInt(position[1], 10) - 1)
       }
     }
 
@@ -127,22 +127,23 @@ class MoveLogic {
         let toRight = String.fromCharCode(position[0].charCodeAt(0) + 1)
 
         if (color === 'white') {
-            toLeft += (parseInt(position[1]) + 1)
-            toRight += (parseInt(position[1]) + 1)
+            toLeft += (parseInt(position[1], 10) + 1)
+            toRight += (parseInt(position[1], 10) + 1)
         } else {
-            toLeft += (parseInt(position[1]) - 1)
-            toRight += (parseInt(position[1]) - 1)
+            toLeft += (parseInt(position[1], 10) - 1)
+            toRight += (parseInt(position[1], 10) - 1)
         }
 
         return [toLeft, toRight].filter((coordinates) => {
             return(
                 Object.keys(LETTER_KEY).includes(coordinates[0]) &&
-                Object.values(LETTER_KEY).includes(parseInt(coordinates[1]))
+                Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
             )
         }).filter((coordinates) => {
           if(board[coordinates].piece) {
               return board[coordinates].piece.color !== color
           }
+          return false
         })
     }
 
@@ -204,16 +205,16 @@ class MoveLogic {
             if (LETTER_KEY[coordinate]) {
                 return LETTER_KEY[coordinate]
             } else {
-                return parseInt(coordinate)
+                return parseInt(coordinate, 10)
             }
         })
     }
 
     static fetchVerticalMoves(startPosition, coordinates) {
-        let count = parseInt(startPosition[1]) - parseInt(coordinates[1])
+        let count = parseInt(startPosition[1], 10) - parseInt(coordinates[1], 10)
         let direction = count > 0 ? '-' : '+'
 
-        return this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1]))
+        return this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1], 10))
     }
 
     static fetchHorizontalMoves(startPosition, coordinates) {
@@ -228,7 +229,7 @@ class MoveLogic {
         let verticalDirection = endCoordinates[1] > startCoordinates[1] ? '+' : '-'
         let horizontalDirection = endCoordinates[0] > startCoordinates[0] ? '+' : '-'
 
-        return this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1]))
+        return this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1], 10))
     }
 
     static validMovePath(startPosition, coordinates, currentBoard) {

@@ -41,7 +41,7 @@ class Board extends Component {
       if(LETTER_KEY[character]) {
         character = LETTER_KEY[character]
       }
-      return value + parseInt(character)
+      return value + parseInt(character, 10)
     }, 0)
 
     return sum % 2 === 0 ? 'white' : 'black'

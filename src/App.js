@@ -32,7 +32,7 @@ class App extends Component {
     }
 
     isValid(coordinates) {
-        let board = this.state.chessBoard
+        const board = this.state.chessBoard
         let piece = this.state.selected
         let kingLocation = Object.values(board).filter((square) => {
           return(
@@ -66,7 +66,7 @@ class App extends Component {
               moves: updatedMoves
             })
         } else {
-            alert('invalid move')
+            console.log('invalid move')
         }
         this.setState({
           selected: null

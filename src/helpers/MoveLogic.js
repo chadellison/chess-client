@@ -265,37 +265,42 @@ class MoveLogic {
     static kingIsSafe(piece, nextMove, chessBoard, kingLocation) {
         let result = true
 
-        let opponentColor = piece.color === 'white' ? 'black' : 'white'
         chessBoard[piece.currentPosition].piece = null
         chessBoard[nextMove].piece = piece
 
         let opponentPieces = Object.values(chessBoard)
             .map((square) => square.piece)
             .filter((piece) => piece)
-            .filter((piece) => piece.color === opponentColor)
-
-        let movesForPieces = {
-          pawn: this.movesForPawn(piece.currentPosition, opponentColor, chessBoard),
-          knight: this.movesForKnight(piece.currentPosition),
-          bishop: this.movesForBishop(piece.currentPosition),
-          rook: this.movesForRook(piece.currentPosition),
-          queen: this.movesForRook(piece.currentPosition),
-          king: []
-        }
+            .filter((piece) => piece.color === this.opponentColor(piece))
 
         opponentPieces.forEach((piece) => {
-            if(movesForPieces[piece.type].includes(kingLocation) &&
-                this.validMovePath(piece.currentPosition, kingLocation, chessBoard &&
-                this.validateDestination(piece.currentPosition, kingLocation, chessBoard))) {
-                  result = false
+            if(this.inCheck(piece, kingLocation, chessBoard)) {
+              result = false
             }
         })
         return result
     }
 
-    // static inCheck() {
-    //
-    // }
+    static opponentColor(piece) {
+        return piece.color === 'white' ? 'black' : 'white'
+    }
+
+    static inCheck(piece, kingLocation, chessBoard) {
+      return this.movesForPiece(piece, chessBoard)[piece.type].includes(kingLocation) &&
+          this.validMovePath(piece.currentPosition, kingLocation, chessBoard &&
+          this.validateDestination(piece.currentPosition, kingLocation, chessBoard))
+    }
+
+    static movesForPiece(piece, chessBoard) {
+      return {
+        pawn: this.movesForPawn(piece.currentPosition, this.opponentColor(piece), chessBoard),
+        knight: this.movesForKnight(piece.currentPosition),
+        bishop: this.movesForBishop(piece.currentPosition),
+        rook: this.movesForRook(piece.currentPosition),
+        queen: this.movesForRook(piece.currentPosition),
+        king: []
+      }
+    }
 }
 
 

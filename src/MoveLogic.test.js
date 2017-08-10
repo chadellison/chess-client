@@ -745,23 +745,35 @@ describe('MoveLogic', () => {
         })
 
         xit('returns additional moves for en passant if applicable', () => {
-
+          
         })
     })
 
     describe('#oneForward', () => {
-      it('test', () => {
+        xit('test', () => {
 
-      })
+        })
     })
 
     describe('#checkProximity', () => {
-      it('test', () => {
+        xit('test', () => {
 
-      })
+        })
     })
     describe('#isOpen', () => {
-      it('test', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#opponentColor', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#movesForPiece', () => {
+      xit('test', () => {
 
       })
     })

@@ -353,11 +353,12 @@ describe('App', () => {
     describe('#handleSelected', () => {
         beforeEach(() => {
             app.state().selected = null
+            app.state().turn = 'white'
         })
 
-        it('sets the state of selected to the selected object', () => {
-            app.instance().handleSelected('e1')
-            expect(app.state().selected).toEqual(app.state().chessBoard.e1.piece)
+        it.only('sets the state of selected to the selected object', () => {
+            app.instance().handleSelected('e2')
+            expect(app.state().selected).toEqual(app.state().chessBoard.e2.piece)
         })
 
         it('maintains the state of the current selected object when another object is clicked', () => {
@@ -370,6 +371,12 @@ describe('App', () => {
             app.instance().handleSelected('e1')
             app.instance().handleSelected('e1')
             expect(app.state().selected).toEqual(null)
+        })
+
+        it('does not allow a piece to be selected if it is not the turn of that piece', () => {
+          app.state().turn = 'white'
+          app.instance().handleSelected('e7')
+          expect(app.state().selected).toEqual(null)
         })
     })
 

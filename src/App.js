@@ -136,18 +136,19 @@ class App extends Component {
                 email: '',
                 password: ''
             }))
-
     }
 
     handleSelected(id) {
-        if (!this.state.selected) {
-            this.setState({
-                selected: this.state.chessBoard[id].piece
-            })
-        } else if (this.state.selected === this.state.chessBoard[id].piece) {
-            this.setState({
-                selected: null
-            })
+        if(this.state.chessBoard[id].piece.color === this.state.turn) {
+            if (!this.state.selected) {
+                this.setState({
+                    selected: this.state.chessBoard[id].piece
+                })
+            } else if (this.state.selected === this.state.chessBoard[id].piece) {
+                this.setState({
+                    selected: null
+                })
+            }
         }
     }
 

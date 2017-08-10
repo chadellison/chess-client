@@ -31,20 +31,46 @@ class App extends Component {
         this.move = this.move.bind(this)
     }
 
-    move(coordinate) {
-        let updatedBoard = this.state.chessBoard
+    isValid(coordinates) {
+        let board = this.state.chessBoard
         let piece = this.state.selected
-        let updatedMoves = this.state.moves
+        let kingLocation = Object.values(board).filter((square) => {
+          return(
 
-        updatedBoard[piece.currentPosition].piece = null
-        updatedBoard[coordinate].piece = piece
-        piece.currentPosition = coordinate
-        updatedMoves.push(piece)
+              square.piece &&
+              square.piece.type === 'king' &&
+              square.piece.color === piece.color
+            )
+        })[0].piece.currentPosition
 
+        return(
+            MoveLogic.movesForPiece(piece, board)[piece.type].includes(coordinates) &&
+            MoveLogic.validMovePath(piece.currentPosition, coordinates, board) &&
+            MoveLogic.validateDestination(piece, coordinates, board) &&
+            MoveLogic.kingIsSafe(piece, coordinates, board, kingLocation)
+        )
+    }
+
+    move(coordinates) {
+        if(this.isValid(coordinates)) {
+            let updatedBoard = this.state.chessBoard
+            let piece = this.state.selected
+            let updatedMoves = this.state.moves
+
+            updatedBoard[piece.currentPosition].piece = null
+            updatedBoard[coordinates].piece = piece
+            piece.currentPosition = coordinates
+            updatedMoves.push(piece)
+
+            this.setState({
+              chessBoard: updatedBoard,
+              moves: updatedMoves
+            })
+        } else {
+            alert('invalid move')
+        }
         this.setState({
-            chessBoard: updatedBoard,
-            selected: null,
-            moves: updatedMoves
+          selected: null
         })
     }
 
@@ -139,7 +165,6 @@ class App extends Component {
                 messageToUser: ''
             })
         }
-
     }
 
     handleLogout() {

@@ -316,6 +316,12 @@ describe('App', () => {
         })
     })
 
+    describe('#isValid', () => {
+      xit('#test', () => {
+
+      })
+    })
+
     describe('#handleSignUpForm', () => {
         xit('#test', () => {
 

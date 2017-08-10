@@ -49,8 +49,7 @@ class MoveLogic {
     }
 
     static movesForQueen(position) {
-        return this.movesForRook(position)
-            .concat(this.movesForBishop(position))
+        return this.movesForRook(position).concat(this.movesForBishop(position))
     }
 
     static movesForKnight(position) {
@@ -100,7 +99,6 @@ class MoveLogic {
     static movesForPawn(position, color, board) {
         let moves = []
         let nextSquare = this.oneForward(position, color)
-
         if(this.isOpen(nextSquare, board)) {
             moves.push(nextSquare)
         }
@@ -136,8 +134,15 @@ class MoveLogic {
             toRight += (parseInt(position[1]) - 1)
         }
 
-        return [toLeft, toRight].filter((coordinate) => {
-            return (board[coordinate].piece && board[coordinate].piece.color !== color)
+        return [toLeft, toRight].filter((coordinates) => {
+            return(
+                Object.keys(LETTER_KEY).includes(coordinates[0]) &&
+                Object.values(LETTER_KEY).includes(parseInt(coordinates[1]))
+            )
+        }).filter((coordinates) => {
+          if(board[coordinates].piece) {
+              return board[coordinates].piece.color !== color
+          }
         })
     }
 
@@ -264,15 +269,16 @@ class MoveLogic {
 
     static kingIsSafe(piece, nextMove, chessBoard, kingLocation) {
         let result = true
-
+        let opponentColor = this.opponentColor(piece)
         chessBoard[piece.currentPosition].piece = null
         chessBoard[nextMove].piece = piece
 
         let opponentPieces = Object.values(chessBoard)
             .map((square) => square.piece)
             .filter((piece) => piece)
-            .filter((piece) => piece.color === this.opponentColor(piece))
-
+            .filter((piece) => {
+                return (piece.color === opponentColor && piece.type !== 'king')
+            })
         opponentPieces.forEach((piece) => {
             if(this.inCheck(piece, kingLocation, chessBoard)) {
               result = false
@@ -293,12 +299,12 @@ class MoveLogic {
 
     static movesForPiece(piece, chessBoard) {
       return {
-        pawn: this.movesForPawn(piece.currentPosition, this.opponentColor(piece), chessBoard),
+        pawn: this.movesForPawn(piece.currentPosition, piece.color, chessBoard),
         knight: this.movesForKnight(piece.currentPosition),
         bishop: this.movesForBishop(piece.currentPosition),
         rook: this.movesForRook(piece.currentPosition),
-        queen: this.movesForRook(piece.currentPosition),
-        king: []
+        queen: this.movesForQueen(piece.currentPosition),
+        king: this.movesForKing(piece.currentPosition)
       }
     }
 }

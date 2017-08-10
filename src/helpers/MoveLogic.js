@@ -234,7 +234,6 @@ class MoveLogic {
     static validMovePath(startPosition, coordinates, currentBoard) {
         let valid = true
         let moves = []
-console.log(currentBoard)
         if (startPosition[0] === coordinates[0]) {
             moves = this.fetchVerticalMoves(startPosition, coordinates)
         }
@@ -255,7 +254,6 @@ console.log(currentBoard)
                 valid = false
             }
         })
-
         return valid
     }
 
@@ -279,9 +277,11 @@ console.log(currentBoard)
             .filter((piece) => {
                 return (piece.color === opponentColor && piece.type !== 'king')
             })
-        opponentPieces.forEach((piece) => {
-            if(this.inCheck(piece, kingLocation, chessBoard)) {
+        opponentPieces.forEach((eachPiece) => {
+            if(this.inCheck(eachPiece, kingLocation, chessBoard)) {
               result = false
+              chessBoard[piece.currentPosition].piece = piece
+              chessBoard[nextMove].piece = null
             }
         })
         return result

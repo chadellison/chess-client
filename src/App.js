@@ -3,6 +3,7 @@ import './styles/App.css'
 import jsonChessBoard from './jsonChessBoard'
 import Board from './components/Board.js'
 import MoveLogic from './helpers/MoveLogic'
+import MoveLog from './components/MoveLog'
 import SignUpForm from './components/SignUpForm'
 
 class App extends Component {
@@ -20,7 +21,8 @@ class App extends Component {
             loggedIn: '',
             messageToUser: '',
             hashedEmail: '',
-            turn: 'white'
+            turn: 'white',
+            moveLogActive: false
         }
         this.handleSelected = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
@@ -31,6 +33,7 @@ class App extends Component {
         this.handleLogout = this.handleLogout.bind(this)
         this.move = this.move.bind(this)
         this.handleReset = this.handleReset.bind(this)
+        this.handleMoveLog = this.handleMoveLog.bind(this)
     }
 
     isValid(coordinates) {
@@ -190,6 +193,20 @@ class App extends Component {
         this.setState({password: event.target.value})
     }
 
+    handleMoveLog() {
+        this.setState({
+          moveLogActive: !this.state.moveLogActive
+        })
+    }
+
+    handleReset() {
+        this.setState({
+            chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+            moves: [],
+            turn: 'white'
+        })
+    }
+
     get signUpForm() {
         if (this.state.signUpFormActive || this.state.signInFormActive) {
             return <SignUpForm
@@ -208,14 +225,6 @@ class App extends Component {
 
     }
 
-    handleReset() {
-        this.setState({
-            chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-            moves: [],
-            turn: 'white'
-        })
-    }
-
     get buttons() {
         let buttons
         if(this.state.signUpFormActive || this.state.signInFormActive) {
@@ -230,7 +239,18 @@ class App extends Component {
                 </div>
             )
         }
+
         return buttons
+    }
+
+    get moveLog() {
+      let moveLog
+      if(this.state.moveLogActive) {
+          moveLog = <MoveLog cancelMoveLog={this.handleMoveLog} moves={this.state.moves}/>
+      } else {
+          moveLog = <button onClick={this.handleMoveLog}>Move Log</button>
+      }
+      return moveLog
     }
 
     render() {
@@ -238,15 +258,18 @@ class App extends Component {
             <div className='App container-fluid'>
                 {this.buttons}
                 {this.signUpForm}
+                {this.moveLog}
                 <div className="user-header">
                     {this.state.messageToUser}
-                    { this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
+                    {this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
                 </div>
+
                 <Board chessBoard={this.state.chessBoard}
-                       handleSelected={this.handleSelected}
-                       isSelected={this.state.selected}
-                       move={this.move}
+                    handleSelected={this.handleSelected}
+                    isSelected={this.state.selected}
+                    move={this.move}
                 />
+
                 <button onClick={this.handleReset}>Reset</button>
             </div>
         )

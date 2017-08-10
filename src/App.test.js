@@ -414,4 +414,18 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleMoveLog', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#moveLog', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+
 })

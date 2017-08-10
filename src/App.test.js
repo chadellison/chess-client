@@ -408,4 +408,10 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleReset', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

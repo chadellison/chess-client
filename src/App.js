@@ -9,7 +9,7 @@ class App extends Component {
     constructor() {
         super()
         this.state = {
-            chessBoard: jsonChessBoard,
+            chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
             moves: [],
             selected: null,
             signUpFormActive: false,
@@ -30,6 +30,7 @@ class App extends Component {
         this.handleUserSignUp = this.handleUserSignUp.bind(this)
         this.handleLogout = this.handleLogout.bind(this)
         this.move = this.move.bind(this)
+        this.handleReset = this.handleReset.bind(this)
     }
 
     isValid(coordinates) {
@@ -207,6 +208,14 @@ class App extends Component {
 
     }
 
+    handleReset() {
+        this.setState({
+            chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+            moves: [],
+            turn: 'white'
+        })
+    }
+
     get buttons() {
         let buttons
         if(this.state.signUpFormActive || this.state.signInFormActive) {
@@ -238,6 +247,7 @@ class App extends Component {
                        isSelected={this.state.selected}
                        move={this.move}
                 />
+                <button onClick={this.handleReset}>Reset</button>
             </div>
         )
     }

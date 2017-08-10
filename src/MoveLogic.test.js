@@ -393,14 +393,54 @@ describe('MoveLogic', () => {
     })
 
     describe('#kingIsSafe', () => {
-        xit('returns true if the king is not in check after the move', () => {
+        it.only('returns true if the king is not in check after the move', () => {
+            const queen = {
+                'type': 'queen',
+                'color': 'white',
+                'currentPosition': 'd4'
+            }
 
+            jsonChessBoard.d4.piece = queen
+            expect(MoveLogic.kingIsSafe(queen, 'd5', jsonChessBoard, 'e1')).toEqual(true)
+            jsonChessBoard.d4.piece = null
         })
 
-        xit('returns false if the king is in check after the move', () => {
+        it('returns false if the king is in check after the move', () => {
+          const queen = {
+              'type': 'queen',
+              'color': 'white',
+              'currentPosition': 'e4'
+          }
 
+          const king = {
+              'type': 'king',
+              'color': 'white',
+              'currentPosition': 'e3'
+          }
+
+          const blackQueen = {
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'e6'
+          }
+
+          jsonChessBoard.e4.piece = queen
+          jsonChessBoard.e3.piece = king
+          jsonChessBoard.e6.piece = blackQueen
+
+          expect(MoveLogic.kingIsSafe(queen, 'd5', jsonChessBoard, king.currentPosition)).toEqual(false)
+          jsonChessBoard.e4.piece = null
+          jsonChessBoard.e3.piece = null
+          jsonChessBoard.e6.piece = null
         })
     })
+
+    describe('#inCheck', () => {
+      xit('#test', () => {
+
+      })
+    })
+
     describe('#movesForKing', () => {
         it('returns an array of all of a kings moves on an open board, given a coordinate', () => {
             let moves = ['d3', 'd5', 'e4', 'c4', 'e5', 'e3', 'c5', 'c3']

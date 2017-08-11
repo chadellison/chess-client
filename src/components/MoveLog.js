@@ -10,7 +10,7 @@ class MoveLog extends Component {
         return(
           <div>
               {this.moves}
-              <button onClick={this.props.cancelMoveLog}>Cancel</button>
+              <button onClick={this.props.cancelMoveLog}>Hide</button>
           </div>
         )
     }

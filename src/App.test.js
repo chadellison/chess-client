@@ -427,5 +427,9 @@ describe('App', () => {
         })
     })
 
+    describe('#checkEnPassant', () => {
+        xit('#test', () => {
 
+        })
+    })
 })

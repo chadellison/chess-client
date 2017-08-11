@@ -44,7 +44,7 @@ class App extends Component {
               square.piece &&
               square.piece.type === 'king' &&
               square.piece.color === piece.color
-            )
+          )
         })[0].piece.currentPosition
 
         return(
@@ -57,25 +57,35 @@ class App extends Component {
 
     move(coordinates) {
         if(this.isValid(coordinates)) {
-            let updatedBoard = this.state.chessBoard
+            let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
             let piece = this.state.selected
             let updatedMoves = this.state.moves
-
+            this.checkEnPassant(coordinates, updatedBoard)
             updatedBoard[piece.currentPosition].piece = null
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
             updatedMoves.push(piece)
             this.setState({
-              chessBoard: updatedBoard,
-              moves: updatedMoves,
-              turn: this.updateTurn()
+                chessBoard: updatedBoard,
+                moves: updatedMoves,
+                turn: this.updateTurn(),
+                messageToUser: ''
             })
         } else {
-            console.log('invalid move')
+            console.log('Invalid Move')
         }
         this.setState({
             selected: null
         })
+    }
+
+    checkEnPassant(coordinates, updatedBoard) {
+        let piece = this.state.selected
+        if(coordinates[0] !== piece.currentPosition[0] &&
+            !this.state.chessBoard[coordinates].piece &&
+            piece.type === 'pawn') {
+              updatedBoard[coordinates[0] + piece.currentPosition[1]].piece = null
+        }
     }
 
     updateTurn() {
@@ -153,6 +163,8 @@ class App extends Component {
                     selected: null
                 })
             }
+        } else {
+            console.log(`${this.state.turn}'s turn`)
         }
     }
 

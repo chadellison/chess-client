@@ -68,10 +68,13 @@ class App extends Component {
             this.setState({
                 chessBoard: updatedBoard,
                 moves: updatedMoves,
-                turn: this.updateTurn()
+                turn: this.updateTurn(),
+                messageToUser: ''
             })
         } else {
-            console.log('invalid move')
+            this.setState({
+                messageToUser: 'Invalid Move'
+            })
         }
         this.setState({
             selected: null
@@ -162,6 +165,10 @@ class App extends Component {
                     selected: null
                 })
             }
+        } else {
+          this.setState({
+              messageToUser: `${this.state.turn}'s turn`
+          })
         }
     }
 

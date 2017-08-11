@@ -57,18 +57,18 @@ class App extends Component {
 
     move(coordinates) {
         if(this.isValid(coordinates)) {
-            let updatedBoard = this.state.chessBoard
+            let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
             let piece = this.state.selected
             let updatedMoves = this.state.moves
-
+            this.checkEnPassant(coordinates, updatedBoard)
             updatedBoard[piece.currentPosition].piece = null
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
             updatedMoves.push(piece)
             this.setState({
-              chessBoard: updatedBoard,
-              moves: updatedMoves,
-              turn: this.updateTurn()
+                chessBoard: updatedBoard,
+                moves: updatedMoves,
+                turn: this.updateTurn()
             })
         } else {
             console.log('invalid move')
@@ -76,6 +76,15 @@ class App extends Component {
         this.setState({
             selected: null
         })
+    }
+
+    checkEnPassant(coordinates, updatedBoard) {
+        let piece = this.state.selected
+        if(coordinates[0] !== piece.currentPosition[0] &&
+            !this.state.chessBoard[coordinates].piece &&
+            piece.type === 'pawn') {
+              updatedBoard[coordinates[0] + piece.currentPosition[1]].piece = null
+        }
     }
 
     updateTurn() {

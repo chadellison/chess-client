@@ -88,7 +88,7 @@ class App extends Component {
             'Content-Type': 'application/json'
         }
         let body = JSON.stringify({email: this.state.email, password: this.state.password})
-        fetch('http://localhost:8080/api/users',
+        fetch('http://localhost:8080/api/v1/users',
             {
                 method: "POST",
                 headers: headers,

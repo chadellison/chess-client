@@ -44,7 +44,7 @@ class App extends Component {
               square.piece &&
               square.piece.type === 'king' &&
               square.piece.color === piece.color
-            )
+          )
         })[0].piece.currentPosition
 
         return(
@@ -72,9 +72,7 @@ class App extends Component {
                 messageToUser: ''
             })
         } else {
-            this.setState({
-                messageToUser: 'Invalid Move'
-            })
+            console.log('Invalid Move')
         }
         this.setState({
             selected: null
@@ -166,9 +164,7 @@ class App extends Component {
                 })
             }
         } else {
-          this.setState({
-              messageToUser: `${this.state.turn}'s turn`
-          })
+            console.log(`${this.state.turn}'s turn`)
         }
     }
 

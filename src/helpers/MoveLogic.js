@@ -8,64 +8,64 @@ class MoveLogic {
         this.destination = destination
     }
 
-    movesLeft() {
+    movesLeft(position = this.position) {
         let moves = []
-        let column = this.position[0]
+        let column = position[0]
 
         while(column !== 'a') {
             column = String.fromCharCode(column.charCodeAt(0) - 1)
-            moves.push(column + this.position[1])
+            moves.push(column + position[1])
         }
         return moves
     }
 
-    movesRight() {
+    movesRight(position = this.position) {
         let moves = []
-        let column = this.position[0]
+        let column = position[0]
 
         while(column !== 'h') {
             column = String.fromCharCode(column.charCodeAt(0) + 1)
-            moves.push(column + this.position[1])
+            moves.push(column + position[1])
         }
         return moves
     }
 
-    movesUp() {
+    movesUp(position = this.position) {
         let moves = []
-        let row = parseInt(this.position[1], 10)
+        let row = parseInt(position[1], 10)
 
         while(row !== 8) {
             row += 1
-            moves.push(this.position[0] + row)
+            moves.push(position[0] + row)
         }
         return moves
     }
 
-    movesDown() {
+    movesDown(position = this.position) {
         let moves = []
-        let row = parseInt(this.position[1], 10)
+        let row = parseInt(position[1], 10)
 
         while(row !== 1) {
             row -= 1
-            moves.push(this.position[0] + row)
+            moves.push(position[0] + row)
         }
         return moves
     }
 
-    movesForRook() {
-        return this.movesLeft()
-            .concat(this.movesRight())
-            .concat(this.movesUp())
-            .concat(this.movesDown())
+    movesForRook(position = this.position) {
+        return this.movesLeft(position)
+            .concat(this.movesRight(position))
+            .concat(this.movesUp(position))
+            .concat(this.movesDown(position))
     }
 
-    movesForBishop() {
+    movesForBishop(position = this.position) {
         let moves = []
         let count = 0
-        let movesRight = this.movesRight()
-        let movesLeft = this.movesLeft()
-        let movesUp = this.movesUp()
-        let movesDown = this.movesDown()
+        let movesRight = this.movesRight(position)
+        let movesLeft = this.movesLeft(position)
+        let movesUp = this.movesUp(position)
+        let movesDown = this.movesDown(position)
 
         while (count < 7) {
             moves.push(movesRight[count] + movesUp[count])
@@ -78,8 +78,8 @@ class MoveLogic {
             .map((coordinates) => coordinates[0] + coordinates[3])
     }
 
-    movesForQueen() {
-        return this.movesForRook().concat(this.movesForBishop())
+    movesForQueen(position = this.position) {
+        return this.movesForRook(position).concat(this.movesForBishop(position))
     }
 
     movesForKnight(position) {
@@ -200,30 +200,28 @@ class MoveLogic {
         })
     }
 
-    validMovePath() {
+    validMovePath(position = this.position, destination = this.destination, board = this.board) {
         let result = true
         let moves = []
-        let columnMin = this.position[0] < this.destination[0] ? this.position[0] : this.destination[0]
-        let columnMax = this.position[0] > this.destination[0] ? this.position[0] : this.destination[0]
-        let rowMin = this.position[1] < this.destination[1] ? this.position[1] : this.destination[1]
-        let rowMax = this.position[1] > this.destination[1] ? this.position[1] : this.destination[1]
+        let columnMin = position[0] < destination[0] ? position[0] : destination[0]
+        let columnMax = position[0] > destination[0] ? position[0] : destination[0]
+        let rowMin = position[1] < destination[1] ? position[1] : destination[1]
+        let rowMax = position[1] > destination[1] ? position[1] : destination[1]
 
-        if(this.position[0] === this.destination[0]) {
+        if (position[0] === destination[0]) {
             moves = this.movesUp().concat(this.movesDown()).filter((move) => {
                 return move[1] < rowMax && move[1] > rowMin
             })
         }
 
-        if(this.position[1] === this.destination[1]) {
+        if (position[1] === destination[1]) {
             moves = this.movesLeft().concat(this.movesRight()).filter((move) => {
                 return move[0] < columnMax && move[0] > columnMin
             })
         }
 
-        if (Math.abs(LETTER_KEY[this.position[0]] - LETTER_KEY[this.destination[0]]) === Math.abs(this.position[1] - this.destination[1])) {
+        if (Math.abs(LETTER_KEY[position[0]] - LETTER_KEY[destination[0]]) === Math.abs(position[1] - destination[1])) {
             moves = this.movesForBishop().filter((move) => {
-                let columnValue = move[0]
-                let rowValue = move[1]
                 return move[0] < columnMax &&
                         move[0] > columnMin &&
                         move[1] < rowMax &&
@@ -238,9 +236,9 @@ class MoveLogic {
         return result
     }
 
-    validateDestination(selected, destination, chessBoard) {
-        if (chessBoard[destination].piece) {
-            return !(selected.color === chessBoard[destination].piece.color)
+    validateDestination() {
+        if (this.board[this.destination].piece) {
+            return this.piece.color !== this.board[this.destination].piece.color
         } else {
             return true
         }
@@ -253,13 +251,13 @@ class MoveLogic {
         updatedBoard[piece.currentPosition].piece = null
         updatedBoard[nextMove].piece = piece
 
-
         let opponentPieces = Object.values(updatedBoard)
             .map((square) => square.piece)
             .filter((piece) => piece)
             .filter((piece) => {
                 return (piece.color === opponentColor && piece.type !== 'king')
             })
+
         opponentPieces.forEach((eachPiece) => {
             if(this.inCheck(eachPiece, kingLocation, updatedBoard, gameMoves)) {
               result = false
@@ -273,11 +271,11 @@ class MoveLogic {
     }
 
     inCheck(piece, kingLocation, chessBoard, gameMoves) {
-      return(
-          this.movesForPiece(piece, chessBoard, gameMoves)[piece.type].includes(kingLocation) &&
-          this.validMovePath(piece.currentPosition, kingLocation, chessBoard) &&
-          this.validateDestination(piece.currentPosition, kingLocation, chessBoard)
-      )
+        return(
+            this.movesForPiece(piece, chessBoard, gameMoves)[piece.type].includes(kingLocation) &&
+            this.validMovePath(piece.currentPosition, kingLocation, chessBoard) &&
+            this.validateDestination(piece.currentPosition, kingLocation, chessBoard)
+        )
     }
 
     movesForPiece(piece, chessBoard, gameMoves) {

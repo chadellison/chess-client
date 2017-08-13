@@ -37,7 +37,7 @@ class App extends Component {
     }
 
     isValid(coordinates) {
-        const board = this.state.chessBoard
+        let board = this.state.chessBoard
         let piece = this.state.selected
         let kingLocation = Object.values(board).filter((square) => {
           return(
@@ -46,7 +46,7 @@ class App extends Component {
               square.piece.color === piece.color
           )
         })[0].piece.currentPosition
-            let moveLogic = new MoveLogic()
+            let moveLogic = new MoveLogic(piece, board, coordinates)
         return(
             moveLogic.movesForPiece(piece, board, this.state.moves)[piece.type].includes(coordinates) &&
             moveLogic.validMovePath(piece.currentPosition, coordinates, board) &&

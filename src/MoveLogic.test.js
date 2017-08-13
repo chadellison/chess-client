@@ -423,39 +423,42 @@ describe('MoveLogic', () => {
     })
 
     describe('#validateDestination', () => {
-        xit('returns false if the destination is occuppied by an allied piece', () => {
-            const bishop = {
+        it('returns false if the destination is occuppied by an allied piece', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'white',
                 'currentPosition': 'c1'
             }
-            expect(MoveLogic.validateDestination(bishop, 'd2', jsonChessBoard)).toEqual(false)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'd2')
+
+            expect(moveLogic.validateDestination()).toEqual(false)
         })
 
-        xit('returns true if the destination is an enemy piece', () => {
-            const bishop = {
+        it('returns true if the destination is an enemy piece', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'white',
                 'currentPosition': 'a6'
             }
 
-            jsonChessBoard.a6.piece = bishop
-            expect(MoveLogic.validateDestination(bishop, 'b7', jsonChessBoard)).toEqual(true)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'b7')
 
-            jsonChessBoard.a6.piece = null
+            expect(moveLogic.validateDestination(bishop, 'b7', jsonChessBoard)).toEqual(true)
         })
 
-        xit('returns true if the destination is an empty square', () => {
-            const bishop = {
+        it('returns true if the destination is an empty square', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'white',
                 'currentPosition': 'a6'
             }
 
-            jsonChessBoard.a6.piece = bishop
-            expect(MoveLogic.validateDestination(bishop, 'b5', jsonChessBoard)).toEqual(true)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'b5')
 
-            jsonChessBoard.a6.piece = null
+            expect(moveLogic.validateDestination()).toEqual(true)
         })
     })
 

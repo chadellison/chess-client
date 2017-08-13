@@ -1,58 +1,88 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
 class MoveLogic {
-    static moveCount(position) {
-        let coordinates = this.convertCoordinates(position)
-        let lettersToRight = 8 - coordinates[0]
-        let lettersToLeft = 7 - lettersToRight
-        let numbersUp = 8 - coordinates[1]
-        let numbersDown = 7 - numbersUp
+    constructor(piece, board, destination) {
+        this.piece = piece
+        this.board = board
+        this.position = piece.currentPosition
+        this.destination = destination
+    }
 
-        return {
-            right: lettersToRight,
-            left: lettersToLeft,
-            up: numbersUp,
-            down: numbersDown
+    movesLeft() {
+        let moves = []
+        let column = this.position[0]
+
+        while(column !== 'a') {
+            column = String.fromCharCode(column.charCodeAt(0) - 1)
+            moves.push(column + this.position[1])
         }
+        return moves
     }
 
-    static movesForRook(position) {
-        let possibleMoves = []
+    movesRight() {
+        let moves = []
+        let column = this.position[0]
 
-        let right = this.moveCount(position).right
-        let left = this.moveCount(position).left
-        let up = this.moveCount(position).up
-        let down = this.moveCount(position).down
-
-        return possibleMoves.concat(this.rightAndLeft(right, position[0], '+', position[1]))
-            .concat(this.rightAndLeft(left, position[0], '-', position[1]))
-            .concat(this.upAndDown(up, position[0], '+', this.convertCoordinates(position)[1]))
-            .concat(this.upAndDown(down, position[0], '-', this.convertCoordinates(position)[1]))
+        while(column !== 'h') {
+            column = String.fromCharCode(column.charCodeAt(0) + 1)
+            moves.push(column + this.position[1])
+        }
+        return moves
     }
 
-    static movesForBishop(position) {
-        let possibleMoves = []
+    movesUp() {
+        let moves = []
+        let row = parseInt(this.position[1], 10)
 
-        let coordinates = this.convertCoordinates(position)
-
-        let right = this.moveCount(position).right
-        let left = this.moveCount(position).left
-        let up = this.moveCount(position).up
-        let down = this.moveCount(position).down
-
-        this.convertCoordinates(position)
-
-        return possibleMoves.concat(this.diagonal(this.lesserPosition(right, up), '+', '+', position[0], coordinates[1]))
-            .concat(this.diagonal(this.lesserPosition(left, up), '+', '-', position[0], coordinates[1]))
-            .concat(this.diagonal(this.lesserPosition(right, down), '-', '+', position[0], coordinates[1]))
-            .concat(this.diagonal(this.lesserPosition(left, down), '-', '-', position[0], coordinates[1]))
+        while(row !== 8) {
+            row += 1
+            moves.push(this.position[0] + row)
+        }
+        return moves
     }
 
-    static movesForQueen(position) {
-        return this.movesForRook(position).concat(this.movesForBishop(position))
+    movesDown() {
+        let moves = []
+        let row = parseInt(this.position[1], 10)
+
+        while(row !== 1) {
+            row -= 1
+            moves.push(this.position[0] + row)
+        }
+        return moves
     }
 
-    static movesForKnight(position) {
+    movesForRook() {
+        return this.movesLeft()
+            .concat(this.movesRight())
+            .concat(this.movesUp())
+            .concat(this.movesDown())
+    }
+
+    movesForBishop() {
+        let moves = []
+        let count = 0
+        let movesRight = this.movesRight()
+        let movesLeft = this.movesLeft()
+        let movesUp = this.movesUp()
+        let movesDown = this.movesDown()
+
+        while (count < 7) {
+            moves.push(movesRight[count] + movesUp[count])
+            moves.push(movesLeft[count] + movesUp[count])
+            moves.push(movesLeft[count] + movesDown[count])
+            moves.push(movesRight[count] + movesDown[count])
+            count += 1
+        }
+        return moves.filter((move) => move && move.length === 4)
+            .map((coordinates) => coordinates[0] + coordinates[3])
+    }
+
+    movesForQueen() {
+        return this.movesForRook().concat(this.movesForBishop())
+    }
+
+    movesForKnight(position) {
         let coordinates = this.convertCoordinates(position)
 
         return [
@@ -73,7 +103,7 @@ class MoveLogic {
 
     }
 
-    static movesForKing(position) {
+    movesForKing(position) {
         let moves = [
             position[0] + (parseInt(position[1], 10) - 1),
             position[0] + (parseInt(position[1], 10) + 1),
@@ -96,7 +126,7 @@ class MoveLogic {
         return moves
     }
 
-    static movesForPawn(position, color, board, gameMoves) {
+    movesForPawn(position, color, board, gameMoves) {
         let moves = []
         let nextSquare = this.oneForward(position, color)
         if(this.isOpen(nextSquare, board)) {
@@ -109,7 +139,7 @@ class MoveLogic {
         return moves.concat(this.checkProximity(position, board, color, gameMoves))
     }
 
-    static oneForward(position, color) {
+    oneForward(position, color) {
       if(color === 'white') {
         return position[0] + (parseInt(position[1], 10) + 1)
       } else {
@@ -117,11 +147,11 @@ class MoveLogic {
       }
     }
 
-    static isOpen(positionToCheck, board) {
+    isOpen(positionToCheck, board) {
         return !board[positionToCheck].piece
     }
 
-    static checkProximity(position, board, color, gameMoves) {
+    checkProximity(position, board, color, gameMoves) {
         let toLeft = String.fromCharCode(position[0].charCodeAt(0) - 1)
         let toRight = String.fromCharCode(position[0].charCodeAt(0) + 1)
 
@@ -160,11 +190,7 @@ class MoveLogic {
         })
     }
 
-    static lesserPosition(horizontal, vertical) {
-        return horizontal > vertical ? vertical : horizontal
-    }
-
-    static upAndDown(movementCount, column, direction, row) {
+    upAndDown(movementCount, column, direction, row) {
         let moves = []
         while (movementCount > 0) {
             if (direction === '+') {
@@ -178,7 +204,7 @@ class MoveLogic {
         return moves
     }
 
-    static rightAndLeft(movementCount, column, direction, row) {
+    rightAndLeft(movementCount, column, direction, row) {
         let moves = []
         while (movementCount > 0) {
             if (direction === '+') {
@@ -192,7 +218,7 @@ class MoveLogic {
         return moves
     }
 
-    static diagonal(movementCount, verticalDirection, horizontalDirection, column, row) {
+    diagonal(movementCount, verticalDirection, horizontalDirection, column, row) {
         let moves = []
         while (movementCount > 0) {
             if (verticalDirection === '+') {
@@ -213,7 +239,7 @@ class MoveLogic {
         return moves
     }
 
-    static convertCoordinates(position) {
+    convertCoordinates(position) {
         return position.split('').map((coordinate) => {
             if (LETTER_KEY[coordinate]) {
                 return LETTER_KEY[coordinate]
@@ -223,21 +249,21 @@ class MoveLogic {
         })
     }
 
-    static fetchVerticalMoves(startPosition, coordinates) {
+    fetchVerticalMoves(startPosition, coordinates) {
         let count = parseInt(startPosition[1], 10) - parseInt(coordinates[1], 10)
         let direction = count > 0 ? '-' : '+'
 
         return this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1], 10))
     }
 
-    static fetchHorizontalMoves(startPosition, coordinates) {
+    fetchHorizontalMoves(startPosition, coordinates) {
         let count = LETTER_KEY[startPosition[0]] - LETTER_KEY[coordinates[0]]
         let direction = count > 0 ? '-' : '+'
 
         return this.rightAndLeft(Math.abs(count) - 1, startPosition[0], direction, startPosition[1])
     }
 
-    static fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition) {
+    fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition) {
         let movementCount = Math.abs(startCoordinates[1] - endCoordinates[1]) - 1
         let verticalDirection = endCoordinates[1] > startCoordinates[1] ? '+' : '-'
         let horizontalDirection = endCoordinates[0] > startCoordinates[0] ? '+' : '-'
@@ -245,7 +271,8 @@ class MoveLogic {
         return this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1], 10))
     }
 
-    static validMovePath(startPosition, coordinates, currentBoard) {
+    validMovePath(startPosition, coordinates, currentBoard) {
+      // use is open
         let valid = true
         let moves = []
         if (startPosition[0] === coordinates[0]) {
@@ -271,7 +298,38 @@ class MoveLogic {
         return valid
     }
 
-    static validateDestination(selected, destination, chessBoard) {
+    // validMovePath() {
+    //     let result = true
+    //     let moves = []
+    //     if(this.position[0] === this.destination[0]) {
+    //         // vert move
+    //         let lesserValue = position[1] < destination[1] ? position[1] : destination[1]
+    //         let greaterValue = position[1] > destination[1] ? position[1] : destination[1]
+    //
+    //         moves = this.movesUp.concat(this.movesDown).filter((move) => {
+    //             let moveValue = move[1]
+    //             return moveValue < greaterValue && moveValue > lesserValue
+    //         })
+    //     }
+    //
+    //     if(this.position[1] === this.destination[1]) {
+    //         let lesserValue = position[0] < destination[0] ? position[0] : destination[0]
+    //         let greaterValue = position[0] > destination[0] ? position[0] : destination[0]
+    //
+    //         moves = this.movesUp.concat(this.movesDown).filter((move) => {
+    //             let moveValue = move[1]
+    //             return moveValue < greaterValue && moveValue > lesserValue
+    //     }
+    //
+    //     moves.forEach((move) => {
+    //         if (!this.isOpen(move)) {
+    //             result = false
+    //         }
+    //     })
+    //     return result
+    // }
+
+    validateDestination(selected, destination, chessBoard) {
         if (chessBoard[destination].piece) {
             return !(selected.color === chessBoard[destination].piece.color)
         } else {
@@ -279,10 +337,10 @@ class MoveLogic {
         }
     }
 
-    static kingIsSafe(piece, nextMove, chessBoard, kingLocation, gameMoves) {
+    kingIsSafe(piece, nextMove, chessBoard, kingLocation, gameMoves) {
         let result = true
         let opponentColor = this.opponentColor(piece)
-         let updatedBoard = JSON.parse(JSON.stringify(chessBoard))
+        let updatedBoard = JSON.parse(JSON.stringify(chessBoard))
         updatedBoard[piece.currentPosition].piece = null
         updatedBoard[nextMove].piece = piece
 
@@ -301,11 +359,11 @@ class MoveLogic {
         return result
     }
 
-    static opponentColor(piece) {
+    opponentColor(piece) {
         return piece.color === 'white' ? 'black' : 'white'
     }
 
-    static inCheck(piece, kingLocation, chessBoard, gameMoves) {
+    inCheck(piece, kingLocation, chessBoard, gameMoves) {
       return(
           this.movesForPiece(piece, chessBoard, gameMoves)[piece.type].includes(kingLocation) &&
           this.validMovePath(piece.currentPosition, kingLocation, chessBoard) &&
@@ -313,7 +371,7 @@ class MoveLogic {
       )
     }
 
-    static movesForPiece(piece, chessBoard, gameMoves) {
+    movesForPiece(piece, chessBoard, gameMoves) {
       return {
         pawn: this.movesForPawn(piece.currentPosition, piece.color, chessBoard, gameMoves),
         knight: this.movesForKnight(piece.currentPosition),
@@ -325,5 +383,4 @@ class MoveLogic {
     }
 }
 
-
-module.exports = MoveLogic
+export default MoveLogic

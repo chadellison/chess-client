@@ -199,225 +199,226 @@ describe('MoveLogic', () => {
         })
     })
 
-    // describe('#diagonal', () => {
-    //     xit('returns an array of possible moves given a count, positive verticalDirection, positive horizontalDirection operator, and a column of c and a row of 4', () => {
-    //         let moves = ['d5', 'e6', 'f7', 'g8']
-    //         expect(MoveLogic.diagonal(4, '+', '+', 'c', 4)).toEqual(moves)
-    //     })
-    //
-    //     xit('returns an array of possible moves given a count, positive verticalDirection, negative horizontalDirection operator, and a column of c and a row of 4', () => {
-    //         let moves = ['b5', 'a6']
-    //         expect(MoveLogic.diagonal(2, '+', '-', 'c', 4)).toEqual(moves)
-    //     })
-    //
-    //     xit('returns an array of possible moves given a count, negative verticalDirection, positive horizontalDirection operator, and a column of c and a row of 4', () => {
-    //         let moves = ['d3', 'e2', 'f1']
-    //         expect(MoveLogic.diagonal(3, '-', '+', 'c', 4)).toEqual(moves)
-    //     })
-    //
-    //     xit('returns an array of possible moves given a count, negative verticalDirection, negative horizontalDirection operator, and a column of c and a row of 4', () => {
-    //         let moves = ['b3', 'a2']
-    //         expect(MoveLogic.diagonal(2, '-', '-', 'c', 4)).toEqual(moves)
-    //     })
-    // })
-
     describe('#validMovePath', () => {
         it('returns true if there are no pieces in the way of the two coordinates going up', () => {
             let queen = {
               "type": "queen",
               "color": "black",
-              "currentPosition": "d4"
+              "currentPosition": "d2"
             }
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen, board)
+            let moveLogic = new MoveLogic(queen, board, 'd4')
             expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('returns true if there are no pieces in the way of the two coordinates going down', () => {
-            expect(MoveLogic.validMovePath('d7', 'd5', jsonChessBoard)).toEqual(true)
+        it('returns true if there are no pieces in the way of the two coordinates going down', () => {
+            let queen = {
+              "type": "queen",
+              "color": "black",
+              "currentPosition": "d7"
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(queen, board, 'd5')
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('returns false if there are any pieces in the way of the two coordinates going up', () => {
-            expect(MoveLogic.validMovePath('d1', 'd3', jsonChessBoard)).toEqual(false)
+        it('returns false if there are any pieces in the way of the two coordinates going up', () => {
+            let queen = {
+              "type": "queen",
+              "color": "black",
+              "currentPosition": "d1"
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(queen, board, 'd3')
+
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('returns false if there are any pieces in the way of the two coordinates going down', () => {
-            expect(MoveLogic.validMovePath('a8', 'a5', jsonChessBoard)).toEqual(false)
+        it('returns false if there are any pieces in the way of the two coordinates going down', () => {
+            let queen = {
+              "type": "queen",
+              "color": "black",
+              "currentPosition": "a8"
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(queen, board, 'a5')
+
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('returns true for horizontal moves moving right if there are no pieces in the way of the two coordinates', () => {
-            const rook = {
+        it('returns true for horizontal moves moving right if there are no pieces in the way of the two coordinates', () => {
+            let rook = {
                 'type': 'rook',
                 'color': 'black',
                 'currentPosition': 'b5'
             }
 
-            jsonChessBoard.b5.piece = rook
-            expect(MoveLogic.validMovePath('b5', 'f5', jsonChessBoard)).toEqual(true)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(rook, board, 'f5')
 
-            jsonChessBoard.b5.piece = null
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('returns true for horizontal moves moving left if there are no pieces in the way of the two coordinates', () => {
-            const queen = {
+        it('returns true for horizontal moves moving left if there are no pieces in the way of the two coordinates', () => {
+            let queen = {
                 'type': 'queen',
                 'color': 'black',
                 'currentPosition': 'g5'
             }
 
-            jsonChessBoard.g5.piece = queen
-            expect(MoveLogic.validMovePath('g5', 'a5', jsonChessBoard)).toEqual(true)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(queen, board, 'a5')
 
-            jsonChessBoard.g5.piece = null
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('returns false for horizontal moves moving left if there are any pieces in the way of the two coordinates', () => {
-            const queen = {
+        it('returns false for horizontal moves moving left if there are any pieces in the way of the two coordinates', () => {
+            let queen = {
                 'type': 'queen',
                 'color': 'black',
                 'currentPosition': 'd6'
             }
 
-            const pawn = {
+            let pawn = {
                 'type': 'pawn',
                 'color': 'black',
                 'currentPosition': 'b6'
             }
 
-            jsonChessBoard.d6.piece = queen
-            jsonChessBoard.b6.piece = pawn
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            board.d6.piece = queen
+            board.b6.piece = pawn
+            let moveLogic = new MoveLogic(queen, board, 'a6')
 
-            expect(MoveLogic.validMovePath('d6', 'a6', jsonChessBoard))
-
-            jsonChessBoard.d6.piece = null
-            jsonChessBoard.b6.piece = null
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('returns false for horizontal moves moving right if there are any pieces in the way of the two coordinates', () => {
-            const queen = {
+        it('returns false for horizontal moves moving right if there are any pieces in the way of the two coordinates', () => {
+            let queen = {
                 'type': 'queen',
                 'color': 'black',
                 'currentPosition': 'a6'
             }
 
-            const pawn = {
+            let pawn = {
                 'type': 'pawn',
                 'color': 'black',
                 'currentPosition': 'c6'
             }
 
-            jsonChessBoard.a6.piece = queen
-            jsonChessBoard.c6.piece = pawn
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            board.a6.piece = queen
+            board.c6.piece = pawn
+            let moveLogic = new MoveLogic(queen, board, 'd6')
 
-            expect(MoveLogic.validMovePath('a6', 'd6', jsonChessBoard)).toEqual(false)
-
-            jsonChessBoard.c6.piece = null
-            jsonChessBoard.a6.piece = null
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('it returns true for up right diagonal moves when no pieces are in the path', () => {
-            const bishop = {
+        it('it returns true for up right diagonal moves when no pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'c3'
             }
 
-            jsonChessBoard.c3.piece = bishop
-            expect(MoveLogic.validMovePath('c3', 'f6', jsonChessBoard)).toEqual(true)
-            jsonChessBoard.c3.piece = null
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'f6')
+
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('it returns false for up right diagonal moves when pieces are in the path', () => {
-            const bishop = {
+        it('it returns false for up right diagonal moves when pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'f6'
             }
 
-            jsonChessBoard.f6.piece = bishop
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'h8')
 
-            expect(MoveLogic.validMovePath('f6', 'h8', jsonChessBoard)).toEqual(false)
-
-            jsonChessBoard.f6.piece = null
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('it returns true for down right diagonal moves when no pieces are in the path', () => {
-            const bishop = {
+        it('it returns true for down right diagonal moves when no pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'c6'
             }
 
-            jsonChessBoard.c6.piece = bishop
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'g2')
 
-            expect(MoveLogic.validMovePath('c6', 'g2', jsonChessBoard)).toEqual(true)
-            jsonChessBoard.c6.piece = null
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('it returns false for down right diagonal moves when pieces are in the path', () => {
-            const bishop = {
+        it('it returns false for down right diagonal moves when pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'c6'
             }
 
-            jsonChessBoard.c6.piece = bishop
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'h1')
 
-            expect(MoveLogic.validMovePath('c6', 'h1', jsonChessBoard)).toEqual(false)
-            jsonChessBoard.c6.piece = null
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('it returns true for up left diagonal moves when no pieces are in the path', () => {
-            const bishop = {
+        it('it returns true for up left diagonal moves when no pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'h5'
             }
 
-            jsonChessBoard.h5.piece = bishop
-            expect(MoveLogic.validMovePath('h5', 'f7', jsonChessBoard)).toEqual(true)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'f7')
 
-            jsonChessBoard.h5.piece = null
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('it returns false for up left diagonal moves when pieces are in the path', () => {
-            const bishop = {
+        it('it returns false for up left diagonal moves when pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'e5'
             }
 
-            jsonChessBoard.e5.piece = bishop
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'b8')
 
-            expect(MoveLogic.validMovePath('e5', 'b8', jsonChessBoard)).toEqual(false)
-
-            jsonChessBoard.e5.piece = null
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
 
-        xit('it returns true for down left diagonal moves when no pieces are in the path', () => {
-            const bishop = {
+        it('it returns true for down left diagonal moves when no pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'g4'
             }
 
-            jsonChessBoard.g4.piece = bishop
-            expect(MoveLogic.validMovePath('g4', 'e2', jsonChessBoard)).toEqual(true)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'e2')
 
-            jsonChessBoard.g4.piece = null
+            expect(moveLogic.validMovePath()).toEqual(true)
         })
 
-        xit('it returns false for down left diagonal moves when pieces are in the path', () => {
-            const bishop = {
+        it('it returns false for down left diagonal moves when pieces are in the path', () => {
+            let bishop = {
                 'type': 'bishop',
                 'color': 'black',
                 'currentPosition': 'g4'
             }
 
-            jsonChessBoard.g4.piece = bishop
-            expect(MoveLogic.validMovePath('g4', 'd1', jsonChessBoard)).toEqual(false)
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(bishop, board, 'd1')
 
-            jsonChessBoard.g4.piece = null
+            expect(moveLogic.validMovePath()).toEqual(false)
         })
     })
 
@@ -467,24 +468,6 @@ describe('MoveLogic', () => {
         xit('returns an array of all possible moves for a knight on d5', () => {
             let moves = ['f6', 'f4', 'b6', 'b4', 'e7', 'c7', 'e3', 'c3']
             expect(MoveLogic.movesForKnight('d5')).toEqual(moves)
-        })
-    })
-
-    describe('#fetchVerticalMoves', () => {
-        xit('handles vertical moves', () => {
-
-        })
-    })
-
-    describe('#fetchHorizontalMoves', () => {
-        xit('handles vertical moves', () => {
-
-        })
-    })
-
-    describe('#fetchDiagonalMoves', () => {
-        xit('handles vertical moves', () => {
-
         })
     })
 

@@ -147,8 +147,8 @@ class MoveLogic {
       }
     }
 
-    isOpen(positionToCheck, board) {
-        return !board[positionToCheck].piece
+    isOpen(positionToCheck) {
+        return !this.board[positionToCheck].piece
     }
 
     checkProximity(position, board, color, gameMoves) {
@@ -190,55 +190,6 @@ class MoveLogic {
         })
     }
 
-    upAndDown(movementCount, column, direction, row) {
-        let moves = []
-        while (movementCount > 0) {
-            if (direction === '+') {
-                row += 1
-            } else {
-                row -= 1
-            }
-            moves.push(column + row)
-            movementCount -= 1
-        }
-        return moves
-    }
-
-    rightAndLeft(movementCount, column, direction, row) {
-        let moves = []
-        while (movementCount > 0) {
-            if (direction === '+') {
-                column = String.fromCharCode(column.charCodeAt(0) + 1)
-            } else {
-                column = String.fromCharCode(column.charCodeAt(0) - 1)
-            }
-            moves.push(column + row)
-            movementCount -= 1
-        }
-        return moves
-    }
-
-    diagonal(movementCount, verticalDirection, horizontalDirection, column, row) {
-        let moves = []
-        while (movementCount > 0) {
-            if (verticalDirection === '+') {
-                row += 1
-            } else {
-                row -= 1
-            }
-
-            if (horizontalDirection === '-') {
-                column = String.fromCharCode(column.charCodeAt(0) - 1)
-            } else {
-                column = String.fromCharCode(column.charCodeAt(0) + 1)
-            }
-
-            moves.push(column + row)
-            movementCount -= 1
-        }
-        return moves
-    }
-
     convertCoordinates(position) {
         return position.split('').map((coordinate) => {
             if (LETTER_KEY[coordinate]) {
@@ -249,85 +200,43 @@ class MoveLogic {
         })
     }
 
-    fetchVerticalMoves(startPosition, coordinates) {
-        let count = parseInt(startPosition[1], 10) - parseInt(coordinates[1], 10)
-        let direction = count > 0 ? '-' : '+'
-
-        return this.upAndDown(Math.abs(count) - 1, coordinates[0], direction, parseInt(startPosition[1], 10))
-    }
-
-    fetchHorizontalMoves(startPosition, coordinates) {
-        let count = LETTER_KEY[startPosition[0]] - LETTER_KEY[coordinates[0]]
-        let direction = count > 0 ? '-' : '+'
-
-        return this.rightAndLeft(Math.abs(count) - 1, startPosition[0], direction, startPosition[1])
-    }
-
-    fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition) {
-        let movementCount = Math.abs(startCoordinates[1] - endCoordinates[1]) - 1
-        let verticalDirection = endCoordinates[1] > startCoordinates[1] ? '+' : '-'
-        let horizontalDirection = endCoordinates[0] > startCoordinates[0] ? '+' : '-'
-
-        return this.diagonal(movementCount, verticalDirection, horizontalDirection, startPosition[0], parseInt(startPosition[1], 10))
-    }
-
-    validMovePath(startPosition, coordinates, currentBoard) {
-      // use is open
-        let valid = true
+    validMovePath() {
+        let result = true
         let moves = []
-        if (startPosition[0] === coordinates[0]) {
-            moves = this.fetchVerticalMoves(startPosition, coordinates)
+        let columnMin = this.position[0] < this.destination[0] ? this.position[0] : this.destination[0]
+        let columnMax = this.position[0] > this.destination[0] ? this.position[0] : this.destination[0]
+        let rowMin = this.position[1] < this.destination[1] ? this.position[1] : this.destination[1]
+        let rowMax = this.position[1] > this.destination[1] ? this.position[1] : this.destination[1]
+
+        if(this.position[0] === this.destination[0]) {
+            moves = this.movesUp().concat(this.movesDown()).filter((move) => {
+                return move[1] < rowMax && move[1] > rowMin
+            })
         }
 
-        if (startPosition[1] === coordinates[1]) {
-            moves = this.fetchHorizontalMoves(startPosition, coordinates)
+        if(this.position[1] === this.destination[1]) {
+            moves = this.movesLeft().concat(this.movesRight()).filter((move) => {
+                return move[0] < columnMax && move[0] > columnMin
+            })
         }
 
-        let startCoordinates = this.convertCoordinates(startPosition)
-        let endCoordinates = this.convertCoordinates(coordinates)
-
-        if (Math.abs(startCoordinates[0] - endCoordinates[0]) === Math.abs(startCoordinates[1] - endCoordinates[1])) {
-            moves = this.fetchDiagonalMoves(startCoordinates, endCoordinates, startPosition)
+        if (Math.abs(LETTER_KEY[this.position[0]] - LETTER_KEY[this.destination[0]]) === Math.abs(this.position[1] - this.destination[1])) {
+            moves = this.movesForBishop().filter((move) => {
+                let columnValue = move[0]
+                let rowValue = move[1]
+                return move[0] < columnMax &&
+                        move[0] > columnMin &&
+                        move[1] < rowMax &&
+                        move[1] > rowMin
+            })
         }
-
         moves.forEach((move) => {
-            if (currentBoard[move].piece) {
-                valid = false
+            if (!this.isOpen(move)) {
+                result = false
             }
         })
-        return valid
+        return result
     }
-
-    // validMovePath() {
-    //     let result = true
-    //     let moves = []
-    //     if(this.position[0] === this.destination[0]) {
-    //         // vert move
-    //         let lesserValue = position[1] < destination[1] ? position[1] : destination[1]
-    //         let greaterValue = position[1] > destination[1] ? position[1] : destination[1]
-    //
-    //         moves = this.movesUp.concat(this.movesDown).filter((move) => {
-    //             let moveValue = move[1]
-    //             return moveValue < greaterValue && moveValue > lesserValue
-    //         })
-    //     }
-    //
-    //     if(this.position[1] === this.destination[1]) {
-    //         let lesserValue = position[0] < destination[0] ? position[0] : destination[0]
-    //         let greaterValue = position[0] > destination[0] ? position[0] : destination[0]
-    //
-    //         moves = this.movesUp.concat(this.movesDown).filter((move) => {
-    //             let moveValue = move[1]
-    //             return moveValue < greaterValue && moveValue > lesserValue
-    //     }
-    //
-    //     moves.forEach((move) => {
-    //         if (!this.isOpen(move)) {
-    //             result = false
-    //         }
-    //     })
-    //     return result
-    // }
 
     validateDestination(selected, destination, chessBoard) {
         if (chessBoard[destination].piece) {

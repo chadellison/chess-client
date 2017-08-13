@@ -524,19 +524,46 @@ describe('MoveLogic', () => {
     })
 
     describe('#movesForKing', () => {
-        xit('returns an array of all of a kings moves on an open board, given a coordinate', () => {
-            let moves = ['d3', 'd5', 'e4', 'c4', 'e5', 'e3', 'c5', 'c3']
-            expect(MoveLogic.movesForKing('d4')).toEqual(moves)
+        it('returns an array of all of a kings moves on an open board, given a coordinate', () => {
+            let king = {
+                'type': 'king',
+                'color': 'whtie',
+                'currentPosition': 'd4'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(king, board)
+
+            let moves = ["c4", "e4", "d5", "d3", "e5", "c5", "c3", "e3"]
+            expect(moveLogic.movesForKing()).toEqual(moves)
         })
 
-        xit('returns an array of only three moves when the king is in the corner', () => {
-            let moves = ['a2', 'b1', 'b2']
-            expect(MoveLogic.movesForKing('a1')).toEqual(moves)
+        it('returns an array of only three moves when the king is in the corner', () => {
+            let king = {
+                'type': 'king',
+                'color': 'whtie',
+                'currentPosition': 'a1'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(king, board)
+            let moves = ["b1", "a2", "b2"]
+
+            expect(moveLogic.movesForKing()).toEqual(moves)
         })
 
-        xit('returns moves for a castle if the king is on e1 or e8', () => {
-            let moves = ["e2", "f1", "d1", "f2", "d2", "c1", "g1"]
-            expect(MoveLogic.movesForKing('e1')).toEqual(moves)
+        it('returns moves for a castle if the king is on e1', () => {
+            let king = {
+                'type': 'king',
+                'color': 'whtie',
+                'currentPosition': 'e1'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(king, board)
+
+            let moves = ["d1", "f1", "e2", "f2", "d2"]
+            expect(moveLogic.movesForKing('e1')).toEqual(moves)
         })
     })
 

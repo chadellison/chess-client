@@ -103,27 +103,15 @@ class MoveLogic {
 
     }
 
-    movesForKing(position) {
-        let moves = [
-            position[0] + (parseInt(position[1], 10) - 1),
-            position[0] + (parseInt(position[1], 10) + 1),
-            String.fromCharCode(position[0].charCodeAt(0) + 1) + position[1],
-            String.fromCharCode(position[0].charCodeAt(0) - 1) + position[1],
-            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1], 10) + 1),
-            String.fromCharCode(position[0].charCodeAt(0) + 1) + (parseInt(position[1], 10) - 1),
-            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1], 10) + 1),
-            String.fromCharCode(position[0].charCodeAt(0) - 1) + (parseInt(position[1], 10) - 1)
-
-        ].filter((coordinates) => {
-            return Object.keys(LETTER_KEY).includes(coordinates[0]) && Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
+    movesForKing(position = this.position) {
+        return this.movesForQueen(position).filter((move) => {
+            return (String.fromCharCode(position[0].charCodeAt(0) + 1) === move[0] ||
+                String.fromCharCode(position[0].charCodeAt(0) - 1) === move[0] ||
+                position[0] === move[0]) &&
+                ((parseInt(position[1], 10) - 1) === parseInt(move[1]) ||
+                (parseInt(position[1], 10) + 1) === parseInt(move[1]) ||
+                position[1] === move[1])
         })
-
-        if (position === 'e1' || position === 'e8') {
-            moves.push('c' + position[1])
-            moves.push('g' + position[1])
-        }
-
-        return moves
     }
 
     movesForPawn(position, color, board, gameMoves) {

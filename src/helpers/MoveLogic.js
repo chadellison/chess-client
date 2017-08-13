@@ -82,7 +82,7 @@ class MoveLogic {
         return this.movesForRook(position).concat(this.movesForBishop(position))
     }
 
-    movesForKnight(position) {
+    movesForKnight(position = this.position) {
         let coordinates = this.convertCoordinates(position)
 
         return [
@@ -100,7 +100,6 @@ class MoveLogic {
         }).map((coordinateSet) => {
             return Object.keys(LETTER_KEY)[coordinateSet[0] - 1] + coordinateSet[1]
         })
-
     }
 
     movesForKing(position = this.position) {

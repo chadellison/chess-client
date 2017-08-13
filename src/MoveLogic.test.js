@@ -5,9 +5,9 @@ describe('MoveLogic', () => {
     describe('#movesForRook', () => {
         it('returns an array of possible moves for a rook on an open board given a position', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "a1"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'a1'
             }
 
             let rookMoves = ['b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8']
@@ -18,12 +18,12 @@ describe('MoveLogic', () => {
 
         it('returns an array of possible moves for a rook on an open board given a different position', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "d4"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'd4'
             }
 
-            let rookMoves = ["c4", "b4", "a4", "e4", "f4", "g4", "h4", "d5", "d6", "d7", "d8", "d3", "d2", "d1"]
+            let rookMoves = ['c4', 'b4', 'a4', 'e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'd7', 'd8', 'd3', 'd2', 'd1']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(rook, board)
             expect(moveLogic.movesForRook()).toEqual(rookMoves)
@@ -33,9 +33,9 @@ describe('MoveLogic', () => {
     describe('#movesLeft', () => {
         it('retruns an array of all moves from the current position to the a column', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "d3"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'd3'
             }
             let moves = ['c3', 'b3', 'a3']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -45,9 +45,9 @@ describe('MoveLogic', () => {
 
         it('retruns an empty array if the current position is on column a', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "a3"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'a3'
             }
 
             let moves = []
@@ -60,9 +60,9 @@ describe('MoveLogic', () => {
     describe('#movesRight', () => {
         it('retruns an array of all moves from the current position to the h column', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "b6"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'b6'
             }
 
             let moves = ['c6', 'd6', 'e6', 'f6', 'g6', 'h6']
@@ -73,9 +73,9 @@ describe('MoveLogic', () => {
 
         it('retruns an empty array if the current position is on column h', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "h8"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'h8'
             }
 
             let moves = []
@@ -88,9 +88,9 @@ describe('MoveLogic', () => {
     describe('#movesUp', () => {
         it('retruns an array of all moves from the current position to row 8', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "f4"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'f4'
             }
 
             let moves = ['f5', 'f6', 'f7', 'f8']
@@ -101,9 +101,9 @@ describe('MoveLogic', () => {
 
         it('retruns an empty array if the current position is on row 8', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "h8"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'h8'
             }
             let moves = []
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -115,9 +115,9 @@ describe('MoveLogic', () => {
     describe('#movesDown', () => {
         it('retruns an array of all moves from the current position to row 8', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "e6"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'e6'
             }
 
             let moves = ['e5', 'e4', 'e3', 'e2', 'e1']
@@ -128,9 +128,9 @@ describe('MoveLogic', () => {
 
         it('retruns an empty array if the current position is on row 8', () => {
             let rook = {
-              "type": "rook",
-              "color": "black",
-              "currentPosition": "e1"
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'e1'
             }
 
             let moves = []
@@ -143,12 +143,12 @@ describe('MoveLogic', () => {
     describe('#movesForBishop', () => {
         it('returns the number of possible moves for a bishop starting at c4', () => {
             let bishop = {
-              "type": "bishop",
-              "color": "black",
-              "currentPosition": "c4"
+              'type': 'bishop',
+              'color': 'black',
+              'currentPosition': 'c4'
             }
 
-            let moves = ["d5", "b5", "b3", "d3", "e6", "a6", "a2", "e2", "f7", "f1", "g8"]
+            let moves = ['d5', 'b5', 'b3', 'd3', 'e6', 'a6', 'a2', 'e2', 'f7', 'f1', 'g8']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(bishop, board)
             expect(moveLogic.movesForBishop()).toEqual(moves)
@@ -156,12 +156,12 @@ describe('MoveLogic', () => {
 
         it('returns the number of possible moves for a bishop starting at g2', () => {
             let bishop = {
-              "type": "bishop",
-              "color": "black",
-              "currentPosition": "g2"
+              'type': 'bishop',
+              'color': 'black',
+              'currentPosition': 'g2'
             }
 
-            let moves = ["h3", "f3", "f1", "h1", "e4", "d5", "c6", "b7", "a8"]
+            let moves = ['h3', 'f3', 'f1', 'h1', 'e4', 'd5', 'c6', 'b7', 'a8']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(bishop, board)
             expect(moveLogic.movesForBishop()).toEqual(moves)
@@ -169,12 +169,12 @@ describe('MoveLogic', () => {
 
         it('returns the number of possible moves for a bishop starting at e7', () => {
             let bishop = {
-              "type": "bishop",
-              "color": "black",
-              "currentPosition": "e7"
+              'type': 'bishop',
+              'color': 'black',
+              'currentPosition': 'e7'
             }
 
-            let moves = ["f8", "d8", "d6", "f6", "c5", "g5", "b4", "h4", "a3"]
+            let moves = ['f8', 'd8', 'd6', 'f6', 'c5', 'g5', 'b4', 'h4', 'a3']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(bishop, board)
             expect(moveLogic.movesForBishop()).toEqual(moves)
@@ -184,14 +184,14 @@ describe('MoveLogic', () => {
     describe('#movesForQueen', () => {
         it('calculates all possible moves for a piece in every direction given a coordinate', () => {
             let queen = {
-              "type": "queen",
-              "color": "black",
-              "currentPosition": "d4"
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'd4'
             }
 
-            let moves = ["c4", "b4", "a4", "e4", "f4", "g4", "h4", "d5", "d6",
-                          "d7", "d8", "d3", "d2", "d1", "e5", "c5", "c3", "e3",
-                          "f6", "b6", "b2", "f2", "g7", "a7", "a1", "g1", "h8"]
+            let moves = ['c4', 'b4', 'a4', 'e4', 'f4', 'g4', 'h4', 'd5', 'd6',
+                          'd7', 'd8', 'd3', 'd2', 'd1', 'e5', 'c5', 'c3', 'e3',
+                          'f6', 'b6', 'b2', 'f2', 'g7', 'a7', 'a1', 'g1', 'h8']
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(queen, board)
@@ -202,9 +202,9 @@ describe('MoveLogic', () => {
     describe('#validMovePath', () => {
         it('returns true if there are no pieces in the way of the two coordinates going up', () => {
             let queen = {
-              "type": "queen",
-              "color": "black",
-              "currentPosition": "d2"
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'd2'
             }
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(queen, board, 'd4')
@@ -213,9 +213,9 @@ describe('MoveLogic', () => {
 
         it('returns true if there are no pieces in the way of the two coordinates going down', () => {
             let queen = {
-              "type": "queen",
-              "color": "black",
-              "currentPosition": "d7"
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'd7'
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -225,9 +225,9 @@ describe('MoveLogic', () => {
 
         it('returns false if there are any pieces in the way of the two coordinates going up', () => {
             let queen = {
-              "type": "queen",
-              "color": "black",
-              "currentPosition": "d1"
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'd1'
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -238,9 +238,9 @@ describe('MoveLogic', () => {
 
         it('returns false if there are any pieces in the way of the two coordinates going down', () => {
             let queen = {
-              "type": "queen",
-              "color": "black",
-              "currentPosition": "a8"
+              'type': 'queen',
+              'color': 'black',
+              'currentPosition': 'a8'
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -534,7 +534,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(king, board)
 
-            let moves = ["c4", "e4", "d5", "d3", "e5", "c5", "c3", "e3"]
+            let moves = ['c4', 'e4', 'd5', 'd3', 'e5', 'c5', 'c3', 'e3']
             expect(moveLogic.movesForKing()).toEqual(moves)
         })
 
@@ -547,12 +547,12 @@ describe('MoveLogic', () => {
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(king, board)
-            let moves = ["b1", "a2", "b2"]
+            let moves = ['b1', 'a2', 'b2']
 
             expect(moveLogic.movesForKing()).toEqual(moves)
         })
 
-        it('returns moves for a castle if the king is on e1', () => {
+        xit('returns moves for a castle if the king is on e1', () => {
             let king = {
                 'type': 'king',
                 'color': 'whtie',
@@ -562,7 +562,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic(king, board)
 
-            let moves = ["d1", "f1", "e2", "f2", "d2"]
+            let moves = ['d1', 'f1', 'e2', 'f2', 'd2', 'c1', 'g1']
             expect(moveLogic.movesForKing('e1')).toEqual(moves)
         })
     })

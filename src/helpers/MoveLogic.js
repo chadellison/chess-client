@@ -108,8 +108,8 @@ class MoveLogic {
             return (String.fromCharCode(position[0].charCodeAt(0) + 1) === move[0] ||
                 String.fromCharCode(position[0].charCodeAt(0) - 1) === move[0] ||
                 position[0] === move[0]) &&
-                ((parseInt(position[1], 10) - 1) === parseInt(move[1]) ||
-                (parseInt(position[1], 10) + 1) === parseInt(move[1]) ||
+                ((parseInt(position[1], 10) - 1) === parseInt(move[1], 10) ||
+                (parseInt(position[1], 10) + 1) === parseInt(move[1], 10) ||
                 position[1] === move[1])
         })
     }

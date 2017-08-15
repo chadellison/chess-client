@@ -83,33 +83,34 @@ class MoveLogic {
     }
 
     movesForKnight(position = this.position) {
-        let coordinates = this.convertCoordinates(position)
+        let knightMoves = []
+        let columns = [LETTER_KEY[position[0]], LETTER_KEY[position[0]] + 2, LETTER_KEY[position[0]] - 2]
+        let rows = [parseInt(position[1], 10), parseInt(position[1], 10) + 2, parseInt(position[1], 10) - 2]
 
-        return [
-            (coordinates[0] + 2).toString() + (coordinates[1] + 1),
-            (coordinates[0] + 2).toString() + (coordinates[1] - 1),
-            (coordinates[0] - 2).toString() + (coordinates[1] + 1),
-            (coordinates[0] - 2).toString() + (coordinates[1] - 1),
-            (coordinates[0] + 1).toString() + (coordinates[1] + 2),
-            (coordinates[0] - 1).toString() + (coordinates[1] + 2),
-            (coordinates[0] + 1).toString() + (coordinates[1] - 2),
-            (coordinates[0] - 1).toString() + (coordinates[1] - 2)
-        ].filter((numericPosition) => {
-            return (numericPosition[0] > 0 && numericPosition[0] < 9 &&
-            numericPosition[1] > 0 && numericPosition[1] < 9)
-        }).map((coordinateSet) => {
-            return Object.keys(LETTER_KEY)[coordinateSet[0] - 1] + coordinateSet[1]
+        this.movesForRook().filter((move) => {
+            return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
+        }).forEach((move) => {
+            if(move[0] === position[0]) {
+                knightMoves.push(String.fromCharCode(move[0].charCodeAt(0) + 1) + move[1])
+                knightMoves.push(String.fromCharCode(move[0].charCodeAt(0) - 1) + move[1])
+            } else {
+                knightMoves.push(move[0] + (parseInt(move[1], 10) + 1))
+                knightMoves.push(move[0] + (parseInt(move[1], 10) - 1))
+            }
+        })
+
+        return knightMoves.filter((move) => {
+            return (Object.keys(LETTER_KEY).includes(move[0]) &&
+                Object.values(LETTER_KEY).includes(parseInt(move[1], 10)))
         })
     }
 
     movesForKing(position = this.position) {
+        let columns = [LETTER_KEY[position[0]], LETTER_KEY[position[0]] - 1, LETTER_KEY[position[0]] + 1]
+        let rows = [parseInt(position[1], 10), parseInt(position[1], 10) - 1, parseInt(position[1], 10) + 1]
+        
         return this.movesForQueen(position).filter((move) => {
-            return (String.fromCharCode(position[0].charCodeAt(0) + 1) === move[0] ||
-                String.fromCharCode(position[0].charCodeAt(0) - 1) === move[0] ||
-                position[0] === move[0]) &&
-                ((parseInt(position[1], 10) - 1) === parseInt(move[1], 10) ||
-                (parseInt(position[1], 10) + 1) === parseInt(move[1], 10) ||
-                position[1] === move[1])
+            return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
         })
     }
 

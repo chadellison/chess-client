@@ -477,9 +477,17 @@ describe('MoveLogic', () => {
             expect(moveLogic.movesForKnight()).toEqual(moves)
         })
 
-        xit('returns an array of all possible moves for a knight on d5', () => {
-            let moves = ['f6', 'f4', 'b6', 'b4', 'e7', 'c7', 'e3', 'c3']
-            expect(MoveLogic.movesForKnight('d5')).toEqual(moves)
+        it('returns an array of all possible moves for a knight on d5', () => {
+            let knight = {
+                'type': 'knight',
+                'color': 'white',
+                'currentPosition': 'd5'
+            }
+
+            let moves = ["b6", "b4", "f6", "f4", "e7", "c7", "e3", "c3"]
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic(knight, board, 'd5')
+            expect(moveLogic.movesForKnight()).toEqual(moves)
         })
     })
 

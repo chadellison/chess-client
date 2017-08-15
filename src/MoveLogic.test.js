@@ -883,7 +883,8 @@ describe('MoveLogic', () => {
           let blackPawn = {
               'type': 'pawn',
               'color': 'black',
-              'currentPosition': 'c5'
+              'currentPosition': 'c5',
+              'movedTwo': true
           }
 
           let whitePawn = {
@@ -913,7 +914,8 @@ describe('MoveLogic', () => {
           let whitePawn = {
               'type': 'pawn',
               'color': 'white',
-              'currentPosition': 'd4'
+              'currentPosition': 'd4',
+              'movedTwo': true
           }
 
           let moves = ['c3', 'd3']
@@ -929,6 +931,18 @@ describe('MoveLogic', () => {
     })
 
     describe('#oneForward', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#oneLeft', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#oneRight', () => {
         xit('test', () => {
 
         })
@@ -952,6 +966,30 @@ describe('MoveLogic', () => {
     })
 
     describe('#movesForPiece', () => {
+      xit('test', () => {
+
+      })
+    })
+
+    describe('#canCapturePiece', () => {
+      xit('test', () => {
+
+      })
+    })
+
+    describe('#checkDiagonal', () => {
+      xit('test', () => {
+
+      })
+    })
+
+    describe('#validCoordinates', () => {
+      xit('test', () => {
+
+      })
+    })
+
+    describe('#kingLocation', () => {
       xit('test', () => {
 
       })

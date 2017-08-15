@@ -1,11 +1,12 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
 class MoveLogic {
-    constructor(piece, board, destination) {
+    constructor(piece, board, destination, gameMoves) {
         this.piece = piece
         this.board = board
         this.position = piece.currentPosition
         this.destination = destination
+        this.gameMoves = gameMoves
     }
 
     movesLeft(position = this.position) {
@@ -108,23 +109,25 @@ class MoveLogic {
     movesForKing(position = this.position) {
         let columns = [LETTER_KEY[position[0]], LETTER_KEY[position[0]] - 1, LETTER_KEY[position[0]] + 1]
         let rows = [parseInt(position[1], 10), parseInt(position[1], 10) - 1, parseInt(position[1], 10) + 1]
-        
+
         return this.movesForQueen(position).filter((move) => {
             return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
         })
     }
 
-    movesForPawn(position, color, board, gameMoves) {
+    movesForPawn(position = this.position) {
         let moves = []
-        let nextSquare = this.oneForward(position, color)
-        if(this.isOpen(nextSquare, board)) {
+        let nextSquare = this.oneForward(position, this.piece.color)
+        if(this.isOpen(nextSquare)) {
             moves.push(nextSquare)
+
+            if(this.isOpen(this.oneForward(nextSquare, this.piece.color)) && ['2', '7'].includes(position[1])) {
+              moves.push(this.oneForward(nextSquare, this.piece.color))
+            }
         }
 
-        if(moves.length > 0 && this.isOpen(this.oneForward(nextSquare, color), board) && (position[1] === '2' || position[1] === '7')) {
-          moves.push(this.oneForward(nextSquare, color))
-        }
-        return moves.concat(this.checkProximity(position, board, color, gameMoves))
+        return moves.concat(this.checkProximity(position, this.board, this.piece.color, this.gameMoves))
+
     }
 
     oneForward(position, color) {

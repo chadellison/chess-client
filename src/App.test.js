@@ -427,7 +427,13 @@ describe('App', () => {
         })
     })
 
-    describe('#checkEnPassant', () => {
+    describe('#isEnPassant', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#pawnMovedTwo', () => {
         xit('#test', () => {
 
         })

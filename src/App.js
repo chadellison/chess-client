@@ -37,21 +37,16 @@ class App extends Component {
     }
 
     isValid(coordinates) {
-        const board = this.state.chessBoard
+        let board = this.state.chessBoard
         let piece = this.state.selected
-        let kingLocation = Object.values(board).filter((square) => {
-          return(
-              square.piece &&
-              square.piece.type === 'king' &&
-              square.piece.color === piece.color
-          )
-        })[0].piece.currentPosition
+        let gameMoves = this.state.moves
+        let moveLogic = new MoveLogic(piece, board, coordinates, gameMoves)
 
-        return(
-            MoveLogic.movesForPiece(piece, board, this.state.moves)[piece.type].includes(coordinates) &&
-            MoveLogic.validMovePath(piece.currentPosition, coordinates, board) &&
-            MoveLogic.validateDestination(piece, coordinates, board) &&
-            MoveLogic.kingIsSafe(piece, coordinates, board, kingLocation, this.state.moves)
+        return (
+            moveLogic.movesForPiece(piece).includes(coordinates) &&
+            moveLogic.validMovePath(piece.currentPosition, coordinates, board) &&
+            moveLogic.validateDestination(piece, coordinates, board) &&
+            moveLogic.kingIsSafe(piece, coordinates, board, this.state.moves)
         )
     }
 
@@ -60,7 +55,10 @@ class App extends Component {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
             let piece = this.state.selected
             let updatedMoves = this.state.moves
-            this.checkEnPassant(coordinates, updatedBoard)
+            this.isEnPassant(coordinates, updatedBoard)
+            if(this.pawnMovedTwo(coordinates)) {
+                piece.movedTwo = true
+            }
             updatedBoard[piece.currentPosition].piece = null
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
@@ -79,7 +77,13 @@ class App extends Component {
         })
     }
 
-    checkEnPassant(coordinates, updatedBoard) {
+    pawnMovedTwo(coordinates) {
+        return this.state.selected.type === 'pawn' &&
+            Math.abs(parseInt(coordinates[1], 10) -
+            parseInt(this.state.selected.currentPosition[1], 10)) === 2
+    }
+
+    isEnPassant(coordinates, updatedBoard) {
         let piece = this.state.selected
         if(coordinates[0] !== piece.currentPosition[0] &&
             !this.state.chessBoard[coordinates].piece &&

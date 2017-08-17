@@ -1023,4 +1023,10 @@ describe('MoveLogic', () => {
 
       })
     })
+
+    describe('#validMove', () => {
+      xit('test', () => {
+
+      })
+    })
 })

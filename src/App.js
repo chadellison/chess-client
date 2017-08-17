@@ -43,12 +43,9 @@ class App extends Component {
         let moveLogic = new MoveLogic(piece, board, coordinates, gameMoves)
 
         return (
-            moveLogic.movesForPiece(piece).includes(coordinates).toString() &&
-            moveLogic.validMovePath(piece.currentPosition, coordinates, board).toString() &&
-            moveLogic.validateDestination(piece, coordinates, board).toString() &&
+            moveLogic.validMove(piece, coordinates, board, gameMoves) &&
             moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
         )
-        return true
     }
 
     move(coordinates) {

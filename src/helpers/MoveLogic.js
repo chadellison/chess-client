@@ -268,11 +268,13 @@ class MoveLogic {
     }
 
     inCheck(piece, chessBoard, gameMoves) {
-        return(
-            this.movesForPiece(piece).includes(this.kingLocation(chessBoard)) &&
-            this.validMovePath(piece.currentPosition, this.kingLocation(chessBoard), chessBoard) &&
-            this.validateDestination(piece.currentPosition, this.kingLocation(chessBoard), chessBoard)
-        )
+        return this.validMove(piece, this.kingLocation(chessBoard), chessBoard, gameMoves)
+    }
+
+    validMove(piece, nextMove, board, gameMoves) {
+        return this.movesForPiece(piece).includes(nextMove) &&
+            this.validMovePath(piece.currentPosition, nextMove, board) &&
+            this.validateDestination(piece.currentPosition, nextMove, board)
     }
 
     movesForPiece(piece) {

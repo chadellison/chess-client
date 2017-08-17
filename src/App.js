@@ -37,17 +37,18 @@ class App extends Component {
     }
 
     isValid(coordinates) {
-        let board = this.state.chessBoard
-        let piece = this.state.selected
-        let gameMoves = this.state.moves
+        let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+        let piece = JSON.parse(JSON.stringify(this.state.selected))
+        let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
         let moveLogic = new MoveLogic(piece, board, coordinates, gameMoves)
 
         return (
-            moveLogic.movesForPiece(piece).includes(coordinates) &&
-            moveLogic.validMovePath(piece.currentPosition, coordinates, board) &&
-            moveLogic.validateDestination(piece, coordinates, board) &&
-            moveLogic.kingIsSafe(piece, coordinates, board, this.state.moves)
+            moveLogic.movesForPiece(piece).includes(coordinates).toString() &&
+            moveLogic.validMovePath(piece.currentPosition, coordinates, board).toString() &&
+            moveLogic.validateDestination(piece, coordinates, board).toString() &&
+            moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
         )
+        return true
     }
 
     move(coordinates) {

@@ -420,6 +420,35 @@ describe('MoveLogic', () => {
 
             expect(moveLogic.validMovePath()).toEqual(false)
         })
+
+        it('it returns true for a queen on a4 to e8 when the path is open', () => {
+            let queen = {
+                'type': 'bishop',
+                'color': 'white',
+                'currentPosition': 'a4'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            board.d7.piece = null
+            board.a4.piece = queen
+            let moveLogic = new MoveLogic(queen, board, 'e8')
+
+            expect(moveLogic.validMovePath()).toEqual(true)
+        })
+
+        it('it returns false for a queen on a4 to e8 when the path is not open', () => {
+            let queen = {
+                'type': 'bishop',
+                'color': 'white',
+                'currentPosition': 'a4'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            board.a4.piece = queen
+            let moveLogic = new MoveLogic(queen, board, 'e8')
+
+            expect(moveLogic.validMovePath()).toEqual(false)
+        })
     })
 
     describe('#validateDestination', () => {

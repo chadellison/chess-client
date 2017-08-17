@@ -40,7 +40,7 @@ class App extends Component {
         let board = JSON.parse(JSON.stringify(this.state.chessBoard))
         let piece = JSON.parse(JSON.stringify(this.state.selected))
         let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
-        let moveLogic = new MoveLogic(piece, board, coordinates, gameMoves)
+        let moveLogic = new MoveLogic(piece, coordinates, gameMoves)
 
         return (
             moveLogic.validMove(piece, coordinates, board, gameMoves) &&

@@ -1,10 +1,8 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
 class MoveLogic {
-    constructor(piece, board, destination, gameMoves) {
+    constructor(piece, destination, gameMoves) {
         this.piece = piece
-        this.board = board
-        // this.position = piece.currentPosition
         this.destination = destination
         this.gameMoves = gameMoves
     }
@@ -112,17 +110,17 @@ class MoveLogic {
         })
     }
 
-    movesForPawn(position) {
+    movesForPawn(position, board) {
         let moves = []
         let nextSquare = this.oneForward(position)
-        if(this.isOpen(nextSquare)) {
+        if(this.isOpen(nextSquare, board)) {
             moves.push(nextSquare)
-            if(this.isOpen(this.oneForward(nextSquare)) && ['2', '7'].includes(position[1])) {
+            if(this.isOpen(this.oneForward(nextSquare), board) && ['2', '7'].includes(position[1])) {
                 moves.push(this.oneForward(nextSquare))
             }
         }
 
-        return moves.concat(this.canCapturePiece(position)).concat(this.canEnPassant(position))
+        return moves.concat(this.canCapturePiece(position, board)).concat(this.canEnPassant(position))
     }
 
     oneForward(position) {
@@ -141,7 +139,7 @@ class MoveLogic {
         return String.fromCharCode(position[0].charCodeAt(0) + 1) + position[1]
     }
 
-    isOpen(positionToCheck, board = this.board) {
+    isOpen(positionToCheck, board) {
         if (this.validCoordinates(positionToCheck)) {
           return !board[positionToCheck].piece
         }
@@ -166,26 +164,26 @@ class MoveLogic {
         return moves
     }
 
-    canCapturePiece(position) {
+    canCapturePiece(position, board) {
         let moves = []
-        if(this.checkDiagonal(position, this.oneLeft(position))) {
+        if(this.checkDiagonal(position, this.oneLeft(position), board)) {
             moves.push(this.oneLeft(this.oneForward(position)))
         }
 
-        if(this.checkDiagonal(position, this.oneRight(position))) {
+        if(this.checkDiagonal(position, this.oneRight(position), board)) {
             moves.push(this.oneRight(this.oneForward(position)))
         }
         return moves
     }
 
-    checkDiagonal(position, direction) {
+    checkDiagonal(position, direction, board) {
       if(this.validCoordinates(this.oneForward(direction))) {
-          let potentialEnemy = this.board[this.oneForward(direction)].piece
+          let potentialEnemy = board[this.oneForward(direction)].piece
           return potentialEnemy && this.piece.color !== potentialEnemy.color
       }
     }
 
-    validMovePath(position, destination = this.destination, board = this.board) {
+    validMovePath(position, destination, board) {
         let result = true
         let moves = []
         let columnMin = position[0] < destination[0] ? position[0] : destination[0]
@@ -222,8 +220,8 @@ class MoveLogic {
     }
 
     validDestination(board, color) {
-        if (this.board[this.destination].piece) {
-            return this.piece.color !== this.board[this.destination].piece.color
+        if (board[this.destination].piece) {
+            return color !== board[this.destination].piece.color
         } else {
             return true
         }
@@ -272,14 +270,14 @@ class MoveLogic {
     }
 
     validMove(piece, nextMove, board, gameMoves) {
-        return this.movesForPiece(piece).includes(nextMove) &&
+        return this.movesForPiece(piece, board).includes(nextMove) &&
             this.validMovePath(piece.currentPosition, nextMove, board) &&
             this.validDestination(board, piece.color)
     }
 
-    movesForPiece(piece) {
+    movesForPiece(piece, board) {
         let types = {
-            pawn: this.movesForPawn(piece.currentPosition),
+            pawn: this.movesForPawn(piece.currentPosition, board),
             knight: this.movesForKnight(piece.currentPosition),
             bishop: this.movesForBishop(piece.currentPosition),
             rook: this.movesForRook(piece.currentPosition),

@@ -141,9 +141,9 @@ class MoveLogic {
         return String.fromCharCode(position[0].charCodeAt(0) + 1) + position[1]
     }
 
-    isOpen(positionToCheck) {
+    isOpen(positionToCheck, board = this.board) {
         if (this.validCoordinates(positionToCheck)) {
-          return !this.board[positionToCheck].piece
+          return !board[positionToCheck].piece
         }
         return false
     }
@@ -194,19 +194,19 @@ class MoveLogic {
         let rowMax = position[1] > destination[1] ? position[1] : destination[1]
 
         if (position[0] === destination[0]) {
-            moves = this.movesUp().concat(this.movesDown()).filter((move) => {
+            moves = this.movesUp(position).concat(this.movesDown()).filter((move) => {
                 return move[1] < rowMax && move[1] > rowMin
             })
         }
 
         if (position[1] === destination[1]) {
-            moves = this.movesLeft().concat(this.movesRight()).filter((move) => {
+            moves = this.movesLeft(position).concat(this.movesRight()).filter((move) => {
                 return move[0] < columnMax && move[0] > columnMin
             })
         }
 
         if (Math.abs(LETTER_KEY[position[0]] - LETTER_KEY[destination[0]]) === Math.abs(position[1] - destination[1])) {
-            moves = this.movesForBishop().filter((move) => {
+            moves = this.movesForBishop(position).filter((move) => {
                 return move[0] < columnMax &&
                         move[0] > columnMin &&
                         move[1] < rowMax &&
@@ -214,7 +214,7 @@ class MoveLogic {
             })
         }
         moves.forEach((move) => {
-            if (!this.isOpen(move)) {
+            if (!this.isOpen(move, board)) {
                 result = false
             }
         })
@@ -233,8 +233,11 @@ class MoveLogic {
         let result = true
         let opponentColor = this.opponentColor(piece)
         let updatedBoard = JSON.parse(JSON.stringify(chessBoard))
+        let updatedPiece = JSON.parse(JSON.stringify(piece))
+
         updatedBoard[piece.currentPosition].piece = null
-        updatedBoard[nextMove].piece = piece
+        updatedPiece.currentPosition = nextMove
+        updatedBoard[nextMove].piece = updatedPiece
 
         let opponentPieces = Object.values(updatedBoard)
             .map((square) => square.piece)
@@ -242,7 +245,6 @@ class MoveLogic {
             .filter((piece) => {
                 return (piece.color === opponentColor && piece.type !== 'king')
             })
-
         opponentPieces.forEach((eachPiece) => {
             if(this.inCheck(eachPiece, updatedBoard, gameMoves)) {
               result = false
@@ -266,11 +268,13 @@ class MoveLogic {
     }
 
     inCheck(piece, chessBoard, gameMoves) {
-        return(
-            this.movesForPiece(piece).includes(this.kingLocation(chessBoard)) &&
-            this.validMovePath(piece.currentPosition, this.kingLocation(chessBoard), chessBoard) &&
-            this.validateDestination(piece.currentPosition, this.kingLocation(chessBoard), chessBoard)
-        )
+        return this.validMove(piece, this.kingLocation(chessBoard), chessBoard, gameMoves)
+    }
+
+    validMove(piece, nextMove, board, gameMoves) {
+        return this.movesForPiece(piece).includes(nextMove) &&
+            this.validMovePath(piece.currentPosition, nextMove, board) &&
+            this.validateDestination(piece.currentPosition, nextMove, board)
     }
 
     movesForPiece(piece) {

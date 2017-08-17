@@ -4,12 +4,12 @@ class MoveLogic {
     constructor(piece, board, destination, gameMoves) {
         this.piece = piece
         this.board = board
-        this.position = piece.currentPosition
+        // this.position = piece.currentPosition
         this.destination = destination
         this.gameMoves = gameMoves
     }
 
-    movesLeft(position = this.position) {
+    movesLeft(position) {
         let moves = []
         let column = position[0]
 
@@ -20,7 +20,7 @@ class MoveLogic {
         return moves
     }
 
-    movesRight(position = this.position) {
+    movesRight(position) {
         let moves = []
         let column = position[0]
 
@@ -31,7 +31,7 @@ class MoveLogic {
         return moves
     }
 
-    movesUp(position = this.position) {
+    movesUp(position) {
         let moves = []
         let row = parseInt(position[1], 10)
 
@@ -42,7 +42,7 @@ class MoveLogic {
         return moves
     }
 
-    movesDown(position = this.position) {
+    movesDown(position) {
         let moves = []
         let row = parseInt(position[1], 10)
 
@@ -53,14 +53,14 @@ class MoveLogic {
         return moves
     }
 
-    movesForRook(position = this.position) {
+    movesForRook(position) {
         return this.movesLeft(position)
             .concat(this.movesRight(position))
             .concat(this.movesUp(position))
             .concat(this.movesDown(position))
     }
 
-    movesForBishop(position = this.position) {
+    movesForBishop(position) {
         let moves = []
         let count = 0
         let movesRight = this.movesRight(position)
@@ -79,16 +79,16 @@ class MoveLogic {
             .map((coordinates) => coordinates[0] + coordinates[3])
     }
 
-    movesForQueen(position = this.position) {
+    movesForQueen(position) {
         return this.movesForRook(position).concat(this.movesForBishop(position))
     }
 
-    movesForKnight(position = this.position) {
+    movesForKnight(position) {
         let knightMoves = []
         let columns = [LETTER_KEY[position[0]], LETTER_KEY[position[0]] + 2, LETTER_KEY[position[0]] - 2]
         let rows = [parseInt(position[1], 10), parseInt(position[1], 10) + 2, parseInt(position[1], 10) - 2]
 
-        this.movesForRook().filter((move) => {
+        this.movesForRook(position).filter((move) => {
             return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
         }).forEach((move) => {
             if(move[0] === position[0]) {
@@ -103,7 +103,7 @@ class MoveLogic {
         return knightMoves.filter((move) => this.validCoordinates(move))
     }
 
-    movesForKing(position = this.position) {
+    movesForKing(position) {
         let columns = [LETTER_KEY[position[0]], LETTER_KEY[position[0]] - 1, LETTER_KEY[position[0]] + 1]
         let rows = [parseInt(position[1], 10), parseInt(position[1], 10) - 1, parseInt(position[1], 10) + 1]
 
@@ -112,7 +112,7 @@ class MoveLogic {
         })
     }
 
-    movesForPawn(position = this.position) {
+    movesForPawn(position) {
         let moves = []
         let nextSquare = this.oneForward(position)
         if(this.isOpen(nextSquare)) {
@@ -122,7 +122,7 @@ class MoveLogic {
             }
         }
 
-        return moves.concat(this.canCapturePiece()).concat(this.canEnPassant())
+        return moves.concat(this.canCapturePiece(position)).concat(this.canEnPassant(position))
     }
 
     oneForward(position) {
@@ -153,7 +153,7 @@ class MoveLogic {
             Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
     }
 
-    canEnPassant(position = this.position) {
+    canEnPassant(position) {
         let lastMove = this.gameMoves[this.gameMoves.length - 1]
         let moves = []
         if(lastMove &&
@@ -166,7 +166,7 @@ class MoveLogic {
         return moves
     }
 
-    canCapturePiece(position = this.position) {
+    canCapturePiece(position) {
         let moves = []
         if(this.checkDiagonal(position, this.oneLeft(position))) {
             moves.push(this.oneLeft(this.oneForward(position)))
@@ -179,13 +179,13 @@ class MoveLogic {
     }
 
     checkDiagonal(position, direction) {
-      if(this.validCoordinates(direction)) {
+      if(this.validCoordinates(this.oneForward(direction))) {
           let potentialEnemy = this.board[this.oneForward(direction)].piece
           return potentialEnemy && this.piece.color !== potentialEnemy.color
       }
     }
 
-    validMovePath(position = this.position, destination = this.destination, board = this.board) {
+    validMovePath(position, destination = this.destination, board = this.board) {
         let result = true
         let moves = []
         let columnMin = position[0] < destination[0] ? position[0] : destination[0]
@@ -194,13 +194,13 @@ class MoveLogic {
         let rowMax = position[1] > destination[1] ? position[1] : destination[1]
 
         if (position[0] === destination[0]) {
-            moves = this.movesUp(position).concat(this.movesDown()).filter((move) => {
+            moves = this.movesUp(position).concat(this.movesDown(position)).filter((move) => {
                 return move[1] < rowMax && move[1] > rowMin
             })
         }
 
         if (position[1] === destination[1]) {
-            moves = this.movesLeft(position).concat(this.movesRight()).filter((move) => {
+            moves = this.movesLeft(position).concat(this.movesRight(position)).filter((move) => {
                 return move[0] < columnMax && move[0] > columnMin
             })
         }
@@ -221,7 +221,7 @@ class MoveLogic {
         return result
     }
 
-    validateDestination() {
+    validDestination(board, color) {
         if (this.board[this.destination].piece) {
             return this.piece.color !== this.board[this.destination].piece.color
         } else {
@@ -274,7 +274,7 @@ class MoveLogic {
     validMove(piece, nextMove, board, gameMoves) {
         return this.movesForPiece(piece).includes(nextMove) &&
             this.validMovePath(piece.currentPosition, nextMove, board) &&
-            this.validateDestination(piece.currentPosition, nextMove, board)
+            this.validDestination(board, piece.color)
     }
 
     movesForPiece(piece) {

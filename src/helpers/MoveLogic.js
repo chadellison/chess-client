@@ -1,10 +1,6 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
 class MoveLogic {
-    constructor(gameMoves) {
-        this.gameMoves = gameMoves
-    }
-
     movesLeft(position) {
         let moves = []
         let column = position[0]
@@ -108,7 +104,7 @@ class MoveLogic {
         })
     }
 
-    movesForPawn(position, board) {
+    movesForPawn(position, board, gameMoves) {
         let moves = []
         let nextSquare = this.oneForward(position, this.getColor(position, board))
         if(this.isOpen(nextSquare, board)) {
@@ -118,7 +114,7 @@ class MoveLogic {
             }
         }
 
-        return moves.concat(this.canCapturePiece(position, board)).concat(this.canEnPassant(position, board))
+        return moves.concat(this.canCapturePiece(position, board)).concat(this.canEnPassant(position, board, gameMoves))
     }
 
     oneForward(position, color) {
@@ -149,8 +145,8 @@ class MoveLogic {
             Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
     }
 
-    canEnPassant(position, board) {
-        let lastMovedPiece = this.gameMoves[this.gameMoves.length - 1]
+    canEnPassant(position, board, gameMoves) {
+        let lastMovedPiece = gameMoves[gameMoves.length - 1]
         let moves = []
         if(lastMovedPiece &&
                 lastMovedPiece.movedTwo &&
@@ -277,14 +273,14 @@ class MoveLogic {
     }
 
     validMove(piece, nextMove, board, gameMoves) {
-        return this.movesForPiece(piece, board).includes(nextMove) &&
+        return this.movesForPiece(piece, board, gameMoves).includes(nextMove) &&
             this.validMovePath(piece.currentPosition, nextMove, board) &&
             this.validDestination(board, piece.color, nextMove)
     }
 
-    movesForPiece(piece, board) {
+    movesForPiece(piece, board, gameMoves) {
         let types = {
-            pawn: this.movesForPawn(piece.currentPosition, board),
+            pawn: this.movesForPawn(piece.currentPosition, board, gameMoves),
             knight: this.movesForKnight(piece.currentPosition),
             bishop: this.movesForBishop(piece.currentPosition),
             rook: this.movesForRook(piece.currentPosition),

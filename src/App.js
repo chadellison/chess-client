@@ -40,7 +40,7 @@ class App extends Component {
         let board = JSON.parse(JSON.stringify(this.state.chessBoard))
         let piece = JSON.parse(JSON.stringify(this.state.selected))
         let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
-        let moveLogic = new MoveLogic(gameMoves)
+        let moveLogic = new MoveLogic()
 
         return (
             moveLogic.validMove(piece, coordinates, board, gameMoves) &&
@@ -159,11 +159,11 @@ class App extends Component {
             if (!this.state.selected) {
                 let board = this.state.chessBoard
                 let piece = board[id].piece
-                let moveLogic = new MoveLogic(this.state.moves)
-
-                let availableMoves = moveLogic.movesForPiece(piece, board).filter((move) => {
-                    return moveLogic.validMove(piece, move, board, this.state.moves) &&
-                        moveLogic.kingIsSafe(piece, move, board, this.state.moves)
+                let moveLogic = new MoveLogic()
+                let gameMoves = this.state.moves
+                let availableMoves = moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
+                    return moveLogic.validMove(piece, move, board, gameMoves) &&
+                        moveLogic.kingIsSafe(piece, move, board, gameMoves)
                 })
 
                 piece.availableMoves = availableMoves

@@ -622,9 +622,9 @@ describe('MoveLogic', () => {
             let moves = ['d5']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
             board.d4.piece = pawn
-            expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d4', board, gameMoves)).toEqual(moves)
         })
 
         it('returns an array of all moves for a pawn given a d2', () => {
@@ -636,9 +636,9 @@ describe('MoveLogic', () => {
             let moves = ['d3', 'd4']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
             board.d2.piece = pawn
-            expect(moveLogic.movesForPawn('d2', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d2', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return d4 if the square is occupied', () => {
@@ -658,9 +658,9 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.d4.piece = queen
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('d2', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d2', board, gameMoves)).toEqual(moves)
         })
 
         it('returns an array of all moves for a pawn given a d7', () => {
@@ -672,8 +672,8 @@ describe('MoveLogic', () => {
             }
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
-            expect(moveLogic.movesForPawn('d7', board)).toEqual(moves)
+            let moveLogic = new MoveLogic()
+            expect(moveLogic.movesForPawn('d7', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return d4 if the square is occupied', () => {
@@ -693,9 +693,9 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.d5.piece = queen
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('d7', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d7', board, gameMoves)).toEqual(moves)
         })
 
         it('returns additional moves if a white pawn can capture a piece on the left', () => {
@@ -716,9 +716,9 @@ describe('MoveLogic', () => {
             board.c5.piece = blackPawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d4', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return additional moves if the piece on the left is an allied pawn', () => {
@@ -739,9 +739,9 @@ describe('MoveLogic', () => {
             board.c5.piece = whitePawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d4', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return additional moves if the piece on the left is an allied pawn', () => {
@@ -762,9 +762,9 @@ describe('MoveLogic', () => {
             board.c5.piece = whitePawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d4', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return any moves if the pawn is blocked', () => {
@@ -784,9 +784,9 @@ describe('MoveLogic', () => {
           let board = JSON.parse(JSON.stringify(jsonChessBoard))
           board.d6.piece = queen
           let gameMoves = []
-          let moveLogic = new MoveLogic(gameMoves)
+          let moveLogic = new MoveLogic()
 
-          expect(moveLogic.movesForPawn('d7', board)).toEqual(moves)
+          expect(moveLogic.movesForPawn('d7', board, gameMoves)).toEqual(moves)
         })
 
         it('returns additional moves if a white pawn can capture a piece on the right', () => {
@@ -807,9 +807,9 @@ describe('MoveLogic', () => {
             board.e5.piece = blackPawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('d4', board, gameMoves)).toEqual(moves)
         })
 
         it('returns additional moves if a black pawn can capture a piece on the left', () => {
@@ -831,9 +831,9 @@ describe('MoveLogic', () => {
             board.e4.piece = whitePawn
             board.f5.piece = blackPawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('f5', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('f5', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return additional moves if the piece on the left is an allied pawn', () => {
@@ -855,9 +855,9 @@ describe('MoveLogic', () => {
             board.e4.piece = blackPawn
             board.f5.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('f5', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('f5', board, gameMoves)).toEqual(moves)
         })
 
         it('returns additional moves if a black pawn can capture a piece on the right', () => {
@@ -878,9 +878,9 @@ describe('MoveLogic', () => {
             board.c5.piece = pawn
             board.d4.piece = whitePawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('c5', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('c5', board, gameMoves)).toEqual(moves)
         })
 
         it('does not return additional moves if the piece on the right is another black pawn', () => {
@@ -901,9 +901,9 @@ describe('MoveLogic', () => {
             board.d4.piece = whitePawn
             board.c5.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(gameMoves)
+            let moveLogic = new MoveLogic()
 
-            expect(moveLogic.movesForPawn('c5', board)).toEqual(moves)
+            expect(moveLogic.movesForPawn('c5', board, gameMoves)).toEqual(moves)
         })
 
         it('returns additional moves for en passant if applicable', () => {
@@ -926,9 +926,9 @@ describe('MoveLogic', () => {
           board.c5.piece = blackPawn
           board.d5.piece = whitePawn
           let gameMoves = [whitePawn, blackPawn]
-          let moveLogic = new MoveLogic(gameMoves)
+          let moveLogic = new MoveLogic()
 
-          expect(moveLogic.movesForPawn('d5', board)).toEqual(moves)
+          expect(moveLogic.movesForPawn('d5', board, gameMoves)).toEqual(moves)
         })
 
         it('returns additional moves for en passant if applicable for black pawns', () => {
@@ -951,9 +951,9 @@ describe('MoveLogic', () => {
           let board = JSON.parse(JSON.stringify(jsonChessBoard))
           board.c4.piece = blackPawn
           board.d4.piece = whitePawn
-          let moveLogic = new MoveLogic(gameMoves)
+          let moveLogic = new MoveLogic()
 
-          expect(moveLogic.movesForPawn('c4', board)).toEqual(moves)
+          expect(moveLogic.movesForPawn('c4', board, gameMoves)).toEqual(moves)
         })
     })
 

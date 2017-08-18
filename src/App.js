@@ -51,11 +51,13 @@ class App extends Component {
 
         if(this.isValid(piece, coordinates, board, gameMoves)) {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
+            piece = this.state.selected
             this.isEnPassant(coordinates, updatedBoard)
             if(this.pawnMovedTwo(coordinates)) {
                 piece.movedTwo = true
             }
             updatedBoard[piece.currentPosition].piece = null
+
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
             gameMoves.push(piece)
@@ -155,18 +157,21 @@ class App extends Component {
     handleSelected(id) {
         if(this.state.chessBoard[id].piece.color === this.state.turn) {
             if (!this.state.selected) {
-                let board = this.state.chessBoard
-                let piece = board[id].piece
+                let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+                let piece = JSON.parse(JSON.stringify(board[id].piece))
                 let moveLogic = new MoveLogic()
-                let gameMoves = this.state.moves
+                let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
                 let availableMoves = moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
                     return this.isValid(piece, move, board, gameMoves)
                 })
 
                 piece.availableMoves = availableMoves
+                board[id].piece = piece
+
                 this.setState({
-                    selected: piece
+                    selected: piece,
+                    chessBoard: board
                 })
             } else if (this.state.selected === this.state.chessBoard[id].piece) {
                 this.setState({

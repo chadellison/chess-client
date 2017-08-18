@@ -577,9 +577,11 @@ describe('MoveLogic', () => {
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic()
+            let gameMoves = [king]
+            board.d4.piece = king
 
             let moves = ['c4', 'e4', 'd5', 'd3', 'e5', 'c5', 'c3', 'e3']
-            expect(moveLogic.movesForKing('d4')).toEqual(moves)
+            expect(moveLogic.movesForKing('d4', board, gameMoves)).toEqual(moves)
         })
 
         it('returns an array of only three moves when the king is in the corner', () => {
@@ -592,11 +594,13 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic()
             let moves = ['b1', 'a2', 'b2']
+            board.a1.piece = king
+            let gameMoves = [king]
 
-            expect(moveLogic.movesForKing('a1')).toEqual(moves)
+            expect(moveLogic.movesForKing('a1', board, gameMoves)).toEqual(moves)
         })
 
-        xit('returns moves for a castle if the king is on e1', () => {
+        it('returns moves for a castle if the king is on e1 and has not moved', () => {
             let king = {
                 'type': 'king',
                 'color': 'whtie',
@@ -605,9 +609,41 @@ describe('MoveLogic', () => {
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let moveLogic = new MoveLogic()
+            let gameMoves = []
 
             let moves = ['d1', 'f1', 'e2', 'f2', 'd2', 'c1', 'g1']
-            expect(moveLogic.movesForKing('e1')).toEqual(moves)
+            expect(moveLogic.movesForKing('e1', board, gameMoves)).toEqual(moves)
+        })
+
+        it('returns moves for a castle if the king is on e8 and has not moved', () => {
+            let king = {
+                'type': 'king',
+                'color': 'whtie',
+                'currentPosition': 'e1'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            let moveLogic = new MoveLogic()
+            let gameMoves = []
+
+            let moves = ['d8', 'f8', 'e7', 'd7', 'f7', 'c8', 'g8']
+            expect(moveLogic.movesForKing('e8', board, gameMoves)).toEqual(moves)
+        })
+
+        it('does not return moves for a castle if the king is on e1 and has moved', () => {
+            let king = {
+                'type': 'king',
+                'color': 'whtie',
+                'currentPosition': 'e1'
+            }
+
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            board.e1.piece = king
+            let moveLogic = new MoveLogic()
+            let gameMoves = [king]
+
+            let moves = ['d1', 'f1', 'e2', 'f2', 'd2']
+            expect(moveLogic.movesForKing('e1', board, gameMoves)).toEqual(moves)
         })
     })
 
@@ -1029,6 +1065,12 @@ describe('MoveLogic', () => {
     })
 
     describe('#getColor', () => {
+      xit('test', () => {
+
+      })
+    })
+
+    describe('#kingCastle', () => {
       xit('test', () => {
 
       })

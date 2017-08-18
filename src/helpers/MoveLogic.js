@@ -95,13 +95,19 @@ class MoveLogic {
         return knightMoves.filter((move) => this.validCoordinates(move))
     }
 
-    movesForKing(position) {
+    movesForKing(position, board, gameMoves) {
         let columns = [LETTER_KEY[position[0]], LETTER_KEY[position[0]] - 1, LETTER_KEY[position[0]] + 1]
         let rows = [parseInt(position[1], 10), parseInt(position[1], 10) - 1, parseInt(position[1], 10) + 1]
 
-        return this.movesForQueen(position).filter((move) => {
+        let moves = this.movesForQueen(position).filter((move) => {
             return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
         })
+
+        if(!gameMoves.includes(board[position].piece)) {
+            moves.push(String.fromCharCode(position[0].charCodeAt(0) - 2) + position[1])
+            moves.push(String.fromCharCode(position[0].charCodeAt(0) + 2) + position[1])
+        }
+        return moves
     }
 
     movesForPawn(position, board, gameMoves) {
@@ -232,6 +238,11 @@ class MoveLogic {
         updatedPiece.currentPosition = nextMove
         updatedBoard[nextMove].piece = updatedPiece
 
+        // if(this.kingCastle(piece, nextMove)) {
+        //     let column = piece.currentPosition[0] > nextMove[0] ? this.oneLeft(piece.currentPosition) : this.oneRight(piece.currentPosition)
+        //     updatedBoard[(column + nextMove[1])].piece = updatedPiece
+        // }
+
         let opponentPieces = Object.values(updatedBoard)
             .map((square) => square.piece)
             .filter((piece) => piece)
@@ -240,10 +251,15 @@ class MoveLogic {
             })
         opponentPieces.forEach((eachPiece) => {
             if(this.inCheck(eachPiece, updatedBoard, gameMoves)) {
-              result = false
+                result = false
             }
         })
         return result
+    }
+
+    kingCastle(piece, nextMove) {
+        return piece.type === 'king' &&
+            Math.abs(LETTER_KEY[piece[0]] - LETTER_KEY[nextMove[1]]) === 2
     }
 
     kingLocation(board, color) {
@@ -285,7 +301,7 @@ class MoveLogic {
             bishop: this.movesForBishop(piece.currentPosition),
             rook: this.movesForRook(piece.currentPosition),
             queen: this.movesForQueen(piece.currentPosition),
-            king: this.movesForKing(piece.currentPosition)
+            king: this.movesForKing(piece.currentPosition, board, gameMoves)
         }
         return types[piece.type]
     }

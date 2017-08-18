@@ -38,4 +38,14 @@ describe('Square', () => {
 
     })
   })
+
+  describe('#availableMove', () => {
+    xit('test', () => {
+
+    })
+
+    xit('test', () => {
+
+    })
+  })
 })

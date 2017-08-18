@@ -30,9 +30,17 @@ class Square extends Component {
     }
   }
 
+  get availableMove() {
+      if(this.props.isSelected && this.props.isSelected.availableMoves.includes(this.props.id)) {
+          return ' available'
+      } else {
+          return ''
+      }
+  }
+
   render() {
     return(
-      <div className={this.props.styles} onClick={this.handleMove}>
+      <div className={`${this.props.styles}${this.availableMove}`} onClick={this.handleMove}>
         {this.piece}
       </div>
     )

@@ -1,8 +1,7 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
 class MoveLogic {
-    constructor(destination, gameMoves) {
-        this.destination = destination
+    constructor(gameMoves) {
         this.gameMoves = gameMoves
     }
 
@@ -151,14 +150,15 @@ class MoveLogic {
     }
 
     canEnPassant(position, board) {
-        let lastMove = this.gameMoves[this.gameMoves.length - 1]
+        let lastMovedPiece = this.gameMoves[this.gameMoves.length - 1]
         let moves = []
-        if(lastMove &&
-                lastMove.movedTwo &&
-                lastMove.type === 'pawn' &&
+        if(lastMovedPiece &&
+                lastMovedPiece.movedTwo &&
+                lastMovedPiece.type === 'pawn' &&
+                lastMovedPiece.currentPosition[1] === position[1] &&
                 [this.oneLeft(position)[0], this.oneRight(position)[0]]
-                    .includes(lastMove.currentPosition[0])) {
-            moves.push(lastMove.currentPosition[0] + this.oneForward(position, this.getColor(position, board))[1])
+                    .includes(lastMovedPiece.currentPosition[0])) {
+            moves.push(lastMovedPiece.currentPosition[0] + this.oneForward(position, this.getColor(position, board))[1])
         }
         return moves
     }
@@ -218,9 +218,9 @@ class MoveLogic {
         return result
     }
 
-    validDestination(board, color) {
-        if (board[this.destination].piece) {
-            return color !== board[this.destination].piece.color
+    validDestination(board, color, destination) {
+        if (board[destination].piece) {
+            return color !== board[destination].piece.color
         } else {
             return true
         }
@@ -279,7 +279,7 @@ class MoveLogic {
     validMove(piece, nextMove, board, gameMoves) {
         return this.movesForPiece(piece, board).includes(nextMove) &&
             this.validMovePath(piece.currentPosition, nextMove, board) &&
-            this.validDestination(board, piece.color)
+            this.validDestination(board, piece.color, nextMove)
     }
 
     movesForPiece(piece, board) {

@@ -36,10 +36,10 @@ class App extends Component {
         this.handleMoveLog = this.handleMoveLog.bind(this)
     }
 
-    isValid(coordinates) {
-        let board = JSON.parse(JSON.stringify(this.state.chessBoard))
-        let piece = JSON.parse(JSON.stringify(this.state.selected))
-        let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
+    isValid(piece, coordinates, board, gameMoves) {
+        // let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+        // let piece = JSON.parse(JSON.stringify(this.state.selected))
+        // let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
         let moveLogic = new MoveLogic()
 
         return (
@@ -49,10 +49,12 @@ class App extends Component {
     }
 
     move(coordinates) {
-        if(this.isValid(coordinates)) {
+        let piece = JSON.parse(JSON.stringify(this.state.selected))
+        let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+        let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
+
+        if(this.isValid(piece, coordinates, board, gameMoves)) {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
-            let piece = this.state.selected
-            let updatedMoves = this.state.moves
             this.isEnPassant(coordinates, updatedBoard)
             if(this.pawnMovedTwo(coordinates)) {
                 piece.movedTwo = true
@@ -60,10 +62,10 @@ class App extends Component {
             updatedBoard[piece.currentPosition].piece = null
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
-            updatedMoves.push(piece)
+            gameMoves.push(piece)
             this.setState({
                 chessBoard: updatedBoard,
-                moves: updatedMoves,
+                moves: gameMoves,
                 turn: this.updateTurn(),
                 messageToUser: ''
             })
@@ -161,9 +163,9 @@ class App extends Component {
                 let piece = board[id].piece
                 let moveLogic = new MoveLogic()
                 let gameMoves = this.state.moves
+                
                 let availableMoves = moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
-                    return moveLogic.validMove(piece, move, board, gameMoves) &&
-                        moveLogic.kingIsSafe(piece, move, board, gameMoves)
+                    return this.isValid(piece, move, board, gameMoves)
                 })
 
                 piece.availableMoves = availableMoves

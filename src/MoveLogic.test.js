@@ -12,7 +12,7 @@ describe('MoveLogic', () => {
 
             let rookMoves = ['b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesForRook('a1')).toEqual(rookMoves)
         })
 
@@ -25,7 +25,7 @@ describe('MoveLogic', () => {
 
             let rookMoves = ['c4', 'b4', 'a4', 'e4', 'f4', 'g4', 'h4', 'd5', 'd6', 'd7', 'd8', 'd3', 'd2', 'd1']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesForRook('d4')).toEqual(rookMoves)
         })
     })
@@ -39,7 +39,7 @@ describe('MoveLogic', () => {
             }
             let moves = ['c3', 'b3', 'a3']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesLeft('d3')).toEqual(moves)
         })
 
@@ -52,7 +52,7 @@ describe('MoveLogic', () => {
 
             let moves = []
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesLeft('a3')).toEqual(moves)
         })
     })
@@ -67,7 +67,7 @@ describe('MoveLogic', () => {
 
             let moves = ['c6', 'd6', 'e6', 'f6', 'g6', 'h6']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesRight('b6')).toEqual(moves)
         })
 
@@ -80,7 +80,7 @@ describe('MoveLogic', () => {
 
             let moves = []
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesRight('h8')).toEqual(moves)
         })
     })
@@ -95,7 +95,7 @@ describe('MoveLogic', () => {
 
             let moves = ['f5', 'f6', 'f7', 'f8']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesUp('f4')).toEqual(moves)
         })
 
@@ -107,7 +107,7 @@ describe('MoveLogic', () => {
             }
             let moves = []
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesUp('h8')).toEqual(moves)
         })
     })
@@ -122,7 +122,7 @@ describe('MoveLogic', () => {
 
             let moves = ['e5', 'e4', 'e3', 'e2', 'e1']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesDown('e6')).toEqual(moves)
         })
 
@@ -135,7 +135,7 @@ describe('MoveLogic', () => {
 
             let moves = []
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesDown('e1')).toEqual(moves)
         })
     })
@@ -150,7 +150,7 @@ describe('MoveLogic', () => {
 
             let moves = ['d5', 'b5', 'b3', 'd3', 'e6', 'a6', 'a2', 'e2', 'f7', 'f1', 'g8']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesForBishop('c4')).toEqual(moves)
         })
 
@@ -163,7 +163,7 @@ describe('MoveLogic', () => {
 
             let moves = ['h3', 'f3', 'f1', 'h1', 'e4', 'd5', 'c6', 'b7', 'a8']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesForBishop('g2')).toEqual(moves)
         })
 
@@ -176,7 +176,7 @@ describe('MoveLogic', () => {
 
             let moves = ['f8', 'd8', 'd6', 'f6', 'c5', 'g5', 'b4', 'h4', 'a3']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesForBishop('e7')).toEqual(moves)
         })
     })
@@ -194,7 +194,7 @@ describe('MoveLogic', () => {
                           'f6', 'b6', 'b2', 'f2', 'g7', 'a7', 'a1', 'g1', 'h8']
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen)
+            let moveLogic = new MoveLogic()
             expect(moveLogic.movesForQueen('d4')).toEqual(moves)
         })
     })
@@ -207,7 +207,7 @@ describe('MoveLogic', () => {
               'currentPosition': 'd2'
             }
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen, 'd4')
+            let moveLogic = new MoveLogic('d4')
             expect(moveLogic.validMovePath('d2', 'd4', board)).toEqual(true)
         })
 
@@ -219,7 +219,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen, 'd5')
+            let moveLogic = new MoveLogic('d5')
             expect(moveLogic.validMovePath('d7', 'd5', board)).toEqual(true)
         })
 
@@ -231,7 +231,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen, 'd3')
+            let moveLogic = new MoveLogic('d3')
 
             expect(moveLogic.validMovePath('d1', 'd3', board)).toEqual(false)
         })
@@ -244,7 +244,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen, 'a5')
+            let moveLogic = new MoveLogic('a5')
 
             expect(moveLogic.validMovePath('a8', 'a5', board)).toEqual(false)
         })
@@ -257,7 +257,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(rook, 'f5')
+            let moveLogic = new MoveLogic('f5')
 
             expect(moveLogic.validMovePath('b5', 'f5', board)).toEqual(true)
         })
@@ -270,7 +270,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(queen, 'a5')
+            let moveLogic = new MoveLogic('a5')
 
             expect(moveLogic.validMovePath('g5', 'a5', board)).toEqual(true)
         })
@@ -291,7 +291,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.d6.piece = queen
             board.b6.piece = pawn
-            let moveLogic = new MoveLogic(queen, 'a6')
+            let moveLogic = new MoveLogic('a6')
 
             expect(moveLogic.validMovePath('d6', 'a6', board)).toEqual(false)
         })
@@ -312,7 +312,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.a6.piece = queen
             board.c6.piece = pawn
-            let moveLogic = new MoveLogic(queen, 'd6')
+            let moveLogic = new MoveLogic('d6')
 
             expect(moveLogic.validMovePath('a6', 'd6', board)).toEqual(false)
         })
@@ -325,7 +325,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'f6')
+            let moveLogic = new MoveLogic('f6')
 
             expect(moveLogic.validMovePath('c3', 'f6', board)).toEqual(true)
         })
@@ -338,7 +338,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'h8')
+            let moveLogic = new MoveLogic('h8')
 
             expect(moveLogic.validMovePath('f6', 'h8', board)).toEqual(false)
         })
@@ -351,7 +351,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'g2')
+            let moveLogic = new MoveLogic('g2')
 
             expect(moveLogic.validMovePath('c6', 'g2', board)).toEqual(true)
         })
@@ -364,7 +364,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'h1')
+            let moveLogic = new MoveLogic('h1')
 
             expect(moveLogic.validMovePath('c6', 'h1', board)).toEqual(false)
         })
@@ -377,7 +377,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'f7')
+            let moveLogic = new MoveLogic('f7')
 
             expect(moveLogic.validMovePath('h5', 'f7', board)).toEqual(true)
         })
@@ -390,7 +390,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'b8')
+            let moveLogic = new MoveLogic('b8')
 
             expect(moveLogic.validMovePath('e5', 'b8', board)).toEqual(false)
         })
@@ -403,7 +403,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'e2')
+            let moveLogic = new MoveLogic('e2')
 
             expect(moveLogic.validMovePath('g4', 'e2', board)).toEqual(true)
         })
@@ -416,7 +416,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'd1')
+            let moveLogic = new MoveLogic('d1')
 
             expect(moveLogic.validMovePath('g4', 'd1', board)).toEqual(false)
         })
@@ -431,7 +431,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.d7.piece = null
             board.a4.piece = queen
-            let moveLogic = new MoveLogic(queen, 'e8')
+            let moveLogic = new MoveLogic('e8')
 
             expect(moveLogic.validMovePath('a4', 'e8', board)).toEqual(true)
         })
@@ -445,7 +445,7 @@ describe('MoveLogic', () => {
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.a4.piece = queen
-            let moveLogic = new MoveLogic(queen, 'e8')
+            let moveLogic = new MoveLogic('e8')
 
             expect(moveLogic.validMovePath('a4', 'e8', board)).toEqual(false)
         })
@@ -459,7 +459,7 @@ describe('MoveLogic', () => {
                 'currentPosition': 'c1'
             }
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'd2')
+            let moveLogic = new MoveLogic('d2')
 
             expect(moveLogic.validDestination(board, bishop.color)).toEqual(false)
         })
@@ -472,7 +472,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'b7')
+            let moveLogic = new MoveLogic('b7')
 
             expect(moveLogic.validDestination(board, bishop.color)).toEqual(true)
         })
@@ -485,7 +485,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(bishop, 'b5')
+            let moveLogic = new MoveLogic('b5')
 
             expect(moveLogic.validDestination(board, bishop.color)).toEqual(true)
         })
@@ -501,7 +501,7 @@ describe('MoveLogic', () => {
 
             let moves = ['d2', 'c3', 'a3']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(knight, 'b5')
+            let moveLogic = new MoveLogic('b5')
 
             expect(moveLogic.movesForKnight('b1')).toEqual(moves)
         })
@@ -515,7 +515,7 @@ describe('MoveLogic', () => {
 
             let moves = ["b6", "b4", "f6", "f4", "e7", "c7", "e3", "c3"]
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(knight, 'd5')
+            let moveLogic = new MoveLogic('d5')
             expect(moveLogic.movesForKnight('d5')).toEqual(moves)
         })
     })
@@ -527,10 +527,10 @@ describe('MoveLogic', () => {
                 'color': 'white',
                 'currentPosition': 'd4'
             }
-
-            jsonChessBoard.d4.piece = queen
-            expect(MoveLogic.kingIsSafe(queen, 'd5', jsonChessBoard, 'e1')).toEqual(true)
-            jsonChessBoard.d4.piece = null
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            board.d4.piece = queen
+            let moveLogic = new MoveLogic()
+            expect(moveLogic.kingIsSafe(queen, 'd5', jsonChessBoard, 'e1')).toEqual(true)
         })
 
         xit('returns false if the king is in check after the move', () => {
@@ -552,14 +552,12 @@ describe('MoveLogic', () => {
               'currentPosition': 'e6'
           }
 
-          jsonChessBoard.e4.piece = queen
-          jsonChessBoard.e3.piece = king
-          jsonChessBoard.e6.piece = blackQueen
-
-          expect(MoveLogic.kingIsSafe(queen, 'd5', jsonChessBoard, king.currentPosition)).toEqual(false)
-          jsonChessBoard.e4.piece = null
-          jsonChessBoard.e3.piece = null
-          jsonChessBoard.e6.piece = null
+          let board = JSON.parse(JSON.stringify(jsonChessBoard))
+          board.e4.piece = queen
+          board.e3.piece = king
+          board.e6.piece = blackQueen
+          let moveLogic = new MoveLogic()
+          expect(moveLogic.kingIsSafe(queen, 'd5', jsonChessBoard, king.currentPosition)).toEqual(false)
         })
     })
 
@@ -578,7 +576,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(king)
+            let moveLogic = new MoveLogic()
 
             let moves = ['c4', 'e4', 'd5', 'd3', 'e5', 'c5', 'c3', 'e3']
             expect(moveLogic.movesForKing('d4')).toEqual(moves)
@@ -592,7 +590,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(king)
+            let moveLogic = new MoveLogic()
             let moves = ['b1', 'a2', 'b2']
 
             expect(moveLogic.movesForKing('a1')).toEqual(moves)
@@ -606,7 +604,7 @@ describe('MoveLogic', () => {
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
-            let moveLogic = new MoveLogic(king)
+            let moveLogic = new MoveLogic()
 
             let moves = ['d1', 'f1', 'e2', 'f2', 'd2', 'c1', 'g1']
             expect(moveLogic.movesForKing('e1')).toEqual(moves)
@@ -624,7 +622,7 @@ describe('MoveLogic', () => {
             let moves = ['d5']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
             board.d4.piece = pawn
             expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
         })
@@ -638,7 +636,7 @@ describe('MoveLogic', () => {
             let moves = ['d3', 'd4']
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
             board.d2.piece = pawn
             expect(moveLogic.movesForPawn('d2', board)).toEqual(moves)
         })
@@ -660,7 +658,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.d4.piece = queen
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('d2', board)).toEqual(moves)
         })
@@ -674,7 +672,7 @@ describe('MoveLogic', () => {
             }
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
             expect(moveLogic.movesForPawn('d7', board)).toEqual(moves)
         })
 
@@ -695,7 +693,7 @@ describe('MoveLogic', () => {
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
             board.d5.piece = queen
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('d7', board)).toEqual(moves)
         })
@@ -718,7 +716,7 @@ describe('MoveLogic', () => {
             board.c5.piece = blackPawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
         })
@@ -741,7 +739,7 @@ describe('MoveLogic', () => {
             board.c5.piece = whitePawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
         })
@@ -764,7 +762,7 @@ describe('MoveLogic', () => {
             board.c5.piece = whitePawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
         })
@@ -786,7 +784,7 @@ describe('MoveLogic', () => {
           let board = JSON.parse(JSON.stringify(jsonChessBoard))
           board.d6.piece = queen
           let gameMoves = []
-          let moveLogic = new MoveLogic(pawn, null, gameMoves)
+          let moveLogic = new MoveLogic(null, gameMoves)
 
           expect(moveLogic.movesForPawn('d7', board)).toEqual(moves)
         })
@@ -809,7 +807,7 @@ describe('MoveLogic', () => {
             board.e5.piece = blackPawn
             board.d4.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('d4', board)).toEqual(moves)
         })
@@ -833,7 +831,7 @@ describe('MoveLogic', () => {
             board.e4.piece = whitePawn
             board.f5.piece = blackPawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(blackPawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('f5', board)).toEqual(moves)
         })
@@ -857,7 +855,7 @@ describe('MoveLogic', () => {
             board.e4.piece = blackPawn
             board.f5.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('f5', board)).toEqual(moves)
         })
@@ -880,7 +878,7 @@ describe('MoveLogic', () => {
             board.c5.piece = pawn
             board.d4.piece = whitePawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('c5', board)).toEqual(moves)
         })
@@ -903,7 +901,7 @@ describe('MoveLogic', () => {
             board.d4.piece = whitePawn
             board.c5.piece = pawn
             let gameMoves = []
-            let moveLogic = new MoveLogic(pawn, null, gameMoves)
+            let moveLogic = new MoveLogic(null, gameMoves)
 
             expect(moveLogic.movesForPawn('c5', board)).toEqual(moves)
         })
@@ -928,7 +926,7 @@ describe('MoveLogic', () => {
           board.c5.piece = blackPawn
           board.d5.piece = whitePawn
           let gameMoves = [whitePawn, blackPawn]
-          let moveLogic = new MoveLogic(whitePawn, null, gameMoves)
+          let moveLogic = new MoveLogic(null, gameMoves)
 
           expect(moveLogic.movesForPawn('d5', board)).toEqual(moves)
         })
@@ -953,7 +951,7 @@ describe('MoveLogic', () => {
           let board = JSON.parse(JSON.stringify(jsonChessBoard))
           board.c4.piece = blackPawn
           board.d4.piece = whitePawn
-          let moveLogic = new MoveLogic(blackPawn, null, gameMoves)
+          let moveLogic = new MoveLogic(null, gameMoves)
 
           expect(moveLogic.movesForPawn('c4', board)).toEqual(moves)
         })
@@ -1025,6 +1023,12 @@ describe('MoveLogic', () => {
     })
 
     describe('#validMove', () => {
+      xit('test', () => {
+
+      })
+    })
+
+    describe('#getColor', () => {
       xit('test', () => {
 
       })

@@ -1,8 +1,7 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
 class MoveLogic {
-    constructor(piece, destination, gameMoves) {
-        this.piece = piece
+    constructor(destination, gameMoves) {
         this.destination = destination
         this.gameMoves = gameMoves
     }
@@ -112,19 +111,19 @@ class MoveLogic {
 
     movesForPawn(position, board) {
         let moves = []
-        let nextSquare = this.oneForward(position)
+        let nextSquare = this.oneForward(position, this.getColor(position, board))
         if(this.isOpen(nextSquare, board)) {
             moves.push(nextSquare)
-            if(this.isOpen(this.oneForward(nextSquare), board) && ['2', '7'].includes(position[1])) {
-                moves.push(this.oneForward(nextSquare))
+            if(this.isOpen(this.oneForward(nextSquare, this.getColor(position, board)), board) && ['2', '7'].includes(position[1])) {
+                moves.push(this.oneForward(nextSquare, this.getColor(position, board)))
             }
         }
 
-        return moves.concat(this.canCapturePiece(position, board)).concat(this.canEnPassant(position))
+        return moves.concat(this.canCapturePiece(position, board)).concat(this.canEnPassant(position, board))
     }
 
-    oneForward(position) {
-      if(this.piece.color === 'white') {
+    oneForward(position, color) {
+      if(color === 'white') {
           return position[0] + (parseInt(position[1], 10) + 1)
       } else {
           return position[0] + (parseInt(position[1], 10) - 1)
@@ -151,7 +150,7 @@ class MoveLogic {
             Object.values(LETTER_KEY).includes(parseInt(coordinates[1], 10))
     }
 
-    canEnPassant(position) {
+    canEnPassant(position, board) {
         let lastMove = this.gameMoves[this.gameMoves.length - 1]
         let moves = []
         if(lastMove &&
@@ -159,7 +158,7 @@ class MoveLogic {
                 lastMove.type === 'pawn' &&
                 [this.oneLeft(position)[0], this.oneRight(position)[0]]
                     .includes(lastMove.currentPosition[0])) {
-            moves.push(lastMove.currentPosition[0] + this.oneForward(position)[1])
+            moves.push(lastMove.currentPosition[0] + this.oneForward(position, this.getColor(position, board))[1])
         }
         return moves
     }
@@ -167,19 +166,19 @@ class MoveLogic {
     canCapturePiece(position, board) {
         let moves = []
         if(this.checkDiagonal(position, this.oneLeft(position), board)) {
-            moves.push(this.oneLeft(this.oneForward(position)))
+            moves.push(this.oneLeft(this.oneForward(position, this.getColor(position, board))))
         }
 
         if(this.checkDiagonal(position, this.oneRight(position), board)) {
-            moves.push(this.oneRight(this.oneForward(position)))
+            moves.push(this.oneRight(this.oneForward(position, this.getColor(position, board))))
         }
         return moves
     }
 
     checkDiagonal(position, direction, board) {
-      if(this.validCoordinates(this.oneForward(direction))) {
-          let potentialEnemy = board[this.oneForward(direction)].piece
-          return potentialEnemy && this.piece.color !== potentialEnemy.color
+      if(this.validCoordinates(this.oneForward(direction, this.getColor(position, board)))) {
+          let potentialEnemy = board[this.oneForward(direction, this.getColor(position, board))].piece
+          return potentialEnemy && this.getColor(position, board) !== potentialEnemy.color
       }
     }
 
@@ -251,12 +250,12 @@ class MoveLogic {
         return result
     }
 
-    kingLocation(board) {
+    kingLocation(board, color) {
       return Object.values(board).filter((square) => {
         return(
             square.piece &&
             square.piece.type === 'king' &&
-            square.piece.color === this.piece.color
+            square.piece.color === color
         )
       })[0].piece.currentPosition
     }
@@ -265,8 +264,16 @@ class MoveLogic {
         return piece.color === 'white' ? 'black' : 'white'
     }
 
+    getColor(position, board) {
+        return board[position].piece.color
+    }
+
     inCheck(piece, chessBoard, gameMoves) {
-        return this.validMove(piece, this.kingLocation(chessBoard), chessBoard, gameMoves)
+        return this.validMove(
+            piece,
+            this.kingLocation(chessBoard, this.opponentColor(piece)),
+            chessBoard, gameMoves
+        )
     }
 
     validMove(piece, nextMove, board, gameMoves) {

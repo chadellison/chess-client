@@ -1075,4 +1075,10 @@ describe('MoveLogic', () => {
 
       })
     })
+
+    describe('#opponentPieces', () => {
+      xit('test', () => {
+
+      })
+    })
 })

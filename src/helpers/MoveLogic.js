@@ -238,28 +238,45 @@ class MoveLogic {
         updatedPiece.currentPosition = nextMove
         updatedBoard[nextMove].piece = updatedPiece
 
-        // if(this.kingCastle(piece, nextMove)) {
-        //     let column = piece.currentPosition[0] > nextMove[0] ? this.oneLeft(piece.currentPosition) : this.oneRight(piece.currentPosition)
-        //     updatedBoard[(column + nextMove[1])].piece = updatedPiece
-        // }
-
-        let opponentPieces = Object.values(updatedBoard)
-            .map((square) => square.piece)
-            .filter((piece) => piece)
-            .filter((piece) => {
-                return (piece.color === opponentColor && piece.type !== 'king')
-            })
-        opponentPieces.forEach((eachPiece) => {
+        this.opponentPieces(updatedBoard, opponentColor).forEach((eachPiece) => {
             if(this.inCheck(eachPiece, updatedBoard, gameMoves)) {
                 result = false
             }
         })
+
+        if (this.kingCastle(piece, nextMove)) {
+            let positions = [piece.currentPosition]
+            positions.push(piece.currentPosition[0] > nextMove[0] ? this.oneLeft(piece.currentPosition) : this.oneRight(piece.currentPosition))
+            positions.forEach((position) => {
+                let board2 = JSON.parse(JSON.stringify(chessBoard))
+                let piece2 = JSON.parse(JSON.stringify(piece))
+                board2[piece2.currentPosition].piece = null
+                piece2.currentPosition = position
+                board2[position].piece = piece2
+
+                this.opponentPieces(board2, opponentColor).forEach((eachPiece) => {
+                  if(this.inCheck(eachPiece, board2, gameMoves)) {
+                    result = false
+                  }
+                })
+            })
+        }
+
         return result
+    }
+
+    opponentPieces(board, opponentColor) {
+        return Object.values(board)
+            .map((square) => square.piece)
+            .filter((piece) => piece)
+            .filter((piece) => {
+                return (piece.color === opponentColor && piece.type !== 'king')
+        })
     }
 
     kingCastle(piece, nextMove) {
         return piece.type === 'king' &&
-            Math.abs(LETTER_KEY[piece[0]] - LETTER_KEY[nextMove[1]]) === 2
+            Math.abs(LETTER_KEY[piece.currentPosition[0]] - LETTER_KEY[nextMove[0]]) === 2
     }
 
     kingLocation(board, color) {

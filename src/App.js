@@ -52,6 +52,7 @@ class App extends Component {
         if(this.isValid(piece, coordinates, board, gameMoves)) {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
             piece = this.state.selected
+            this.isCastle(piece, coordinates, updatedBoard)
             this.isEnPassant(coordinates, updatedBoard)
             if(this.pawnMovedTwo(coordinates)) {
                 piece.movedTwo = true
@@ -75,10 +76,24 @@ class App extends Component {
         })
     }
 
-    pawnMovedTwo(coordinates) {
-        return this.state.selected.type === 'pawn' &&
-            Math.abs(parseInt(coordinates[1], 10) -
-            parseInt(this.state.selected.currentPosition[1], 10)) === 2
+    isCastle(piece, coordinates, updatedBoard) {
+        if(piece.type === 'king' && piece.currentPosition[0] === 'e' && ['c', 'g'].includes(coordinates[0])) {
+            let oldColumn
+            let newColumn
+
+            if (piece.currentPosition[0] > coordinates[0]) {
+                oldColumn = 'a'
+                newColumn = 'd'
+            } else {
+                oldColumn = 'h'
+                newColumn = 'f'
+            }
+            let rook = updatedBoard[oldColumn + coordinates[1]].piece
+
+            rook.currentPosition = (newColumn + coordinates[1])
+            updatedBoard[oldColumn + coordinates[1]].piece = null
+            updatedBoard[newColumn + coordinates[1]].piece = rook
+        }
     }
 
     isEnPassant(coordinates, updatedBoard) {
@@ -88,6 +103,12 @@ class App extends Component {
             piece.type === 'pawn') {
               updatedBoard[coordinates[0] + piece.currentPosition[1]].piece = null
         }
+    }
+
+    pawnMovedTwo(coordinates) {
+        return this.state.selected.type === 'pawn' &&
+            Math.abs(parseInt(coordinates[1], 10) -
+            parseInt(this.state.selected.currentPosition[1], 10)) === 2
     }
 
     updateTurn() {

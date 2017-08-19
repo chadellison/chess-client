@@ -407,4 +407,10 @@ describe('App', () => {
 
         })
     })
+
+    describe('#isCastle', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

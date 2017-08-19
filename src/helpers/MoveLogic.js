@@ -108,7 +108,7 @@ class MoveLogic {
             let leftRook = board['a' + position[1]].piece
             let rightRook = board['h' + position[1]].piece
 
-            if(leftRook && leftRook.type === 'rook' && !leftRook.hasMoved) {
+            if(leftRook && leftRook.type === 'rook' && !leftRook.hasMoved && !board['b' + position[1]].piece) {
                 moves.push(String.fromCharCode(position[0].charCodeAt(0) - 2) + position[1])
             }
             if(rightRook && rightRook.type === 'rook' && !rightRook.hasMoved) {

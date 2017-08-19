@@ -102,10 +102,18 @@ class MoveLogic {
         let moves = this.movesForQueen(position).filter((move) => {
             return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
         })
+        let piece = board[position].piece
 
-        if(!gameMoves.includes(board[position].piece)) {
-            moves.push(String.fromCharCode(position[0].charCodeAt(0) - 2) + position[1])
-            moves.push(String.fromCharCode(position[0].charCodeAt(0) + 2) + position[1])
+        if(piece.type === 'king' && !piece.hasMoved) {
+            let leftRook = board['a' + position[1]].piece
+            let rightRook = board['h' + position[1]].piece
+
+            if(leftRook && leftRook.type === 'rook' && !leftRook.hasMoved) {
+                moves.push(String.fromCharCode(position[0].charCodeAt(0) - 2) + position[1])
+            }
+            if(rightRook && rightRook.type === 'rook' && !rightRook.hasMoved) {
+                moves.push(String.fromCharCode(position[0].charCodeAt(0) + 2) + position[1])
+            }
         }
         return moves
     }

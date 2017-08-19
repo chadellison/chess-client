@@ -588,7 +588,8 @@ describe('MoveLogic', () => {
             let king = {
                 'type': 'king',
                 'color': 'whtie',
-                'currentPosition': 'a1'
+                'currentPosition': 'a1',
+                'hasMoved': true
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -634,7 +635,8 @@ describe('MoveLogic', () => {
             let king = {
                 'type': 'king',
                 'color': 'whtie',
-                'currentPosition': 'e1'
+                'currentPosition': 'e1',
+                'hasMoved': true
             }
 
             let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -644,6 +646,10 @@ describe('MoveLogic', () => {
 
             let moves = ['d1', 'f1', 'e2', 'f2', 'd2']
             expect(moveLogic.movesForKing('e1', board, gameMoves)).toEqual(moves)
+        })
+
+        xit('test', () => {
+
         })
     })
 

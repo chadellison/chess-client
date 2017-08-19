@@ -61,6 +61,7 @@ class App extends Component {
 
             updatedBoard[coordinates].piece = piece
             piece.currentPosition = coordinates
+            piece.hasMoved = true
             gameMoves.push(piece)
             this.setState({
                 chessBoard: updatedBoard,
@@ -243,7 +244,7 @@ class App extends Component {
 
     handleMoveLog() {
         this.setState({
-          moveLogActive: !this.state.moveLogActive
+            moveLogActive: !this.state.moveLogActive
         })
     }
 
@@ -287,7 +288,6 @@ class App extends Component {
                 </div>
             )
         }
-
         return buttons
     }
 

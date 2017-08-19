@@ -231,37 +231,26 @@ class MoveLogic {
     kingIsSafe(piece, nextMove, chessBoard, gameMoves) {
         let result = true
         let opponentColor = this.opponentColor(piece)
-        let updatedBoard = JSON.parse(JSON.stringify(chessBoard))
-        let updatedPiece = JSON.parse(JSON.stringify(piece))
-
-        updatedBoard[piece.currentPosition].piece = null
-        updatedPiece.currentPosition = nextMove
-        updatedBoard[nextMove].piece = updatedPiece
-
-        this.opponentPieces(updatedBoard, opponentColor).forEach((eachPiece) => {
-            if(this.inCheck(eachPiece, updatedBoard, gameMoves)) {
-                result = false
-            }
-        })
+        let positions = [nextMove]
 
         if (this.kingCastle(piece, nextMove)) {
-            let positions = [piece.currentPosition]
             positions.push(piece.currentPosition[0] > nextMove[0] ? this.oneLeft(piece.currentPosition) : this.oneRight(piece.currentPosition))
-            positions.forEach((position) => {
-                let board2 = JSON.parse(JSON.stringify(chessBoard))
-                let piece2 = JSON.parse(JSON.stringify(piece))
-                board2[piece2.currentPosition].piece = null
-                piece2.currentPosition = position
-                board2[position].piece = piece2
-
-                this.opponentPieces(board2, opponentColor).forEach((eachPiece) => {
-                  if(this.inCheck(eachPiece, board2, gameMoves)) {
-                    result = false
-                  }
-                })
-            })
+            positions.push(piece.currentPosition)
         }
 
+        positions.forEach((position) => {
+            let board = JSON.parse(JSON.stringify(chessBoard))
+            let updatedPiece = JSON.parse(JSON.stringify(piece))
+            board[updatedPiece.currentPosition].piece = null
+            updatedPiece.currentPosition = position
+            board[position].piece = updatedPiece
+
+            this.opponentPieces(board, opponentColor).forEach((eachPiece) => {
+                if(this.inCheck(eachPiece, board, gameMoves)) {
+                    result = false
+                }
+            })
+        })
         return result
     }
 

@@ -10,7 +10,7 @@ class Board extends Component {
             let eachRow = row.map((square, columnIndex) => {
                 return(
                     <Square key={columnIndex}
-                      styles={`col-xs-1 square ${this.squareColor(square)}`}
+                      styles={`col-xs-1 square ${this.setOffset(columnIndex)} ${this.squareColor(square)}`}
                       piece={this.props.chessBoard[square].piece}
                       handleSelected={this.props.handleSelected}
                       isSelected={this.props.isSelected}
@@ -21,6 +21,14 @@ class Board extends Component {
             })
             return(<div key={rowIndex} className="row">{eachRow}</div>)
       })
+  }
+
+  setOffset(index) {
+      if(index % 8 === 0) {
+          return 'col-xs-offset-2'
+      } else {
+          return ''
+      }
   }
 
   boardRows() {
@@ -45,7 +53,7 @@ class Board extends Component {
 
   render() {
     return(
-      <div id="chessBoard" className="col-xs-10">
+      <div id="chessBoard" className="col-xs-9">
         {this.currentSetup}
       </div>
     )

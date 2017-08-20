@@ -334,7 +334,7 @@ class App extends Component {
                         isSelected={this.state.selected}
                         move={this.move}
                     />
-                    <div className='sideBar col-xs-2'>
+                    <div className='sideBar col-xs-3'>
                         {this.buttons}
                         {this.signUpForm}
                         {this.moveLog}

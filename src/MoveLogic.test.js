@@ -1114,9 +1114,165 @@ describe('MoveLogic', () => {
       })
     })
 
-    describe('#opponentPieces', () => {
+    describe('#piecesByColor', () => {
       xit('test', () => {
 
       })
+    })
+
+    describe('#checkmate', () => {
+        it('returns true when the king is in checkmate', () => {
+            let whitePawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'e4',
+                'hasMoved': true,
+                'movedTwo': true
+            }
+
+            let blackPawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'e5',
+                'hasMoved': true,
+                'movedTwo': true
+            }
+
+            let bishop = {
+                'type': 'bishop',
+                'color': 'white',
+                'currentPosition': 'c4',
+                'hasMoved': true
+            }
+
+            let leftKnight = {
+                'type': 'knight',
+                'color': 'black',
+                'currentPosition': 'c6',
+                'hasMoved': true
+            }
+
+            let queenFirstMove = {
+                'type': 'queen',
+                'color': 'white',
+                'currentPosition': 'h5',
+                'hasMoved': true
+            }
+
+            let rightKnight = {
+                'type': 'knight',
+                'color': 'black',
+                'currentPosition': 'f6',
+                'hasMoved': true
+            }
+
+
+            let queen = {
+                'type': 'queen',
+                'color': 'white',
+                'currentPosition': 'f7',
+                'hasMoved': true
+            }
+
+          let gameMoves = [whitePawn,
+              blackPawn,
+              bishop,
+              leftKnight,
+              queenFirstMove,
+              rightKnight,
+              queen
+          ]
+
+          let board = JSON.parse(JSON.stringify(jsonChessBoard))
+
+          board.e4.piece = JSON.parse(JSON.stringify(whitePawn))
+          board.e5.piece = JSON.parse(JSON.stringify(blackPawn))
+          board.c4.piece = JSON.parse(JSON.stringify(bishop))
+          board.c6.piece = JSON.parse(JSON.stringify(leftKnight))
+          board.f6.piece = JSON.parse(JSON.stringify(rightKnight))
+          board.f7.piece = JSON.parse(JSON.stringify(queen))
+
+          board.e2.piece = null
+          board.e7.piece = null
+          board.f1.piece = null
+          board.b8.piece = null
+          board.g8.piece = null
+          board.d1.piece = null
+
+          let moveLogic = new MoveLogic()
+
+          expect(moveLogic.checkmate(board, gameMoves, 'black')).toEqual(true)
+        })
+
+        it('returns false when the king is not in checkmate', () => {
+            let whitePawn = {
+                'type': 'pawn',
+                'color': 'white',
+                'currentPosition': 'e4',
+                'hasMoved': true,
+                'movedTwo': true
+            }
+
+            let blackPawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'e5',
+                'hasMoved': true,
+                'movedTwo': true
+            }
+
+            let bishop = {
+                'type': 'bishop',
+                'color': 'white',
+                'currentPosition': 'c4',
+                'hasMoved': true
+            }
+
+            let leftKnight = {
+                'type': 'knight',
+                'color': 'black',
+                'currentPosition': 'c6',
+                'hasMoved': true
+            }
+
+            let queenFirstMove = {
+                'type': 'queen',
+                'color': 'white',
+                'currentPosition': 'h5',
+                'hasMoved': true
+            }
+
+            let rightKnight = {
+                'type': 'knight',
+                'color': 'black',
+                'currentPosition': 'f6',
+                'hasMoved': true
+            }
+
+          let gameMoves = [whitePawn,
+              blackPawn,
+              bishop,
+              leftKnight,
+              queenFirstMove,
+              rightKnight
+          ]
+
+          let board = JSON.parse(JSON.stringify(jsonChessBoard))
+          board.e2.piece = null
+          board.e7.piece = null
+          board.f1.piece = null
+          board.b8.piece = null
+          board.g8.piece = null
+          board.d1.piece = null
+
+          board.e4.piece = JSON.parse(JSON.stringify(whitePawn))
+          board.e5.piece = JSON.parse(JSON.stringify(blackPawn))
+          board.c4.piece = JSON.parse(JSON.stringify(bishop))
+          board.c6.piece = JSON.parse(JSON.stringify(leftKnight))
+          board.h5.piece = JSON.parse(JSON.stringify(queenFirstMove))
+          board.f6.piece = JSON.parse(JSON.stringify(rightKnight))
+          let moveLogic = new MoveLogic()
+          expect(moveLogic.checkmate(board, gameMoves, 'black')).toEqual(false)
+        })
     })
 })

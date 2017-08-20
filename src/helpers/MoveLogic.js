@@ -253,8 +253,8 @@ class MoveLogic {
             updatedPiece.currentPosition = position
             board[position].piece = updatedPiece
 
-            this.opponentPieces(board, opponentColor).forEach((eachPiece) => {
-                if(this.inCheck(eachPiece, board, gameMoves)) {
+            this.piecesByColor(board, opponentColor).forEach((eachPiece) => {
+                if(this.inCheck(eachPiece, board, gameMoves, piece.color)) {
                     result = false
                 }
             })
@@ -262,12 +262,12 @@ class MoveLogic {
         return result
     }
 
-    opponentPieces(board, opponentColor) {
+    piecesByColor(board, color) {
         return Object.values(board)
             .map((square) => square.piece)
             .filter((piece) => piece)
             .filter((piece) => {
-                return (piece.color === opponentColor && piece.type !== 'king')
+                return (piece.color === color)
         })
     }
 
@@ -294,12 +294,26 @@ class MoveLogic {
         return board[position].piece.color
     }
 
-    inCheck(piece, chessBoard, gameMoves) {
+    inCheck(piece, chessBoard, gameMoves, color) {
         return this.validMove(
             piece,
-            this.kingLocation(chessBoard, this.opponentColor(piece)),
+            this.kingLocation(chessBoard, color),
             chessBoard, gameMoves
         )
+    }
+
+    checkmate(chessBoard, gameMoves, color) {
+        let result = true
+
+        this.piecesByColor(chessBoard, color).forEach((piece) => {
+            if(this.movesForPiece(piece, chessBoard, gameMoves).filter((move) => {
+                return this.validMove(piece, move, chessBoard, gameMoves) &&
+                    this.kingIsSafe(piece, move, chessBoard, gameMoves)
+            }).length > 0) {
+                result = false
+            }
+        })
+        return result
     }
 
     validMove(piece, nextMove, board, gameMoves) {

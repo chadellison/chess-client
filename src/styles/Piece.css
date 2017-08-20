@@ -1,20 +1,20 @@
 .piece-black {
-  color: black;
+    color: #262638;
 }
 
 .piece-white {
-  color: white;
+    color: #e3e3ed;
 }
 
 .piece {
-  margin-top: 30%;
-  font-size: 4em;
+    margin-top: 30%;
+    font-size: 6vh;
 }
 
 .piece:hover {
-  opacity: .5;
+    opacity: .65;
 }
 
 .selected {
-  color: blue;
+    color: blue;
 }

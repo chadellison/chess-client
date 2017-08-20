@@ -77,17 +77,17 @@ class App extends Component {
                 chessBoard: updatedBoard,
                 moves: gameMoves,
                 turn: this.updateTurn(),
-                messageToUser: '',
                 checkmate: checkmate,
-                messageToUser: messageToUser
+                messageToUser: messageToUser,
+                selected: null
             })
 
         } else {
-            console.log('Invalid Move')
+            this.setState({
+                messageToUser: 'Invalid Move',
+                selected: null
+            })
         }
-        this.setState({
-            selected: null
-        })
     }
 
     isCheckmate(board, gameMoves) {
@@ -220,7 +220,9 @@ class App extends Component {
                 })
             }
         } else {
-            console.log(`${this.state.turn}'s turn`)
+            this.setState({
+                messageToUser: `${this.state.turn}'s turn`
+            })
         }
     }
 
@@ -304,7 +306,7 @@ class App extends Component {
             buttons = <button onClick={this.handleLogout}>Logout</button>
         } else {
             buttons = (
-                <div>
+                <div className='credentialButtons'>
                     <button onClick={this.handleCredentialForm}>Sign In</button>
                     <button onClick={this.handleCredentialForm}>Sign Up</button>
                 </div>
@@ -316,9 +318,9 @@ class App extends Component {
     get moveLog() {
       let moveLog
       if(this.state.moveLogActive) {
-          moveLog = <MoveLog className='col-xs-2' cancelMoveLog={this.handleMoveLog} moves={this.state.moves}/>
+          moveLog = <MoveLog cancelMoveLog={this.handleMoveLog} moves={this.state.moves}/>
       } else {
-          moveLog = <button className='col-xs-2' onClick={this.handleMoveLog}>Move Log</button>
+          moveLog = <button onClick={this.handleMoveLog}>Move Log</button>
       }
       return moveLog
     }
@@ -332,16 +334,17 @@ class App extends Component {
                         isSelected={this.state.selected}
                         move={this.move}
                     />
-                    {this.buttons}
-                    {this.signUpForm}
-                    {this.moveLog}
-                    <div className='user-header col-xs-2'>
-                        {this.state.messageToUser}
-                        {this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
+                    <div className='sideBar col-xs-2'>
+                        {this.buttons}
+                        {this.signUpForm}
+                        {this.moveLog}
+                        <div className='user-header'>
+                            {this.state.messageToUser}
+                            {this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
+                        </div>
+                        <button onClick={this.handleReset}>Reset</button>
                     </div>
-                    <button className='col-xs-2' onClick={this.handleReset}>Reset</button>
                 </div>
-
             </div>
         )
     }

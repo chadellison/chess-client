@@ -1,16 +1,16 @@
 .square {
-  height: 100px;
-  min-width: 15px;
+    height: 10vh;
+    width: 10vh
 }
 
 .black {
-  background-color: #8b4513;
+    background-color: #8b4513;
 }
 
 .white {
-  background-color: #cd853f;
+    background-color: #cd853f;
 }
 
 .available {
-  border: 3px solid blue;
+    border: 3px solid blue;
 }

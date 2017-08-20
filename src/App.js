@@ -52,6 +52,9 @@ class App extends Component {
 
         if(this.isValid(piece, coordinates, board, gameMoves)) {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
+            let checkmate = this.state.checkmate
+            let messageToUser = ''
+
             piece = this.state.selected
             this.isCastle(piece, coordinates, updatedBoard)
             this.isEnPassant(coordinates, updatedBoard)
@@ -64,10 +67,10 @@ class App extends Component {
             piece.currentPosition = coordinates
             piece.hasMoved = true
             gameMoves.push(piece)
-            let checkmate = this.state.checkmate
 
             if(this.isCheckmate(updatedBoard, gameMoves)) {
                 checkmate = true
+                messageToUser = `${this.state.turn} Wins!`
             }
 
             this.setState({
@@ -75,7 +78,8 @@ class App extends Component {
                 moves: gameMoves,
                 turn: this.updateTurn(),
                 messageToUser: '',
-                checkmate: checkmate
+                checkmate: checkmate,
+                messageToUser: messageToUser
             })
 
         } else {
@@ -267,7 +271,10 @@ class App extends Component {
         this.setState({
             chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
             moves: [],
-            turn: 'white'
+            turn: 'white',
+            messageToUser: '',
+            checkmate: false,
+            selected: null
         })
     }
 

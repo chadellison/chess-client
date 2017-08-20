@@ -413,4 +413,10 @@ describe('App', () => {
 
         })
     })
+
+    describe('#isCheckmate', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

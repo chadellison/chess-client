@@ -22,7 +22,8 @@ class App extends Component {
             messageToUser: '',
             hashedEmail: '',
             turn: 'white',
-            moveLogActive: false
+            moveLogActive: false,
+            checkmate: false
         }
         this.handleSelected = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
@@ -63,18 +64,32 @@ class App extends Component {
             piece.currentPosition = coordinates
             piece.hasMoved = true
             gameMoves.push(piece)
+            let checkmate = this.state.checkmate
+
+            if(this.isCheckmate(updatedBoard, gameMoves)) {
+                checkmate = true
+            }
+
             this.setState({
                 chessBoard: updatedBoard,
                 moves: gameMoves,
                 turn: this.updateTurn(),
-                messageToUser: ''
+                messageToUser: '',
+                checkmate: checkmate
             })
+
         } else {
             console.log('Invalid Move')
         }
         this.setState({
             selected: null
         })
+    }
+
+    isCheckmate(board, gameMoves) {
+        let moveLogic = new MoveLogic()
+        let color = this.state.turn === 'white' ? 'black' : 'white'
+        return moveLogic.checkmate(board, gameMoves, color)
     }
 
     isCastle(piece, coordinates, updatedBoard) {

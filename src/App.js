@@ -303,12 +303,12 @@ class App extends Component {
         if(this.state.signUpFormActive || this.state.signInFormActive) {
             buttons = null
         } else if(this.state.loggedIn !== '') {
-            buttons = <button onClick={this.handleLogout}>Logout</button>
+            buttons = <button className='logOutButton' onClick={this.handleLogout}>Logout</button>
         } else {
             buttons = (
-                <div className='credentialButtons'>
-                    <button onClick={this.handleCredentialForm}>Sign In</button>
-                    <button onClick={this.handleCredentialForm}>Sign Up</button>
+                <div>
+                    <button className='signInButton' onClick={this.handleCredentialForm}>Sign In</button>
+                    <button className='signUpButton' onClick={this.handleCredentialForm}>Sign Up</button>
                 </div>
             )
         }
@@ -320,7 +320,7 @@ class App extends Component {
       if(this.state.moveLogActive) {
           moveLog = <MoveLog cancelMoveLog={this.handleMoveLog} moves={this.state.moves}/>
       } else {
-          moveLog = <button onClick={this.handleMoveLog}>Move Log</button>
+          moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>Move Log</button>
       }
       return moveLog
     }
@@ -342,7 +342,7 @@ class App extends Component {
                             {this.state.messageToUser}
                             {this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
                         </div>
-                        <button onClick={this.handleReset}>Reset</button>
+                        <button className='resetButton' onClick={this.handleReset}>Reset</button>
                     </div>
                 </div>
             </div>

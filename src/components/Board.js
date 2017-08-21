@@ -52,7 +52,7 @@ class Board extends Component {
   }
 
   render() {
-      return <div id="chessBoard" className="col-xs-9">{this.currentSetup}</div>
+      return <div id="chessBoard" className="col-xs-8">{this.currentSetup}</div>
   }
 }
 

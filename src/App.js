@@ -327,14 +327,14 @@ class App extends Component {
 
     render() {
         return (
-            <div className='App container'>
-                <div className='row'>
+            <div className='App'>
+                <div className='row container-fluid'>
                     <Board chessBoard={this.state.chessBoard}
                         handleSelected={this.handleSelected}
                         isSelected={this.state.selected}
                         move={this.move}
                     />
-                    <div className='sideBar col-xs-3'>
+                    <div className='sideBar col-xs-2'>
                         {this.buttons}
                         {this.signUpForm}
                         {this.moveLog}

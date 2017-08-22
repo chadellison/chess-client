@@ -5,6 +5,7 @@ import Board from './components/Board.js'
 import MoveLogic from './helpers/MoveLogic'
 import MoveLog from './components/MoveLog'
 import SignUpForm from './components/SignUpForm'
+import UserService from './services/UserService'
 
 class App extends Component {
     constructor() {
@@ -25,6 +26,9 @@ class App extends Component {
             moveLogActive: false,
             checkmate: false
         }
+        this.userService = new UserService()
+        this.moveLogic = new MoveLogic()
+
         this.handleSelected = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
         this.handleUserEmail = this.handleUserEmail.bind(this)
@@ -38,10 +42,8 @@ class App extends Component {
     }
 
     isValid(piece, coordinates, board, gameMoves) {
-        let moveLogic = new MoveLogic()
-
-        return (moveLogic.validMove(piece, coordinates, board, gameMoves) &&
-            moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
+        return (this.moveLogic.validMove(piece, coordinates, board, gameMoves) &&
+            this.moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
         )
     }
 
@@ -91,9 +93,8 @@ class App extends Component {
     }
 
     isCheckmate(board, gameMoves) {
-        let moveLogic = new MoveLogic()
         let color = this.state.turn === 'white' ? 'black' : 'white'
-        return moveLogic.checkmate(board, gameMoves, color)
+        return this.moveLogic.checkmate(board, gameMoves, color)
     }
 
     isCastle(piece, coordinates, updatedBoard) {
@@ -136,17 +137,7 @@ class App extends Component {
     }
 
     handleUserSignUp() {
-        let headers = {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-        let body = JSON.stringify({email: this.state.email, password: this.state.password})
-        fetch('http://localhost:8080/api/v1/users',
-            {
-                method: "POST",
-                headers: headers,
-                body: body
-            })
+        this.userService.createUser(this.state.email, this.state.password)
             .then(() => this.setState({
                 messageToUser: `Please check your email at ${this.state.email} to confirm you exist!`,
                 signUpFormActive: false,
@@ -163,17 +154,7 @@ class App extends Component {
     }
 
     handleUserSignIn() {
-        let headers = {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-        let body = JSON.stringify({email: this.state.email, password: this.state.password})
-        fetch('http://localhost:8080/api/v1/authentication',
-            {
-                method: "POST",
-                headers: headers,
-                body: body
-            })
+        this.userService.signIn(this.state.email, this.state.password)
             .then(response => response.json())
             .then(responseJson => {
                 this.setState({
@@ -200,10 +181,9 @@ class App extends Component {
             if (!this.state.selected) {
                 let board = JSON.parse(JSON.stringify(this.state.chessBoard))
                 let piece = JSON.parse(JSON.stringify(board[id].piece))
-                let moveLogic = new MoveLogic()
                 let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
-                let availableMoves = moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
+                let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
                     return this.isValid(piece, move, board, gameMoves)
                 })
 

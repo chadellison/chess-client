@@ -419,4 +419,16 @@ describe('App', () => {
 
         })
     })
+
+    describe('#pawnCrossed', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#handleCrossedPawn', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

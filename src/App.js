@@ -368,9 +368,9 @@ class App extends Component {
                     <div className='sideBar col-xs-2'>
                         {this.buttons}
                         {this.signUpForm}
+                        {this.state.messageToUser}
                         {this.moveLog}
                         <div className='user-header'>
-                            {this.state.messageToUser}
                             {this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
                         </div>
                         <button className='resetButton' onClick={this.handleReset}>Reset</button>

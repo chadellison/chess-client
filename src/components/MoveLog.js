@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../styles/MoveLog.css'
 
 class MoveLog extends Component {
     get moves() {
@@ -9,8 +10,8 @@ class MoveLog extends Component {
     render() {
         return(
           <div>
+              <button onClick={this.props.cancelMoveLog} className='hideMoveLogButton'>Hide</button>
               {this.moves}
-              <button onClick={this.props.cancelMoveLog}>Hide</button>
           </div>
         )
     }

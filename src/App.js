@@ -5,6 +5,7 @@ import Board from './components/Board.js'
 import MoveLogic from './helpers/MoveLogic'
 import MoveLog from './components/MoveLog'
 import SignUpForm from './components/SignUpForm'
+import CrossedPawnMenu from './components/CrossedPawnMenu'
 import UserService from './services/UserService'
 
 class App extends Component {
@@ -24,7 +25,8 @@ class App extends Component {
             hashedEmail: '',
             turn: 'white',
             moveLogActive: false,
-            checkmate: false
+            checkmate: false,
+            crossedPawn: false
         }
         this.userService = new UserService()
         this.moveLogic = new MoveLogic()
@@ -39,6 +41,7 @@ class App extends Component {
         this.move = this.move.bind(this)
         this.handleReset = this.handleReset.bind(this)
         this.handleMoveLog = this.handleMoveLog.bind(this)
+        this.handleCrossedPawn = this.handleCrossedPawn.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -56,6 +59,7 @@ class App extends Component {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
             let checkmate = this.state.checkmate
             let messageToUser = ''
+            let crossedPawn = false
 
             piece = this.state.selected
             this.isCastle(piece, coordinates, updatedBoard)
@@ -63,6 +67,11 @@ class App extends Component {
             if(this.pawnMovedTwo(coordinates)) {
                 piece.movedTwo = true
             }
+
+            if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
+                crossedPawn = true
+            }
+
             updatedBoard[piece.currentPosition].piece = null
 
             updatedBoard[coordinates].piece = piece
@@ -78,12 +87,12 @@ class App extends Component {
             this.setState({
                 chessBoard: updatedBoard,
                 moves: gameMoves,
-                turn: this.updateTurn(),
+                turn: this.currentTurn(),
                 checkmate: checkmate,
                 messageToUser: messageToUser,
-                selected: null
+                selected: null,
+                crossedPawn: crossedPawn
             })
-
         } else {
             this.setState({
                 messageToUser: 'Invalid Move',
@@ -132,8 +141,36 @@ class App extends Component {
             parseInt(this.state.selected.currentPosition[1], 10)) === 2
     }
 
-    updateTurn() {
-      return this.state.turn === 'white' ? 'black' : 'white'
+    currentTurn() {
+        return this.state.turn === 'white' ? 'black' : 'white'
+    }
+
+    handleCrossedPawn(event) {
+        let classNames = event.target.className.split("-")
+        let pieceType
+
+        if (classNames.includes('knight piece')) {
+            pieceType = 'knight'
+        }
+        if (classNames.includes('bishop piece')) {
+            pieceType = 'bishop'
+        }
+
+        if (classNames.includes('tower piece')) {
+            pieceType = 'rook'
+        }
+        if (classNames.includes('queen piece')) {
+            pieceType = 'queen'
+        }
+
+        let coordinates = this.state.moves.slice(-1)[0].currentPosition
+        let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+        board[coordinates].piece.type = pieceType
+
+        this.setState({
+            chessBoard: board,
+            crossedPawn: false
+        })
     }
 
     handleUserSignUp() {
@@ -256,7 +293,8 @@ class App extends Component {
             turn: 'white',
             messageToUser: '',
             checkmate: false,
-            selected: null
+            selected: null,
+            crossedPawn: false
         })
     }
 
@@ -305,6 +343,17 @@ class App extends Component {
       return moveLog
     }
 
+    get crossedPawn() {
+        let crossedPawn
+        if (this.state.crossedPawn) {
+            crossedPawn = <CrossedPawnMenu
+                color={this.state.moves.slice(-1)[0].color}
+                handleCrossedPawn={this.handleCrossedPawn}
+            />
+        }
+        return crossedPawn
+    }
+
     render() {
         return (
             <div className='App'>
@@ -313,7 +362,9 @@ class App extends Component {
                         handleSelected={this.handleSelected}
                         isSelected={this.state.selected}
                         move={this.move}
+                        gameMoves={this.state.moves}
                     />
+                    {this.crossedPawn}
                     <div className='sideBar col-xs-2'>
                         {this.buttons}
                         {this.signUpForm}

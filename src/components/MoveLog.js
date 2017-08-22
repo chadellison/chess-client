@@ -3,9 +3,18 @@ import '../styles/MoveLog.css'
 
 class MoveLog extends Component {
     get moves() {
-        return this.props.moves.map((piece, index) => {
-            return <div key={index}>{`${piece.type}: ${piece.currentPosition}`}</div>
+        let gameMoves = this.props.moves.map((piece, index) => {
+            return(
+                <div key={index} className='col-xs-6'>{`${piece.type}: ${piece.currentPosition}`}</div>
+            )
         })
+        return (
+            <div className='row'>
+                <div className='col-xs-6'>White</div>
+                <div className='col-xs-6'>Black</div>
+                {gameMoves}
+            </div>
+        )
     }
     render() {
         return(

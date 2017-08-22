@@ -303,6 +303,24 @@ class MoveLogic {
     }
 
     checkmate(chessBoard, gameMoves, color) {
+        return this.cannotMove(chessBoard, gameMoves, color) &&
+            this.currentThreats(chessBoard, gameMoves, color).length > 0
+    }
+
+    stalemate(chessBoard, gameMoves, color) {
+      return this.cannotMove(chessBoard, gameMoves, color) &&
+          this.currentThreats(chessBoard, gameMoves, color).length === 0
+    }
+
+    currentThreats(chessBoard, gameMoves, color) {
+        let opponentColor = color === 'white' ? 'black' : 'white'
+
+        return this.piecesByColor(chessBoard, opponentColor).filter((piece) => {
+            return this.inCheck(piece, chessBoard, gameMoves, color)
+        })
+    }
+
+    cannotMove(chessBoard, gameMoves, color) {
         let result = true
 
         this.piecesByColor(chessBoard, color).forEach((piece) => {

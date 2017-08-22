@@ -1275,4 +1275,58 @@ describe('MoveLogic', () => {
           expect(moveLogic.checkmate(board, gameMoves, 'black')).toEqual(false)
         })
     })
+
+    describe('#stalemate', () => {
+        it('returns true when the king white cannot move anywhere and the king is not in check', () => {
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            Object.values(board).forEach((square) => {
+                if(square.piece) {
+                    board[square.piece.currentPosition].piece = null
+                }
+            })
+
+            let blackKing = {
+                'type': 'king',
+                'color': 'black',
+                'currentPosition': 'd3',
+                'hasMoved': true
+            }
+
+            let blackPawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'd2',
+                'hasMoved': true
+            }
+
+            let whiteKing = {
+                'type': 'king',
+                'color': 'white',
+                'currentPosition': 'd1',
+                'hasMoved': true
+            }
+
+            board.d3.piece = blackKing
+            board.d2.piece = blackPawn
+            board.d1.piece = whiteKing
+
+            let moveLogic = new MoveLogic()
+            let gameMoves = []
+            let color = 'white'
+
+            expect(moveLogic.stalemate(board, gameMoves, color)).toEqual(true)
+        })
+    })
+
+    describe('#cannotMove', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#currentThreats', () => {
+        xit('test', () => {
+
+        })
+    })
 })

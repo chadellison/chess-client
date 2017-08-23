@@ -30,19 +30,19 @@ class App extends Component {
             crossedPawn: false
         }
         this.userService = new UserService()
-        this.moveLogic = new MoveLogic()
+        this.moveLogic   = new MoveLogic()
 
-        this.handleSelected = this.handleSelected.bind(this)
+        this.handleSelected       = this.handleSelected.bind(this)
         this.handleCredentialForm = this.handleCredentialForm.bind(this)
-        this.handleUserEmail = this.handleUserEmail.bind(this)
-        this.handleUserPassword = this.handleUserPassword.bind(this)
-        this.handleUserSignIn = this.handleUserSignIn.bind(this)
-        this.handleUserSignUp = this.handleUserSignUp.bind(this)
-        this.handleLogout = this.handleLogout.bind(this)
-        this.move = this.move.bind(this)
-        this.handleReset = this.handleReset.bind(this)
-        this.handleMoveLog = this.handleMoveLog.bind(this)
-        this.handleCrossedPawn = this.handleCrossedPawn.bind(this)
+        this.handleUserEmail      = this.handleUserEmail.bind(this)
+        this.handleUserPassword   = this.handleUserPassword.bind(this)
+        this.handleUserSignIn     = this.handleUserSignIn.bind(this)
+        this.handleUserSignUp     = this.handleUserSignUp.bind(this)
+        this.handleLogout         = this.handleLogout.bind(this)
+        this.move                 = this.move.bind(this)
+        this.handleReset          = this.handleReset.bind(this)
+        this.handleMoveLog        = this.handleMoveLog.bind(this)
+        this.handleCrossedPawn    = this.handleCrossedPawn.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -341,7 +341,10 @@ class App extends Component {
     get moveLog() {
       let moveLog
       if(this.state.moveLogActive) {
-          moveLog = <MoveLog cancelMoveLog={this.handleMoveLog} moves={this.state.moves}/>
+          moveLog = <MoveLog
+              cancelMoveLog={this.handleMoveLog}
+              moves={this.state.moves}
+          />
       } else {
           moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>Move Log</button>
       }

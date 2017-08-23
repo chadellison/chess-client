@@ -1,0 +1,31 @@
+.signInButton {
+    width: 90%;
+    margin: 10px;
+    height: 40px;
+}
+
+.signUpButton {
+  width: 90%;
+  margin: 10px;
+  height: 40px;
+}
+
+.emailInput {
+  width: 90%;
+  margin: 10px;
+  height: 40px;
+  font-size: 20px;
+}
+
+.passwordInput {
+  width: 90%;
+  margin: 10px;
+  height: 40px;
+  font-size: 20px;
+}
+
+.cancelButton {
+  width: 90%;
+  margin: 10px;
+  height: 40px;
+}

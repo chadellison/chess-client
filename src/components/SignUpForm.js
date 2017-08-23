@@ -10,15 +10,31 @@ export default class SignUpForm extends Component {
         }
     }
 
+    get buttons() {
+        if (this.props.signInFormActive) {
+            return (
+                <button className='signInButton' onClick={this.props.handleUserSignIn}>
+                    {this.buttonName}
+                </button>
+            )
+        } else {
+            return (
+                <button className='signUpButton' onClick={this.props.handleUserSignUp}>
+                    {this.buttonName}
+                </button>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
-                <h4 >Email</h4>
-                <input onChange={this.props.handleUserEmail} value={this.props.userEmail}></input>
+                <h4>Email</h4>
+                <input className='emailInput' onChange={this.props.handleUserEmail} value={this.props.userEmail}></input>
                 <h4>Password</h4>
-                <input type="password" onChange={this.props.handleUserPassword} value={this.props.userPassword}></input>
-                {this.props.signInFormActive ? <button onClick={this.props.handleUserSignIn}>{this.buttonName}</button> : <button onClick={this.props.handleUserSignUp}>{this.buttonName}</button>}
-                <button onClick={this.props.handleCredentialForm}>Cancel</button>
+                <input className='passwordInput' type="password" onChange={this.props.handleUserPassword} value={this.props.userPassword}></input>
+                {this.buttons}
+                <button className='cancelButton' onClick={this.props.handleCredentialForm}>Cancel</button>
             </div>
         )
     }

@@ -62,6 +62,7 @@ class App extends Component {
             let stalemate = this.state.stalemate
             let messageToUser = ''
             let crossedPawn = false
+            let color = this.state.turn === 'white' ? 'black' : 'white'
 
             piece = this.state.selected
             this.isCastle(piece, coordinates, updatedBoard)
@@ -81,12 +82,12 @@ class App extends Component {
             piece.hasMoved = true
             gameMoves.push(piece)
 
-            if(this.isCheckmate(updatedBoard, gameMoves)) {
+            if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
                 checkmate = true
                 messageToUser = `${this.state.turn} Wins!`
             }
 
-            if(this.isStalemate(updatedBoard, gameMoves)) {
+            if(this.moveLogic.stalemate(updatedBoard, gameMoves, color)) {
                 stalemate = true
                 messageToUser = 'Draw!'
             }
@@ -107,16 +108,6 @@ class App extends Component {
                 selected: null
             })
         }
-    }
-
-    isCheckmate(board, gameMoves) {
-        let color = this.state.turn === 'white' ? 'black' : 'white'
-        return this.moveLogic.checkmate(board, gameMoves, color)
-    }
-
-    isStalemate(board, gameMoves) {
-        let color = this.state.turn === 'white' ? 'black' : 'white'
-        return this.moveLogic.stalemate(board, gameMoves, color)
     }
 
     isCastle(piece, coordinates, updatedBoard) {

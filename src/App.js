@@ -262,7 +262,9 @@ class App extends Component {
             this.setState({
                 signInFormActive: false,
                 signUpFormActive: false,
-                messageToUser: ''
+                messageToUser: '',
+                email: '',
+                password: ''
             })
         }
     }

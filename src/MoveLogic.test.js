@@ -1316,6 +1316,182 @@ describe('MoveLogic', () => {
 
             expect(moveLogic.stalemate(board, gameMoves, color)).toEqual(true)
         })
+
+        it('returns false when the white king can move', () => {
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            Object.values(board).forEach((square) => {
+                if(square.piece) {
+                    board[square.piece.currentPosition].piece = null
+                }
+            })
+
+            let blackKing = {
+                'type': 'king',
+                'color': 'black',
+                'currentPosition': 'd3',
+                'hasMoved': true
+            }
+
+            let blackPawn = {
+                'type': 'pawn',
+                'color': 'black',
+                'currentPosition': 'd2',
+                'hasMoved': true
+            }
+
+            let whiteKing = {
+                'type': 'king',
+                'color': 'white',
+                'currentPosition': 'a1',
+                'hasMoved': true
+            }
+
+            board.d3.piece = blackKing
+            board.d2.piece = blackPawn
+            board.a1.piece = whiteKing
+
+            let moveLogic = new MoveLogic()
+            let gameMoves = []
+            let color = 'white'
+
+            expect(moveLogic.stalemate(board, gameMoves, color)).toEqual(false)
+        })
+
+        it('returns true when neither side has enough peices to win', () => {
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            Object.values(board).forEach((square) => {
+                if(square.piece) {
+                    board[square.piece.currentPosition].piece = null
+                }
+            })
+
+            let blackKing = {
+                'type': 'king',
+                'color': 'black',
+                'currentPosition': 'd3',
+                'hasMoved': true
+            }
+
+            let blackBishop = {
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'd5',
+                'hasMoved': true
+            }
+
+            let whiteKing = {
+                'type': 'king',
+                'color': 'white',
+                'currentPosition': 'a1',
+                'hasMoved': true
+            }
+
+            board.d3.piece = blackKing
+            board.d5.piece = blackBishop
+            board.a1.piece = whiteKing
+
+            let moveLogic = new MoveLogic()
+            let gameMoves = []
+            let color = 'white'
+
+            expect(moveLogic.stalemate(board, gameMoves, color)).toEqual(true)
+        })
+
+        it('returns false when one side has enough peices to win', () => {
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            Object.values(board).forEach((square) => {
+                if(square.piece) {
+                    board[square.piece.currentPosition].piece = null
+                }
+            })
+
+            let blackKing = {
+                'type': 'king',
+                'color': 'black',
+                'currentPosition': 'd3',
+                'hasMoved': true
+            }
+
+            let blackBishop = {
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'd5',
+                'hasMoved': true
+            }
+
+            let blackKnight = {
+                'type': 'knight',
+                'color': 'black',
+                'currentPosition': 'h8',
+                'hasMoved': true
+            }
+
+            let whiteKing = {
+                'type': 'king',
+                'color': 'white',
+                'currentPosition': 'a1',
+                'hasMoved': true
+            }
+
+            board.d3.piece = blackKing
+            board.d5.piece = blackBishop
+            board.a1.piece = whiteKing
+            board.h8.piece = blackKnight
+
+            let moveLogic = new MoveLogic()
+            let gameMoves = []
+            let color = 'white'
+
+            expect(moveLogic.stalemate(board, gameMoves, color)).toEqual(false)
+        })
+
+        it('returns false when one side has a rook', () => {
+            let board = JSON.parse(JSON.stringify(jsonChessBoard))
+            Object.values(board).forEach((square) => {
+                if(square.piece) {
+                    board[square.piece.currentPosition].piece = null
+                }
+            })
+
+            let blackKing = {
+                'type': 'king',
+                'color': 'black',
+                'currentPosition': 'd3',
+                'hasMoved': true
+            }
+
+            let blackBishop = {
+                'type': 'bishop',
+                'color': 'black',
+                'currentPosition': 'd5',
+                'hasMoved': true
+            }
+
+            let whiteRook = {
+                'type': 'rook',
+                'color': 'white',
+                'currentPosition': 'h8',
+                'hasMoved': true
+            }
+
+            let whiteKing = {
+                'type': 'king',
+                'color': 'white',
+                'currentPosition': 'a1',
+                'hasMoved': true
+            }
+
+            board.d3.piece = blackKing
+            board.d5.piece = blackBishop
+            board.a1.piece = whiteKing
+            board.h8.piece = whiteRook
+
+            let moveLogic = new MoveLogic()
+            let gameMoves = []
+            let color = 'white'
+
+            expect(moveLogic.stalemate(board, gameMoves, color)).toEqual(false)
+        })
     })
 
     describe('#cannotMove', () => {
@@ -1325,6 +1501,12 @@ describe('MoveLogic', () => {
     })
 
     describe('#currentThreats', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#insufficientPieces', () => {
         xit('test', () => {
 
         })

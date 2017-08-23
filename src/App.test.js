@@ -420,6 +420,12 @@ describe('App', () => {
         })
     })
 
+    describe('#isStalemate', () => {
+        xit('#test', () => {
+
+        })
+    })
+
     describe('#handleCrossedPawn', () => {
         xit('#test', () => {
 

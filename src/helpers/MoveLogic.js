@@ -238,7 +238,6 @@ class MoveLogic {
 
     kingIsSafe(piece, nextMove, chessBoard, gameMoves) {
         let result = true
-        let opponentColor = this.opponentColor(piece)
         let positions = [nextMove]
 
         if (this.kingCastle(piece, nextMove)) {
@@ -253,7 +252,7 @@ class MoveLogic {
             updatedPiece.currentPosition = position
             board[position].piece = updatedPiece
 
-            this.piecesByColor(board, opponentColor).forEach((eachPiece) => {
+            this.piecesByColor(board, this.opponentColor(piece.color)).forEach((eachPiece) => {
                 if(this.inCheck(eachPiece, board, gameMoves, piece.color)) {
                     result = false
                 }
@@ -286,8 +285,8 @@ class MoveLogic {
       })[0].piece.currentPosition
     }
 
-    opponentColor(piece) {
-        return piece.color === 'white' ? 'black' : 'white'
+    opponentColor(color) {
+        return color === 'white' ? 'black' : 'white'
     }
 
     getColor(position, board) {
@@ -308,14 +307,29 @@ class MoveLogic {
     }
 
     stalemate(chessBoard, gameMoves, color) {
-      return this.cannotMove(chessBoard, gameMoves, color) &&
-          this.currentThreats(chessBoard, gameMoves, color).length === 0
+        let caseOne = (this.cannotMove(chessBoard, gameMoves, color) &&
+            this.currentThreats(chessBoard, gameMoves, color).length === 0)
+
+        let caseTwo = this.insufficientPieces(chessBoard, 'white') &&
+            this.insufficientPieces(chessBoard, 'black')
+        return caseOne || caseTwo
+    }
+
+    insufficientPieces(chessBoard, color) {
+        let lessThanThree = this.piecesByColor(chessBoard, color).length < 3
+        let onlyBishopOrKnight = true
+
+        this.piecesByColor(chessBoard, color).forEach((piece) => {
+            if (!['bishop', 'knight', 'king'].includes(piece.type)) {
+                onlyBishopOrKnight = false
+            }
+        })
+
+        return lessThanThree && onlyBishopOrKnight
     }
 
     currentThreats(chessBoard, gameMoves, color) {
-        let opponentColor = color === 'white' ? 'black' : 'white'
-
-        return this.piecesByColor(chessBoard, opponentColor).filter((piece) => {
+        return this.piecesByColor(chessBoard, this.opponentColor(color)).filter((piece) => {
             return this.inCheck(piece, chessBoard, gameMoves, color)
         })
     }

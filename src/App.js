@@ -26,6 +26,7 @@ class App extends Component {
             turn: 'white',
             moveLogActive: false,
             checkmate: false,
+            stalemate: false,
             crossedPawn: false
         }
         this.userService = new UserService()
@@ -58,6 +59,7 @@ class App extends Component {
         if(this.isValid(piece, coordinates, board, gameMoves)) {
             let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
             let checkmate = this.state.checkmate
+            let stalemate = this.state.stalemate
             let messageToUser = ''
             let crossedPawn = false
 
@@ -84,11 +86,17 @@ class App extends Component {
                 messageToUser = `${this.state.turn} Wins!`
             }
 
+            if(this.isStalemate(updatedBoard, gameMoves)) {
+                stalemate = true
+                messageToUser = 'Draw!'
+            }
+
             this.setState({
                 chessBoard: updatedBoard,
                 moves: gameMoves,
                 turn: this.currentTurn(),
                 checkmate: checkmate,
+                stalemate: stalemate,
                 messageToUser: messageToUser,
                 selected: null,
                 crossedPawn: crossedPawn
@@ -104,6 +112,11 @@ class App extends Component {
     isCheckmate(board, gameMoves) {
         let color = this.state.turn === 'white' ? 'black' : 'white'
         return this.moveLogic.checkmate(board, gameMoves, color)
+    }
+
+    isStalemate(board, gameMoves) {
+        let color = this.state.turn === 'white' ? 'black' : 'white'
+        return this.moveLogic.stalemate(board, gameMoves, color)
     }
 
     isCastle(piece, coordinates, updatedBoard) {
@@ -293,6 +306,7 @@ class App extends Component {
             turn: 'white',
             messageToUser: '',
             checkmate: false,
+            stalemate: false,
             selected: null,
             crossedPawn: false
         })

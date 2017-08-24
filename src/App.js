@@ -19,7 +19,7 @@ export default class App extends Component {
             email: '',
             password: '',
             token: '',
-            loggedIn: '',
+            loggedIn: false,
             messageToUser: '',
             hashedEmail: '',
             turn: 'white',
@@ -349,6 +349,7 @@ export default class App extends Component {
                         messageToUser={this.messageToUser}
                         hashedEmail={this.state.hashedEmail}
                         handleReset={this.handleReset}
+                        handleLogout={this.handleLogout}
                     />
                 </div>
             </div>

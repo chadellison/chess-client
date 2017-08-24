@@ -36,3 +36,9 @@
   margin: 10px;
   height: 40px;
 }
+
+.gravatar {
+    border-radius: 50%;
+    margin: 20px;
+    width: 50px;
+}

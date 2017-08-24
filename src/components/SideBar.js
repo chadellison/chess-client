@@ -26,7 +26,7 @@ export default class SideBar extends Component {
         let buttons
         if(this.props.signUpFormActive || this.props.signInFormActive) {
             buttons = null
-        } else if(this.props.loggedIn !== '') {
+        } else if(this.props.loggedIn) {
             buttons = <button className='logOutButton' onClick={this.props.handleLogout}>Logout</button>
         } else {
             buttons = (
@@ -74,7 +74,7 @@ export default class SideBar extends Component {
               {this.credentialForm}
               {this.props.messageToUser}
               <div className='user-header'>
-                  {this.props.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
+                  {this.props.hashedEmail !== '' ? <img className='gravatar' src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
               </div>
 
               {this.moveLog}

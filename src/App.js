@@ -323,7 +323,7 @@ export default class App extends Component {
     render() {
         return (
             <div className='App'>
-                <div className='row container-fluid'>
+                <div className='container-fluid'>
                     <Board chessBoard={this.state.chessBoard}
                         handleSelected={this.handleSelected}
                         isSelected={this.state.selected}

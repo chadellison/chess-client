@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/CrossedPawnMenu.css'
 
-class CrossedPawnMenu extends Component {
+export default class CrossedPawnMenu extends Component {
     render() {
         return(
           <div className='crossedPawnMenu col-xs-2'>
@@ -21,5 +21,3 @@ class CrossedPawnMenu extends Component {
         )
     }
 }
-
-export default CrossedPawnMenu

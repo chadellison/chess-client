@@ -9,7 +9,7 @@ const PIECE_KEY = {'pawn': 'pawn',
   'king': 'king'
 }
 
-class Piece extends Component {
+export default class Piece extends Component {
   get selected() {
     if(this.props.isSelected === this.props.piece) {
       return 'selected'
@@ -26,5 +26,3 @@ class Piece extends Component {
     )
   }
 }
-
-export default Piece

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../styles/Square.css'
 import Piece from './Piece'
 
-class Square extends Component {
+export default class Square extends Component {
   constructor() {
     super()
     this.handleMove = this.handleMove.bind(this)
@@ -46,5 +46,3 @@ class Square extends Component {
     )
   }
 }
-
-export default Square

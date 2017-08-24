@@ -3,12 +3,11 @@ import './styles/App.css'
 import jsonChessBoard from './jsonChessBoard'
 import Board from './components/Board.js'
 import MoveLogic from './helpers/MoveLogic'
-import MoveLog from './components/MoveLog'
-import CredentialForm from './components/CredentialForm'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
+import SideBar from './components/SideBar'
 import UserService from './services/UserService'
 
-class App extends Component {
+export default class App extends Component {
     constructor() {
         super()
         this.state = {
@@ -294,7 +293,7 @@ class App extends Component {
     }
 
     handlePreviousBoard(event) {
-        console.log("hi")
+        console.log(event)
     }
 
     handleReset() {
@@ -308,57 +307,6 @@ class App extends Component {
             selected: null,
             crossedPawn: false
         })
-    }
-
-    get signUpForm() {
-        if (this.state.signUpFormActive || this.state.signInFormActive) {
-            return <CredentialForm
-                handleUserEmail={this.handleUserEmail}
-                handleUserPassword={this.handleUserPassword}
-                handleCredentialForm={this.handleCredentialForm}
-                userEmail={this.state.email}
-                userPassword={this.state.password}
-                handleUserSignIn={this.handleUserSignIn}
-                handleUserSignUp={this.handleUserSignUp}
-                signInFormActive={this.state.signInFormActive}
-            />
-        } else {
-            return null
-        }
-
-    }
-
-    get buttons() {
-        let buttons
-        if(this.state.signUpFormActive || this.state.signInFormActive) {
-            buttons = null
-        } else if(this.state.loggedIn !== '') {
-            buttons = <button className='logOutButton' onClick={this.handleLogout}>Logout</button>
-        } else {
-            buttons = (
-                <div>
-                    <button className='signInButton' onClick={this.handleCredentialForm}>Sign In</button>
-                    <button className='signUpButton' onClick={this.handleCredentialForm}>Sign Up</button>
-                </div>
-            )
-        }
-        return buttons
-    }
-
-    get moveLog() {
-      let moveLog
-      if(this.state.moveLogActive) {
-          moveLog = <MoveLog
-              cancelMoveLog={this.handleMoveLog}
-              moves={this.state.moves}
-              handlePreviousBoard={this.handlePreviousBoard}
-          />
-      } else {
-          moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>
-              Move Log
-          </button>
-      }
-      return moveLog
     }
 
     get crossedPawn() {
@@ -383,20 +331,27 @@ class App extends Component {
                         gameMoves={this.state.moves}
                     />
                     {this.crossedPawn}
-                    <div className='sideBar col-xs-2'>
-                        {this.buttons}
-                        {this.signUpForm}
-                        {this.state.messageToUser}
-                        {this.moveLog}
-                        <div className='user-header'>
-                            {this.state.hashedEmail !== '' ? <img src={`https://www.gravatar.com/avatar/${this.state.hashedEmail}`} alt="gravatar"/> : null}
-                        </div>
-                        <button className='resetButton' onClick={this.handleReset}>Reset</button>
-                    </div>
+                    <SideBar
+                        signUpFormActive={this.state.signUpFormActive}
+                        signInFormActive={this.state.signInFormActive}
+                        handleUserEmail={this.handleUserEmail}
+                        handleUserPassword={this.handleUserPassword}
+                        handleCredentialForm={this.handleCredentialForm}
+                        userEmail={this.state.email}
+                        userPassword={this.state.password}
+                        handleUserSignIn={this.handleUserSignIn}
+                        handleUserSignUp={this.handleUserSignUp}
+                        loggedIn={this.state.loggedIn}
+                        moveLogActive={this.state.moveLogActive}
+                        handleMoveLog={this.handleMoveLog}
+                        moves={this.state.moves}
+                        handlePreviousBoard={this.handlePreviousBoard}
+                        messageToUser={this.messageToUser}
+                        hashedEmail={this.state.hashedEmail}
+                        handleReset={this.handleReset}
+                    />
                 </div>
             </div>
         )
     }
 }
-
-export default App

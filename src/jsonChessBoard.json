@@ -1,6 +1,7 @@
 {
   "a8": {
     "piece": {
+      "id": 1,
       "type": "rook",
       "color": "black",
       "currentPosition": "a8"
@@ -8,6 +9,7 @@
   },
   "b8": {
     "piece": {
+      "id": 2,
       "type": "knight",
       "color": "black",
       "currentPosition": "b8"
@@ -15,6 +17,7 @@
   },
   "c8": {
     "piece": {
+      "id": 3,
       "type": "bishop",
       "color": "black",
       "currentPosition": "c8"
@@ -22,6 +25,7 @@
   },
   "d8": {
     "piece": {
+      "id": 4,
       "type": "queen",
       "color": "black",
       "currentPosition": "d8"
@@ -29,6 +33,7 @@
   },
   "e8": {
     "piece": {
+      "id": 5,
       "type": "king",
       "color": "black",
       "currentPosition": "e8"
@@ -36,6 +41,7 @@
   },
   "f8": {
     "piece": {
+      "id": 6,
       "type": "bishop",
       "color": "black",
       "currentPosition": "f8"
@@ -43,6 +49,7 @@
   },
   "g8": {
     "piece": {
+      "id": 7,
       "type": "knight",
       "color": "black",
       "currentPosition": "g8"
@@ -50,6 +57,7 @@
   },
   "h8": {
     "piece": {
+      "id": 8,
       "type": "rook",
       "color": "black",
       "currentPosition": "h8"
@@ -57,6 +65,7 @@
   },
   "a7": {
     "piece": {
+      "id": 9,
       "type": "pawn",
       "color": "black",
       "currentPosition": "a7"
@@ -64,6 +73,7 @@
   },
   "b7": {
     "piece": {
+      "id": 10,
       "type": "pawn",
       "color": "black",
       "currentPosition": "b7"
@@ -71,6 +81,7 @@
   },
   "c7": {
     "piece": {
+      "id": 11,
       "type": "pawn",
       "color": "black",
       "currentPosition": "c7"
@@ -78,6 +89,7 @@
   },
   "d7": {
     "piece": {
+      "id": 12,
       "type": "pawn",
       "color": "black",
       "currentPosition": "d7"
@@ -85,6 +97,7 @@
   },
   "e7": {
     "piece": {
+      "id": 13,
       "type": "pawn",
       "color": "black",
       "currentPosition": "e7"
@@ -92,6 +105,7 @@
   },
   "f7": {
     "piece": {
+      "id": 14,
       "type": "pawn",
       "color": "black",
       "currentPosition": "f7"
@@ -99,6 +113,7 @@
   },
   "g7": {
     "piece": {
+      "id": 15,
       "type": "pawn",
       "color": "black",
       "currentPosition": "g7"
@@ -106,6 +121,7 @@
   },
   "h7": {
     "piece": {
+      "id": 16,
       "type": "pawn",
       "color": "black",
       "currentPosition": "h7"
@@ -209,6 +225,7 @@
   },
   "a2": {
     "piece": {
+      "id": 17,
       "type": "pawn",
       "color": "white",
       "currentPosition": "a2"
@@ -216,6 +233,7 @@
   },
   "b2": {
     "piece": {
+      "id": 18,
       "type": "pawn",
       "color": "white",
       "currentPosition": "b2"
@@ -223,6 +241,7 @@
   },
   "c2": {
     "piece": {
+      "id": 19,
       "type": "pawn",
       "color": "white",
       "currentPosition": "c2"
@@ -230,6 +249,7 @@
   },
   "d2": {
     "piece": {
+      "id": 20,
       "type": "pawn",
       "color": "white",
       "currentPosition": "d2"
@@ -237,6 +257,7 @@
   },
   "e2": {
     "piece": {
+      "id": 21,
       "type": "pawn",
       "color": "white",
       "currentPosition": "e2"
@@ -244,6 +265,7 @@
   },
   "f2": {
     "piece": {
+      "id": 22,
       "type": "pawn",
       "color": "white",
       "currentPosition": "f2"
@@ -251,6 +273,7 @@
   },
   "g2": {
     "piece": {
+      "id": 23,
       "type": "pawn",
       "color": "white",
       "currentPosition": "g2"
@@ -258,6 +281,7 @@
   },
   "h2": {
     "piece": {
+      "id": 24,
       "type": "pawn",
       "color": "white",
       "currentPosition": "h2"
@@ -265,6 +289,7 @@
   },
   "a1": {
     "piece": {
+      "id": 25,
       "type": "rook",
       "color": "white",
       "currentPosition": "a1"
@@ -272,6 +297,7 @@
   },
   "b1": {
     "piece": {
+      "id": 26,
       "type": "knight",
       "color": "white",
       "currentPosition": "b1"
@@ -279,6 +305,7 @@
   },
   "c1": {
     "piece": {
+      "id": 27,
       "type": "bishop",
       "color": "white",
       "currentPosition": "c1"
@@ -286,6 +313,7 @@
   },
   "d1": {
     "piece": {
+      "id": 28,
       "type": "queen",
       "color": "white",
       "currentPosition": "d1"
@@ -293,6 +321,7 @@
   },
   "e1": {
     "piece": {
+      "id": 29,
       "type": "king",
       "color": "white",
       "currentPosition": "e1"
@@ -300,6 +329,7 @@
   },
   "f1": {
     "piece": {
+      "id": 30,
       "type": "bishop",
       "color": "white",
       "currentPosition": "f1"
@@ -307,6 +337,7 @@
   },
   "g1": {
     "piece": {
+      "id": 31,
       "type": "knight",
       "color": "white",
       "currentPosition": "g1"
@@ -314,6 +345,7 @@
   },
   "h1": {
     "piece": {
+      "id": 32,
       "type": "rook",
       "color": "white",
       "currentPosition": "h1"

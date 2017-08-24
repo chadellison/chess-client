@@ -390,12 +390,6 @@ describe('App', () => {
         })
     })
 
-    describe('#moveLog', () => {
-        xit('#test', () => {
-
-        })
-    })
-
     describe('#isEnPassant', () => {
         xit('#test', () => {
 

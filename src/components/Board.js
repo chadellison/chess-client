@@ -4,7 +4,7 @@ import Square from './Square'
 
 const LETTER_KEY = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5, "f": 6, "g": 7, "h": 8}
 
-class Board extends Component {
+export default class Board extends Component {
     get currentSetup() {
         return this.boardRows().map((row, rowIndex) => {
             let eachRow = row.map((square, columnIndex) => {
@@ -55,5 +55,3 @@ class Board extends Component {
       return <div id="chessBoard" className="col-xs-8">{this.currentSetup}</div>
   }
 }
-
-export default Board

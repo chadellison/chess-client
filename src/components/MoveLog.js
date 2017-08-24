@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/MoveLog.css'
 
-class MoveLog extends Component {
+export default class MoveLog extends Component {
     get moves() {
         let gameMoves = this.props.moves.map((piece, index) => {
             return(
@@ -30,5 +30,3 @@ class MoveLog extends Component {
         )
     }
 }
-
-export default MoveLog

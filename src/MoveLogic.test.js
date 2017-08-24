@@ -1511,4 +1511,16 @@ describe('MoveLogic', () => {
 
         })
     })
+
+    describe('#isCastle', () => {
+        xit('test', () => {
+
+        })
+    })
+
+    describe('#isEnPassant', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

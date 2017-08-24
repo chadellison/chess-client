@@ -1,6 +1,6 @@
 const LETTER_KEY = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8}
 
-class MoveLogic {
+export default class MoveLogic {
     movesLeft(position) {
         let moves = []
         let column = position[0]
@@ -173,6 +173,15 @@ class MoveLogic {
         return moves
     }
 
+    isEnPassant(piece, coordinates, updatedBoard) {
+        if(coordinates[0] !== piece.currentPosition[0] &&
+            !updatedBoard[coordinates].piece &&
+            piece.type === 'pawn') {
+              updatedBoard[coordinates[0] + piece.currentPosition[1]].piece = null
+        }
+        return updatedBoard
+    }
+
     canCapturePiece(position, board) {
         let moves = []
         if(this.checkDiagonal(position, this.oneLeft(position), board)) {
@@ -275,6 +284,27 @@ class MoveLogic {
             Math.abs(LETTER_KEY[piece.currentPosition[0]] - LETTER_KEY[nextMove[0]]) === 2
     }
 
+    isCastle(piece, coordinates, updatedBoard) {
+        if(piece.type === 'king' && piece.currentPosition[0] === 'e' && ['c', 'g'].includes(coordinates[0])) {
+            let oldColumn
+            let newColumn
+
+            if (piece.currentPosition[0] > coordinates[0]) {
+                oldColumn = 'a'
+                newColumn = 'd'
+            } else {
+                oldColumn = 'h'
+                newColumn = 'f'
+            }
+            let rook = updatedBoard[oldColumn + coordinates[1]].piece
+
+            rook.currentPosition = (newColumn + coordinates[1])
+            updatedBoard[oldColumn + coordinates[1]].piece = null
+            updatedBoard[newColumn + coordinates[1]].piece = rook
+        }
+        return updatedBoard
+    }
+
     kingLocation(board, color) {
       return Object.values(board).filter((square) => {
         return(
@@ -366,5 +396,3 @@ class MoveLogic {
         return types[piece.type]
     }
 }
-
-export default MoveLogic

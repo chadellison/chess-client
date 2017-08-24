@@ -390,19 +390,7 @@ describe('App', () => {
         })
     })
 
-    describe('#isEnPassant', () => {
-        xit('#test', () => {
-
-        })
-    })
-
     describe('#pawnMovedTwo', () => {
-        xit('#test', () => {
-
-        })
-    })
-
-    describe('#isCastle', () => {
         xit('#test', () => {
 
         })

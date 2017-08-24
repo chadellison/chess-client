@@ -65,8 +65,9 @@ export default class App extends Component {
             let color = this.state.turn === 'white' ? 'black' : 'white'
 
             piece = this.state.selected
-            this.isCastle(piece, coordinates, updatedBoard)
-            this.isEnPassant(coordinates, updatedBoard)
+            updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
+            updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
+
             if(this.pawnMovedTwo(coordinates)) {
                 piece.movedTwo = true
             }
@@ -107,35 +108,6 @@ export default class App extends Component {
                 messageToUser: 'Invalid Move',
                 selected: null
             })
-        }
-    }
-
-    isCastle(piece, coordinates, updatedBoard) {
-        if(piece.type === 'king' && piece.currentPosition[0] === 'e' && ['c', 'g'].includes(coordinates[0])) {
-            let oldColumn
-            let newColumn
-
-            if (piece.currentPosition[0] > coordinates[0]) {
-                oldColumn = 'a'
-                newColumn = 'd'
-            } else {
-                oldColumn = 'h'
-                newColumn = 'f'
-            }
-            let rook = updatedBoard[oldColumn + coordinates[1]].piece
-
-            rook.currentPosition = (newColumn + coordinates[1])
-            updatedBoard[oldColumn + coordinates[1]].piece = null
-            updatedBoard[newColumn + coordinates[1]].piece = rook
-        }
-    }
-
-    isEnPassant(coordinates, updatedBoard) {
-        let piece = this.state.selected
-        if(coordinates[0] !== piece.currentPosition[0] &&
-            !this.state.chessBoard[coordinates].piece &&
-            piece.type === 'pawn') {
-              updatedBoard[coordinates[0] + piece.currentPosition[1]].piece = null
         }
     }
 

@@ -346,7 +346,7 @@ export default class App extends Component {
                         handleMoveLog={this.handleMoveLog}
                         moves={this.state.moves}
                         handlePreviousBoard={this.handlePreviousBoard}
-                        messageToUser={this.messageToUser}
+                        messageToUser={this.state.messageToUser}
                         hashedEmail={this.state.hashedEmail}
                         handleReset={this.handleReset}
                         handleLogout={this.handleLogout}

@@ -4,7 +4,7 @@ import jsonChessBoard from './jsonChessBoard'
 import Board from './components/Board.js'
 import MoveLogic from './helpers/MoveLogic'
 import MoveLog from './components/MoveLog'
-import SignUpForm from './components/SignUpForm'
+import CredentialForm from './components/CredentialForm'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
 import UserService from './services/UserService'
 
@@ -43,6 +43,7 @@ class App extends Component {
         this.handleReset          = this.handleReset.bind(this)
         this.handleMoveLog        = this.handleMoveLog.bind(this)
         this.handleCrossedPawn    = this.handleCrossedPawn.bind(this)
+        this.handlePreviousBoard  = this.handlePreviousBoard.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -292,6 +293,10 @@ class App extends Component {
         })
     }
 
+    handlePreviousBoard(event) {
+        console.log("hi")
+    }
+
     handleReset() {
         this.setState({
             chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
@@ -307,7 +312,7 @@ class App extends Component {
 
     get signUpForm() {
         if (this.state.signUpFormActive || this.state.signInFormActive) {
-            return <SignUpForm
+            return <CredentialForm
                 handleUserEmail={this.handleUserEmail}
                 handleUserPassword={this.handleUserPassword}
                 handleCredentialForm={this.handleCredentialForm}
@@ -346,9 +351,12 @@ class App extends Component {
           moveLog = <MoveLog
               cancelMoveLog={this.handleMoveLog}
               moves={this.state.moves}
+              handlePreviousBoard={this.handlePreviousBoard}
           />
       } else {
-          moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>Move Log</button>
+          moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>
+              Move Log
+          </button>
       }
       return moveLog
     }

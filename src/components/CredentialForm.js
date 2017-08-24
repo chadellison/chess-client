@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import "../styles/SignUpForm.css"
+import "../styles/CredentialForm.css"
 
-export default class SignUpForm extends Component {
+export default class CredentialForm extends Component {
     get buttonName() {
         if(this.props.signInFormActive) {
             return 'Sign In'

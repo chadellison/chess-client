@@ -5,7 +5,9 @@ class MoveLog extends Component {
     get moves() {
         let gameMoves = this.props.moves.map((piece, index) => {
             return(
-              <div key={index} id={index} className='col-xs-6 move'>
+              <div key={index} id={index}
+                  onClick={this.props.handlePreviousBoard}
+                  className='col-xs-6 move'>
                   {`${piece.type}: ${piece.currentPosition}`}
               </div>
             )

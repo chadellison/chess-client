@@ -12,6 +12,7 @@ export default class App extends Component {
         super()
         this.state = {
             chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+            previousBoard: null,
             moves: [],
             selected: null,
             signUpFormActive: false,
@@ -64,13 +65,9 @@ export default class App extends Component {
             let crossedPawn = false
             let color = this.state.turn === 'white' ? 'black' : 'white'
 
-            piece = this.state.selected
             updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
             updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
-
-            if(this.pawnMovedTwo(coordinates)) {
-                piece.movedTwo = true
-            }
+            piece = this.pawnMovedTwo(this.state.selected, coordinates)
 
             if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
                 crossedPawn = true
@@ -111,10 +108,13 @@ export default class App extends Component {
         }
     }
 
-    pawnMovedTwo(coordinates) {
-        return this.state.selected.type === 'pawn' &&
+    pawnMovedTwo(piece, coordinates) {
+        if(piece.type === 'pawn' &&
             Math.abs(parseInt(coordinates[1], 10) -
-            parseInt(this.state.selected.currentPosition[1], 10)) === 2
+            parseInt(this.state.selected.currentPosition[1], 10)) === 2) {
+                piece.movedTwo = true
+        }
+        return piece
     }
 
     currentTurn() {
@@ -189,34 +189,35 @@ export default class App extends Component {
             }))
     }
 
-    handleSelected(id) {
-        if(this.state.chessBoard[id].piece.color === this.state.turn) {
-            if (!this.state.selected) {
-                let board = JSON.parse(JSON.stringify(this.state.chessBoard))
-                let piece = JSON.parse(JSON.stringify(board[id].piece))
-                let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
+    handleSelected(selectedPiece) {
+      if (this.state.chessBoard[selectedPiece.currentPosition].piece) {
+          if (selectedPiece.color === this.state.turn) {
+              if (!this.state.selected) {
+                  let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+                  let piece = JSON.parse(JSON.stringify(selectedPiece))
+                  let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
-                let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
-                    return this.isValid(piece, move, board, gameMoves)
-                })
+                  let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
+                      return this.isValid(piece, move, board, gameMoves)
+                  })
 
-                piece.availableMoves = availableMoves
-                board[id].piece = piece
+                  piece.availableMoves = availableMoves
+                  board[piece.currentPosition].piece = piece
 
-                this.setState({
-                    selected: piece,
-                    chessBoard: board
-                })
-            } else if (this.state.selected === this.state.chessBoard[id].piece) {
-                this.setState({
-                    selected: null
-                })
-            }
-        } else {
-            this.setState({
-                messageToUser: `${this.state.turn}'s turn`
-            })
-        }
+                  this.setState({
+                      selected: piece,
+                      chessBoard: board
+                  })
+              }
+          } else {
+              this.setState({
+                  messageToUser: `${this.state.turn}'s turn`
+              })
+          }
+      }
+      this.setState({
+          previousBoard: null
+      })
     }
 
     handleCredentialForm(event) {
@@ -265,7 +266,17 @@ export default class App extends Component {
     }
 
     handlePreviousBoard(event) {
-        console.log(event)
+        let index = parseInt(event.target.id, 10)
+
+        let gameMoves = this.state.moves.slice(0, index + 1)
+        let board = JSON.parse(JSON.stringify(jsonChessBoard))
+
+        board = this.moveLogic.setBoard(gameMoves, board)
+
+        this.setState({
+            previousBoard: board,
+            selected: null
+        })
     }
 
     handleReset() {
@@ -292,11 +303,19 @@ export default class App extends Component {
         return crossedPawn
     }
 
+    get board() {
+        if(this.state.previousBoard) {
+            return this.state.previousBoard
+        } else {
+            return this.state.chessBoard
+        }
+    }
+
     render() {
         return (
             <div className='App'>
                 <div className='container-fluid'>
-                    <Board chessBoard={this.state.chessBoard}
+                    <Board chessBoard={this.board}
                         handleSelected={this.handleSelected}
                         isSelected={this.state.selected}
                         move={this.move}

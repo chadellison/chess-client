@@ -81,7 +81,7 @@ export default class MoveLogic {
         let rows = [parseInt(position[1], 10), parseInt(position[1], 10) + 2, parseInt(position[1], 10) - 2]
 
         this.movesForRook(position).filter((move) => {
-            return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
+            return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1], 10))
         }).forEach((move) => {
             if(move[0] === position[0]) {
                 knightMoves.push(String.fromCharCode(move[0].charCodeAt(0) + 1) + move[1])
@@ -100,7 +100,7 @@ export default class MoveLogic {
         let rows = [parseInt(position[1], 10), parseInt(position[1], 10) - 1, parseInt(position[1], 10) + 1]
 
         let moves = this.movesForQueen(position).filter((move) => {
-            return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1]))
+            return columns.includes(LETTER_KEY[move[0]]) && rows.includes(parseInt(move[1], 10))
         })
         let piece = board[position].piece
 
@@ -394,5 +394,25 @@ export default class MoveLogic {
             king: this.movesForKing(piece.currentPosition, board, gameMoves)
         }
         return types[piece.type]
+    }
+
+    setBoard(gameMoves, board) {
+        let piecesAndMoves = {}
+
+        Object.values(board).forEach((square) => {
+            if(square.piece) {
+                piecesAndMoves[square.piece.id] = square.piece.currentPosition
+            }
+        })
+
+        gameMoves.forEach((piece) => {
+            board = this.isCastle(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
+            board = this.isEnPassant(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
+
+            board[piecesAndMoves[piece.id]].piece = null
+            board[piece.currentPosition].piece = piece
+            piecesAndMoves[piece.id] = piece.currentPosition
+        })
+        return board
     }
 }

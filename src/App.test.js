@@ -322,29 +322,44 @@ describe('App', () => {
     describe('#handleSelected', () => {
         beforeEach(() => {
             app.state().selected = null
-            app.state().turn = 'white'
+            app.state().turn = 'black'
         })
 
         it('sets the state of selected to the selected object', () => {
-            app.instance().handleSelected('e2')
-            expect(app.state().selected).toEqual(app.state().chessBoard.e2.piece)
+            let piece = {
+              'id': '1',
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'a8'
+            }
+
+            app.instance().handleSelected(piece)
+            expect(app.state().selected).toEqual(app.state().chessBoard.a8.piece)
         })
 
-        it('maintains the state of the current selected object when another object is clicked', () => {
-            app.instance().handleSelected('e1')
-            app.instance().handleSelected('d1')
-            expect(app.state().selected).toEqual(app.state().chessBoard.e1.piece)
-        })
+        it('sets the previousBoard state to null', () => {
+            let rook = {
+              'id': '1',
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'a8'
+            }
 
-        it('unselects the current object if it is clicked a second time', () => {
-            app.instance().handleSelected('e1')
-            app.instance().handleSelected('e1')
-            expect(app.state().selected).toEqual(null)
+            app.state().selected = rook
+            app.state().previousBoard = app.state().chessBoard
+            app.instance().handleSelected(rook)
+            expect(app.state().previousBoard).toEqual(null)
         })
 
         it('does not allow a piece to be selected if it is not the turn of that piece', () => {
+          let rook = {
+              'id': '1',
+              'type': 'rook',
+              'color': 'black',
+              'currentPosition': 'a8'
+          }
           app.state().turn = 'white'
-          app.instance().handleSelected('e7')
+          app.instance().handleSelected(rook)
           expect(app.state().selected).toEqual(null)
         })
     })
@@ -415,6 +430,12 @@ describe('App', () => {
     })
 
     describe('#handlePreviousBoard', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#board', () => {
         xit('#test', () => {
 
         })

@@ -1523,4 +1523,10 @@ describe('MoveLogic', () => {
 
         })
     })
+
+    describe('#setBoard', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

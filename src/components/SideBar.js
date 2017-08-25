@@ -55,7 +55,7 @@ export default class SideBar extends Component {
             }
             return moveLog
         } else {
-            null
+            return null
         }
     }
 
@@ -63,7 +63,7 @@ export default class SideBar extends Component {
         if(!this.props.signUpFormActive && !this.props.signInFormActive) {
             return <button className='resetButton' onClick={this.props.handleReset}>Reset</button>
         } else {
-            null
+            return null
         }
     }
 

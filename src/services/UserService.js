@@ -1,3 +1,5 @@
+import API_HOST from "../config/ApiHost.js"
+
 export default class UserService {
     constructor() {
         this.headers = {
@@ -7,25 +9,25 @@ export default class UserService {
     }
 
     createUser(email, password) {
-        let body = JSON.stringify({email: email, password: password})
+        let body = JSON.stringify({user: {email: email, password: password}})
         return (
-            fetch('http://localhost:8080/api/v1/users',
+            fetch(`${API_HOST}/api/v1/users`,
             {
               method: 'POST',
               headers: this.headers,
-              boad: body
+              body: body
             })
         )
     }
 
     signIn(email, password) {
-        let body = JSON.stringify({email: email, password: password})
+        let body = JSON.stringify({credentials: {email: email, password: password}})
         return (
-            fetch('http://localhost:8080/api/v1/authentication',
+            fetch(`${API_HOST}/api/v1/authentication`,
             {
               method: 'POST',
               headers: this.headers,
-              boad: body
+              body: body
             })
         )
     }

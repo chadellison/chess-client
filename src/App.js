@@ -152,7 +152,7 @@ export default class App extends Component {
     handleUserSignUp() {
         this.userService.createUser(this.state.email, this.state.password)
             .then(() => this.setState({
-                messageToUser: `Please check your email at ${this.state.email} to confirm you exist!`,
+                messageToUser: `Please check your email at ${this.state.email} to confirm your account!`,
                 signUpFormActive: false,
                 signInFormActive: false,
                 email: '',
@@ -170,23 +170,23 @@ export default class App extends Component {
         this.userService.signIn(this.state.email, this.state.password)
             .then(response => response.json())
             .then(responseJson => {
-                this.setState({
-                token: responseJson.token,
-                signInFormActive: false,
-                signUpFormActive: false,
-                loggedIn: responseJson.email,
-                messageToUser: 'Welcome to Chess!!!',
-                hashedEmail: responseJson.hashedEmail
-            })})
-            .catch(
-                this.setState({
-                    messageToUser: 'Please enter a valid username and password.'
-                })
-            )
-            .then(this.setState({
-                email: '',
-                password: ''
-            }))
+                if (responseJson.errors) {
+                    this.setState({
+                      messageToUser: responseJson.errors
+                    })
+                } else {
+                    this.setState({
+                      token: responseJson.data.attributes.token,
+                      signInFormActive: false,
+                      signUpFormActive: false,
+                      loggedIn: true,
+                      messageToUser: 'Welcome to Chess Mail!',
+                      hashedEmail: responseJson.data.attributes.hashed_email,
+                      email: '',
+                      password: ''
+                    })
+                }
+            })
     }
 
     handleSelected(selectedPiece) {

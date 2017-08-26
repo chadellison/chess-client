@@ -12,9 +12,12 @@ export default class SideBar extends Component {
                 handleCredentialForm={this.props.handleCredentialForm}
                 userEmail={this.props.email}
                 userPassword={this.props.password}
+                handleFirstName={this.props.handleFirstName}
+                handleLastName={this.props.handleLastName}
                 handleUserSignIn={this.props.handleUserSignIn}
                 handleUserSignUp={this.props.handleUserSignUp}
                 signInFormActive={this.props.signInFormActive}
+                signUpFormActive={this.props.signUpFormActive}
             />
         } else {
             return null

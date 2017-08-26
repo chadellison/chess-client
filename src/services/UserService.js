@@ -8,8 +8,15 @@ export default class UserService {
         }
     }
 
-    createUser(email, password) {
-        let body = JSON.stringify({user: {email: email, password: password}})
+    createUser(email, password, firstName, lastName) {
+        let body = JSON.stringify({
+              user: {
+                  email: email,
+                  password: password,
+                  firstName: firstName,
+                  lastName: lastName
+              }
+        })
         return (
             fetch(`${API_HOST}/api/v1/users`,
             {

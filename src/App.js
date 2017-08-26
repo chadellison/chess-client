@@ -19,6 +19,8 @@ export default class App extends Component {
             signInFormActive: false,
             email: '',
             password: '',
+            firstName: '',
+            lastName: '',
             token: '',
             loggedIn: false,
             messageToUser: '',
@@ -44,6 +46,8 @@ export default class App extends Component {
         this.handleMoveLog        = this.handleMoveLog.bind(this)
         this.handleCrossedPawn    = this.handleCrossedPawn.bind(this)
         this.handlePreviousBoard  = this.handlePreviousBoard.bind(this)
+        this.handleFirstName      = this.handleFirstName.bind(this)
+        this.handleLastName      = this.handleLastName.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -150,7 +154,7 @@ export default class App extends Component {
     }
 
     handleUserSignUp() {
-        this.userService.createUser(this.state.email, this.state.password)
+        this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
            .then(response => response.json())
            .then(responseJson => {
               if (responseJson.errors) {
@@ -159,14 +163,20 @@ export default class App extends Component {
                       signUpFormActive: true
                   })
               } else {
+                  let message = `Great ${this.state.firstName}! Please check your email at ${this.state.email} to confirm your account!`
                   this.setState({
-                      messageToUser: `Please check your email at ${this.state.email} to confirm your account!`,
+                      messageToUser: message,
                       signUpFormActive: false,
                       signInFormActive: false,
                       email: '',
-                      password: ''
+                      password: '',
+                      firstName: '',
+                      lastName: ''
                   })
               }
+           })
+           .catch((error) => {
+              alert(error)
            })
     }
 
@@ -187,9 +197,14 @@ export default class App extends Component {
                       messageToUser: 'Welcome to Chess Mail!',
                       hashedEmail: responseJson.data.attributes.hashed_email,
                       email: '',
-                      password: ''
+                      password: '',
+                      firstName: responseJson.data.attributes.firstName,
+                      lastName: responseJson.data.attributes.lastName
                     })
                 }
+            })
+            .catch((error) => {
+               alert(error)
             })
     }
 
@@ -255,6 +270,12 @@ export default class App extends Component {
         })
     }
 
+    handleFirstName(event) {
+        this.setState({firstName: event.target.value})
+    }
+    handleLastName(event) {
+        this.setState({lastName: event.target.value})
+    }
     handleUserEmail(event) {
         this.setState({email: event.target.value})
     }
@@ -331,6 +352,8 @@ export default class App extends Component {
                         signInFormActive={this.state.signInFormActive}
                         handleUserEmail={this.handleUserEmail}
                         handleUserPassword={this.handleUserPassword}
+                        handleFirstName={this.handleFirstName}
+                        handleLastName={this.handleLastName}
                         handleCredentialForm={this.handleCredentialForm}
                         userEmail={this.state.email}
                         userPassword={this.state.password}

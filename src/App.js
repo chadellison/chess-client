@@ -151,19 +151,23 @@ export default class App extends Component {
 
     handleUserSignUp() {
         this.userService.createUser(this.state.email, this.state.password)
-            .then(() => this.setState({
-                messageToUser: `Please check your email at ${this.state.email} to confirm your account!`,
-                signUpFormActive: false,
-                signInFormActive: false,
-                email: '',
-                password: ''
-            }))
-            .catch(
-                this.setState({
-                    messageToUser: 'Please enter a valid username and password.',
-                    signUpFormActive: true
-                })
-            )
+           .then(response => response.json())
+           .then(responseJson => {
+              if (responseJson.errors) {
+                  this.setState({
+                      messageToUser: responseJson.errors,
+                      signUpFormActive: true
+                  })
+              } else {
+                  this.setState({
+                      messageToUser: `Please check your email at ${this.state.email} to confirm your account!`,
+                      signUpFormActive: false,
+                      signInFormActive: false,
+                      email: '',
+                      password: ''
+                  })
+              }
+           })
     }
 
     handleUserSignIn() {

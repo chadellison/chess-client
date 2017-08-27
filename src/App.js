@@ -307,6 +307,7 @@ export default class App extends Component {
     handleReset() {
         this.setState({
             chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+            previousBoard: null,
             moves: [],
             turn: 'white',
             messageToUser: '',

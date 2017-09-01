@@ -30,4 +30,10 @@ describe('SideBar', () => {
 
         })
     })
+
+    describe('#playerColorButtons', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

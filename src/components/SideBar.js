@@ -74,7 +74,7 @@ export default class SideBar extends Component {
       if(this.props.loggedIn && !this.props.challengePlayer) {
         return(
           <div>
-            <button className='challengeButton'>Play AI</button>
+            <button className='challengeButton'>Play Robot</button>
             <button className='challengeButton' onClick={this.props.handleChallengePlayer}>
               Challenge Player
             </button>
@@ -85,15 +85,44 @@ export default class SideBar extends Component {
       }
     }
 
+    get playerColorButtons() {
+      if(this.props.playerColor === 'white') {
+        return(
+          <div>
+            <button className='button color-white underline' onClick={this.props.handlePlayerColor}>
+              White
+            </button>
+            <button className='button color-black' onClick={this.props.handlePlayerColor}>
+              Black
+            </button>
+          </div>
+        )
+      } else {
+        return(
+          <div>
+            <button className='button color-white' onClick={this.props.handlePlayerColor}>
+              White
+            </button>
+            <button className='button color-black underline' onClick={this.props.handlePlayerColor}>
+              Black
+            </button>
+          </div>
+        )
+      }
+    }
+
     get challengePlayerForm() {
       if(this.props.challengePlayer) {
         return(
           <div>
-            <h6>Enter the name and email of the person you would like to challenge</h6>
+            <h5>Enter the name and email of the person you would like to challenge</h5>
             <input className='firstNameInput' placeholder='Name'></input>
             <input className='emailInput' placeholder='Email'></input>
+            {this.playerColorButtons}
             <button className='challengeButton'>Challenge This player</button>
-            <button className='cancelButton'>Cancel</button>
+            <button className='cancelButton' onClick={this.props.handleCancelChallenge}>
+              Cancel
+            </button>
           </div>
         )
       } else {

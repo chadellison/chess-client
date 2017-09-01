@@ -446,4 +446,16 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleCancelChallenge', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#handlePlayerColor', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

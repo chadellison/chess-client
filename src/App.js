@@ -30,7 +30,8 @@ export default class App extends Component {
             checkmate: false,
             stalemate: false,
             crossedPawn: false,
-            challengePlayer: false
+            challengePlayer: false,
+            playerColor: 'white'
         }
         this.userService = new UserService()
         this.moveLogic   = new MoveLogic()
@@ -50,6 +51,8 @@ export default class App extends Component {
         this.handleFirstName       = this.handleFirstName.bind(this)
         this.handleLastName        = this.handleLastName.bind(this)
         this.handleChallengePlayer = this.handleChallengePlayer.bind(this)
+        this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
+        this.handlePlayerColor     = this.handlePlayerColor.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -124,35 +127,35 @@ export default class App extends Component {
     }
 
     currentTurn() {
-        return this.state.turn === 'white' ? 'black' : 'white'
+      return this.state.turn === 'white' ? 'black' : 'white'
     }
 
     handleCrossedPawn(event) {
-        let classNames = event.target.className.split("-")
-        let pieceType
+      let classNames = event.target.className.split("-")
+      let pieceType
 
-        if (classNames.includes('knight piece')) {
-            pieceType = 'knight'
-        }
-        if (classNames.includes('bishop piece')) {
-            pieceType = 'bishop'
-        }
+      if (classNames.includes('knight piece')) {
+        pieceType = 'knight'
+      }
+      if (classNames.includes('bishop piece')) {
+        pieceType = 'bishop'
+      }
 
-        if (classNames.includes('tower piece')) {
-            pieceType = 'rook'
-        }
-        if (classNames.includes('queen piece')) {
-            pieceType = 'queen'
-        }
+      if (classNames.includes('tower piece')) {
+        pieceType = 'rook'
+      }
+      if (classNames.includes('queen piece')) {
+        pieceType = 'queen'
+      }
 
-        let coordinates = this.state.moves.slice(-1)[0].currentPosition
-        let board = JSON.parse(JSON.stringify(this.state.chessBoard))
-        board[coordinates].piece.type = pieceType
+      let coordinates = this.state.moves.slice(-1)[0].currentPosition
+      let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+      board[coordinates].piece.type = pieceType
 
-        this.setState({
-            chessBoard: board,
-            crossedPawn: false
-        })
+      this.setState({
+        chessBoard: board,
+        crossedPawn: false
+      })
     }
 
     handleUserSignUp() {
@@ -253,14 +256,14 @@ export default class App extends Component {
             })
         }
         if(event.target.textContent === 'Cancel') {
-            this.setState({
-                signInFormActive: false,
-                signUpFormActive: false,
-                messageToUser: '',
-                email: '',
-                password: '',
-                messageToUser: ''
-            })
+          this.setState({
+            signInFormActive: false,
+            signUpFormActive: false,
+            messageToUser: '',
+            email: '',
+            password: '',
+            messageToUser: ''
+          })
         }
     }
 
@@ -324,7 +327,27 @@ export default class App extends Component {
 
     handleChallengePlayer() {
       this.setState({
-        challengePlayer: !this.state.handleChallengePlayer
+        challengePlayer: true
+      })
+    }
+
+    handleCancelChallenge() {
+      this.setState({
+        challengePlayer: false
+      })
+    }
+
+    handlePlayerColor(event) {
+      let color
+
+      if(event.target.textContent === 'White') {
+        color = 'white'
+      }
+      if(event.target.textContent === 'Black') {
+        color = 'black'
+      }
+      this.setState({
+        playerColor: color
       })
     }
 
@@ -381,6 +404,9 @@ export default class App extends Component {
                         handleLogout={this.handleLogout}
                         handleChallengePlayer={this.handleChallengePlayer}
                         challengePlayer={this.state.challengePlayer}
+                        handleCancelChallenge={this.handleCancelChallenge}
+                        handlePlayerColor={this.handlePlayerColor}
+                        playerColor={this.state.playerColor}
                     />
                 </div>
             </div>

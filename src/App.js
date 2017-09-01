@@ -29,25 +29,27 @@ export default class App extends Component {
             moveLogActive: false,
             checkmate: false,
             stalemate: false,
-            crossedPawn: false
+            crossedPawn: false,
+            challengePlayer: false
         }
         this.userService = new UserService()
         this.moveLogic   = new MoveLogic()
 
-        this.handleSelected       = this.handleSelected.bind(this)
-        this.handleCredentialForm = this.handleCredentialForm.bind(this)
-        this.handleUserEmail      = this.handleUserEmail.bind(this)
-        this.handleUserPassword   = this.handleUserPassword.bind(this)
-        this.handleUserSignIn     = this.handleUserSignIn.bind(this)
-        this.handleUserSignUp     = this.handleUserSignUp.bind(this)
-        this.handleLogout         = this.handleLogout.bind(this)
-        this.move                 = this.move.bind(this)
-        this.handleReset          = this.handleReset.bind(this)
-        this.handleMoveLog        = this.handleMoveLog.bind(this)
-        this.handleCrossedPawn    = this.handleCrossedPawn.bind(this)
-        this.handlePreviousBoard  = this.handlePreviousBoard.bind(this)
-        this.handleFirstName      = this.handleFirstName.bind(this)
-        this.handleLastName      = this.handleLastName.bind(this)
+        this.handleSelected        = this.handleSelected.bind(this)
+        this.handleCredentialForm  = this.handleCredentialForm.bind(this)
+        this.handleUserEmail       = this.handleUserEmail.bind(this)
+        this.handleUserPassword    = this.handleUserPassword.bind(this)
+        this.handleUserSignIn      = this.handleUserSignIn.bind(this)
+        this.handleUserSignUp      = this.handleUserSignUp.bind(this)
+        this.handleLogout          = this.handleLogout.bind(this)
+        this.move                  = this.move.bind(this)
+        this.handleReset           = this.handleReset.bind(this)
+        this.handleMoveLog         = this.handleMoveLog.bind(this)
+        this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
+        this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
+        this.handleFirstName       = this.handleFirstName.bind(this)
+        this.handleLastName        = this.handleLastName.bind(this)
+        this.handleChallengePlayer = this.handleChallengePlayer.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -256,7 +258,8 @@ export default class App extends Component {
                 signUpFormActive: false,
                 messageToUser: '',
                 email: '',
-                password: ''
+                password: '',
+                messageToUser: ''
             })
         }
     }
@@ -266,7 +269,8 @@ export default class App extends Component {
             token: '',
             loggedIn: '',
             hashedEmail: '',
-            messageToUser: ''
+            messageToUser: 'successfully logged out',
+            challengePlayer: false
         })
     }
 
@@ -316,6 +320,12 @@ export default class App extends Component {
             selected: null,
             crossedPawn: false
         })
+    }
+
+    handleChallengePlayer() {
+      this.setState({
+        challengePlayer: !this.state.handleChallengePlayer
+      })
     }
 
     get crossedPawn() {
@@ -369,6 +379,8 @@ export default class App extends Component {
                         hashedEmail={this.state.hashedEmail}
                         handleReset={this.handleReset}
                         handleLogout={this.handleLogout}
+                        handleChallengePlayer={this.handleChallengePlayer}
+                        challengePlayer={this.state.challengePlayer}
                     />
                 </div>
             </div>

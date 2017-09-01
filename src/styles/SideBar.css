@@ -9,35 +9,61 @@
 .moveLogButton {
     width: 90%;
     margin: 10px;
-    height: 40px;
+    height: 30px;
 }
 
-.signUpButton {
-    width: 90%;
-    margin: 10px;
-    height: 40px;
-}
-
-.signInButton {
-    width: 90%;
-    margin: 10px;
-    height: 40px;
+.moveLogButton:hover {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .logOutButton {
     width: 90%;
     margin: 10px;
-    height: 40px;
+    height: 30px;
+}
+
+.logOutButton:hover {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .resetButton {
   width: 90%;
   margin: 10px;
-  height: 40px;
+  height: 30px;
+}
+
+.resetButton:hover {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+.challengeButton {
+  width: 90%;
+  margin: 10px;
+  height: 30px;
+}
+
+.challengeButton:hover {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .gravatar {
     border-radius: 50%;
     margin: 20px;
     width: 50px;
+}
+
+.firstNameInput {
+  width: 90%;
+  margin: 10px;
+  height: 30px;
+  font-size:16px;
+  padding: 5px;
+}
+
+.emailInput {
+  width: 90%;
+  margin: 10px;
+  height: 30px;
+  font-size: 16px;
+  padding: 5px;
 }

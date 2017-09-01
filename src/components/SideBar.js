@@ -25,7 +25,7 @@ export default class SideBar extends Component {
 
     }
 
-    get buttons() {
+    get credentialButtons() {
         let buttons
         if(this.props.signUpFormActive || this.props.signInFormActive) {
             buttons = null
@@ -43,7 +43,7 @@ export default class SideBar extends Component {
     }
 
     get moveLog() {
-        if(!this.props.signUpFormActive && !this.props.signInFormActive) {
+        if(!this.props.signUpFormActive && !this.props.signInFormActive && !this.props.challengePlayer) {
             let moveLog
             if(this.props.moveLogActive) {
               moveLog = <MoveLog
@@ -53,7 +53,7 @@ export default class SideBar extends Component {
               />
             } else {
               moveLog = <button className='moveLogButton' onClick={this.props.handleMoveLog}>
-              Move Log
+                Move Log
               </button>
             }
             return moveLog
@@ -63,25 +63,58 @@ export default class SideBar extends Component {
     }
 
     get resetButton() {
-        if(!this.props.signUpFormActive && !this.props.signInFormActive) {
+        if(!this.props.signUpFormActive && !this.props.signInFormActive && !this.props.challengePlayer) {
             return <button className='resetButton' onClick={this.props.handleReset}>Reset</button>
         } else {
             return null
         }
     }
 
+    get gamePlayButtons() {
+      if(this.props.loggedIn && !this.props.challengePlayer) {
+        return(
+          <div>
+            <button className='challengeButton'>Play AI</button>
+            <button className='challengeButton' onClick={this.props.handleChallengePlayer}>
+              Challenge Player
+            </button>
+          </div>
+        )
+      } else {
+        return null
+      }
+    }
+
+    get challengePlayerForm() {
+      if(this.props.challengePlayer) {
+        return(
+          <div>
+            <h6>Enter the name and email of the person you would like to challenge</h6>
+            <input className='firstNameInput' placeholder='Name'></input>
+            <input className='emailInput' placeholder='Email'></input>
+            <button className='challengeButton'>Challenge This player</button>
+            <button className='cancelButton'>Cancel</button>
+          </div>
+        )
+      } else {
+        return null
+      }
+    }
+
     render() {
         return(
           <div className='sideBar col-xs-2'>
-              {this.buttons}
-              {this.credentialForm}
               {this.props.messageToUser}
+              {this.credentialButtons}
+              {this.credentialForm}
               <div className='user-header'>
                   {this.props.hashedEmail !== '' ? <img className='gravatar' src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
               </div>
 
               {this.moveLog}
               {this.resetButton}
+              {this.gamePlayButtons}
+              {this.challengePlayerForm}
           </div>
         )
     }

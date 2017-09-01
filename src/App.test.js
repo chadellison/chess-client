@@ -440,4 +440,10 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleChallengePlayer', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

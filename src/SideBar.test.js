@@ -1,19 +1,31 @@
-import MoveLogic from './components/MoveLog'
+import SideBar from './components/SideBar'
 
 describe('SideBar', () => {
+    describe('#credentialForm', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#credentialButtons', () => {
+        xit('#test', () => {
+
+        })
+    })
+
     describe('#moveLog', () => {
         xit('#test', () => {
 
         })
     })
 
-    describe('#buttons', () => {
+    describe('#resetButton', () => {
         xit('#test', () => {
 
         })
     })
 
-    describe('#buttons', () => {
+    describe('#gamePlayButtons', () => {
         xit('#test', () => {
 
         })

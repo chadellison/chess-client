@@ -62,7 +62,7 @@
     width: 50px;
 }
 
-.firstNameInput {
+.challengedFirstName {
   width: 90%;
   margin: 10px;
   height: 30px;
@@ -70,7 +70,7 @@
   padding: 5px;
 }
 
-.emailInput {
+.challengedEmail {
   width: 90%;
   margin: 10px;
   height: 30px;
@@ -80,17 +80,18 @@
 
 .color-black, .color-white {
   color: #262638;
-  margin-left: 20px;
   margin: 10px;
+  margin-left: 20px;
   height: 30px;
   font-size:14px;
-  padding: 5px;
-  width: 40%;
-  outline: none;
-  border: none;
   margin-bottom: 10px;
+  background-color: white;
+}
+
+.color-black:hover, .color-white:hover {
+  cursor: pointer;
 }
 
 .underline {
-  border-bottom: 5px solid #4286f4;
+  border-bottom: 5px solid #262638;
 }

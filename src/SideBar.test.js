@@ -36,4 +36,16 @@ describe('SideBar', () => {
 
         })
     })
+
+    describe('#challengePlayerFields', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#noFormsActive', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

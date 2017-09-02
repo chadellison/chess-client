@@ -458,4 +458,16 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleChallengeInfo', () => {
+        xit('#test', () => {
+
+        })
+    })
+
+    describe('#handleSubmitChallenge', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

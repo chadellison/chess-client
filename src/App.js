@@ -6,6 +6,7 @@ import MoveLogic from './helpers/MoveLogic'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
 import SideBar from './components/SideBar'
 import UserService from './services/UserService'
+import GameService from './services/GameService'
 
 export default class App extends Component {
     constructor() {
@@ -31,17 +32,19 @@ export default class App extends Component {
             stalemate: false,
             crossedPawn: false,
             challengePlayer: false,
-            playerColor: 'white'
+            challengeRobot: false,
+            playerColor: 'white',
+            challengedName: '',
+            challengedEmail: ''
         }
         this.userService = new UserService()
+        this.gameService = new GameService()
         this.moveLogic   = new MoveLogic()
 
         this.handleSelected        = this.handleSelected.bind(this)
         this.handleCredentialForm  = this.handleCredentialForm.bind(this)
         this.handleUserEmail       = this.handleUserEmail.bind(this)
         this.handleUserPassword    = this.handleUserPassword.bind(this)
-        this.handleUserSignIn      = this.handleUserSignIn.bind(this)
-        this.handleUserSignUp      = this.handleUserSignUp.bind(this)
         this.handleLogout          = this.handleLogout.bind(this)
         this.move                  = this.move.bind(this)
         this.handleReset           = this.handleReset.bind(this)
@@ -50,9 +53,14 @@ export default class App extends Component {
         this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
         this.handleFirstName       = this.handleFirstName.bind(this)
         this.handleLastName        = this.handleLastName.bind(this)
-        this.handleChallengePlayer = this.handleChallengePlayer.bind(this)
+        this.handleChallenge       = this.handleChallenge.bind(this)
         this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
         this.handlePlayerColor     = this.handlePlayerColor.bind(this)
+        this.handleChallengedInfo   = this.handleChallengedInfo.bind(this)
+
+        this.handleUserSignIn      = this.handleUserSignIn.bind(this)
+        this.handleUserSignUp      = this.handleUserSignUp.bind(this)
+        this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     }
 
     isValid(piece, coordinates, board, gameMoves) {
@@ -213,6 +221,18 @@ export default class App extends Component {
             })
     }
 
+    handleSubmitChallenge() {
+      let gameBody = {}
+      gameBody.challengedName = this.state.challengedName
+      gameBody.challengedEmail = this.state.challengedEmail
+      gameBody.playerColor = this.state.playerColor
+      gameBody.challengePlayer = this.state.challengePlayer
+      gameBody.challengeRobot = this.state.challengeRobot
+      gameBody.token = this.state.token
+      this.gameService.createGame(gameBody)
+      // handle response
+    }
+
     handleSelected(selectedPiece) {
       if (this.state.chessBoard[selectedPiece.currentPosition].piece) {
           if (selectedPiece.color === this.state.turn) {
@@ -325,15 +345,39 @@ export default class App extends Component {
         })
     }
 
-    handleChallengePlayer() {
-      this.setState({
-        challengePlayer: true
-      })
+    handleChallenge(event) {
+      if(event.target.textContent === 'Play Robot') {
+        this.setState({
+          challengeRobot: true
+        })
+      } else {
+        this.setState({
+          challengePlayer: true
+        })
+      }
+    }
+
+    handleChallengedInfo(event) {
+      if(event.target.className === 'challengedFirstName') {
+        this.setState({
+          challengedName: event.target.value
+        })
+      }
+
+      if(event.target.className === 'challengedEmail') {
+        this.setState({
+          challengedEmail: event.target.value
+        })
+      }
     }
 
     handleCancelChallenge() {
       this.setState({
-        challengePlayer: false
+        challengePlayer: false,
+        challengeRobot: false,
+        challengedName: '',
+        challengedEmail: '',
+        playerColor: 'white'
       })
     }
 
@@ -402,11 +446,14 @@ export default class App extends Component {
                         hashedEmail={this.state.hashedEmail}
                         handleReset={this.handleReset}
                         handleLogout={this.handleLogout}
-                        handleChallengePlayer={this.handleChallengePlayer}
+                        handleChallenge={this.handleChallenge}
                         challengePlayer={this.state.challengePlayer}
+                        handleChallengedInfo={this.handleChallengedInfo}
                         handleCancelChallenge={this.handleCancelChallenge}
                         handlePlayerColor={this.handlePlayerColor}
+                        challengeRobot={this.state.challengeRobot}
                         playerColor={this.state.playerColor}
+                        handleSubmitChallenge={this.handleSubmitChallenge}
                     />
                 </div>
             </div>

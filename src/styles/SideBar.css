@@ -6,7 +6,7 @@
     padding: 3%;
 }
 
-.moveLogButton {
+.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGames {
     width: 90%;
     margin: 10px;
     height: 30px;
@@ -16,40 +16,16 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-.logOutButton {
-    width: 90%;
-    margin: 10px;
-    height: 30px;
-}
-
 .logOutButton:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.resetButton {
-  width: 90%;
-  margin: 10px;
-  height: 30px;
 }
 
 .resetButton:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-.challengeButton {
-  width: 90%;
-  margin: 10px;
-  height: 30px;
-}
-
 .challengeButton:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.cancelButton {
-  width: 90%;
-  margin: 10px;
-  height: 30px;
 }
 
 .cancelButton:hover {
@@ -62,15 +38,7 @@
     width: 50px;
 }
 
-.challengedFirstName {
-  width: 90%;
-  margin: 10px;
-  height: 30px;
-  font-size:16px;
-  padding: 5px;
-}
-
-.challengedEmail {
+.challengedEmail, .challengedFirstName {
   width: 90%;
   margin: 10px;
   height: 30px;

@@ -172,6 +172,7 @@ export default class SideBar extends Component {
           {this.resetButton}
           {this.gamePlayButtons}
           {this.challengeForm}
+          <button className='myGames'>My Games</button>
         </div>
       )
     }

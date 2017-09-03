@@ -9,122 +9,122 @@ import UserService from './services/UserService'
 import GameService from './services/GameService'
 
 export default class App extends Component {
-    constructor() {
-        super()
-        this.state = {
-            chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-            previousBoard: null,
-            moves: [],
+  constructor() {
+    super()
+    this.state = {
+      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+      previousBoard: null,
+      moves: [],
+      selected: null,
+      signUpFormActive: false,
+      signInFormActive: false,
+      email: '',
+      password: '',
+      firstName: '',
+      lastName: '',
+      token: '',
+      loggedIn: false,
+      messageToUser: '',
+      hashedEmail: '',
+      turn: 'white',
+      moveLogActive: false,
+      checkmate: false,
+      stalemate: false,
+      crossedPawn: false,
+      challengePlayer: false,
+      challengeRobot: false,
+      playerColor: 'white',
+      challengedName: '',
+      challengedEmail: '',
+      userGames: []
+    }
+    this.userService = new UserService()
+    this.gameService = new GameService()
+    this.moveLogic   = new MoveLogic()
+
+    this.handleSelected        = this.handleSelected.bind(this)
+    this.handleCredentialForm  = this.handleCredentialForm.bind(this)
+    this.handleUserEmail       = this.handleUserEmail.bind(this)
+    this.handleUserPassword    = this.handleUserPassword.bind(this)
+    this.handleLogout          = this.handleLogout.bind(this)
+    this.move                  = this.move.bind(this)
+    this.handleReset           = this.handleReset.bind(this)
+    this.handleMoveLog         = this.handleMoveLog.bind(this)
+    this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
+    this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
+    this.handleFirstName       = this.handleFirstName.bind(this)
+    this.handleLastName        = this.handleLastName.bind(this)
+    this.handleChallenge       = this.handleChallenge.bind(this)
+    this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
+    this.handlePlayerColor     = this.handlePlayerColor.bind(this)
+    this.handleChallengedInfo   = this.handleChallengedInfo.bind(this)
+
+    this.handleUserSignIn      = this.handleUserSignIn.bind(this)
+    this.handleUserSignUp      = this.handleUserSignUp.bind(this)
+    this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
+  }
+
+  isValid(piece, coordinates, board, gameMoves) {
+    return (this.moveLogic.validMove(piece, coordinates, board, gameMoves) &&
+      this.moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
+    )
+  }
+
+  move(coordinates) {
+    let piece = JSON.parse(JSON.stringify(this.state.selected))
+    let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+    let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
+
+    if(this.isValid(piece, coordinates, board, gameMoves)) {
+        let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
+        let checkmate = this.state.checkmate
+        let stalemate = this.state.stalemate
+        let messageToUser = ''
+        let crossedPawn = false
+        let color = this.state.turn === 'white' ? 'black' : 'white'
+
+        updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
+        updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
+        piece = this.pawnMovedTwo(this.state.selected, coordinates)
+
+        if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
+            crossedPawn = true
+        }
+
+        updatedBoard[piece.currentPosition].piece = null
+
+        updatedBoard[coordinates].piece = piece
+        piece.currentPosition = coordinates
+        piece.hasMoved = true
+        gameMoves.push(piece)
+
+        if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
+            checkmate = true
+            messageToUser = `${this.state.turn} Wins!`
+        }
+
+        if(this.moveLogic.stalemate(updatedBoard, gameMoves, color)) {
+            stalemate = true
+            messageToUser = 'Draw!'
+        }
+
+        this.setState({
+            chessBoard: updatedBoard,
+            moves: gameMoves,
+            turn: this.currentTurn(),
+            checkmate: checkmate,
+            stalemate: stalemate,
+            messageToUser: messageToUser,
             selected: null,
-            signUpFormActive: false,
-            signInFormActive: false,
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: '',
-            token: '',
-            loggedIn: false,
-            messageToUser: '',
-            hashedEmail: '',
-            turn: 'white',
-            moveLogActive: false,
-            checkmate: false,
-            stalemate: false,
-            crossedPawn: false,
-            challengePlayer: false,
-            challengeRobot: false,
-            playerColor: 'white',
-            challengedName: '',
-            challengedEmail: '',
-            userGames: []
-        }
-        this.userService = new UserService()
-        this.gameService = new GameService()
-        this.moveLogic   = new MoveLogic()
-
-        this.handleSelected        = this.handleSelected.bind(this)
-        this.handleCredentialForm  = this.handleCredentialForm.bind(this)
-        this.handleUserEmail       = this.handleUserEmail.bind(this)
-        this.handleUserPassword    = this.handleUserPassword.bind(this)
-        this.handleLogout          = this.handleLogout.bind(this)
-        this.move                  = this.move.bind(this)
-        this.handleReset           = this.handleReset.bind(this)
-        this.handleMoveLog         = this.handleMoveLog.bind(this)
-        this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
-        this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
-        this.handleFirstName       = this.handleFirstName.bind(this)
-        this.handleLastName        = this.handleLastName.bind(this)
-        this.handleChallenge       = this.handleChallenge.bind(this)
-        this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
-        this.handlePlayerColor     = this.handlePlayerColor.bind(this)
-        this.handleChallengedInfo   = this.handleChallengedInfo.bind(this)
-
-        this.handleUserSignIn      = this.handleUserSignIn.bind(this)
-        this.handleUserSignUp      = this.handleUserSignUp.bind(this)
-        this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
+            crossedPawn: crossedPawn
+        })
+    } else {
+        this.setState({
+            messageToUser: 'Invalid Move',
+            selected: null
+        })
     }
-
-    isValid(piece, coordinates, board, gameMoves) {
-        return (this.moveLogic.validMove(piece, coordinates, board, gameMoves) &&
-            this.moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
-        )
-    }
-
-    move(coordinates) {
-        let piece = JSON.parse(JSON.stringify(this.state.selected))
-        let board = JSON.parse(JSON.stringify(this.state.chessBoard))
-        let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
-
-        if(this.isValid(piece, coordinates, board, gameMoves)) {
-            let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
-            let checkmate = this.state.checkmate
-            let stalemate = this.state.stalemate
-            let messageToUser = ''
-            let crossedPawn = false
-            let color = this.state.turn === 'white' ? 'black' : 'white'
-
-            updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
-            updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
-            piece = this.pawnMovedTwo(this.state.selected, coordinates)
-
-            if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
-                crossedPawn = true
-            }
-
-            updatedBoard[piece.currentPosition].piece = null
-
-            updatedBoard[coordinates].piece = piece
-            piece.currentPosition = coordinates
-            piece.hasMoved = true
-            gameMoves.push(piece)
-
-            if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
-                checkmate = true
-                messageToUser = `${this.state.turn} Wins!`
-            }
-
-            if(this.moveLogic.stalemate(updatedBoard, gameMoves, color)) {
-                stalemate = true
-                messageToUser = 'Draw!'
-            }
-
-            this.setState({
-                chessBoard: updatedBoard,
-                moves: gameMoves,
-                turn: this.currentTurn(),
-                checkmate: checkmate,
-                stalemate: stalemate,
-                messageToUser: messageToUser,
-                selected: null,
-                crossedPawn: crossedPawn
-            })
-        } else {
-            this.setState({
-                messageToUser: 'Invalid Move',
-                selected: null
-            })
-        }
-    }
+  }
 
     pawnMovedTwo(piece, coordinates) {
         if(piece.type === 'pawn' &&

@@ -35,7 +35,8 @@ export default class App extends Component {
             challengeRobot: false,
             playerColor: 'white',
             challengedName: '',
-            challengedEmail: ''
+            challengedEmail: '',
+            userGames: []
         }
         this.userService = new UserService()
         this.gameService = new GameService()
@@ -202,18 +203,18 @@ export default class App extends Component {
                       messageToUser: responseJson.errors
                     })
                 } else {
-                    this.setState({
-                      token: responseJson.data.attributes.token,
-                      signInFormActive: false,
-                      signUpFormActive: false,
-                      loggedIn: true,
-                      messageToUser: 'Welcome to Chess Mail!',
-                      hashedEmail: responseJson.data.attributes.hashed_email,
-                      email: '',
-                      password: '',
-                      firstName: responseJson.data.attributes.firstName,
-                      lastName: responseJson.data.attributes.lastName
-                    })
+                  this.setState({
+                    token: responseJson.data.attributes.token,
+                    signInFormActive: false,
+                    signUpFormActive: false,
+                    loggedIn: true,
+                    messageToUser: 'Welcome to Chess Mail!',
+                    hashedEmail: responseJson.data.attributes.hashed_email,
+                    email: '',
+                    password: '',
+                    firstName: responseJson.data.attributes.firstName,
+                    lastName: responseJson.data.attributes.lastName
+                  })
                 }
             })
             .catch((error) => {
@@ -230,7 +231,28 @@ export default class App extends Component {
       gameBody.challengeRobot = this.state.challengeRobot
       gameBody.token = this.state.token
       this.gameService.createGame(gameBody)
-      // handle response
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.error) {
+              this.setState({
+                messageToUser: responseJson.error
+              })
+          } else {
+            let updatedUserGames = this.state.userGames
+            updatedUserGames.push(responseJson.data)
+
+            this.setState({
+              userGames: updatedUserGames,
+              messageToUser: `Your challenge has been submitted to ${this.state.challengedName}!`,
+              challengePlayer: false,
+              challengedName: '',
+              challengedEmail: '',
+            })
+          }
+        })
+        .catch((error) => {
+          alert(error)
+        })
     }
 
     handleSelected(selectedPiece) {

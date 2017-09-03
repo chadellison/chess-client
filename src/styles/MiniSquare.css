@@ -1,3 +1,14 @@
 .miniSquare {
   height: 30px;
 }
+
+.piece-black {
+    color: #262638;
+}
+
+.piece-white {
+    color: #e3e3ed;
+}
+
+.miniPiece {
+}

@@ -56,7 +56,7 @@ export default class ThumbNail extends Component {
     return(
       <div className="col-md-4 col-sm-6 col-xs-12 thumbNail">
         <h3 className='status'>pending</h3>
-        <div className='thumbNailBoard'>{this.currentSetup}</div>
+        <div id={this.props.game.id} className='thumbNailBoard'>{this.currentSetup}</div>
       </div>
     )
   }

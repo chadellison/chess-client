@@ -1,6 +1,6 @@
 import MiniSquare from './components/MiniSquare'
 
 describe('MiniSquare', () => {
-  xit('test', () => {
+  xit('getPiece', () => {
   })
 })

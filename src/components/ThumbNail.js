@@ -43,8 +43,8 @@ export default class ThumbNail extends Component {
       let eachRow = row.map((square, columnIndex) => {
         return(
           <MiniSquare key={columnIndex}
-          color={this.squareColor(square)}
-          piece={this.thumbNailBoard()[square].piece}
+            color={this.squareColor(square)}
+            piece={this.thumbNailBoard()[square].piece}
           />
         )
       })
@@ -54,7 +54,7 @@ export default class ThumbNail extends Component {
 
   render() {
     return(
-      <div className="col-xs-4">
+      <div className="col-md-4 col-sm-6 col-xs-12 thumbNail">
         <h3 className='status'>pending</h3>
         <div className='thumbNailBoard'>{this.currentSetup}</div>
       </div>

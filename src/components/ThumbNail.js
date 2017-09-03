@@ -55,7 +55,7 @@ export default class ThumbNail extends Component {
   render() {
     return(
       <div className="col-xs-4">
-        <h3>pending</h3>
+        <h3 className='status'>pending</h3>
         <div className='thumbNailBoard'>{this.currentSetup}</div>
       </div>
     )

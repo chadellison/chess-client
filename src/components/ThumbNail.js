@@ -48,14 +48,23 @@ export default class ThumbNail extends Component {
           />
         )
       })
-      return <div key={rowIndex} className="row">{eachRow}</div>
+      return <div key={rowIndex} className="row col-sm-offset-1">{eachRow}</div>
     })
+  }
+
+  get status() {
+    if(this.props.game.attributes.pending) {
+      return 'Pending'
+    } else {
+      return 'Active'
+    }
   }
 
   render() {
     return(
       <div className="col-md-4 col-sm-6 col-xs-12 thumbNail">
-        <h3 className='status'>pending</h3>
+        <p className='status'>Status: {this.status}</p>
+        <p className='opponent'>Opponent: Jones</p>
         <div id={this.props.game.id} className='thumbNailBoard'>{this.currentSetup}</div>
       </div>
     )

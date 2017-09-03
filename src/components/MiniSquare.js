@@ -11,8 +11,8 @@ export default class MiniSquare extends Component {
         type = this.props.piece.type
       }
       return(
-        <i className={`glyphicon glyphicon-${type} miniPiece piece-${this.props.piece.color}`}>
-        </i>
+        <span className={`glyphicon glyphicon-${type} miniPiece piece-${this.props.piece.color}`}>
+        </span>
       )
     } else {
       return null

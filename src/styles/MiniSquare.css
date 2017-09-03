@@ -1,5 +1,6 @@
 .miniSquare {
   height: 30px;
+  padding: 7px;
 }
 
 .piece-black {
@@ -11,4 +12,5 @@
 }
 
 .miniPiece {
+  margin-left: -6.5px;
 }

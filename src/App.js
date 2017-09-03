@@ -448,7 +448,7 @@ export default class App extends Component {
     }
   }
 
-  get boardConfiguration() {
+  get gameView() {
     if(this.state.thumbNails) {
       return (
         <ThumbNails
@@ -473,7 +473,7 @@ export default class App extends Component {
     return (
       <div className='App'>
         <div className='container-fluid'>
-          {this.boardConfiguration}
+          {this.gameView}
           {this.crossedPawn}
           <SideBar
             signUpFormActive={this.state.signUpFormActive}

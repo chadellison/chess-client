@@ -6,29 +6,13 @@
     padding: 3%;
 }
 
-.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGames {
+.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGamesButton {
     width: 90%;
     margin: 10px;
     height: 30px;
 }
 
-.moveLogButton:hover {
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.logOutButton:hover {
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.resetButton:hover {
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.challengeButton:hover {
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.cancelButton:hover {
+.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .challengeButton:hover, .cancelButton:hover, .myGamesButton:hover  {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 

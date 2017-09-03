@@ -27,4 +27,13 @@ export default class GameService {
       })
     )
   }
+
+  fetchGames(token) {
+    return (
+      fetch(`${API_HOST}/api/v1/games${token}`, {
+        method: 'Get',
+        headers: this.headers
+      })
+    )
+  }
 }

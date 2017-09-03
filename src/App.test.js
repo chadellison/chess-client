@@ -470,4 +470,15 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleMyGamesActive', () => {
+        xit('#test', () => {
+
+        })
+    })
+    describe('#boardConfiguration', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

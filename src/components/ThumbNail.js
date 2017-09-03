@@ -48,7 +48,7 @@ export default class ThumbNail extends Component {
           />
         )
       })
-      return <div key={rowIndex} className="row col-sm-offset-1">{eachRow}</div>
+      return <div key={rowIndex} className="row">{eachRow}</div>
     })
   }
 
@@ -62,9 +62,9 @@ export default class ThumbNail extends Component {
 
   render() {
     return(
-      <div className="col-md-4 col-sm-6 col-xs-12 thumbNail">
-        <p className='status'>Status: {this.status}</p>
+      <div className='thumbNail'>
         <p className='opponent'>Opponent: Jones</p>
+        <p className='status'>Status: {this.status}</p>
         <div id={this.props.game.id} className='thumbNailBoard'>{this.currentSetup}</div>
       </div>
     )

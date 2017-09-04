@@ -481,4 +481,10 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleCurrentGame', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

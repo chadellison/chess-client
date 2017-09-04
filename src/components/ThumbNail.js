@@ -72,7 +72,9 @@ export default class ThumbNail extends Component {
           <br></br>
           Color: {this.props.game.attributes.playerColor}
         </p>
-        <div id={this.props.game.id} className='thumbNailBoard'>{this.currentSetup}</div>
+        <div id={this.props.game.id} className='thumbNailBoard' onClick={() => this.props.handleCurrentGame(this.props.game)}>
+          {this.currentSetup}
+        </div>
       </div>
     )
   }

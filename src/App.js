@@ -39,8 +39,10 @@ export default class App extends Component {
       challengedEmail: '',
       userGames: [],
       myGamesActive: false,
-      thumbNails: false
+      thumbNails: false,
+      currentGameActive: false
     }
+
     this.userService = new UserService()
     this.gameService = new GameService()
     this.moveLogic   = new MoveLogic()
@@ -62,6 +64,7 @@ export default class App extends Component {
     this.handlePlayerColor     = this.handlePlayerColor.bind(this)
     this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
+    this.handleCurrentGame     = this.handleCurrentGame.bind(this)
 
     this.handleUserSignIn      = this.handleUserSignIn.bind(this)
     this.handleUserSignUp      = this.handleUserSignUp.bind(this)
@@ -264,21 +267,27 @@ export default class App extends Component {
     if (this.state.chessBoard[selectedPiece.currentPosition].piece) {
       if (selectedPiece.color === this.state.turn) {
         if (!this.state.selected) {
-          let board = JSON.parse(JSON.stringify(this.state.chessBoard))
-          let piece = JSON.parse(JSON.stringify(selectedPiece))
-          let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
+          if (this.state.currentGameActive && this.state.playerColor !== this.state.turn) {
+            this.setState({
+              messageToUser: `You may only move the ${this.state.playerColor} pieces`
+            })
+          } else {
+            let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+            let piece = JSON.parse(JSON.stringify(selectedPiece))
+            let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
-          let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
-            return this.isValid(piece, move, board, gameMoves)
-          })
+            let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
+              return this.isValid(piece, move, board, gameMoves)
+            })
 
-          piece.availableMoves = availableMoves
-          board[piece.currentPosition].piece = piece
+            piece.availableMoves = availableMoves
+            board[piece.currentPosition].piece = piece
 
-          this.setState({
-            selected: piece,
-            chessBoard: board
-          })
+            this.setState({
+              selected: piece,
+              chessBoard: board
+            })
+          }
         }
       } else {
         this.setState({
@@ -319,7 +328,11 @@ export default class App extends Component {
           loggedIn: '',
           hashedEmail: '',
           messageToUser: 'successfully logged out',
-          challengePlayer: false
+          challengePlayer: false,
+          myGamesActive: false,
+          thumbNails: false,
+          turn: 'white',
+          playerColor: 'white'
       })
   }
 
@@ -428,6 +441,34 @@ export default class App extends Component {
     })
   }
 
+  handleCurrentGame(game) {
+    if (game.attributes.pending) {
+      this.setState({
+        messageToUser: `${game.attributes.opponentName} has not yet accepted your challenge.`
+      })
+    } else {
+      let board = JSON.parse(JSON.stringify(jsonChessBoard))
+      let gameMoves = game.included.map((piece) => {
+        let gameMove = {}
+        gameMove[piece.currentPosition] = piece
+        return gameMove
+      })
+      let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
+
+      let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+
+      this.setState({
+        myGamesActive: false,
+        thumbNails: false,
+        moves: gameMoves,
+        turn: turn,
+        playerColor: game.attributes.playerColor,
+        currentGameActive: true,
+        chessBoard: currentGameBoard
+      })
+    }
+  }
+
   get crossedPawn() {
     let crossedPawn
     if (this.state.crossedPawn) {
@@ -453,6 +494,7 @@ export default class App extends Component {
         <ThumbNails
           userGames={this.state.userGames}
           moveLogic={this.moveLogic}
+          handleCurrentGame={this.handleCurrentGame}
         />
       )
     } else {
@@ -466,7 +508,6 @@ export default class App extends Component {
       )
     }
   }
-
 
   render() {
     return (

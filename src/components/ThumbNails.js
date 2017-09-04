@@ -5,7 +5,12 @@ import '../styles/ThumbNails.css'
 export default class ThumbNails extends Component {
   get thumbNails() {
     return this.props.userGames.map((game) => {
-      return <ThumbNail key={game.id} game={game} moveLogic={this.props.moveLogic} />
+      return (
+        <ThumbNail key={game.id}
+          game={game} moveLogic={this.props.moveLogic}
+          handleCurrentGame={this.props.handleCurrentGame}
+        />
+      )
     })
   }
 

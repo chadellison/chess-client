@@ -6,6 +6,8 @@ import ThumbNails from './components/ThumbNails.js'
 import MoveLogic from './helpers/MoveLogic'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
 import SideBar from './components/SideBar'
+import Header from './components/Header'
+import Footer from './components/Footer'
 import UserService from './services/UserService'
 import GameService from './services/GameService'
 
@@ -40,7 +42,8 @@ export default class App extends Component {
       userGames: [],
       myGamesActive: false,
       thumbNails: false,
-      currentGameActive: false
+      currentGameActive: false,
+      currentGame: null
     }
 
     this.userService = new UserService()
@@ -332,7 +335,10 @@ export default class App extends Component {
           myGamesActive: false,
           thumbNails: false,
           turn: 'white',
-          playerColor: 'white'
+          playerColor: 'white',
+          currentGameActive: false,
+          currentGame: null,
+          chessBoard: JSON.parse(JSON.stringify(jsonChessBoard))
       })
   }
 
@@ -464,6 +470,7 @@ export default class App extends Component {
         turn: turn,
         playerColor: game.attributes.playerColor,
         currentGameActive: true,
+        currentGame: game,
         chessBoard: currentGameBoard
       })
     }
@@ -488,6 +495,14 @@ export default class App extends Component {
     }
   }
 
+  get gameData() {
+    if (this.state.currentGameActive) {
+      return <Header currentGame={this.state.currentGame} />
+    } else {
+      return null
+    }
+  }
+
   get gameView() {
     if(this.state.thumbNails) {
       return (
@@ -499,12 +514,17 @@ export default class App extends Component {
       )
     } else {
       return(
-        <Board chessBoard={this.board}
-          handleSelected={this.handleSelected}
-          isSelected={this.state.selected}
-          move={this.move}
-          gameMoves={this.state.moves}
-        />
+        <div>
+          {this.gameData}
+          <Board chessBoard={this.board}
+            handleSelected={this.handleSelected}
+            isSelected={this.state.selected}
+            move={this.move}
+            gameMoves={this.state.moves}
+            currentGameActive={this.state.currentGameActive}
+            currentGame={this.state.currentGame}
+          />
+        </div>
       )
     }
   }
@@ -546,8 +566,10 @@ export default class App extends Component {
             handleSubmitChallenge={this.handleSubmitChallenge}
             myGamesActive={this.state.myGamesActive}
             handleMyGamesActive={this.handleMyGamesActive}
+            currentGameActive={this.state.currentGameActive}
           />
         </div>
+        <Footer />
       </div>
     )
   }

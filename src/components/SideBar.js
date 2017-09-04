@@ -45,7 +45,8 @@ export default class SideBar extends Component {
     return !this.props.signUpFormActive &&
         !this.props.signInFormActive &&
         !this.props.challengePlayer &&
-        !this.props.challengeRobot
+        !this.props.challengeRobot &&
+        !this.props.myGamesActive
   }
 
   get moveLog() {
@@ -69,7 +70,7 @@ export default class SideBar extends Component {
   }
 
   get resetButton() {
-    if(this.noFormsActive()) {
+    if(this.noFormsActive() && !this.props.currentGameActive) {
       return <button className='resetButton' onClick={this.props.handleReset}>Reset</button>
     } else {
       return null

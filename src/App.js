@@ -449,8 +449,15 @@ export default class App extends Component {
 
   handleCurrentGame(game) {
     if (game.attributes.pending) {
+      let messageToUser
+
+      if (game.attributes.isChallenger) {
+        messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
+      } else {
+        messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
+      }
       this.setState({
-        messageToUser: `${game.attributes.opponentName} has not yet accepted your challenge.`
+        messageToUser: messageToUser
       })
     } else {
       let board = JSON.parse(JSON.stringify(jsonChessBoard))

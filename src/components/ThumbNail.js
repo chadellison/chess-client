@@ -60,6 +60,14 @@ export default class ThumbNail extends Component {
     }
   }
 
+  get acceptButton() {
+    if (this.props.game.attributes.pending && !this.props.game.attributes.isChallenger) {
+      return <button className='acceptChallengeButton'>Accept</button>
+    } else {
+      return null
+    }
+  }
+
   render() {
     return(
       <div className='thumbNail'>

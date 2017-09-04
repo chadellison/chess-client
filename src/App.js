@@ -308,8 +308,7 @@ export default class App extends Component {
           signUpFormActive: false,
           messageToUser: '',
           email: '',
-          password: '',
-          messageToUser: ''
+          password: ''
         })
       }
   }

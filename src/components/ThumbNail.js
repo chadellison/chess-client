@@ -63,8 +63,13 @@ export default class ThumbNail extends Component {
   render() {
     return(
       <div className='thumbNail'>
-        <p className='opponent'>Opponent: Jones</p>
-        <p className='status'>Status: {this.status}</p>
+        <p className='gameData'>
+          Opponent: {this.props.game.attributes.opponentName}
+          <br></br>
+          Status: {this.status}
+          <br></br>
+          Color: {this.props.game.attributes.playerColor}
+        </p>
         <div id={this.props.game.id} className='thumbNailBoard'>{this.currentSetup}</div>
       </div>
     )

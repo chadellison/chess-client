@@ -47,3 +47,9 @@
 .underline {
   border-bottom: 5px solid #262638;
 }
+
+.opponentGravatar {
+  border-radius: 50%;
+  width: 30px;
+  margin: 5px;
+}

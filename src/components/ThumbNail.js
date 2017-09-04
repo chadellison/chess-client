@@ -66,6 +66,8 @@ export default class ThumbNail extends Component {
         <p className='gameData'>
           Opponent: {this.props.game.attributes.opponentName}
           <br></br>
+          <img className='opponentGravatar' src={`https://www.gravatar.com/avatar/${this.props.game.attributes.opponentGravatar}`} alt="gravatar"/>
+          <br></br>
           Status: {this.status}
           <br></br>
           Color: {this.props.game.attributes.playerColor}

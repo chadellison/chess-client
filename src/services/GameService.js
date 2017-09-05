@@ -8,16 +8,10 @@ export default class GameService {
     }
   }
 
-  createGame(gameBody) {
+  createGame(gameBody, token) {
     let body = JSON.stringify({
-      game: {
-        challengedName: gameBody.challengedName,
-        challengedEmail: gameBody.challengedEmail,
-        playerColor: gameBody.playerColor,
-        challengePlayer: gameBody.challengePlayer,
-        challengeRobot: gameBody.challengeRobot
-      },
-      token: gameBody.token,
+      game: gameBody,
+      token: token,
     })
     return (
       fetch(`${API_HOST}/api/v1/games`, {

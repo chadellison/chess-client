@@ -237,16 +237,16 @@ export default class App extends Component {
     let gameBody = {}
     gameBody.challengedName = this.state.challengedName
     gameBody.challengedEmail = this.state.challengedEmail
-    gameBody.playerColor = this.state.playerColor
-    gameBody.challengePlayer = this.state.challengePlayer
-    gameBody.challengeRobot = this.state.challengeRobot
-    gameBody.token = this.state.token
-    this.gameService.createGame(gameBody)
+    gameBody.challengerColor = this.state.playerColor
+    gameBody.human = this.state.challengePlayer
+    // gameBody.token = this.state.token
+
+    this.gameService.createGame(gameBody, this.state.token)
       .then(response => response.json())
       .then(responseJson => {
-        if (responseJson.error) {
+        if (responseJson.errors) {
             this.setState({
-              messageToUser: responseJson.error
+              messageToUser: responseJson.errors
             })
         } else {
           let updatedUserGames = this.state.userGames

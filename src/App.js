@@ -271,16 +271,12 @@ export default class App extends Component {
     .then(response => response.status)
     .then(responseStatus => {
       if (responseStatus === 204) {
-
-        let updatedUserGames = this.state.userGames.map((userGame) => {
-          if (userGame.id === game_id) {
-            userGame.attributes.pending = false
-          }
-          return userGame
-        })
-
-        this.setState({
-          userGames: updatedUserGames
+        this.gameService.fetchGames(this.state.token)
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState({
+            userGames: responseJson.data
+          })
         })
       }
     })

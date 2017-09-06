@@ -72,6 +72,7 @@ export default class App extends Component {
     this.handleUserSignIn      = this.handleUserSignIn.bind(this)
     this.handleUserSignUp      = this.handleUserSignUp.bind(this)
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
+    this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
   }
 
   isValid(piece, coordinates, board, gameMoves) {
@@ -137,12 +138,12 @@ export default class App extends Component {
   }
 
   pawnMovedTwo(piece, coordinates) {
-      if(piece.type === 'pawn' &&
-          Math.abs(parseInt(coordinates[1], 10) -
-          parseInt(this.state.selected.currentPosition[1], 10)) === 2) {
-              piece.movedTwo = true
-      }
-      return piece
+    if(piece.type === 'pawn' &&
+      Math.abs(parseInt(coordinates[1], 10) -
+      parseInt(this.state.selected.currentPosition[1], 10)) === 2) {
+        piece.movedTwo = true
+    }
+    return piece
   }
 
   currentTurn() {
@@ -239,7 +240,6 @@ export default class App extends Component {
     gameBody.challengedEmail = this.state.challengedEmail
     gameBody.challengerColor = this.state.playerColor
     gameBody.human = this.state.challengePlayer
-    // gameBody.token = this.state.token
 
     this.gameService.createGame(gameBody, this.state.token)
       .then(response => response.json())
@@ -264,6 +264,29 @@ export default class App extends Component {
       .catch((error) => {
         alert(error)
       })
+  }
+
+  handleAcceptChallenge(game_id) {
+    this.gameService.acceptGame(game_id, this.state.token)
+    .then(response => response.status)
+    .then(responseStatus => {
+      if (responseStatus === 204) {
+
+        let updatedUserGames = this.state.userGames.map((userGame) => {
+          if (userGame.id === game_id) {
+            userGame.attributes.pending = false
+          }
+          return userGame
+        })
+
+        this.setState({
+          userGames: updatedUserGames
+        })
+      }
+    })
+    .catch((error) => {
+      alert(error)
+    })
   }
 
   handleSelected(selectedPiece) {
@@ -517,6 +540,7 @@ export default class App extends Component {
           userGames={this.state.userGames}
           moveLogic={this.moveLogic}
           handleCurrentGame={this.handleCurrentGame}
+          handleAcceptChallenge={this.handleAcceptChallenge}
         />
       )
     } else {

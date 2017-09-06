@@ -487,4 +487,10 @@ describe('App', () => {
 
         })
     })
+
+    describe('#handleAcceptChallenge', () => {
+        xit('#test', () => {
+
+        })
+    })
 })

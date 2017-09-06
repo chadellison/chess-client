@@ -24,8 +24,17 @@ export default class GameService {
 
   fetchGames(token) {
     return (
-      fetch(`${API_HOST}/api/v1/games${token}`, {
-        method: 'Get',
+      fetch(`${API_HOST}/api/v1/games?token=${token}`, {
+        method: 'GET',
+        headers: this.headers
+      })
+    )
+  }
+
+  acceptGame(game_id, token) {
+    return (
+      fetch(`${API_HOST}/api/v1/games/accept/${game_id}?token=${token}`, {
+        method: 'GET',
         headers: this.headers
       })
     )

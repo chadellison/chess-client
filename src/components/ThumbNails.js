@@ -9,6 +9,8 @@ export default class ThumbNails extends Component {
         <ThumbNail key={game.id}
           game={game} moveLogic={this.props.moveLogic}
           handleCurrentGame={this.props.handleCurrentGame}
+          handleAcceptChallenge={this.props.handleAcceptChallenge}
+          challengeAccepted={this.props.challengeAccepted}
         />
       )
     })

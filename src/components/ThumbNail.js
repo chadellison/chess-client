@@ -54,17 +54,16 @@ export default class ThumbNail extends Component {
 
   get status() {
     if(this.props.game.attributes.pending) {
-      return 'Pending'
+      if (this.props.game.attributes.pending && !this.props.game.attributes.isChallenger) {
+        return (
+          <a className='acceptChallenge' onClick={() => this.props.handleAcceptChallenge(this.props.game.id)}>
+            Accept Challenge
+          </a>)
+      } else {
+        return 'Status: Pending'
+      }
     } else {
-      return 'Active'
-    }
-  }
-
-  get acceptButton() {
-    if (this.props.game.attributes.pending && !this.props.game.attributes.isChallenger) {
-      return <button className='acceptChallengeButton'>Accept</button>
-    } else {
-      return null
+      return 'Status: Active'
     }
   }
 
@@ -76,7 +75,7 @@ export default class ThumbNail extends Component {
           <br></br>
           <img className='opponentGravatar' src={`https://www.gravatar.com/avatar/${this.props.game.attributes.opponentGravatar}`} alt="gravatar"/>
           <br></br>
-          Status: {this.status}
+          {this.status}
           <br></br>
           Color: {this.props.game.attributes.playerColor}
         </p>

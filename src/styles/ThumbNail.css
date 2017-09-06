@@ -23,5 +23,12 @@
   opacity: .9;
 }
 
-.status {
+.acceptChallenge {
+  color: red;
+  transition: .3;
+}
+
+.acceptChallenge:hover {
+  cursor: pointer;
+  color: #ff6338;
 }

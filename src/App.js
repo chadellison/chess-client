@@ -93,6 +93,7 @@ export default class App extends Component {
       let messageToUser = ''
       let crossedPawn = false
       let color = this.state.turn === 'white' ? 'black' : 'white'
+      let updatedUserGames = this.state.userGames
 
       updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
       updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
@@ -111,6 +112,19 @@ export default class App extends Component {
 
       if(this.state.currentGameActive) {
         this.gameService.updateGame(this.state.currentGame.id, piece, this.state.token)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          updatedUserGames = updatedUserGames.map((userGame) => {
+            if(userGame.id === responseJson.data.id) {
+              let newPiece = responseJson.data.included.filter((gamePiece) => {
+                return gamePiece.attributes.startIndex === piece.startIndex
+              })[0]
+              userGame.included.push(newPiece)
+            }
+            return userGame
+          })
+        })
+        .catch((error) => error)
       }
 
       if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
@@ -131,7 +145,8 @@ export default class App extends Component {
         stalemate: stalemate,
         messageToUser: messageToUser,
         selected: null,
-        crossedPawn: crossedPawn
+        crossedPawn: crossedPawn,
+        userGames: updatedUserGames
       })
     } else {
       this.setState({

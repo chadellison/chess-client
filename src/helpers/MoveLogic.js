@@ -238,50 +238,50 @@ export default class MoveLogic {
     }
 
     validDestination(board, color, destination) {
-        if (board[destination].piece) {
-            return color !== board[destination].piece.color
-        } else {
-            return true
-        }
+      if (board[destination].piece) {
+        return color !== board[destination].piece.color
+      } else {
+        return true
+      }
     }
 
     kingIsSafe(piece, nextMove, chessBoard, gameMoves) {
-        let result = true
-        let positions = [nextMove]
+      let result = true
+      let positions = [nextMove]
 
-        if (this.kingCastle(piece, nextMove)) {
-            positions.push(piece.currentPosition[0] > nextMove[0] ? this.oneLeft(piece.currentPosition) : this.oneRight(piece.currentPosition))
-            positions.push(piece.currentPosition)
-        }
+      if (this.kingCastle(piece, nextMove)) {
+        positions.push(piece.currentPosition[0] > nextMove[0] ? this.oneLeft(piece.currentPosition) : this.oneRight(piece.currentPosition))
+        positions.push(piece.currentPosition)
+      }
 
-        positions.forEach((position) => {
-            let board = JSON.parse(JSON.stringify(chessBoard))
-            let updatedPiece = JSON.parse(JSON.stringify(piece))
-            board[updatedPiece.currentPosition].piece = null
-            updatedPiece.currentPosition = position
-            board[position].piece = updatedPiece
+      positions.forEach((position) => {
+        let board = JSON.parse(JSON.stringify(chessBoard))
+        let updatedPiece = JSON.parse(JSON.stringify(piece))
+        board[updatedPiece.currentPosition].piece = null
+        updatedPiece.currentPosition = position
+        board[position].piece = updatedPiece
 
-            this.piecesByColor(board, this.opponentColor(piece.color)).forEach((eachPiece) => {
-                if(this.inCheck(eachPiece, board, gameMoves, piece.color)) {
-                    result = false
-                }
-            })
+        this.piecesByColor(board, this.opponentColor(piece.color)).forEach((eachPiece) => {
+          if(this.inCheck(eachPiece, board, gameMoves, piece.color)) {
+            result = false
+          }
         })
-        return result
+      })
+      return result
     }
 
     piecesByColor(board, color) {
-        return Object.values(board)
-            .map((square) => square.piece)
-            .filter((piece) => piece)
-            .filter((piece) => {
-                return (piece.color === color)
-        })
+      return Object.values(board)
+        .map((square) => square.piece)
+        .filter((piece) => piece)
+        .filter((piece) => {
+          return (piece.color === color)
+      })
     }
 
     kingCastle(piece, nextMove) {
-        return piece.type === 'king' &&
-            Math.abs(LETTER_KEY[piece.currentPosition[0]] - LETTER_KEY[nextMove[0]]) === 2
+      return piece.type === 'king' &&
+          Math.abs(LETTER_KEY[piece.currentPosition[0]] - LETTER_KEY[nextMove[0]]) === 2
     }
 
     isCastle(piece, coordinates, updatedBoard) {
@@ -378,41 +378,40 @@ export default class MoveLogic {
         return result
     }
 
-    validMove(piece, nextMove, board, gameMoves) {
-        return this.movesForPiece(piece, board, gameMoves).includes(nextMove) &&
-            this.validMovePath(piece.currentPosition, nextMove, board) &&
-            this.validDestination(board, piece.color, nextMove)
+  validMove(piece, nextMove, board, gameMoves) {
+    return this.movesForPiece(piece, board, gameMoves).includes(nextMove) &&
+      this.validMovePath(piece.currentPosition, nextMove, board) &&
+      this.validDestination(board, piece.color, nextMove)
+  }
+
+  movesForPiece(piece, board, gameMoves) {
+    let types = {
+      pawn: this.movesForPawn(piece.currentPosition, board, gameMoves),
+      knight: this.movesForKnight(piece.currentPosition),
+      bishop: this.movesForBishop(piece.currentPosition),
+      rook: this.movesForRook(piece.currentPosition),
+      queen: this.movesForQueen(piece.currentPosition),
+      king: this.movesForKing(piece.currentPosition, board, gameMoves)
     }
+    return types[piece.type]
+  }
 
-    movesForPiece(piece, board, gameMoves) {
-        let types = {
-            pawn: this.movesForPawn(piece.currentPosition, board, gameMoves),
-            knight: this.movesForKnight(piece.currentPosition),
-            bishop: this.movesForBishop(piece.currentPosition),
-            rook: this.movesForRook(piece.currentPosition),
-            queen: this.movesForQueen(piece.currentPosition),
-            king: this.movesForKing(piece.currentPosition, board, gameMoves)
-        }
-        return types[piece.type]
-    }
+  setBoard(gameMoves, board) {
+    let piecesAndMoves = {}
 
-    setBoard(gameMoves, board) {
-        let piecesAndMoves = {}
+    Object.values(board).forEach((square) => {
+      if(square.piece) {
+        piecesAndMoves[square.piece.id] = square.piece.currentPosition
+      }
+    })
+    gameMoves.forEach((piece) => {
+      board = this.isCastle(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
+      board = this.isEnPassant(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
 
-        Object.values(board).forEach((square) => {
-            if(square.piece) {
-                piecesAndMoves[square.piece.id] = square.piece.currentPosition
-            }
-        })
-
-        gameMoves.forEach((piece) => {
-            board = this.isCastle(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
-            board = this.isEnPassant(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
-
-            board[piecesAndMoves[piece.id]].piece = null
-            board[piece.currentPosition].piece = piece
-            piecesAndMoves[piece.id] = piece.currentPosition
-        })
-        return board
-    }
+      board[piecesAndMoves[piece.id]].piece = null
+      board[piece.currentPosition].piece = piece
+      piecesAndMoves[piece.id] = piece.currentPosition
+    })
+    return board
+  }
 }

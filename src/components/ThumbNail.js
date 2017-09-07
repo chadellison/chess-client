@@ -10,9 +10,14 @@ export default class ThumbNail extends Component {
   thumbNailBoard() {
     let board = JSON.parse(JSON.stringify(jsonChessBoard))
     let gameMoves = this.props.game.included.map((piece) => {
-      let gameMove = {}
-      gameMove[piece.currentPosition] = piece
-      return gameMove
+      return {
+        color: piece.attributes.color,
+        type: piece.attributes.pieceType,
+        currentPosition: piece.attributes.currentPosition,
+        startIndex: piece.attributes.startIndex,
+        hasMoved: piece.attributes.hasMoved,
+        movedTwo: piece.attributes.movedTwo
+      }
     })
 
     return this.props.moveLogic.setBoard(gameMoves, board)

@@ -401,16 +401,17 @@ export default class MoveLogic {
 
     Object.values(board).forEach((square) => {
       if(square.piece) {
-        piecesAndMoves[square.piece.id] = square.piece.currentPosition
+        piecesAndMoves[square.piece.startIndex] = square.piece.currentPosition
       }
     })
-    gameMoves.forEach((piece) => {
-      board = this.isCastle(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
-      board = this.isEnPassant(board[piecesAndMoves[piece.id]].piece, piece.currentPosition, board)
 
-      board[piecesAndMoves[piece.id]].piece = null
+    gameMoves.forEach((piece) => {
+      board = this.isCastle(board[piecesAndMoves[piece.startIndex]].piece, piece.currentPosition, board)
+      board = this.isEnPassant(board[piecesAndMoves[piece.startIndex]].piece, piece.currentPosition, board)
+
+      board[piecesAndMoves[piece.startIndex]].piece = null
       board[piece.currentPosition].piece = piece
-      piecesAndMoves[piece.id] = piece.currentPosition
+      piecesAndMoves[piece.startIndex] = piece.currentPosition
     })
     return board
   }

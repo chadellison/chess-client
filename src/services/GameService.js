@@ -31,6 +31,22 @@ export default class GameService {
     )
   }
 
+  updateGame(game_id, piece, token) {
+    piece.pieceType = piece.type
+    
+    let body = JSON.stringify({
+      piece: piece,
+      token: token
+    })
+    return (
+      fetch(`${API_HOST}/api/v1/games/${game_id}`, {
+        method: 'PATCH',
+        headers: this.headers,
+        body: body
+      })
+    )
+  }
+
   acceptGame(game_id, token) {
     return (
       fetch(`${API_HOST}/api/v1/games/accept/${game_id}?token=${token}`, {

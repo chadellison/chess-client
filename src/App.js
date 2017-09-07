@@ -109,6 +109,10 @@ export default class App extends Component {
       piece.hasMoved = true
       gameMoves.push(piece)
 
+      if(this.state.currentGameActive) {
+        this.gameService.updateGame(this.state.currentGame.id, piece, this.state.token)
+      }
+
       if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
         checkmate = true
         messageToUser = `${this.state.turn} Wins!`
@@ -345,34 +349,34 @@ export default class App extends Component {
   }
 
   handleLogout() {
-      this.setState({
-          token: '',
-          loggedIn: '',
-          hashedEmail: '',
-          messageToUser: 'successfully logged out',
-          challengePlayer: false,
-          myGamesActive: false,
-          thumbNails: false,
-          turn: 'white',
-          playerColor: 'white',
-          currentGameActive: false,
-          currentGame: null,
-          chessBoard: JSON.parse(JSON.stringify(jsonChessBoard))
-      })
+    this.setState({
+      token: '',
+      loggedIn: '',
+      hashedEmail: '',
+      messageToUser: 'successfully logged out',
+      challengePlayer: false,
+      myGamesActive: false,
+      thumbNails: false,
+      turn: 'white',
+      playerColor: 'white',
+      currentGameActive: false,
+      currentGame: null,
+      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard))
+    })
   }
 
   handleFirstName(event) {
-      this.setState({firstName: event.target.value})
+    this.setState({firstName: event.target.value})
   }
   handleLastName(event) {
-      this.setState({lastName: event.target.value})
+    this.setState({lastName: event.target.value})
   }
   handleUserEmail(event) {
-      this.setState({email: event.target.value})
+    this.setState({email: event.target.value})
   }
 
   handleUserPassword(event) {
-      this.setState({password: event.target.value})
+    this.setState({password: event.target.value})
   }
 
   handleMoveLog() {
@@ -480,12 +484,17 @@ export default class App extends Component {
     } else {
       let board = JSON.parse(JSON.stringify(jsonChessBoard))
       let gameMoves = game.included.map((piece) => {
-        let gameMove = {}
-        gameMove[piece.currentPosition] = piece
-        return gameMove
+        return {
+          color: piece.attributes.color,
+          type: piece.attributes.pieceType,
+          currentPosition: piece.attributes.currentPosition,
+          startIndex: piece.attributes.startIndex,
+          hasMoved: piece.attributes.hasMoved,
+          movedTwo: piece.attributes.movedTwo
+        }
       })
-      let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
 
+      let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
       let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
 
       this.setState({

@@ -376,24 +376,15 @@ export default class App extends Component {
   }
 
   handleMoveLog() {
-      this.setState({
-          moveLogActive: !this.state.moveLogActive
-      })
+    this.setState({
+      moveLogActive: !this.state.moveLogActive
+    })
   }
 
   handlePreviousBoard(event) {
     let index = parseInt(event.target.id, 10)
-
     let gameMoves = this.state.moves.slice(0, index + 1)
     let board = JSON.parse(JSON.stringify(jsonChessBoard))
-
-    let piecesAndMoves = {}
-
-    Object.values(board).forEach((square) => {
-      if(square.piece) {
-        piecesAndMoves[square.piece.id] = square.piece.currentPosition
-      }
-    })
 
     board = this.moveLogic.setBoard(gameMoves, board)
 

@@ -18,8 +18,8 @@ export default class ThumbNails extends Component {
 
   render() {
     return(
-      <div className='col-xs-8 thumbNails'>
-        <h3>Games In Progress</h3>
+      <div className='col-xs-9 thumbNails'>
+        <h3 className='gamesInProgress'>Games In Progress</h3>
         {this.thumbNails}
       </div>
     )

@@ -1,6 +1,7 @@
 .square {
-    height: 10vh;
-    width: 10vh;
+  width: 25%;
+  height: 0;
+  padding-bottom: 8%;
 }
 
 .black {

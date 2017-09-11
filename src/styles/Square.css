@@ -13,5 +13,5 @@
 }
 
 .available {
-    border: 3px solid #ff7ab3;
+    opacity: .75;
 }

@@ -172,7 +172,7 @@ export default class SideBar extends Component {
 
   render() {
     return(
-      <div className='sideBar col-sm-2 col-xs-12'>
+      <div className='sideBar col-md-2 col-xs-12'>
         {this.props.messageToUser}
         {this.credentialButtons}
         {this.credentialForm}

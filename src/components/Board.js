@@ -52,6 +52,6 @@ export default class Board extends Component {
   }
 
   render() {
-    return <div id='chessBoard' className='col-xs-9 row'>{this.currentSetup}</div>
+    return <div id='chessBoard' className='col-md-9 col-xs-12 row'>{this.currentSetup}</div>
   }
 }

@@ -255,18 +255,21 @@ export default class App extends Component {
 
   handleSubmitChallenge() {
     let gameBody = {}
-    gameBody.challengedName = this.state.challengedName
-    gameBody.challengedEmail = this.state.challengedEmail
-    gameBody.challengerColor = this.state.playerColor
-    gameBody.human = this.state.challengePlayer
+    if(this.state.challengeRobot) {
+        alert('Robot has rejected your challenge')
+    } else {
+      gameBody.challengedName = this.state.challengedName
+      gameBody.challengedEmail = this.state.challengedEmail
+      gameBody.challengerColor = this.state.playerColor
+      gameBody.human = this.state.challengePlayer
 
-    this.gameService.createGame(gameBody, this.state.token)
+      this.gameService.createGame(gameBody, this.state.token)
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.errors) {
-            this.setState({
-              messageToUser: responseJson.errors
-            })
+          this.setState({
+            messageToUser: responseJson.errors
+          })
         } else {
           let updatedUserGames = this.state.userGames
           updatedUserGames.push(responseJson.data)
@@ -283,6 +286,7 @@ export default class App extends Component {
       .catch((error) => {
         alert(error)
       })
+    }
   }
 
   handleAcceptChallenge(game_id) {

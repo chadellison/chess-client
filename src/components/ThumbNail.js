@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import MiniSquare from './MiniSquare'
 import jsonChessBoard from '../jsonChessBoard'
 import '../styles/ThumbNail.css'
-
-const LETTER_KEY = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5, "f": 6, "g": 7, "h": 8}
+import LETTER_KEY from '../helpers/BoardHelper'
 
 export default class ThumbNail extends Component {
 

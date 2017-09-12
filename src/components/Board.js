@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/Board.css'
 import Square from './Square'
-
-const LETTER_KEY = { 'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8 }
+import LETTER_KEY from '../helpers/BoardHelper'
 
 export default class Board extends Component {
   get currentSetup() {
@@ -25,9 +24,9 @@ export default class Board extends Component {
 
   setOffset(index) {
       if(index % 8 === 0) {
-          return ' col-xs-offset-2'
+        return ' col-xs-offset-2'
       } else {
-          return ''
+        return ''
       }
   }
 

@@ -207,16 +207,16 @@ export default class App extends Component {
                 signUpFormActive: true
               })
             } else {
-                let message = `Great ${this.state.firstName}! Please check your email at ${this.state.email} to confirm your account!`
-                this.setState({
-                    messageToUser: message,
-                    signUpFormActive: false,
-                    signInFormActive: false,
-                    email: '',
-                    password: '',
-                    firstName: '',
-                    lastName: ''
-                })
+              let message = `Great ${this.state.firstName}! Please check your email at ${this.state.email} to confirm your account!`
+              this.setState({
+                  messageToUser: message,
+                  signUpFormActive: false,
+                  signInFormActive: false,
+                  email: '',
+                  password: '',
+                  firstName: '',
+                  lastName: ''
+              })
             }
          })
          .catch((error) => {

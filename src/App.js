@@ -4,6 +4,7 @@ import jsonChessBoard from './jsonChessBoard'
 import Board from './components/Board.js'
 import ThumbNails from './components/ThumbNails.js'
 import MoveLogic from './helpers/MoveLogic'
+import JsonResponse from './helpers/JsonResponseHelper'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
 import SideBar from './components/SideBar'
 import Header from './components/Header'
@@ -200,63 +201,25 @@ export default class App extends Component {
   handleUserSignUp() {
     this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
      .then(response => response.json())
-     .then(responseJson => this.handleSignUpJsonResponse(responseJson))
+     .then(responseJson => {
+       this.setState(
+         JsonResponse.handleSignUp(responseJson, this.state.firstName, this.state.email)
+       )
+     })
      .catch((error) => alert(error))
-  }
-
-  handleSignUpJsonResponse(responseJson) {
-    if (responseJson.errors) {
-      this.setState({
-        messageToUser: responseJson.errors,
-        signUpFormActive: true
-      })
-    } else {
-      let message = `Great ${this.state.firstName}! Please check your email at ${this.state.email} to confirm your account!`
-      this.setState({
-        messageToUser: message,
-        signUpFormActive: false,
-        signInFormActive: false,
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: ''
-      })
-    }
   }
 
   handleUserSignIn() {
     this.userService.signIn(this.state.email, this.state.password)
       .then(response => response.json())
-      .then(responseJson => this.handleSignInJsonResponse(responseJson))
+      .then(responseJson => this.setState(JsonResponse.handleSignIn(responseJson)))
       .catch((error) => alert(error))
-  }
-
-  handleSignInJsonResponse(responseJson) {
-    if (responseJson.errors) {
-      this.setState({
-        messageToUser: responseJson.errors
-      })
-    } else {
-      this.setState({
-        token: responseJson.data.attributes.token,
-        signInFormActive: false,
-        signUpFormActive: false,
-        loggedIn: true,
-        messageToUser: 'Welcome to Chess Mail!',
-        hashedEmail: responseJson.data.attributes.hashed_email,
-        email: '',
-        password: '',
-        firstName: responseJson.data.attributes.firstName,
-        lastName: responseJson.data.attributes.lastName,
-        userGames: responseJson.data.included
-      })
-    }
   }
 
   handleSubmitChallenge() {
     let gameBody = {}
     if(this.state.challengeRobot) {
-        alert('Robot has rejected your challenge')
+        alert('Robot has decided not to accept your challenge')
     } else {
       gameBody.challengedName = this.state.challengedName
       gameBody.challengedEmail = this.state.challengedEmail
@@ -265,27 +228,12 @@ export default class App extends Component {
 
       this.gameService.createGame(gameBody, this.state.token)
         .then(response => response.json())
-        .then(responseJson => this.handleSubmitChallengeJsonResponse(responseJson))
+        .then(responseJson => {
+          this.setState(
+            JsonResponse.handleSubmitChallenge(responseJson, this.state.userGames, this.state.challengedName)
+          )
+        })
         .catch((error) => alert(error))
-    }
-  }
-
-  handleSubmitChallengeJsonResponse(responseJson) {
-    if (responseJson.errors) {
-      this.setState({
-        messageToUser: responseJson.errors
-      })
-    } else {
-      let updatedUserGames = this.state.userGames
-      updatedUserGames.push(responseJson.data)
-
-      this.setState({
-        userGames: updatedUserGames,
-        messageToUser: `Your challenge has been submitted to ${this.state.challengedName}!`,
-        challengePlayer: false,
-        challengedName: '',
-        challengedEmail: '',
-      })
     }
   }
 

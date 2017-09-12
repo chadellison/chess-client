@@ -493,16 +493,4 @@ describe('App', () => {
 
         })
     })
-
-    describe('#handleSignUpJsonResponse', () => {
-      xit('#test', () => {
-
-      })
-    })
-
-    describe('#handleSignInJsonResponse', () => {
-      xit('#test', () => {
-
-      })
-    })
 })

@@ -198,30 +198,30 @@ export default class App extends Component {
   }
 
   handleUserSignUp() {
-      this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
-         .then(response => response.json())
-         .then(responseJson => {
-            if (responseJson.errors) {
-              this.setState({
-                messageToUser: responseJson.errors,
-                signUpFormActive: true
-              })
-            } else {
-              let message = `Great ${this.state.firstName}! Please check your email at ${this.state.email} to confirm your account!`
-              this.setState({
-                  messageToUser: message,
-                  signUpFormActive: false,
-                  signInFormActive: false,
-                  email: '',
-                  password: '',
-                  firstName: '',
-                  lastName: ''
-              })
-            }
-         })
-         .catch((error) => {
-            alert(error)
-         })
+    this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
+     .then(response => response.json())
+     .then(responseJson => { this.signUpJson(responseJson) })
+     .catch((error) => alert(error))
+  }
+
+  signUpJson(responseJson) {
+    if (responseJson.errors) {
+      this.setState({
+        messageToUser: responseJson.errors,
+        signUpFormActive: true
+      })
+    } else {
+      let message = `Great ${this.state.firstName}! Please check your email at ${this.state.email} to confirm your account!`
+      this.setState({
+        messageToUser: message,
+        signUpFormActive: false,
+        signInFormActive: false,
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: ''
+      })
+    }
   }
 
   handleUserSignIn() {

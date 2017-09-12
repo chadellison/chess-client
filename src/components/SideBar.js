@@ -25,20 +25,18 @@ export default class SideBar extends Component {
   }
 
   get credentialButtons() {
-    let buttons
     if(this.props.signUpFormActive || this.props.signInFormActive) {
-        buttons = null
+        return null
     } else if(this.props.loggedIn) {
-        buttons = <button className='logOutButton' onClick={this.props.handleLogout}>Logout</button>
+        return <button className='logOutButton' onClick={this.props.handleLogout}>Logout</button>
     } else {
-      buttons = (
+      return (
         <div>
           <button className='signInButton' onClick={this.props.handleCredentialForm}>Sign In</button>
           <button className='signUpButton' onClick={this.props.handleCredentialForm}>Sign Up</button>
         </div>
       )
     }
-    return buttons
   }
 
   noFormsActive() {

@@ -54,3 +54,7 @@
   width: 30px;
   margin: 5px;
 }
+
+.challengeButton {
+  min-height: 30px;
+}

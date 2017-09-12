@@ -484,7 +484,8 @@ export default class App extends Component {
   handleMyGamesActive() {
     this.setState({
       myGamesActive: !this.state.myGamesActive,
-      thumbNails: !this.state.thumbNails
+      thumbNails: !this.state.thumbNails,
+      messageToUser: ''
     })
   }
 

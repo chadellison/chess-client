@@ -32,9 +32,9 @@ export default class Square extends Component {
 
   get availableMove() {
       if(this.props.isSelected && this.props.isSelected.availableMoves.includes(this.props.id)) {
-          return ' available'
+        return ' available'
       } else {
-          return ''
+        return ''
       }
   }
 

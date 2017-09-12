@@ -200,11 +200,11 @@ export default class App extends Component {
   handleUserSignUp() {
     this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
      .then(response => response.json())
-     .then(responseJson => { this.signUpJson(responseJson) })
+     .then(responseJson => this.handleSignUpJsonResponse(responseJson))
      .catch((error) => alert(error))
   }
 
-  signUpJson(responseJson) {
+  handleSignUpJsonResponse(responseJson) {
     if (responseJson.errors) {
       this.setState({
         messageToUser: responseJson.errors,
@@ -227,30 +227,30 @@ export default class App extends Component {
   handleUserSignIn() {
     this.userService.signIn(this.state.email, this.state.password)
       .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.errors) {
-          this.setState({
-            messageToUser: responseJson.errors
-          })
-        } else {
-          this.setState({
-            token: responseJson.data.attributes.token,
-            signInFormActive: false,
-            signUpFormActive: false,
-            loggedIn: true,
-            messageToUser: 'Welcome to Chess Mail!',
-            hashedEmail: responseJson.data.attributes.hashed_email,
-            email: '',
-            password: '',
-            firstName: responseJson.data.attributes.firstName,
-            lastName: responseJson.data.attributes.lastName,
-            userGames: responseJson.data.included
-          })
-        }
+      .then(responseJson => this.handleSignInJsonResponse(responseJson))
+      .catch((error) => alert(error))
+  }
+
+  handleSignInJsonResponse(responseJson) {
+    if (responseJson.errors) {
+      this.setState({
+        messageToUser: responseJson.errors
       })
-      .catch((error) => {
-        alert(error)
+    } else {
+      this.setState({
+        token: responseJson.data.attributes.token,
+        signInFormActive: false,
+        signUpFormActive: false,
+        loggedIn: true,
+        messageToUser: 'Welcome to Chess Mail!',
+        hashedEmail: responseJson.data.attributes.hashed_email,
+        email: '',
+        password: '',
+        firstName: responseJson.data.attributes.firstName,
+        lastName: responseJson.data.attributes.lastName,
+        userGames: responseJson.data.included
       })
+    }
   }
 
   handleSubmitChallenge() {
@@ -264,48 +264,48 @@ export default class App extends Component {
       gameBody.human = this.state.challengePlayer
 
       this.gameService.createGame(gameBody, this.state.token)
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.errors) {
-          this.setState({
-            messageToUser: responseJson.errors
-          })
-        } else {
-          let updatedUserGames = this.state.userGames
-          updatedUserGames.push(responseJson.data)
+        .then(response => response.json())
+        .then(responseJson => this.handleSubmitChallengeJsonResponse(responseJson))
+        .catch((error) => alert(error))
+    }
+  }
 
-          this.setState({
-            userGames: updatedUserGames,
-            messageToUser: `Your challenge has been submitted to ${this.state.challengedName}!`,
-            challengePlayer: false,
-            challengedName: '',
-            challengedEmail: '',
-          })
-        }
+  handleSubmitChallengeJsonResponse(responseJson) {
+    if (responseJson.errors) {
+      this.setState({
+        messageToUser: responseJson.errors
       })
-      .catch((error) => {
-        alert(error)
+    } else {
+      let updatedUserGames = this.state.userGames
+      updatedUserGames.push(responseJson.data)
+
+      this.setState({
+        userGames: updatedUserGames,
+        messageToUser: `Your challenge has been submitted to ${this.state.challengedName}!`,
+        challengePlayer: false,
+        challengedName: '',
+        challengedEmail: '',
       })
     }
   }
 
   handleAcceptChallenge(game_id) {
     this.gameService.acceptGame(game_id, this.state.token)
-    .then(response => response.status)
-    .then(responseStatus => {
-      if (responseStatus === 204) {
-        this.gameService.fetchGames(this.state.token)
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState({
-            userGames: responseJson.data
-          })
+      .then(response => response.status)
+      .then(responseStatus => this.handleAcceptChallengeJsonResponse(responseStatus))
+      .catch((error) => alert(error))
+  }
+
+  handleAcceptChallengeJsonResponse(responseStatus) {
+    if (responseStatus === 204) {
+      this.gameService.fetchGames(this.state.token)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          userGames: responseJson.data
         })
-      }
-    })
-    .catch((error) => {
-      alert(error)
-    })
+      })
+    }
   }
 
   handleSelected(selectedPiece) {
@@ -346,25 +346,24 @@ export default class App extends Component {
   }
 
   handleCredentialForm(event) {
-      if(event.target.textContent === 'Sign Up') {
-          this.setState({
-              signUpFormActive: !this.state.signUpFormActive
-          })
-
-      } else {
-          this.setState({
-              signInFormActive: !this.state.signInFormActive
-          })
-      }
-      if(event.target.textContent === 'Cancel') {
-        this.setState({
-          signInFormActive: false,
-          signUpFormActive: false,
-          messageToUser: '',
-          email: '',
-          password: ''
-        })
-      }
+    if(event.target.textContent === 'Sign Up') {
+      this.setState({
+        signUpFormActive: !this.state.signUpFormActive
+      })
+    } else {
+      this.setState({
+        signInFormActive: !this.state.signInFormActive
+      })
+    }
+    if(event.target.textContent === 'Cancel') {
+      this.setState({
+        signInFormActive: false,
+        signUpFormActive: false,
+        messageToUser: '',
+        email: '',
+        password: ''
+      })
+    }
   }
 
   handleLogout() {

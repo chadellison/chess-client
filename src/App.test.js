@@ -494,9 +494,15 @@ describe('App', () => {
         })
     })
 
-    describe('#signUpJson', () => {
+    describe('#handleSignUpJsonResponse', () => {
       xit('#test', () => {
-        
+
+      })
+    })
+
+    describe('#handleSignInJsonResponse', () => {
+      xit('#test', () => {
+
       })
     })
 })

@@ -85,7 +85,7 @@ export default class ThumbNail extends Component {
           <br></br>
           {this.status}
           <br></br>
-          Color: {this.props.game.attributes.playerColor}
+          {this.props.game.included.length % 2 === 0 ? 'White' : 'Black'} to move
         </p>
         <div id={this.props.game.id}
           className={`thumbNailBoard ${this.playerColor}`}

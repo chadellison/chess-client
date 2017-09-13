@@ -27,7 +27,7 @@ export default class Board extends Component {
           />
         )
       })
-    return(<div key={rowIndex} className="row">{eachRow}</div>)
+    return <div key={rowIndex} className="row">{eachRow}</div>
     })
   }
 

@@ -18,3 +18,7 @@
 .selected {
     color: #4286f4;
 }
+
+.blackPlayer {
+  transform: rotate(180deg) scaleX(-1);
+}

@@ -5,7 +5,6 @@ import '../styles/ThumbNail.css'
 import LETTER_KEY from '../helpers/BoardHelper'
 
 export default class ThumbNail extends Component {
-
   thumbNailBoard() {
     let board = JSON.parse(JSON.stringify(jsonChessBoard))
     let gameMoves = this.props.game.included.map((piece) => {
@@ -49,6 +48,7 @@ export default class ThumbNail extends Component {
           <MiniSquare key={columnIndex}
             color={this.squareColor(square)}
             piece={this.thumbNailBoard()[square].piece}
+            playerColor={this.playerColor}
           />
         )
       })
@@ -71,6 +71,10 @@ export default class ThumbNail extends Component {
     }
   }
 
+  get playerColor() {
+    return this.props.game.attributes.playerColor === 'black' ? 'blackPlayer' : ''
+  }
+
   render() {
     return(
       <div className='thumbNail'>
@@ -83,8 +87,10 @@ export default class ThumbNail extends Component {
           <br></br>
           Color: {this.props.game.attributes.playerColor}
         </p>
-        <div id={this.props.game.id} className='thumbNailBoard' onClick={() => this.props.handleCurrentGame(this.props.game)}>
-          {this.currentSetup}
+        <div id={this.props.game.id}
+          className={`thumbNailBoard ${this.playerColor}`}
+          onClick={() => this.props.handleCurrentGame(this.props.game)}>
+            {this.currentSetup}
         </div>
       </div>
     )

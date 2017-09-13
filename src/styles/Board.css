@@ -1,3 +1,7 @@
 #chessBoard {
   margin-top: 5%;
 }
+
+.blackPlayer {
+  transform: rotate(180deg) scaleX(-1);
+}

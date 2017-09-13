@@ -20,7 +20,7 @@ export default class Piece extends Component {
 
   render() {
     return(
-      <i className={`glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]} piece-${this.props.piece.color} piece ${this.selected}`}
+      <i className={`glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]} piece-${this.props.piece.color} piece ${this.selected} ${this.props.playerColor}`}
         onClick={() => this.props.handleSelected(this.props.piece)}>
       </i>
     )

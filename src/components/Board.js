@@ -4,6 +4,14 @@ import Square from './Square'
 import LETTER_KEY from '../helpers/BoardHelper'
 
 export default class Board extends Component {
+  get playerColor() {
+    if (this.props.currentGameActive && this.props.currentGame.attributes.playerColor === 'black') {
+      return 'blackPlayer'
+    } else {
+      return ''
+    }
+  }
+
   get currentSetup() {
     return this.boardRows().map((row, rowIndex) => {
       let eachRow = row.map((square, columnIndex) => {
@@ -15,6 +23,7 @@ export default class Board extends Component {
             isSelected={this.props.isSelected}
             id={square}
             move={this.props.move}
+            playerColor={this.playerColor}
           />
         )
       })
@@ -51,6 +60,8 @@ export default class Board extends Component {
   }
 
   render() {
-    return <div id='chessBoard' className='col-md-9 col-xs-12 row'>{this.currentSetup}</div>
+    return <div id='chessBoard' className={`col-md-9 col-xs-12 row ${this.playerColor}`}>
+      {this.currentSetup}
+    </div>
   }
 }

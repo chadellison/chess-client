@@ -74,6 +74,7 @@ export default class App extends Component {
     this.handleUserSignUp      = this.handleUserSignUp.bind(this)
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
+    this.handleArchiveGame     = this.handleArchiveGame.bind(this)
   }
 
   isValid(piece, coordinates, board, gameMoves) {
@@ -112,10 +113,10 @@ export default class App extends Component {
       gameMoves.push(piece)
 
       if(this.state.currentGameActive) {
-        this.gameService.updateGame(this.state.currentGame.id, piece, this.state.token)
+        this.gameService.makeMove(this.state.currentGame.id, piece, this.state.token)
         .then((response) => response.json())
         .then((responseJson) => {
-          updatedUserGames = JsonResponse.handleUpdateGame(responseJson, updatedUserGames, piece)
+          updatedUserGames = JsonResponse.handleMakeMove(responseJson, updatedUserGames, piece)
         })
         .catch((error) => error)
       }
@@ -123,13 +124,28 @@ export default class App extends Component {
       if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
         checkmate = true
         messageToUser = `${this.state.turn} Wins!`
-        // api request if game active
+
+        if(this.state.currentGameActive) {
+          let outcome = `${this.state.turn} wins`
+          this.gameService.endGame(outcome, false, this.state.currentGame.id, this.state.token)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            updatedUserGames = JsonResponse.handleEndGame(responseJson, updatedUserGames, outcome)
+          })
+        }
       }
 
       if(this.moveLogic.stalemate(updatedBoard, gameMoves, color)) {
         stalemate = true
         messageToUser = 'Draw!'
-        // api request if game active
+
+        if(this.state.currentGameActive) {
+          this.gameService.endGame('draw', false, this.state.currentGame.id, this.state.token)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            updatedUserGames = JsonResponse.handleEndGame(responseJson, updatedUserGames, 'draw')
+          })
+        }
       }
 
       this.setState({
@@ -248,6 +264,19 @@ export default class App extends Component {
         })
       })
     }
+  }
+
+  handleArchiveGame(game_id) {
+    this.gameService.archiveGame(game_id, this.state.token)
+    .then(response => response.status)
+    .then(responseStatus => {
+      if (responseStatus === 204) {
+        this.setState({
+          userGames: JsonResponse.handleArchiveGame(this.state.userGames, game_id)
+        })
+      }
+    })
+    .catch((error) => alert(error))
   }
 
   handleSelected(selectedPiece) {
@@ -506,6 +535,7 @@ export default class App extends Component {
           moveLogic={this.moveLogic}
           handleCurrentGame={this.handleCurrentGame}
           handleAcceptChallenge={this.handleAcceptChallenge}
+          handleArchiveGame={this.handleArchiveGame}
         />
       )
     } else {

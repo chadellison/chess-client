@@ -67,9 +67,18 @@ export default class ThumbNail extends Component {
         return 'Status: Pending'
       }
     } else if (this.props.game.attributes.outcome) {
-      return 'Status: ' + this.props.game.attributes.outcome
+      return 'Status: Game Over'
     } else {
       return 'Status: Active'
+    }
+  }
+
+  get gameState() {
+    if (this.props.game.attributes.outcome) {
+      return this.props.game.attributes.outcome
+    } else {
+      let color = this.props.game.included.length % 2 === 0 ? 'White' : 'Black'
+      return `${color} to move`
     }
   }
 
@@ -78,15 +87,25 @@ export default class ThumbNail extends Component {
   }
 
   get archive() {
-    let buttonText
     if (this.props.game.attributes.pending) {
-      buttonText = 'Cancel Game'
+      return (
+        <button className='archiveButton' onClick={() => this.props.handleArchiveGame(this.props.game.id)}>
+          Cancel Game
+        </button>
+      )
     } else if (this.props.game.attributes.outcome) {
-      buttonText = 'Archive'
+      return (
+        <button className='archiveButton' onClick={() => this.props.handleArchiveGame(this.props.game.id)}>
+          Archive
+        </button>
+      )
     } else {
-      buttonText = 'Resign'
+      return (
+        <button className='archiveButton' onClick={() => alert('res')}>
+          Resign
+        </button>
+      )
     }
-    return <button className='archiveButton'>{buttonText}</button>
   }
 
   render() {
@@ -99,7 +118,7 @@ export default class ThumbNail extends Component {
           <br></br>
           {this.status}
           <br></br>
-          {this.props.game.included.length % 2 === 0 ? 'White' : 'Black'} to move
+          {this.gameState}
         </p>
         <div id={this.props.game.id}
           className={`thumbNailBoard ${this.playerColor}`}

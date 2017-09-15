@@ -11,6 +11,7 @@ export default class ThumbNails extends Component {
           handleCurrentGame={this.props.handleCurrentGame}
           handleAcceptChallenge={this.props.handleAcceptChallenge}
           challengeAccepted={this.props.challengeAccepted}
+          handleArchiveGame={this.props.handleArchiveGame}
         />
       )
     })

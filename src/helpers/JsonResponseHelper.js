@@ -53,7 +53,7 @@ export default class JsonResponse {
     }
   }
 
-  static handleUpdateGame(responseJson, updatedUserGames, piece) {
+  static handleMakeMove(responseJson, updatedUserGames, piece) {
     return updatedUserGames.map((userGame) => {
       if(userGame.id === responseJson.data.id) {
         let newPiece = responseJson.data.included.filter((gamePiece) => {
@@ -62,6 +62,21 @@ export default class JsonResponse {
         userGame.included.push(newPiece)
       }
       return userGame
+    })
+  }
+
+  static handleEndGame(responseJson, updatedUserGames, outcome) {
+    return updatedUserGames.map((userGame) => {
+      if(userGame.id === responseJson.data.id) {
+        userGame.attributes.outcome = outcome
+      }
+      return userGame
+    })
+  }
+
+  static handleArchiveGame(updatedUserGames, game_id) {
+    return updatedUserGames.filter((userGame) => {
+      return userGame.id !== game_id
     })
   }
 }

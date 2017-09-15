@@ -100,8 +100,9 @@ export default class ThumbNail extends Component {
         </button>
       )
     } else {
+      let outcome = this.props.game.attributes.playerColor === 'white' ? 'black wins' : 'white wins'
       return (
-        <button className='archiveButton' onClick={() => alert('res')}>
+        <button className='archiveButton' onClick={() => this.props.handleEndGame(outcome, true, this.props.game.id)}>
           Resign
         </button>
       )

@@ -75,6 +75,7 @@ export default class App extends Component {
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
     this.handleArchiveGame     = this.handleArchiveGame.bind(this)
+    this.handleEndGame         = this.handleEndGame.bind(this)
   }
 
   isValid(piece, coordinates, board, gameMoves) {
@@ -279,6 +280,16 @@ export default class App extends Component {
     .catch((error) => alert(error))
   }
 
+  handleEndGame(outcome, resign, game_id) {
+    this.gameService.endGame(outcome, resign, game_id, this.state.token)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        userGames: JsonResponse.handleEndGame(responseJson, this.state.userGames, outcome)
+      })
+    })
+  }
+
   handleSelected(selectedPiece) {
     if (this.state.chessBoard[selectedPiece.currentPosition].piece) {
       if (selectedPiece.color === this.state.turn) {
@@ -471,6 +482,10 @@ export default class App extends Component {
       this.setState({
         messageToUser: messageToUser
       })
+    } else if(game.attributes.outcome) {
+      this.setState({
+        messageToUser: 'This game is no longer active'
+      })
     } else {
       let board = JSON.parse(JSON.stringify(jsonChessBoard))
       let gameMoves = game.included.map((piece) => {
@@ -536,6 +551,7 @@ export default class App extends Component {
           handleCurrentGame={this.handleCurrentGame}
           handleAcceptChallenge={this.handleAcceptChallenge}
           handleArchiveGame={this.handleArchiveGame}
+          handleEndGame={this.handleEndGame}
         />
       )
     } else {

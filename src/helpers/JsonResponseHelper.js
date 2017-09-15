@@ -52,4 +52,16 @@ export default class JsonResponse {
       })
     }
   }
+
+  static handleUpdateGame(responseJson, updatedUserGames, piece) {
+    return updatedUserGames.map((userGame) => {
+      if(userGame.id === responseJson.data.id) {
+        let newPiece = responseJson.data.included.filter((gamePiece) => {
+          return gamePiece.attributes.startIndex === piece.startIndex
+        })[0]
+        userGame.included.push(newPiece)
+      }
+      return userGame
+    })
+  }
 }

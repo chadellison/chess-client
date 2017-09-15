@@ -115,15 +115,7 @@ export default class App extends Component {
         this.gameService.updateGame(this.state.currentGame.id, piece, this.state.token)
         .then((response) => response.json())
         .then((responseJson) => {
-          updatedUserGames = updatedUserGames.map((userGame) => {
-            if(userGame.id === responseJson.data.id) {
-              let newPiece = responseJson.data.included.filter((gamePiece) => {
-                return gamePiece.attributes.startIndex === piece.startIndex
-              })[0]
-              userGame.included.push(newPiece)
-            }
-            return userGame
-          })
+          updatedUserGames = JsonResponse.handleUpdateGame(responseJson, updatedUserGames, piece)
         })
         .catch((error) => error)
       }
@@ -131,11 +123,13 @@ export default class App extends Component {
       if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
         checkmate = true
         messageToUser = `${this.state.turn} Wins!`
+        // api request if game active
       }
 
       if(this.moveLogic.stalemate(updatedBoard, gameMoves, color)) {
         stalemate = true
         messageToUser = 'Draw!'
+        // api request if game active
       }
 
       this.setState({

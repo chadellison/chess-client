@@ -57,7 +57,7 @@ export default class ThumbNail extends Component {
   }
 
   get status() {
-    if(this.props.game.attributes.pending) {
+    if (this.props.game.attributes.pending) {
       if (this.props.game.attributes.pending && !this.props.game.attributes.isChallenger) {
         return (
           <a className='acceptChallenge' onClick={() => this.props.handleAcceptChallenge(this.props.game.id)}>
@@ -66,6 +66,8 @@ export default class ThumbNail extends Component {
       } else {
         return 'Status: Pending'
       }
+    } else if (this.props.game.attributes.outcome) {
+      return 'Status: ' + this.props.game.attributes.outcome
     } else {
       return 'Status: Active'
     }
@@ -73,6 +75,18 @@ export default class ThumbNail extends Component {
 
   get playerColor() {
     return this.props.game.attributes.playerColor === 'black' ? 'blackPlayer' : ''
+  }
+
+  get archive() {
+    let buttonText
+    if (this.props.game.attributes.pending) {
+      buttonText = 'Cancel Game'
+    } else if (this.props.game.attributes.outcome) {
+      buttonText = 'Archive'
+    } else {
+      buttonText = 'Resign'
+    }
+    return <button className='archiveButton'>{buttonText}</button>
   }
 
   render() {
@@ -92,6 +106,7 @@ export default class ThumbNail extends Component {
           onClick={() => this.props.handleCurrentGame(this.props.game)}>
             {this.currentSetup}
         </div>
+        {this.archive}
       </div>
     )
   }

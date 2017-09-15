@@ -1,11 +1,18 @@
 .thumbNailBoard {
   margin-left: 32px;
-  margin-bottom: 30px;
+}
+
+.archiveButton {
+  margin: 20px;
+}
+
+.archiveButton:hover {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
 .thumbNail {
   margin: 3%;
-  padding-top: 30px;
+  padding-top: 10px;
   text-align: center;
   display: inline-block;
   width: 275px;

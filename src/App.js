@@ -45,7 +45,8 @@ export default class App extends Component {
       myGamesActive: false,
       thumbNails: false,
       currentGameActive: false,
-      currentGame: null
+      currentGame: null,
+      loading: false
     }
 
     this.userService = new UserService()
@@ -222,6 +223,7 @@ export default class App extends Component {
   }
 
   handleUserSignIn() {
+    this.setState({loading: true})
     this.userService.signIn(this.state.email, this.state.password)
       .then(response => response.json())
       .then(responseJson => this.setState(JsonResponse.handleSignIn(responseJson)))
@@ -583,6 +585,7 @@ export default class App extends Component {
           {this.gameView}
           {this.crossedPawn}
           <SideBar
+            loading={this.state.loading}
             signUpFormActive={this.state.signUpFormActive}
             signInFormActive={this.state.signInFormActive}
             handleUserEmail={this.handleUserEmail}

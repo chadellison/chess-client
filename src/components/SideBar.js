@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../styles/SideBar.css'
 import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
+import Loader from './Loader'
 
 export default class SideBar extends Component {
   get credentialForm() {
@@ -189,9 +190,18 @@ export default class SideBar extends Component {
     }
   }
 
+  get loader() {
+    if(this.props.loading) {
+      return <Loader />
+    } else {
+      return null
+    }
+  }
+
   render() {
     return(
       <div className='sideBar col-md-2 col-xs-12'>
+        {this.loader}
         {this.props.messageToUser}
         {this.credentialButtons}
         {this.credentialForm}

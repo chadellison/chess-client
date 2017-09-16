@@ -33,7 +33,8 @@ export default class JsonResponse {
         lastName: responseJson.data.attributes.lastName,
         userGames: responseJson.data.included,
         thumbNails: true,
-        myGamesActive: true
+        myGamesActive: true,
+        loading: false
       })
     }
   }

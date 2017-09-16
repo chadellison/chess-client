@@ -31,7 +31,9 @@ export default class JsonResponse {
         password: '',
         firstName: responseJson.data.attributes.firstName,
         lastName: responseJson.data.attributes.lastName,
-        userGames: responseJson.data.included
+        userGames: responseJson.data.included,
+        thumbNails: true,
+        myGamesActive: true
       })
     }
   }

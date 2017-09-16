@@ -4,6 +4,13 @@ import '../styles/ThumbNails.css'
 
 export default class ThumbNails extends Component {
   get thumbNails() {
+    if (this.props.userGames.length === 0) {
+      return (
+        <p>
+          You currently have no games in progress. Challenge a player to get started.
+        </p>
+      )
+    }
     return this.props.userGames.map((game, index) => {
       return (
         <ThumbNail key={game.id + index}

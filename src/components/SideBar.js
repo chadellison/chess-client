@@ -76,7 +76,10 @@ export default class SideBar extends Component {
   }
 
   get gamePlayButtons() {
-    if(this.props.loggedIn && !this.props.challengePlayer && !this.props.challengeRobot) {
+    if(this.props.loggedIn &&
+        !this.props.challengePlayer &&
+        !this.props.challengeRobot &&
+        !this.props.currentGameActive) {
       return(
         <div>
           <button className='challengeButton' onClick={this.props.handleChallenge}>
@@ -159,10 +162,28 @@ export default class SideBar extends Component {
 
   get myGamesButton() {
     if (this.props.loggedIn) {
-      let buttonText = !this.props.myGamesActive ? 'My Games' : 'Back'
-      return <button className='myGamesButton' onClick={this.props.handleMyGamesActive}>
-        {buttonText}
-      </button>
+      if (!this.props.myGamesActive) {
+        return (
+          <button className='myGamesButton' onClick={this.props.handleMyGamesActive}>
+            My Games
+          </button>
+        )
+      } else {
+        return null
+      }
+    } else {
+      return null
+    }
+  }
+
+  get resignButton() {
+    if(this.props.currentGameActive && !this.props.currentGame.attributes.outcome) {
+      let outcome = this.props.currentGame.attributes.playerColor === 'white' ? 'black wins' : 'white wins'
+      return (
+        <button className='resignCurrentGameButton' onClick={() => this.props.handleEndGame(outcome, true, this.props.currentGame.id)}>
+          Resign
+        </button>
+      )
     } else {
       return null
     }
@@ -182,6 +203,7 @@ export default class SideBar extends Component {
         {this.resetButton}
         {this.gamePlayButtons}
         {this.challengeForm}
+        {this.resignButton}
         {this.myGamesButton}
       </div>
     )

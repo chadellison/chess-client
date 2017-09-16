@@ -286,7 +286,9 @@ export default class App extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
-        userGames: JsonResponse.handleEndGame(responseJson, this.state.userGames, outcome)
+        userGames: JsonResponse.handleEndGame(responseJson, this.state.userGames, outcome),
+        currentGame: responseJson.data,
+        messageToUser: outcome
       })
     })
   }
@@ -468,6 +470,7 @@ export default class App extends Component {
     this.setState({
       myGamesActive: !this.state.myGamesActive,
       thumbNails: !this.state.thumbNails,
+      currentGameActive: !this.state.currentGameActive,
       messageToUser: ''
     })
   }
@@ -611,6 +614,8 @@ export default class App extends Component {
             myGamesActive={this.state.myGamesActive}
             handleMyGamesActive={this.handleMyGamesActive}
             currentGameActive={this.state.currentGameActive}
+            currentGame={this.state.currentGame}
+            handleEndGame={this.handleEndGame}
           />
         </div>
         <Footer />

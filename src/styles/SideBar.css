@@ -7,13 +7,13 @@
     background-color: white;
 }
 
-.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGamesButton {
+.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGamesButton, .resignCurrentGameButton {
     width: 90%;
     margin: 10px;
     height: 30px;
 }
 
-.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .challengeButton:hover, .cancelButton:hover, .myGamesButton:hover  {
+.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .challengeButton:hover, .cancelButton:hover, .myGamesButton:hover, .resignCurrentGameButton:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 

@@ -272,7 +272,7 @@ export default class App extends Component {
     this.gameService.archiveGame(game_id, this.state.token)
     .then(response => response.status)
     .then(responseStatus => {
-      if (responseStatus === 204) {
+      if (responseStatus === 204 || responseStatus === 404) {
         this.setState({
           userGames: JsonResponse.handleArchiveGame(this.state.userGames, game_id)
         })

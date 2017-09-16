@@ -38,6 +38,7 @@ export default class App extends Component {
       challengePlayer: false,
       challengeRobot: false,
       playerColor: 'white',
+      challengeColor: 'white',
       challengedName: '',
       challengedEmail: '',
       userGames: [],
@@ -65,7 +66,7 @@ export default class App extends Component {
     this.handleLastName        = this.handleLastName.bind(this)
     this.handleChallenge       = this.handleChallenge.bind(this)
     this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
-    this.handlePlayerColor     = this.handlePlayerColor.bind(this)
+    this.handleChallengeColor  = this.handleChallengeColor.bind(this)
     this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
@@ -234,7 +235,7 @@ export default class App extends Component {
     } else {
       gameBody.challengedName = this.state.challengedName
       gameBody.challengedEmail = this.state.challengedEmail
-      gameBody.challengerColor = this.state.playerColor
+      gameBody.challengerColor = this.state.challengeColor
       gameBody.human = this.state.challengePlayer
 
       this.gameService.createGame(gameBody, this.state.token)
@@ -359,6 +360,7 @@ export default class App extends Component {
       thumbNails: false,
       turn: 'white',
       playerColor: 'white',
+      challengeColor: 'white',
       currentGameActive: false,
       currentGame: null,
       chessBoard: JSON.parse(JSON.stringify(jsonChessBoard))
@@ -444,11 +446,11 @@ export default class App extends Component {
       challengeRobot: false,
       challengedName: '',
       challengedEmail: '',
-      playerColor: 'white'
+      challengeColor: 'whtie'
     })
   }
 
-  handlePlayerColor(event) {
+  handleChallengeColor(event) {
     let color
 
     if(event.target.textContent === 'White') {
@@ -458,7 +460,7 @@ export default class App extends Component {
       color = 'black'
     }
     this.setState({
-      playerColor: color
+      challengeColor: color
     })
   }
 
@@ -602,9 +604,9 @@ export default class App extends Component {
             challengePlayer={this.state.challengePlayer}
             handleChallengedInfo={this.handleChallengedInfo}
             handleCancelChallenge={this.handleCancelChallenge}
-            handlePlayerColor={this.handlePlayerColor}
+            handleChallengeColor={this.handleChallengeColor}
             challengeRobot={this.state.challengeRobot}
-            playerColor={this.state.playerColor}
+            challengeColor={this.state.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}
             myGamesActive={this.state.myGamesActive}
             handleMyGamesActive={this.handleMyGamesActive}

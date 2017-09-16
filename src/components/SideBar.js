@@ -92,14 +92,14 @@ export default class SideBar extends Component {
     }
   }
 
-  get playerColorButtons() {
-    if(this.props.playerColor === 'white') {
+  get challengeColorButtons() {
+    if(this.props.challengeColor === 'white') {
       return(
         <div>
-          <div className='button col-xs-4 color-white underline' onClick={this.props.handlePlayerColor}>
+          <div className='button col-xs-4 color-white underline' onClick={this.props.handleChallengeColor}>
             White
           </div>
-          <div className='button col-xs-4 color-black' onClick={this.props.handlePlayerColor}>
+          <div className='button col-xs-4 color-black' onClick={this.props.handleChallengeColor}>
             Black
           </div>
         </div>
@@ -107,10 +107,10 @@ export default class SideBar extends Component {
     } else {
       return(
         <div>
-          <div className='button col-xs-4 color-white' onClick={this.props.handlePlayerColor}>
+          <div className='button col-xs-4 color-white' onClick={this.props.handleChallengeColor}>
             White
           </div>
-          <div className='button col-xs-4 color-black underline' onClick={this.props.handlePlayerColor}>
+          <div className='button col-xs-4 color-black underline' onClick={this.props.handleChallengeColor}>
             Black
           </div>
         </div>
@@ -143,7 +143,7 @@ export default class SideBar extends Component {
       return(
         <div>
           {this.challengePlayerFields}
-          {this.playerColorButtons}
+          {this.challengeColorButtons}
           <button className='challengeButton' onClick={this.props.handleSubmitChallenge}>
             Challenge
           </button>

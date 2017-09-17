@@ -44,7 +44,7 @@ export default class JsonResponse {
       return({ messageToUser: responseJson.errors })
     } else {
       let updatedUserGames = userGames
-      updatedUserGames.push(responseJson.data)
+      updatedUserGames.unshift(responseJson.data)
 
       return({
         userGames: updatedUserGames,

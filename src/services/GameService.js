@@ -22,9 +22,9 @@ export default class GameService {
     )
   }
 
-  fetchGames(token) {
+  fetchGames(token, page) {
     return (
-      fetch(`${API_HOST}/api/v1/games?token=${token}`, {
+      fetch(`${API_HOST}/api/v1/games?token=${token}&page=${page}`, {
         method: 'GET',
         headers: this.headers
       })

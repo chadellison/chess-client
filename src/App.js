@@ -262,7 +262,7 @@ export default class App extends Component {
 
   handleAcceptChallengeJsonResponse(responseStatus) {
     if (responseStatus === 204) {
-      this.gameService.fetchGames(this.state.token)
+      this.gameService.fetchGames(this.state.token, this.state.page)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({

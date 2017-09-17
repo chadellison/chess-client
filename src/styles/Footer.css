@@ -1,3 +1,16 @@
 .footer {
   height: 80px;
 }
+
+.glyphicon-triangle-left {
+  margin: 3%;
+}
+
+.glyphicon-triangle-right {
+  margin: 3%;
+}
+
+.glyphicon-triangle-left:hover, .glyphicon-triangle-right:hover {
+  cursor: pointer;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}

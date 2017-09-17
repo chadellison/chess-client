@@ -46,7 +46,8 @@ export default class App extends Component {
       thumbNails: false,
       currentGameActive: false,
       currentGame: null,
-      loading: false
+      loading: false,
+      page: 1
     }
 
     this.userService = new UserService()
@@ -71,6 +72,7 @@ export default class App extends Component {
     this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
+    this.handleUpdatePage      = this.handleUpdatePage.bind(this)
 
     this.handleUserSignIn      = this.handleUserSignIn.bind(this)
     this.handleUserSignUp      = this.handleUserSignUp.bind(this)
@@ -522,6 +524,20 @@ export default class App extends Component {
     }
   }
 
+  handleUpdatePage(event) {
+    let currentPage = this.state.page
+
+    if (event.target.classList.value.includes('right')) {
+      currentPage += 1
+    } else {
+      currentPage -= 1
+    }
+
+    this.setState({
+      page: currentPage
+    })
+  }
+
   get crossedPawn() {
     let crossedPawn
     if (this.state.crossedPawn) {
@@ -621,7 +637,7 @@ export default class App extends Component {
             handleEndGame={this.handleEndGame}
           />
         </div>
-        <Footer />
+        <Footer handleUpdatePage={this.handleUpdatePage} />
       </div>
     )
   }

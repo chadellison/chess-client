@@ -643,7 +643,10 @@ export default class App extends Component {
             handleEndGame={this.handleEndGame}
           />
         </div>
-        <Footer handleUpdatePage={this.handleUpdatePage} />
+        <Footer
+          handleUpdatePage={this.handleUpdatePage}
+          myGamesActive={this.state.myGamesActive}
+        />
       </div>
     )
   }

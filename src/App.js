@@ -527,14 +527,20 @@ export default class App extends Component {
   handleUpdatePage(event) {
     let currentPage = this.state.page
 
-    if (event.target.classList.value.includes('right')) {
+    if (event.target.classList.value.includes('right') && this.state.userGames.length === 6) {
       currentPage += 1
-    } else {
+    }
+    if (event.target.classList.value.includes('left') && this.state.page > 1) {
       currentPage -= 1
     }
 
-    this.setState({
-      page: currentPage
+    this.gameService.fetchGames(this.state.token, currentPage)
+    .then(response => response.json())
+    .then(responseJson => {
+      this.setState({
+        page: currentPage,
+        userGames: responseJson.data
+      })
     })
   }
 

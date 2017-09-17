@@ -13,7 +13,7 @@ export default class ThumbNails extends Component {
     }
     return this.props.userGames.map((game, index) => {
       return (
-        <ThumbNail key={game.id + index}
+        <ThumbNail key={game.id - index}
           game={game} moveLogic={this.props.moveLogic}
           handleCurrentGame={this.props.handleCurrentGame}
           handleAcceptChallenge={this.props.handleAcceptChallenge}

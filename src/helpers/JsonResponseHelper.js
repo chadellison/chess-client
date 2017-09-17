@@ -18,7 +18,7 @@ export default class JsonResponse {
 
   static handleSignIn(responseJson) {
     if (responseJson.errors) {
-      return {messageToUser: responseJson.errors}
+      return {messageToUser: responseJson.errors, loading: false}
     } else {
       return({
         token: responseJson.data.attributes.token,

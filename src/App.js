@@ -369,7 +369,8 @@ export default class App extends Component {
       challengeColor: 'white',
       currentGameActive: false,
       currentGame: null,
-      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard))
+      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+      moves: []
     })
   }
 

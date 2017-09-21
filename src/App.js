@@ -84,7 +84,14 @@ export default class App extends Component {
 
   componentDidMount() {
     if (localStorage.getItem('state')) {
-      this.setState(JSON.parse(localStorage.getItem('state')))
+      let currentState = JSON.parse(localStorage.getItem('state'))
+
+      this.gameService.fetchGames(currentState.token, 1)
+      .then(response => response.json())
+      .then(responseJson => {
+        currentState.userGames = responseJson.data
+        this.setState(currentState)
+      })
     }
   }
 
@@ -366,7 +373,9 @@ export default class App extends Component {
   }
 
   handleLogout() {
-    let loggedOutState = {
+    localStorage.removeItem('state');
+
+    this.setState({
       token: '',
       loggedIn: '',
       hashedEmail: '',
@@ -381,9 +390,7 @@ export default class App extends Component {
       currentGame: null,
       chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
       moves: []
-    }
-    this.setState(loggedOutState)
-    localStorage.setItem('state', JSON.stringify(loggedOutState))
+    })
   }
 
   handleFirstName(event) {

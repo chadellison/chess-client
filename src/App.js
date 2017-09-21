@@ -46,7 +46,7 @@ export default class App extends Component {
       thumbNails: false,
       currentGameActive: false,
       currentGame: null,
-      loading: false,
+      loading: true,
       page: 1
     }
 
@@ -90,8 +90,11 @@ export default class App extends Component {
       .then(response => response.json())
       .then(responseJson => {
         currentState.userGames = responseJson.data
+        currentState.loading = false
         this.setState(currentState)
       })
+    } else {
+      this.setState({loading: false})
     }
   }
 

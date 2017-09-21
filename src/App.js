@@ -82,6 +82,12 @@ export default class App extends Component {
     this.handleEndGame         = this.handleEndGame.bind(this)
   }
 
+  componentDidMount() {
+    if (localStorage.getItem('state')) {
+      this.setState(JSON.parse(localStorage.getItem('state')))
+    }
+  }
+
   isValid(piece, coordinates, board, gameMoves) {
     return (this.moveLogic.validMove(piece, coordinates, board, gameMoves) &&
       this.moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
@@ -228,7 +234,11 @@ export default class App extends Component {
     this.setState({loading: true})
     this.userService.signIn(this.state.email, this.state.password)
       .then(response => response.json())
-      .then(responseJson => this.setState(JsonResponse.handleSignIn(responseJson)))
+      .then(responseJson => {
+        let loggedInState = JsonResponse.handleSignIn(responseJson)
+        localStorage.setItem('state', JSON.stringify(loggedInState))
+        this.setState(loggedInState)
+      })
       .catch((error) => alert(error))
   }
 
@@ -356,7 +366,7 @@ export default class App extends Component {
   }
 
   handleLogout() {
-    this.setState({
+    let loggedOutState = {
       token: '',
       loggedIn: '',
       hashedEmail: '',
@@ -371,7 +381,9 @@ export default class App extends Component {
       currentGame: null,
       chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
       moves: []
-    })
+    }
+    this.setState(loggedOutState)
+    localStorage.setItem('state', JSON.stringify(loggedOutState))
   }
 
   handleFirstName(event) {

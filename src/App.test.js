@@ -8,7 +8,7 @@ describe('App', () => {
     const div = document.createElement('div')
     const app = shallow(<App />, div)
 
-    it('renders without crashing', () => {
+    xit('renders without crashing', () => {
         const div = document.createElement('div');
         ReactDOM.render(<App />, div)
     })

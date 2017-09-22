@@ -36,11 +36,12 @@ export default class GameService {
 
     let body = JSON.stringify({
       piece: piece,
-      token: token
+      token: token,
+      game_id: game_id
     })
     return (
-      fetch(`${API_HOST}/api/v1/games/move/${game_id}`, {
-        method: 'PATCH',
+      fetch(`${API_HOST}/api/v1/moves`, {
+        method: 'POST',
         headers: this.headers,
         body: body
       })
@@ -49,7 +50,7 @@ export default class GameService {
 
   acceptGame(game_id, token) {
     return (
-      fetch(`${API_HOST}/api/v1/games/accept/${game_id}?token=${token}`, {
+      fetch(`${API_HOST}/api/v1/accept_challenge/${game_id}?token=${token}`, {
         method: 'GET',
         headers: this.headers
       })
@@ -73,7 +74,7 @@ export default class GameService {
     })
 
     return (
-      fetch(`${API_HOST}/api/v1/games/end_game/${game_id}`, {
+      fetch(`${API_HOST}/api/v1/game_over/${game_id}`, {
         method: 'PATCH',
         headers: this.headers,
         body: body

@@ -93,6 +93,10 @@ export default class App extends Component {
         currentState.loading = false
         this.setState(currentState)
       })
+      .catch((error) => {
+        localStorage.removeItem('state')
+        this.setState({loading: false})
+      })
     } else {
       this.setState({loading: false})
     }
@@ -139,7 +143,7 @@ export default class App extends Component {
         .then((responseJson) => {
           updatedUserGames = JsonResponse.handleMakeMove(responseJson, updatedUserGames, piece)
         })
-        .catch((error) => error)
+        .catch((error) => alert(error))
       }
 
       if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {

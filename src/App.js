@@ -231,13 +231,13 @@ export default class App extends Component {
 
   handleUserSignUp() {
     this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
-     .then(response => response.json())
-     .then(responseJson => {
-       this.setState(
-         JsonResponse.handleSignUp(responseJson, this.state.firstName, this.state.email)
-       )
-     })
-     .catch((error) => alert(error))
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState(
+          JsonResponse.handleSignUp(responseJson, this.state.firstName, this.state.email)
+        )
+      })
+      .catch((error) => alert(error))
   }
 
   handleUserSignIn() {
@@ -392,7 +392,8 @@ export default class App extends Component {
       currentGameActive: false,
       currentGame: null,
       chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-      moves: []
+      moves: [],
+      moveLogActive: false
     })
   }
 

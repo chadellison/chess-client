@@ -105,22 +105,22 @@ export default class App extends Component {
   }
 
   move(coordinates) {
-    let piece = JSON.parse(JSON.stringify(this.state.selected))
-    let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+    let piece     = JSON.parse(JSON.stringify(this.state.selected))
+    let board     = JSON.parse(JSON.stringify(this.state.chessBoard))
     let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
     if(this.isValid(piece, coordinates, board, gameMoves)) {
-      let updatedBoard = JSON.parse(JSON.stringify(this.state.chessBoard))
-      let checkmate = this.state.checkmate
-      let stalemate = this.state.stalemate
-      let messageToUser = ''
-      let crossedPawn = false
-      let color = this.state.turn === 'white' ? 'black' : 'white'
+      let updatedBoard     = JSON.parse(JSON.stringify(this.state.chessBoard))
+      let checkmate        = this.state.checkmate
+      let stalemate        = this.state.stalemate
+      let messageToUser    = ''
+      let crossedPawn      = false
+      let color            = this.state.turn === 'white' ? 'black' : 'white'
       let updatedUserGames = this.state.userGames
 
       updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
       updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
-      piece = this.pawnMovedTwo(this.state.selected, coordinates)
+      piece        = this.pawnMovedTwo(this.state.selected, coordinates)
 
       if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
         crossedPawn = true

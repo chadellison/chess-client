@@ -2,16 +2,19 @@ import React, { Component } from 'react'
 import '../styles/MiniSquare.css'
 
 export default class MiniSquare extends Component {
+  findPieceType() {
+    if(this.props.piece.type === 'rook') {
+      return 'tower'
+    } else {
+      return this.props.piece.type
+    }
+  }
+
   get miniPiece() {
     let type
     if(this.props.piece) {
-      if(this.props.piece.type === 'rook') {
-        type = 'tower'
-      } else {
-        type = this.props.piece.type
-      }
       return(
-        <span className={`glyphicon glyphicon-${type} miniPiece piece-${this.props.piece.color} ${this.props.playerColor}`}>
+        <span className={`glyphicon glyphicon-${this.findPieceType()} miniPiece piece-${this.props.piece.color} ${this.props.playerColor}`}>
         </span>
       )
     } else {

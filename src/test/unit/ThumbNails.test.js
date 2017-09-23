@@ -1,4 +1,4 @@
-import ThumbNails from './components/ThumbNails'
+import ThumbNails from '../../components/ThumbNails'
 
 describe('ThumbNails', () => {
   describe('#thumbNails', () => {

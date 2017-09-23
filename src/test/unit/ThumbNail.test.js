@@ -1,4 +1,4 @@
-import ThumbNail from './components/ThumbNail'
+import ThumbNail from '../../components/ThumbNail'
 
 describe('ThumbNail', () => {
   xit('test', () => {

@@ -1,5 +1,5 @@
-import jsonChessBoard from './jsonChessBoard'
-import MoveLogic from './helpers/MoveLogic'
+import jsonChessBoard from '../../jsonChessBoard'
+import MoveLogic from '../../helpers/MoveLogic'
 
 describe('MoveLogic', () => {
     describe('#movesForRook', () => {

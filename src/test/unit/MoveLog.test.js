@@ -1,4 +1,4 @@
-import MoveLogic from './components/MoveLog'
+import MoveLogic from '../../components/MoveLog'
 
 describe('MoveLog', () => {
     describe('#moves', () => {

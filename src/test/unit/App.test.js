@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from '../../App';
 import {shallow} from 'enzyme'
-import jsonChessBoard from './jsonChessBoard'
+import jsonChessBoard from '../../jsonChessBoard'
 
 describe('App', () => {
     const div = document.createElement('div')

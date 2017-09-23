@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Piece from './components/Piece'
+import Piece from '../../components/Piece'
 import { shallow } from 'enzyme'
 
 describe('Piece', () => {

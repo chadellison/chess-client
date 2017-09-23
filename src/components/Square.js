@@ -41,7 +41,7 @@ export default class Square extends Component {
 
   render() {
     return(
-      <div className={`${this.props.styles}${this.availableMove}`} onClick={this.handleMove}>
+      <div id={this.props.id} className={`${this.props.styles}${this.availableMove}`} onClick={this.handleMove}>
         {this.piece}
       </div>
     )

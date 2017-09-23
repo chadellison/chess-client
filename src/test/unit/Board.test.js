@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Board from './components/Board'
+import Board from '../../components/Board'
 import { shallow } from 'enzyme'
-import jsonChessBoard from './jsonChessBoard'
+import jsonChessBoard from '../../jsonChessBoard'
 
 describe('App', () => {
   describe('#currentSetup', () => {

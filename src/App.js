@@ -259,22 +259,25 @@ export default class App extends Component {
   handleSubmitChallenge() {
     let gameBody = {}
     if(this.state.challengeRobot) {
-        alert('Robot has decided not to accept your challenge')
+      gameBody.challengedName = 'robot'
+      gameBody.challengedEmail = 'robot'
+      gameBody.challengerColor = this.state.challengeColor
+      gameBody.human = false
     } else {
       gameBody.challengedName = this.state.challengedName
       gameBody.challengedEmail = this.state.challengedEmail
       gameBody.challengerColor = this.state.challengeColor
       gameBody.human = this.state.challengePlayer
 
-      this.gameService.createGame(gameBody, this.state.token)
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState(
-            JsonResponse.handleSubmitChallenge(responseJson, this.state.userGames, this.state.challengedName)
-          )
-        })
-        .catch((error) => alert(error))
     }
+    this.gameService.createGame(gameBody, this.state.token)
+    .then(response => response.json())
+    .then(responseJson => {
+      this.setState(
+        JsonResponse.handleSubmitChallenge(responseJson, this.state.userGames, this.state.challengedName)
+      )
+    })
+    .catch((error) => alert(error))
   }
 
   handleAcceptChallenge(game_id) {

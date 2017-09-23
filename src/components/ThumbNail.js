@@ -41,6 +41,15 @@ export default class ThumbNail extends Component {
     return sum % 2 === 0 ? 'white' : 'black'
   }
 
+  get gravatar() {
+    if (this.props.game.attributes.human) {
+      return <img className='opponentGravatar' src={`https://www.gravatar.com/avatar/${this.props.game.attributes.opponentGravatar}`} alt='gravatar'/>
+    } else {
+      return <img className='opponentGravatar' src={`https://robohash.org/${this.props.game.attributes.opponentGravatar}`} alt='gravatar'/>
+    }
+  }
+
+
   get currentSetup() {
     return this.boardRows().map((row, rowIndex) => {
       let eachRow = row.map((square, columnIndex) => {
@@ -115,7 +124,7 @@ export default class ThumbNail extends Component {
         <p className='gameData'>
           Opponent: {this.props.game.attributes.opponentName}
           <br></br>
-          <img className='opponentGravatar' src={`https://www.gravatar.com/avatar/${this.props.game.attributes.opponentGravatar}`} alt="gravatar"/>
+          {this.gravatar}
           <br></br>
           {this.status}
           <br></br>

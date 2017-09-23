@@ -1,13 +1,5 @@
 Feature('Home Page')
 
-Scenario('user can see side bar', (I) => {
-  I.amOnPage('/')
-  I.see('Sign In')
-  I.see('Sign Up')
-  I.see('Move Log')
-  I.see('Reset')
-})
-
 Scenario('user can move piece', (I) => {
   I.amOnPage('/')
   I.executeScript("document.getElementById('31').click();")
@@ -35,7 +27,7 @@ Scenario('user can do four move checkmate', (I) => {
   I.amOnPage('/')
   I.executeScript("document.getElementById('21').click();")
   I.click('div#e4')
-  
+
   I.executeScript("document.getElementById('13').click();")
   I.click('div#e5')
 

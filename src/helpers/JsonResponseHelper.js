@@ -50,6 +50,7 @@ export default class JsonResponse {
         userGames: updatedUserGames,
         messageToUser: `Your challenge has been submitted to ${challengedName}!`,
         challengePlayer: false,
+        challengeRobot: false,
         challengedName: '',
         challengedEmail: '',
       })
@@ -59,10 +60,7 @@ export default class JsonResponse {
   static handleMakeMove(responseJson, updatedUserGames, piece) {
     return updatedUserGames.map((userGame) => {
       if(userGame.id === responseJson.data.id) {
-        let newPiece = responseJson.data.included.filter((gamePiece) => {
-          return gamePiece.attributes.startIndex === piece.startIndex
-        })[0]
-        userGame.included.push(newPiece)
+        userGame.included = responseJson.data.included
       }
       return userGame
     })

@@ -11,7 +11,6 @@ export default class MiniSquare extends Component {
   }
 
   get miniPiece() {
-    let type
     if(this.props.piece) {
       return(
         <span className={`glyphicon glyphicon-${this.findPieceType()} miniPiece piece-${this.props.piece.color} ${this.props.playerColor}`}>

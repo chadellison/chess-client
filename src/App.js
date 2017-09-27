@@ -622,7 +622,6 @@ export default class App extends Component {
             handleSelected={this.handleSelected}
             isSelected={this.state.selected}
             move={this.move}
-            gameMoves={this.state.moves}
             currentGameActive={this.state.currentGameActive}
             currentGame={this.state.currentGame}
           />

@@ -32,10 +32,13 @@ export default class GameService {
   }
 
   makeMove(game_id, piece, token) {
-    piece.pieceType = piece.type
-
     let body = JSON.stringify({
-      piece: piece,
+      move: {
+        startIndex: piece.startIndex,
+        currentPosition: piece.currentPosition,
+        movedTwo: piece.movedTwo
+      },
+
       token: token,
       game_id: game_id
     })

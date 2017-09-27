@@ -32,11 +32,11 @@ export default class Board extends Component {
   }
 
   setOffset(index) {
-      if(index % 8 === 0) {
-        return ' col-xs-offset-2'
-      } else {
-        return ''
-      }
+    if(index % 8 === 0) {
+      return ' col-xs-offset-2'
+    } else {
+      return ''
+    }
   }
 
   boardRows() {

@@ -36,7 +36,8 @@ export default class GameService {
       move: {
         startIndex: piece.startIndex,
         currentPosition: piece.currentPosition,
-        movedTwo: piece.movedTwo
+        movedTwo: piece.movedTwo,
+        pieceType: piece.type
       },
 
       token: token,

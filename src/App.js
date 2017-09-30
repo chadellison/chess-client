@@ -523,32 +523,36 @@ export default class App extends Component {
         messageToUser: messageToUser
       })
     } else {
-      let board = JSON.parse(JSON.stringify(jsonChessBoard))
-      let gameMoves = game.included.map((piece) => {
-        return {
-          color: piece.attributes.color,
-          type: piece.attributes.pieceType,
-          currentPosition: piece.attributes.currentPosition,
-          startIndex: piece.attributes.startIndex,
-          hasMoved: piece.attributes.hasMoved,
-          movedTwo: piece.attributes.movedTwo
-        }
-      })
-
-      let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
-      let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
-
-      this.setState({
-        myGamesActive: false,
-        thumbNails: false,
-        moves: gameMoves,
-        turn: turn,
-        playerColor: game.attributes.playerColor,
-        currentGameActive: true,
-        currentGame: game,
-        chessBoard: currentGameBoard
-      })
+      this.refreshGame(game)
     }
+  }
+
+  refreshGame(game) {
+    let board = JSON.parse(JSON.stringify(jsonChessBoard))
+    let gameMoves = game.included.map((piece) => {
+      return {
+        color: piece.attributes.color,
+        type: piece.attributes.pieceType,
+        currentPosition: piece.attributes.currentPosition,
+        startIndex: piece.attributes.startIndex,
+        hasMoved: piece.attributes.hasMoved,
+        movedTwo: piece.attributes.movedTwo
+      }
+    })
+
+    let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
+    let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+
+    this.setState({
+      myGamesActive: false,
+      thumbNails: false,
+      moves: gameMoves,
+      turn: turn,
+      playerColor: game.attributes.playerColor,
+      currentGameActive: true,
+      currentGame: game,
+      chessBoard: currentGameBoard
+    })
   }
 
   handleUpdatePage(event) {

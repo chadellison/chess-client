@@ -522,10 +522,6 @@ export default class App extends Component {
       this.setState({
         messageToUser: messageToUser
       })
-    } else if(game.attributes.outcome) {
-      this.setState({
-        messageToUser: 'This game is no longer active'
-      })
     } else {
       let board = JSON.parse(JSON.stringify(jsonChessBoard))
       let gameMoves = game.included.map((piece) => {

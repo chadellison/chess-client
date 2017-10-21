@@ -11,12 +11,14 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import UserService from './services/UserService'
 import GameService from './services/GameService'
+import { connect } from 'react-redux'
+import { getTurn, getChessBoard } from './actions/index'
 
-export default class App extends Component {
+class App extends Component {
   constructor() {
     super()
     this.state = {
-      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+      // chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
       previousBoard: null,
       moves: [],
       selected: null,
@@ -30,7 +32,7 @@ export default class App extends Component {
       loggedIn: false,
       messageToUser: '',
       hashedEmail: '',
-      turn: 'white',
+      // turn: 'white',
       moveLogActive: false,
       checkmate: false,
       stalemate: false,
@@ -83,6 +85,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(getChessBoard(jsonChessBoard))
     if (localStorage.getItem('state')) {
       let currentState = JSON.parse(localStorage.getItem('state'))
 
@@ -109,17 +112,19 @@ export default class App extends Component {
   }
 
   move(coordinates) {
+    this.props.dispatch(getTurn(this.props.turn))
+
     let piece     = JSON.parse(JSON.stringify(this.state.selected))
-    let board     = JSON.parse(JSON.stringify(this.state.chessBoard))
+    let board     = JSON.parse(JSON.stringify(this.props.chessBoard))
     let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
     if(this.isValid(piece, coordinates, board, gameMoves)) {
-      let updatedBoard     = JSON.parse(JSON.stringify(this.state.chessBoard))
+      let updatedBoard     = JSON.parse(JSON.stringify(this.props.chessBoard))
       let checkmate        = this.state.checkmate
       let stalemate        = this.state.stalemate
       let messageToUser    = ''
       let crossedPawn      = false
-      let color            = this.state.turn === 'white' ? 'black' : 'white'
+      // let color            = this.props.turn === 'white' ? 'black' : 'white'
       let updatedUserGames = this.state.userGames
 
       updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
@@ -137,6 +142,8 @@ export default class App extends Component {
       piece.hasMoved = true
       gameMoves.push(piece)
 
+      this.props.dispatch(getChessBoard(updatedBoard))
+
       if(this.state.currentGameActive) {
         this.gameService.makeMove(this.state.currentGame.id, piece, this.state.token)
         .then((response) => response.json())
@@ -146,12 +153,12 @@ export default class App extends Component {
         .catch((error) => alert(error))
       }
 
-      if(this.moveLogic.checkmate(updatedBoard, gameMoves, color)) {
+      if(this.moveLogic.checkmate(updatedBoard, gameMoves, this.props.turn)) {
         checkmate = true
-        messageToUser = `${this.state.turn} Wins!`
+        messageToUser = `${this.props.turn} Wins!`
 
         if(this.state.currentGameActive) {
-          let outcome = `${this.state.turn} wins`
+          let outcome = `${this.props.turn} wins`
           this.gameService.endGame(outcome, false, this.state.currentGame.id, this.state.token)
           .then((response) => response.json())
           .then((responseJson) => {
@@ -160,7 +167,7 @@ export default class App extends Component {
         }
       }
 
-      if(this.moveLogic.stalemate(updatedBoard, gameMoves, color)) {
+      if(this.moveLogic.stalemate(updatedBoard, gameMoves, this.props.turn)) {
         stalemate = true
         messageToUser = 'Draw!'
 
@@ -174,9 +181,9 @@ export default class App extends Component {
       }
 
       this.setState({
-        chessBoard: updatedBoard,
+        // chessBoard: updatedBoard,
         moves: gameMoves,
-        turn: this.currentTurn(),
+        // turn: color,
         checkmate: checkmate,
         stalemate: stalemate,
         messageToUser: messageToUser,
@@ -201,9 +208,9 @@ export default class App extends Component {
     return piece
   }
 
-  currentTurn() {
-    return this.state.turn === 'white' ? 'black' : 'white'
-  }
+  // currentTurn() {
+  //   return this.props.turn === 'white' ? 'black' : 'white'
+  // }
 
   handleCrossedPawn(event) {
     let classNames = event.target.className.split("-")
@@ -224,7 +231,7 @@ export default class App extends Component {
     }
 
     let coordinates = this.state.moves.slice(-1)[0].currentPosition
-    let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+    let board = JSON.parse(JSON.stringify(this.props.chessBoard))
     board[coordinates].piece.type = pieceType
 
     this.setState({
@@ -325,15 +332,15 @@ export default class App extends Component {
   }
 
   handleSelected(selectedPiece) {
-    if (this.state.chessBoard[selectedPiece.currentPosition].piece) {
-      if (selectedPiece.color === this.state.turn) {
+    if (this.props.chessBoard[selectedPiece.currentPosition].piece) {
+      if (selectedPiece.color === this.props.turn) {
         if (!this.state.selected) {
-          if (this.state.currentGameActive && this.state.playerColor !== this.state.turn) {
+          if (this.state.currentGameActive && this.state.playerColor !== this.props.turn) {
             this.setState({
               messageToUser: `You may only move the ${this.state.playerColor} pieces`
             })
           } else {
-            let board = JSON.parse(JSON.stringify(this.state.chessBoard))
+            let board = JSON.parse(JSON.stringify(this.props.chessBoard))
             let piece = JSON.parse(JSON.stringify(selectedPiece))
             let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
@@ -352,7 +359,7 @@ export default class App extends Component {
         }
       } else {
         this.setState({
-          messageToUser: `${this.state.turn}'s turn`
+          messageToUser: `${this.props.turn}'s turn`
         })
       }
     }
@@ -590,7 +597,7 @@ export default class App extends Component {
     if(this.state.previousBoard) {
       return this.state.previousBoard
     } else {
-      return this.state.chessBoard
+      return this.props.chessBoard
     }
   }
 
@@ -681,3 +688,9 @@ export default class App extends Component {
     )
   }
 }
+
+const mapStateToProps = ({ turn, chessBoard }) => {
+  return { turn, chessBoard }
+}
+
+export default connect(mapStateToProps)(App)

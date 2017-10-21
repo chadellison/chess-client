@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import '../styles/Piece.css'
 
-const PIECE_KEY = {'pawn': 'pawn',
+const PIECE_KEY = {
+  'pawn': 'pawn',
   'knight': 'knight',
   'bishop': 'bishop',
   'rook': 'tower',
@@ -20,9 +21,15 @@ export default class Piece extends Component {
 
   render() {
     return(
-      <i id={this.props.piece.startIndex} className={`glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]} piece-${this.props.piece.color} piece ${this.selected} ${this.props.playerColor}`}
-        onClick={() => this.props.handleSelected(this.props.piece)}>
-      </i>
+      <i
+        id={this.props.piece.startIndex}
+        className={
+          `glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]}
+           piece-${this.props.piece.color} piece ${this.selected}
+           ${this.props.playerColor}`
+         }
+        onClick={() => this.props.handleSelected(this.props.piece)}
+      />
     )
   }
 }

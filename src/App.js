@@ -352,7 +352,7 @@ class App extends Component {
 
             this.props.dispatch(getSelected(piece))
             this.setState({
-              // selected: piece,
+              selected: piece,
               chessBoard: board
             })
           }
@@ -689,7 +689,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ turn, chessBoard }) => {
+const mapStateToProps = ({ turn, chessBoard, selected, previousBoard }) => {
   return { turn, chessBoard }
 }
 

@@ -5,3 +5,11 @@ export const getTurn = (turn) => {
 export const getChessBoard = (chessBoard) => {
   return { type: 'GET_CHESSBOARD', chessBoard: chessBoard }
 }
+
+export const getPreviousBoard = (board) => {
+  return { type: 'GET_PREVIOUS_BOARD', previousBoard: board }
+}
+
+export const getSelected = (selected) => {
+  return { type: 'GET_SELECTED', selected: selected }
+}

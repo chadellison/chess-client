@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 import UserService from './services/UserService'
 import GameService from './services/GameService'
 import { connect } from 'react-redux'
-import { getTurn, getChessBoard } from './actions/index'
+import { getTurn, getChessBoard, getSelected } from './actions/index'
 
 class App extends Component {
   constructor() {
@@ -112,13 +112,12 @@ class App extends Component {
   }
 
   move(coordinates) {
-    this.props.dispatch(getTurn(this.props.turn))
-
     let piece     = JSON.parse(JSON.stringify(this.state.selected))
     let board     = JSON.parse(JSON.stringify(this.props.chessBoard))
     let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
 
     if(this.isValid(piece, coordinates, board, gameMoves)) {
+      this.props.dispatch(getTurn(this.props.turn))
       let updatedBoard     = JSON.parse(JSON.stringify(this.props.chessBoard))
       let checkmate        = this.state.checkmate
       let stalemate        = this.state.stalemate
@@ -351,8 +350,9 @@ class App extends Component {
             piece.availableMoves = availableMoves
             board[piece.currentPosition].piece = piece
 
+            this.props.dispatch(getSelected(piece))
             this.setState({
-              selected: piece,
+              // selected: piece,
               chessBoard: board
             })
           }

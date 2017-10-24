@@ -12,7 +12,12 @@ import Footer from './components/Footer'
 import UserService from './services/UserService'
 import GameService from './services/GameService'
 import { connect } from 'react-redux'
-import { getTurn, getChessBoard, getSelected } from './actions/index'
+import {
+  getTurn,
+  getChessBoard,
+  getSelected,
+  getMessageToUser
+} from './actions/index'
 
 class App extends Component {
   constructor() {
@@ -30,7 +35,7 @@ class App extends Component {
       lastName: '',
       token: '',
       loggedIn: false,
-      messageToUser: '',
+      // messageToUser: '',
       hashedEmail: '',
       // turn: 'white',
       // moveLogActive: false,
@@ -119,7 +124,7 @@ class App extends Component {
       let updatedBoard     = JSON.parse(JSON.stringify(this.props.chessBoard))
       let checkmate        = this.state.checkmate
       let stalemate        = this.state.stalemate
-      let messageToUser    = ''
+      // let messageToUser    = ''
       let crossedPawn      = false
       // let color            = this.props.turn === 'white' ? 'black' : 'white'
       let updatedUserGames = this.state.userGames
@@ -152,8 +157,8 @@ class App extends Component {
 
       if(this.moveLogic.checkmate(updatedBoard, gameMoves, this.props.turn)) {
         checkmate = true
-        messageToUser = `${this.props.turn} Wins!`
-
+        // messageToUser = `${this.props.turn} Wins!`
+        this.props.dispatch(getMessageToUser(`${this.props.turn} Wins!`))
         if(this.state.currentGameActive) {
           let outcome = `${this.props.turn} wins`
           this.gameService.endGame(outcome, false, this.state.currentGame.id, this.state.token)
@@ -166,8 +171,8 @@ class App extends Component {
 
       if(this.moveLogic.stalemate(updatedBoard, gameMoves, this.props.turn)) {
         stalemate = true
-        messageToUser = 'Draw!'
-
+        // messageToUser = 'Draw!'
+        this.props.dispatch(getMessageToUser('Draw!'))
         if(this.state.currentGameActive) {
           this.gameService.endGame('draw', false, this.state.currentGame.id, this.state.token)
           .then((response) => response.json())
@@ -183,14 +188,15 @@ class App extends Component {
         // turn: color,
         checkmate: checkmate,
         stalemate: stalemate,
-        messageToUser: messageToUser,
+        // messageToUser: messageToUser,
         selected: null,
         crossedPawn: crossedPawn,
         userGames: updatedUserGames
       })
     } else {
+      this.props.dispatch(getMessageToUser('Invalid Move'))
       this.setState({
-        messageToUser: 'Invalid Move',
+        // messageToUser: 'Invalid Move',
         selected: null
       })
     }
@@ -223,6 +229,7 @@ class App extends Component {
     if (classNames.includes('tower piece')) {
       pieceType = 'rook'
     }
+
     if (classNames.includes('queen piece')) {
       pieceType = 'queen'
     }
@@ -320,10 +327,11 @@ class App extends Component {
     this.gameService.endGame(outcome, resign, game_id, this.state.token)
     .then((response) => response.json())
     .then((responseJson) => {
+      this.props.dispatch(getMessageToUser(outcome))
       this.setState({
         userGames: JsonResponse.handleEndGame(responseJson, this.state.userGames, outcome),
         currentGame: responseJson.data,
-        messageToUser: outcome
+        // messageToUser: outcome
       })
     })
   }
@@ -333,9 +341,10 @@ class App extends Component {
       if (selectedPiece.color === this.props.turn) {
         if (!this.state.selected) {
           if (this.state.currentGameActive && this.state.playerColor !== this.props.turn) {
-            this.setState({
-              messageToUser: `You may only move the ${this.state.playerColor} pieces`
-            })
+            // this.setState({
+            //   messageToUser: `You may only move the ${this.state.playerColor} pieces`
+            // })
+            this.props.dispatch(getMessageToUser(`You may only move the ${this.state.playerColor} pieces`))
           } else {
             let board = JSON.parse(JSON.stringify(this.props.chessBoard))
             let piece = JSON.parse(JSON.stringify(selectedPiece))
@@ -356,9 +365,10 @@ class App extends Component {
           }
         }
       } else {
-        this.setState({
-          messageToUser: `${this.props.turn}'s turn`
-        })
+        this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
+        // this.setState({
+        //   messageToUser: `${this.props.turn}'s turn`
+        // })
       }
     }
     this.setState({
@@ -377,10 +387,11 @@ class App extends Component {
       })
     }
     if(event.target.textContent === 'Cancel') {
+      this.props.dispatch(getMessageToUser(''))
       this.setState({
         signInFormActive: false,
         signUpFormActive: false,
-        messageToUser: '',
+        // messageToUser: '',
         email: '',
         password: ''
       })
@@ -415,12 +426,13 @@ class App extends Component {
   }
 
   handleReset() {
+    this.props.dispatch(getMessageToUser(''))
     this.setState({
       chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
       previousBoard: null,
       moves: [],
       turn: 'white',
-      messageToUser: '',
+      // messageToUser: '',
       checkmate: false,
       stalemate: false,
       selected: null,
@@ -479,26 +491,29 @@ class App extends Component {
   }
 
   handleMyGamesActive() {
+    this.props.dispatch(getMessageToUser(''))
     this.setState({
       myGamesActive: !this.state.myGamesActive,
       thumbNails: !this.state.thumbNails,
-      currentGameActive: !this.state.currentGameActive,
-      messageToUser: ''
+      currentGameActive: !this.state.currentGameActive
+      // messageToUser: ''
     })
   }
 
   handleCurrentGame(game) {
     if (game.attributes.pending) {
-      let messageToUser
+      // let messageToUser
 
       if (game.attributes.isChallenger) {
-        messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
+        // messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
+        this.props.dispatch(getMessageToUser(`${game.attributes.opponentName} has not yet accepted your challenge.`))
       } else {
-        messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
+        // messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
+        this.props.dispatch(getMessageToUser(`Awaiting your acceptance from ${game.attributes.opponentName}.`))
       }
-      this.setState({
-        messageToUser: messageToUser
-      })
+      // this.setState({
+      //   messageToUser: messageToUser
+      // })
     } else {
       this.refreshGame(game)
     }
@@ -629,7 +644,7 @@ class App extends Component {
             loggedIn={this.state.loggedIn}
             moves={this.state.moves}
             handlePreviousBoard={this.handlePreviousBoard}
-            messageToUser={this.state.messageToUser}
+            // messageToUser={this.state.messageToUser}
             hashedEmail={this.state.hashedEmail}
             handleReset={this.handleReset}
             handleChallenge={this.handleChallenge}
@@ -656,8 +671,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ turn, chessBoard }) => {
-  return { turn, chessBoard }
+const mapStateToProps = ({ turn, chessBoard, messageToUser }) => {
+  return { turn, chessBoard, messageToUser }
 }
 
 export default connect(mapStateToProps)(App)

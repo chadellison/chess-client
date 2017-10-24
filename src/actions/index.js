@@ -21,3 +21,7 @@ export const getMoveLogActive = (moveLogActive) => {
 export const getLogout = (logoutData) => {
   return { type: 'GET_LOGOUT', logoutData: logoutData }
 }
+
+export const getMessageToUser = (message) => {
+  return { type: 'GET_MESSAGE_TO_USER', messageToUser: message }
+}

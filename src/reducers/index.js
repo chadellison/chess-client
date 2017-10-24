@@ -5,6 +5,7 @@ import previousBoardReducer from './previousBoardReducer'
 import selectedReducer from './selectedReducer'
 import moveLogReducer from './moveLogReducer'
 import logoutReducer from './logoutReducer'
+import messageToUserReducer from './messageToUserReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   previousBoard: previousBoardReducer,
   selected: selectedReducer,
   moveLogActive: moveLogReducer,
-  logoutData: logoutReducer
+  logoutData: logoutReducer,
+  messageToUser: messageToUserReducer
 })
 
 export default rootReducer

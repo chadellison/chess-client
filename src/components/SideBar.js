@@ -1,19 +1,50 @@
 import React, { Component } from 'react'
 import '../styles/SideBar.css'
+import jsonChessBoard from '../jsonChessBoard'
 import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
-import { getMoveLogActive } from '../actions/index'
+import { getMoveLogActive, getLogout } from '../actions/index'
 import { connect } from 'react-redux'
 
 class SideBar extends Component {
   constructor() {
     super()
+    this.state = {
+      previousBoard: null,
+      moves: [],
+    }
+
     this.handleMoveLog = this.handleMoveLog.bind(this)
+    this.handleLogout  = this.handleLogout.bind(this)
   }
 
   handleMoveLog() {
     this.props.dispatch(getMoveLogActive(!this.props.moveLogActive))
+  }
+
+  handleLogout() {
+    localStorage.removeItem('state')
+
+    let logoutData = {
+      token: '',
+      loggedIn: '',
+      hashedEmail: '',
+      messageToUser: 'successfully logged out',
+      challengePlayer: false,
+      myGamesActive: false,
+      thumbNails: false,
+      turn: 'white',
+      playerColor: 'white',
+      challengeColor: 'white',
+      currentGameActive: false,
+      currentGame: null,
+      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+      moves: [],
+      moveLogActive: false
+    }
+
+    this.props.dispatch(getLogout(logoutData))
   }
 
   get credentialForm() {
@@ -40,7 +71,7 @@ class SideBar extends Component {
     if(this.props.signUpFormActive || this.props.signInFormActive) {
         return null
     } else if(this.props.loggedIn) {
-        return <button className='logOutButton' onClick={this.props.handleLogout}>Logout</button>
+        return <button className='logOutButton' onClick={this.handleLogout}>Logout</button>
     } else {
       return (
         <div>
@@ -64,9 +95,9 @@ class SideBar extends Component {
       let moveLog
       if(this.props.moveLogActive) {
         moveLog = <MoveLog
-            cancelMoveLog={this.handleMoveLog}
-            moves={this.props.moves}
-            handlePreviousBoard={this.props.handlePreviousBoard}
+          cancelMoveLog={this.handleMoveLog}
+          moves={this.state.moves}
+          handlePreviousBoard={this.state.handlePreviousBoard}
         />
       } else {
         moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>
@@ -217,7 +248,7 @@ class SideBar extends Component {
         {this.credentialButtons}
         {this.credentialForm}
         <div className='user-header'>
-          {this.props.hashedEmail !== '' ? <img className='gravatar' src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
+          {this.props.hashedEmail !== undefined ? <img className='gravatar' src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
         </div>
 
         {this.moveLog}
@@ -231,8 +262,15 @@ class SideBar extends Component {
   }
 }
 
-const mapStateToProps = ({ moveLogActive }) => {
-  return { moveLogActive }
+const mapStateToProps = ({
+  moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
+  myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
+  currentGame, chessBoard, moves
+ }) => {
+  return { moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
+    myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
+    currentGame, chessBoard, moves
+  }
 }
 
 export default connect(mapStateToProps)(SideBar)

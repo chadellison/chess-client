@@ -33,7 +33,7 @@ class App extends Component {
       messageToUser: '',
       hashedEmail: '',
       // turn: 'white',
-      moveLogActive: false,
+      // moveLogActive: false,
       checkmate: false,
       stalemate: false,
       crossedPawn: false,
@@ -60,10 +60,9 @@ class App extends Component {
     this.handleCredentialForm  = this.handleCredentialForm.bind(this)
     this.handleUserEmail       = this.handleUserEmail.bind(this)
     this.handleUserPassword    = this.handleUserPassword.bind(this)
-    this.handleLogout          = this.handleLogout.bind(this)
+    // this.handleLogout          = this.handleLogout.bind(this)
     this.move                  = this.move.bind(this)
     this.handleReset           = this.handleReset.bind(this)
-    this.handleMoveLog         = this.handleMoveLog.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
     this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
     this.handleFirstName       = this.handleFirstName.bind(this)
@@ -389,27 +388,27 @@ class App extends Component {
     }
   }
 
-  handleLogout() {
-    localStorage.removeItem('state');
-
-    this.setState({
-      token: '',
-      loggedIn: '',
-      hashedEmail: '',
-      messageToUser: 'successfully logged out',
-      challengePlayer: false,
-      myGamesActive: false,
-      thumbNails: false,
-      turn: 'white',
-      playerColor: 'white',
-      challengeColor: 'white',
-      currentGameActive: false,
-      currentGame: null,
-      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-      moves: [],
-      moveLogActive: false
-    })
-  }
+  // handleLogout() {
+  //   localStorage.removeItem('state');
+  //
+  //   this.setState({
+  //     token: '',
+  //     loggedIn: '',
+  //     hashedEmail: '',
+  //     messageToUser: 'successfully logged out',
+  //     challengePlayer: false,
+  //     myGamesActive: false,
+  //     thumbNails: false,
+  //     turn: 'white',
+  //     playerColor: 'white',
+  //     challengeColor: 'white',
+  //     currentGameActive: false,
+  //     currentGame: null,
+  //     chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+  //     moves: [],
+  //     // moveLogActive: false
+  //   })
+  // }
 
   handleFirstName(event) {
     this.setState({firstName: event.target.value})
@@ -423,12 +422,6 @@ class App extends Component {
 
   handleUserPassword(event) {
     this.setState({password: event.target.value})
-  }
-
-  handleMoveLog() {
-    this.setState({
-      moveLogActive: !this.state.moveLogActive
-    })
   }
 
   handlePreviousBoard(event) {
@@ -657,14 +650,12 @@ class App extends Component {
             handleUserSignIn={this.handleUserSignIn}
             handleUserSignUp={this.handleUserSignUp}
             loggedIn={this.state.loggedIn}
-            moveLogActive={this.state.moveLogActive}
-            handleMoveLog={this.handleMoveLog}
             moves={this.state.moves}
             handlePreviousBoard={this.handlePreviousBoard}
             messageToUser={this.state.messageToUser}
             hashedEmail={this.state.hashedEmail}
             handleReset={this.handleReset}
-            handleLogout={this.handleLogout}
+            // handleLogout={this.handleLogout}
             handleChallenge={this.handleChallenge}
             challengePlayer={this.state.challengePlayer}
             handleChallengedInfo={this.handleChallengedInfo}

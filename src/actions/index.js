@@ -17,3 +17,7 @@ export const getSelected = (selected) => {
 export const getMoveLogActive = (moveLogActive) => {
   return { type: 'GET_MOVE_LOG_ACTIVE', moveLogActive: moveLogActive }
 }
+
+export const getLogout = (logoutData) => {
+  return { type: 'GET_LOGOUT', logoutData: logoutData }
+}

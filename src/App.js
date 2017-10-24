@@ -16,7 +16,8 @@ import {
   getTurn,
   getChessBoard,
   getSelected,
-  getMessageToUser
+  getMessageToUser,
+  getLoading
 } from './actions/index'
 
 class App extends Component {
@@ -36,7 +37,6 @@ class App extends Component {
       token: '',
       loggedIn: false,
       // messageToUser: '',
-      hashedEmail: '',
       // turn: 'white',
       // moveLogActive: false,
       checkmate: false,
@@ -53,7 +53,6 @@ class App extends Component {
       thumbNails: false,
       currentGameActive: false,
       currentGame: null,
-      loading: true,
       page: 1
     }
 
@@ -96,15 +95,15 @@ class App extends Component {
       .then(response => response.json())
       .then(responseJson => {
         currentState.userGames = responseJson.data
-        currentState.loading = false
+        this.props.dispatch(getLoading(false))
         this.setState(currentState)
       })
       .catch((error) => {
         localStorage.removeItem('state')
-        this.setState({loading: false})
+        this.props.dispatch(getLoading(false))
       })
     } else {
-      this.setState({loading: false})
+      this.props.dispatch(getLoading(false))
     }
   }
 
@@ -256,7 +255,7 @@ class App extends Component {
   }
 
   handleUserSignIn() {
-    this.setState({loading: true})
+    this.props.dispatch(getLoading(true))
     this.userService.signIn(this.state.email, this.state.password)
       .then(response => response.json())
       .then(responseJson => {
@@ -629,7 +628,6 @@ class App extends Component {
           {this.gameView}
           {this.crossedPawn}
           <SideBar
-            loading={this.state.loading}
             signUpFormActive={this.state.signUpFormActive}
             signInFormActive={this.state.signInFormActive}
             handleUserEmail={this.handleUserEmail}
@@ -645,7 +643,6 @@ class App extends Component {
             moves={this.state.moves}
             handlePreviousBoard={this.handlePreviousBoard}
             // messageToUser={this.state.messageToUser}
-            hashedEmail={this.state.hashedEmail}
             handleReset={this.handleReset}
             handleChallenge={this.handleChallenge}
             challengePlayer={this.state.challengePlayer}
@@ -671,8 +668,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ turn, chessBoard, messageToUser }) => {
-  return { turn, chessBoard, messageToUser }
+const mapStateToProps = ({ turn, chessBoard, messageToUser, loading }) => {
+  return { turn, chessBoard, messageToUser, loading }
 }
 
 export default connect(mapStateToProps)(App)

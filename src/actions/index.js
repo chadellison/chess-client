@@ -25,3 +25,11 @@ export const getLogout = (logoutData) => {
 export const getMessageToUser = (message) => {
   return { type: 'GET_MESSAGE_TO_USER', messageToUser: message }
 }
+
+export const getHashedEmail = (hashedEmail) => {
+  return { type: 'GET_HASHED_EMAIL', hashedEmail: hashedEmail }
+}
+
+export const getLoading = (loading) => {
+  return { type: 'GET_LOADING', loading: loading }
+}

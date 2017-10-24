@@ -13,3 +13,7 @@ export const getPreviousBoard = (board) => {
 export const getSelected = (selected) => {
   return { type: 'GET_SELECTED', selected: selected }
 }
+
+export const getMoveLogActive = (moveLogActive) => {
+  return { type: 'GET_MOVE_LOG_ACTIVE', moveLogActive: moveLogActive }
+}

@@ -3,8 +3,19 @@ import '../styles/SideBar.css'
 import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
+import { getMoveLogActive } from '../actions/index'
+import { connect } from 'react-redux'
 
-export default class SideBar extends Component {
+class SideBar extends Component {
+  constructor() {
+    super()
+    this.handleMoveLog = this.handleMoveLog.bind(this)
+  }
+
+  handleMoveLog() {
+    this.props.dispatch(getMoveLogActive(!this.props.moveLogActive))
+  }
+
   get credentialForm() {
     if (this.props.signUpFormActive || this.props.signInFormActive) {
       return <CredentialForm
@@ -53,12 +64,12 @@ export default class SideBar extends Component {
       let moveLog
       if(this.props.moveLogActive) {
         moveLog = <MoveLog
-            cancelMoveLog={this.props.handleMoveLog}
+            cancelMoveLog={this.handleMoveLog}
             moves={this.props.moves}
             handlePreviousBoard={this.props.handlePreviousBoard}
         />
       } else {
-        moveLog = <button className='moveLogButton' onClick={this.props.handleMoveLog}>
+        moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>
           Move Log
         </button>
       }
@@ -219,3 +230,9 @@ export default class SideBar extends Component {
     )
   }
 }
+
+const mapStateToProps = ({ moveLogActive }) => {
+  return { moveLogActive }
+}
+
+export default connect(mapStateToProps)(SideBar)

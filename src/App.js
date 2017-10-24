@@ -60,7 +60,6 @@ class App extends Component {
     this.handleCredentialForm  = this.handleCredentialForm.bind(this)
     this.handleUserEmail       = this.handleUserEmail.bind(this)
     this.handleUserPassword    = this.handleUserPassword.bind(this)
-    // this.handleLogout          = this.handleLogout.bind(this)
     this.move                  = this.move.bind(this)
     this.handleReset           = this.handleReset.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
@@ -388,28 +387,6 @@ class App extends Component {
     }
   }
 
-  // handleLogout() {
-  //   localStorage.removeItem('state');
-  //
-  //   this.setState({
-  //     token: '',
-  //     loggedIn: '',
-  //     hashedEmail: '',
-  //     messageToUser: 'successfully logged out',
-  //     challengePlayer: false,
-  //     myGamesActive: false,
-  //     thumbNails: false,
-  //     turn: 'white',
-  //     playerColor: 'white',
-  //     challengeColor: 'white',
-  //     currentGameActive: false,
-  //     currentGame: null,
-  //     chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-  //     moves: [],
-  //     // moveLogActive: false
-  //   })
-  // }
-
   handleFirstName(event) {
     this.setState({firstName: event.target.value})
   }
@@ -655,7 +632,6 @@ class App extends Component {
             messageToUser={this.state.messageToUser}
             hashedEmail={this.state.hashedEmail}
             handleReset={this.handleReset}
-            // handleLogout={this.handleLogout}
             handleChallenge={this.handleChallenge}
             challengePlayer={this.state.challengePlayer}
             handleChallengedInfo={this.handleChallengedInfo}
@@ -680,7 +656,7 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ turn, chessBoard, selected, previousBoard }) => {
+const mapStateToProps = ({ turn, chessBoard }) => {
   return { turn, chessBoard }
 }
 

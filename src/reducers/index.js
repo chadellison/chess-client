@@ -8,7 +8,11 @@ import logoutReducer from './logoutReducer'
 import messageToUserReducer from './messageToUserReducer'
 import hashedEmailReducer from './hashedEmailReducer'
 import loadingReducer from './loadingReducer'
-import challengePlayer from './challengePlayerReducer'
+import challengePlayerReducer from './challengePlayerReducer'
+import challengeRobotReducer from './challengeRobotReducer'
+import challengedNameReducer from './challengedNameReducer'
+import challengedEmailReducer from './challengedEmailReducer'
+import challengeColorReducer from './challengeColorReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -20,7 +24,11 @@ const rootReducer = combineReducers({
   messageToUser: messageToUserReducer,
   hashedEmail: hashedEmailReducer,
   loading: loadingReducer,
-  challengePlayer: challengePlayer
+  challengePlayer: challengePlayerReducer,
+  challengeRobot: challengeRobotReducer,
+  challengedName: challengedNameReducer,
+  challengedEmail: challengedEmailReducer,
+  challengeColor: challengeColorReducer
 })
 
 export default rootReducer

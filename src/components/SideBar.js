@@ -9,7 +9,11 @@ import {
   getLogout,
   getHashedEmail,
   getLoading,
-  getChallengePlayer
+  getChallengePlayer,
+  getChallengeRobot,
+  getChallengedName,
+  getChallengedEmail,
+  getChallengeColor
 } from '../actions/index'
 import { connect } from 'react-redux'
 
@@ -27,12 +31,42 @@ class SideBar extends Component {
 
   handleChallenge(event) {
     if(event.target.textContent === 'Play Robot') {
-      this.setState({
-        challengeRobot: true
-      })
+      this.props.dispatch(getChallengeRobot(true))
     } else {
       this.props.dispatch(getChallengePlayer(true))
     }
+  }
+
+  handleCancelChallenge() {
+    this.props.dispatch(getChallengePlayer(false))
+    this.props.dispatch(getChallengeRobot(false))
+    this.setState({
+      challengedName: '',
+      challengedEmail: '',
+      challengeColor: 'whtie'
+    })
+  }
+
+  handleChallengedInfo(event) {
+    if(event.target.className === 'challengedFirstName') {
+      this.props.dispatch(getChallengedName(event.target.value))
+    }
+
+    if(event.target.className === 'challengedEmail') {
+      this.props.dispatch(getChallengedEmail(event.target.value))
+    }
+  }
+
+  handleChallengeColor(event) {
+    let color
+
+    if(event.target.textContent === 'White') {
+      color = 'white'
+    }
+    if(event.target.textContent === 'Black') {
+      color = 'black'
+    }
+    this.props.dispatch(getChallengeColor(color))
   }
 
   handleMoveLog() {
@@ -158,10 +192,10 @@ class SideBar extends Component {
     if(this.props.challengeColor === 'white') {
       return(
         <div>
-          <div className='button col-xs-4 color-white underline' onClick={this.props.handleChallengeColor}>
+          <div className='button col-xs-4 color-white underline' onClick={this.handleChallengeColor}>
             White
           </div>
-          <div className='button col-xs-4 color-black' onClick={this.props.handleChallengeColor}>
+          <div className='button col-xs-4 color-black' onClick={this.handleChallengeColor}>
             Black
           </div>
         </div>
@@ -169,10 +203,10 @@ class SideBar extends Component {
     } else {
       return(
         <div>
-          <div className='button col-xs-4 color-white' onClick={this.props.handleChallengeColor}>
+          <div className='button col-xs-4 color-white' onClick={this.handleChallengeColor}>
             White
           </div>
-          <div className='button col-xs-4 color-black underline' onClick={this.props.handleChallengeColor}>
+          <div className='button col-xs-4 color-black underline' onClick={this.handleChallengeColor}>
             Black
           </div>
         </div>
@@ -187,11 +221,11 @@ class SideBar extends Component {
           <h5>Enter the name and email of the person you would like to challenge</h5>
           <input className='challengedFirstName'
             placeholder='Name'
-            onChange={this.props.handleChallengedInfo}>
+            onChange={this.handleChallengedInfo}>
           </input>
           <input className='challengedEmail'
             placeholder='Email'
-            onChange={this.props.handleChallengedInfo}>
+            onChange={this.handleChallengedInfo}>
           </input>
         </div>
       )
@@ -209,7 +243,7 @@ class SideBar extends Component {
           <button className='challengeButton' onClick={this.props.handleSubmitChallenge}>
             Challenge
           </button>
-          <button className='cancelButton' onClick={this.props.handleCancelChallenge}>
+          <button className='cancelButton' onClick={this.handleCancelChallenge}>
             Cancel
           </button>
         </div>
@@ -281,11 +315,11 @@ class SideBar extends Component {
 const mapStateToProps = ({
   moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
   myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
-  currentGame, chessBoard, moves, loading
+  currentGame, chessBoard, moves, loading, challengedName, challengedEmail
  }) => {
   return { moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
-    currentGame, chessBoard, moves, loading
+    currentGame, chessBoard, moves, loading, challengedName, challengedEmail
   }
 }
 

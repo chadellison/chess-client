@@ -36,18 +36,10 @@ class App extends Component {
       lastName: '',
       token: '',
       loggedIn: false,
-      // messageToUser: '',
-      // turn: 'white',
-      // moveLogActive: false,
       checkmate: false,
       stalemate: false,
       crossedPawn: false,
-      // challengePlayer: false,
-      challengeRobot: false,
       playerColor: 'white',
-      challengeColor: 'white',
-      challengedName: '',
-      challengedEmail: '',
       userGames: [],
       myGamesActive: false,
       thumbNails: false,
@@ -70,9 +62,6 @@ class App extends Component {
     this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
     this.handleFirstName       = this.handleFirstName.bind(this)
     this.handleLastName        = this.handleLastName.bind(this)
-    this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
-    this.handleChallengeColor  = this.handleChallengeColor.bind(this)
-    this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
@@ -209,10 +198,6 @@ class App extends Component {
     return piece
   }
 
-  // currentTurn() {
-  //   return this.props.turn === 'white' ? 'black' : 'white'
-  // }
-
   handleCrossedPawn(event) {
     let classNames = event.target.className.split("-")
     let pieceType
@@ -266,6 +251,7 @@ class App extends Component {
   }
 
   handleSubmitChallenge() {
+    // this should move into sidebar these bits of state no longer exist
     let gameBody = {}
     if(this.state.challengeRobot) {
       gameBody.challengedName = 'robot'
@@ -329,7 +315,6 @@ class App extends Component {
       this.setState({
         userGames: JsonResponse.handleEndGame(responseJson, this.state.userGames, outcome),
         currentGame: responseJson.data,
-        // messageToUser: outcome
       })
     })
   }
@@ -339,9 +324,6 @@ class App extends Component {
       if (selectedPiece.color === this.props.turn) {
         if (!this.state.selected) {
           if (this.state.currentGameActive && this.state.playerColor !== this.props.turn) {
-            // this.setState({
-            //   messageToUser: `You may only move the ${this.state.playerColor} pieces`
-            // })
             this.props.dispatch(getMessageToUser(`You may only move the ${this.state.playerColor} pieces`))
           } else {
             let board = JSON.parse(JSON.stringify(this.props.chessBoard))
@@ -364,9 +346,6 @@ class App extends Component {
         }
       } else {
         this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
-        // this.setState({
-        //   messageToUser: `${this.props.turn}'s turn`
-        // })
       }
     }
     this.setState({
@@ -389,7 +368,6 @@ class App extends Component {
       this.setState({
         signInFormActive: false,
         signUpFormActive: false,
-        // messageToUser: '',
         email: '',
         password: ''
       })
@@ -430,49 +408,10 @@ class App extends Component {
       previousBoard: null,
       moves: [],
       turn: 'white',
-      // messageToUser: '',
       checkmate: false,
       stalemate: false,
       selected: null,
       crossedPawn: false
-    })
-  }
-
-  handleChallengedInfo(event) {
-    if(event.target.className === 'challengedFirstName') {
-      this.setState({
-        challengedName: event.target.value
-      })
-    }
-
-    if(event.target.className === 'challengedEmail') {
-      this.setState({
-        challengedEmail: event.target.value
-      })
-    }
-  }
-
-  handleCancelChallenge() {
-    this.setState({
-      challengePlayer: false,
-      challengeRobot: false,
-      challengedName: '',
-      challengedEmail: '',
-      challengeColor: 'whtie'
-    })
-  }
-
-  handleChallengeColor(event) {
-    let color
-
-    if(event.target.textContent === 'White') {
-      color = 'white'
-    }
-    if(event.target.textContent === 'Black') {
-      color = 'black'
-    }
-    this.setState({
-      challengeColor: color
     })
   }
 
@@ -482,7 +421,6 @@ class App extends Component {
       myGamesActive: !this.state.myGamesActive,
       thumbNails: !this.state.thumbNails,
       currentGameActive: !this.state.currentGameActive
-      // messageToUser: ''
     })
   }
 
@@ -631,10 +569,6 @@ class App extends Component {
             handlePreviousBoard={this.handlePreviousBoard}
             handleReset={this.handleReset}
             challengePlayer={this.state.challengePlayer}
-            handleChallengedInfo={this.handleChallengedInfo}
-            handleCancelChallenge={this.handleCancelChallenge}
-            handleChallengeColor={this.handleChallengeColor}
-            challengeRobot={this.state.challengeRobot}
             challengeColor={this.state.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}
             myGamesActive={this.state.myGamesActive}

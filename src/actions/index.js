@@ -37,3 +37,19 @@ export const getLoading = (loading) => {
 export const getChallengePlayer = (challengePlayer) => {
   return { type: 'GET_CHALLENGE_PLAYER', challengePlayer: challengePlayer }
 }
+
+export const getChallengeRobot = (challengeRobot) => {
+  return { type: 'GET_CHALLENGE_ROBOT', challengeRobot: challengeRobot }
+}
+
+export const getChallengedName = (challengedName) => {
+  return { type: 'GET_CHALLENGED_NAME', challengedName: challengedName }
+}
+
+export const getChallengedEmail = (challengedEmail) => {
+  return { type: 'GET_CHALLENGED_EMAIL', challengedEmail: challengedEmail }
+}
+
+export const getChallengeColor = (challengeColor) => {
+  return { type: 'GET_CHALLENGED_COLOR', challengeColor: challengeColor }
+}

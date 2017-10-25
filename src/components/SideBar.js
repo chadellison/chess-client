@@ -8,7 +8,8 @@ import {
   getMoveLogActive,
   getLogout,
   getHashedEmail,
-  getLoading
+  getLoading,
+  getChallengePlayer
 } from '../actions/index'
 import { connect } from 'react-redux'
 
@@ -24,19 +25,29 @@ class SideBar extends Component {
     this.handleLogout  = this.handleLogout.bind(this)
   }
 
+  handleChallenge(event) {
+    if(event.target.textContent === 'Play Robot') {
+      this.setState({
+        challengeRobot: true
+      })
+    } else {
+      this.props.dispatch(getChallengePlayer(true))
+    }
+  }
+
   handleMoveLog() {
     this.props.dispatch(getMoveLogActive(!this.props.moveLogActive))
   }
 
   handleLogout() {
     localStorage.removeItem('state')
-
+    this.props.dispatch(getChallengePlayer(false))
     let logoutData = {
       token: '',
       loggedIn: '',
       hashedEmail: '',
       messageToUser: 'successfully logged out',
-      challengePlayer: false,
+      // challengePlayer: false,
       myGamesActive: false,
       thumbNails: false,
       turn: 'white',
@@ -130,10 +141,10 @@ class SideBar extends Component {
         !this.props.currentGameActive) {
       return(
         <div>
-          <button className='challengeButton' onClick={this.props.handleChallenge}>
+          <button className='challengeButton' onClick={this.handleChallenge}>
             Play Robot
           </button>
-          <button className='challengeButton' onClick={this.props.handleChallenge}>
+          <button className='challengeButton' onClick={this.handleChallenge}>
             Challenge Player
           </button>
         </div>

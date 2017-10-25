@@ -42,7 +42,7 @@ class App extends Component {
       checkmate: false,
       stalemate: false,
       crossedPawn: false,
-      challengePlayer: false,
+      // challengePlayer: false,
       challengeRobot: false,
       playerColor: 'white',
       challengeColor: 'white',
@@ -70,7 +70,6 @@ class App extends Component {
     this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
     this.handleFirstName       = this.handleFirstName.bind(this)
     this.handleLastName        = this.handleLastName.bind(this)
-    this.handleChallenge       = this.handleChallenge.bind(this)
     this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
     this.handleChallengeColor  = this.handleChallengeColor.bind(this)
     this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
@@ -277,7 +276,7 @@ class App extends Component {
       gameBody.challengedName = this.state.challengedName
       gameBody.challengedEmail = this.state.challengedEmail
       gameBody.challengerColor = this.state.challengeColor
-      gameBody.human = this.state.challengePlayer
+      gameBody.human = true
 
     }
     this.gameService.createGame(gameBody, this.state.token)
@@ -437,18 +436,6 @@ class App extends Component {
       selected: null,
       crossedPawn: false
     })
-  }
-
-  handleChallenge(event) {
-    if(event.target.textContent === 'Play Robot') {
-      this.setState({
-        challengeRobot: true
-      })
-    } else {
-      this.setState({
-        challengePlayer: true
-      })
-    }
   }
 
   handleChallengedInfo(event) {
@@ -642,9 +629,7 @@ class App extends Component {
             loggedIn={this.state.loggedIn}
             moves={this.state.moves}
             handlePreviousBoard={this.handlePreviousBoard}
-            // messageToUser={this.state.messageToUser}
             handleReset={this.handleReset}
-            handleChallenge={this.handleChallenge}
             challengePlayer={this.state.challengePlayer}
             handleChallengedInfo={this.handleChallengedInfo}
             handleCancelChallenge={this.handleCancelChallenge}

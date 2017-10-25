@@ -8,6 +8,7 @@ import logoutReducer from './logoutReducer'
 import messageToUserReducer from './messageToUserReducer'
 import hashedEmailReducer from './hashedEmailReducer'
 import loadingReducer from './loadingReducer'
+import challengePlayer from './challengePlayerReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   logoutData: logoutReducer,
   messageToUser: messageToUserReducer,
   hashedEmail: hashedEmailReducer,
-  loading: loadingReducer
+  loading: loadingReducer,
+  challengePlayer: challengePlayer
 })
 
 export default rootReducer

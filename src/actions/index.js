@@ -33,3 +33,7 @@ export const getHashedEmail = (hashedEmail) => {
 export const getLoading = (loading) => {
   return { type: 'GET_LOADING', loading: loading }
 }
+
+export const getChallengePlayer = (challengePlayer) => {
+  return { type: 'GET_CHALLENGE_PLAYER', challengePlayer: challengePlayer }
+}

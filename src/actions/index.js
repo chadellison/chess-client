@@ -53,3 +53,15 @@ export const getChallengedEmail = (challengedEmail) => {
 export const getChallengeColor = (challengeColor) => {
   return { type: 'GET_CHALLENGED_COLOR', challengeColor: challengeColor }
 }
+
+export const getEmail = (email) => {
+  return { type: 'GET_EMAIL', email: email }
+}
+
+export const getPassword = (password) => {
+  return { type: 'GET_PASSWORD', password: password }
+}
+
+export const getLoggedInData = (loggedInData) => {
+  return { type: 'GET_LOGGED_IN_DATA', loggedInData: loggedInData }
+}

@@ -4,6 +4,7 @@ import jsonChessBoard from '../jsonChessBoard'
 import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
+import { connect } from 'react-redux'
 import {
   getMoveLogActive,
   getLogout,
@@ -15,16 +16,10 @@ import {
   getChallengedEmail,
   getChallengeColor
 } from '../actions/index'
-import { connect } from 'react-redux'
 
 class SideBar extends Component {
   constructor() {
     super()
-    this.state = {
-      previousBoard: null,
-      moves: [],
-    }
-
     this.handleMoveLog = this.handleMoveLog.bind(this)
     this.handleLogout  = this.handleLogout.bind(this)
   }
@@ -107,7 +102,6 @@ class SideBar extends Component {
         userPassword={this.props.password}
         handleFirstName={this.props.handleFirstName}
         handleLastName={this.props.handleLastName}
-        handleUserSignIn={this.props.handleUserSignIn}
         handleUserSignUp={this.props.handleUserSignUp}
         signInFormActive={this.props.signInFormActive}
         signUpFormActive={this.props.signUpFormActive}
@@ -317,7 +311,8 @@ const mapStateToProps = ({
   myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail
  }) => {
-  return { moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
+  return {
+    moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail
   }

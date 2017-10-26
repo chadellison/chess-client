@@ -66,7 +66,7 @@ class App extends Component {
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
 
-    this.handleUserSignIn      = this.handleUserSignIn.bind(this)
+    // this.handleUserSignIn      = this.handleUserSignIn.bind(this)
     this.handleUserSignUp      = this.handleUserSignUp.bind(this)
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
@@ -238,17 +238,17 @@ class App extends Component {
       .catch((error) => alert(error))
   }
 
-  handleUserSignIn() {
-    this.props.dispatch(getLoading(true))
-    this.userService.signIn(this.state.email, this.state.password)
-      .then(response => response.json())
-      .then(responseJson => {
-        let loggedInState = JsonResponse.handleSignIn(responseJson)
-        localStorage.setItem('state', JSON.stringify(loggedInState))
-        this.setState(loggedInState)
-      })
-      .catch((error) => alert(error))
-  }
+  // handleUserSignIn() {
+  //   this.props.dispatch(getLoading(true))
+  //   this.userService.signIn(this.state.email, this.state.password)
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       let loggedInState = JsonResponse.handleSignIn(responseJson)
+  //       localStorage.setItem('state', JSON.stringify(loggedInState))
+  //       this.setState(loggedInState)
+  //     })
+  //     .catch((error) => alert(error))
+  // }
 
   handleSubmitChallenge() {
     // this should move into sidebar these bits of state no longer exist
@@ -562,7 +562,7 @@ class App extends Component {
             handleCredentialForm={this.handleCredentialForm}
             userEmail={this.state.email}
             userPassword={this.state.password}
-            handleUserSignIn={this.handleUserSignIn}
+            // handleUserSignIn={this.handleUserSignIn}
             handleUserSignUp={this.handleUserSignUp}
             loggedIn={this.state.loggedIn}
             moves={this.state.moves}

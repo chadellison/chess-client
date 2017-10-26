@@ -1,7 +1,54 @@
 import React, { Component } from "react"
 import "../styles/CredentialForm.css"
+import { connect } from 'react-redux'
+import {
+  getLoading,
+  getEmail,
+  getPassword,
+  getLoggedInData,
+  getMessageToUser
+} from '../actions/index'
 
-export default class CredentialForm extends Component {
+class CredentialForm extends Component {
+  constructor() {
+    super()
+  }
+
+  handleUserSignIn() {
+    this.props.dispatch(getLoading(true))
+    this.userService.signIn(this.props.email, this.props.password)
+      .then(response => response.json())
+      .then(responseJson => {
+        let loggedInData
+
+        if (responseJson.errors) {
+          this.props.dispatch(getMessageToUser(responseJson.errors))
+          this.props.dispatch(getLoading(false))
+        } else {
+          loggedInData = {
+            token: responseJson.data.attributes.token,
+            signInFormActive: false,
+            signUpFormActive: false,
+            loggedIn: true,
+            messageToUser: 'Welcome to Chess Mail!',
+            hashedEmail: responseJson.data.attributes.hashed_email,
+            email: '',
+            password: '',
+            firstName: responseJson.data.attributes.firstName,
+            lastName: responseJson.data.attributes.lastName,
+            userGames: responseJson.data.included,
+            thumbNails: true,
+            myGamesActive: true,
+            loading: false
+          }
+        }
+
+        localStorage.setItem('state', JSON.stringify(loggedInData))
+        this.props.dispatch(getLoggedInData(loggedInData))
+      })
+      .catch((error) => alert(error))
+  }
+
   get fields() {
     if(this.props.signUpFormActive) {
       return(
@@ -28,7 +75,7 @@ export default class CredentialForm extends Component {
   get buttons() {
     if (this.props.signInFormActive) {
       return (
-        <button className='signInButton' onClick={this.props.handleUserSignIn}>
+        <button className='signInButton' onClick={this.handleUserSignIn}>
           {this.buttonName}
         </button>
       )
@@ -55,3 +102,17 @@ export default class CredentialForm extends Component {
     )
   }
 }
+
+const mapStateToProps = ({
+  loading, email, password, token, signInFormActive, signUpFormActive, loggedIn,
+  messageToUser, hashedEmail, firstName, lastName, userGames, thumbNails,
+  myGamesActive
+ }) => {
+  return {
+    loading, email, password, token, signInFormActive, signUpFormActive, loggedIn,
+    messageToUser, hashedEmail, firstName, lastName, userGames, thumbNails,
+    myGamesActive
+  }
+}
+
+export default connect(mapStateToProps)(CredentialForm)

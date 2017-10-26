@@ -1,17 +1,37 @@
 import React, { Component } from "react"
 import "../styles/CredentialForm.css"
+import UserService from '../services/UserService'
 import { connect } from 'react-redux'
 import {
   getLoading,
+  getLoggedInData,
+  getMessageToUser,
+  getSignUpData,
+  getSignUpFormActive,
   getEmail,
   getPassword,
-  getLoggedInData,
-  getMessageToUser
+  getFirstName,
+  getLastName
 } from '../actions/index'
 
 class CredentialForm extends Component {
   constructor() {
     super()
+    this.userService = new UserService()
+  }
+
+  handleFirstName(event) {
+    this.props.dispatch(getFirstName(event.target.value))
+  }
+  handleLastName(event) {
+    this.props.dispatch(getLastName(event.target.value))
+  }
+  handleUserEmail(event) {
+    this.props.dispatch(getEmail(event.target.value))
+  }
+
+  handleUserPassword(event) {
+      this.props.dispatch(getPassword(event.target.value))
   }
 
   handleUserSignIn() {
@@ -49,14 +69,38 @@ class CredentialForm extends Component {
       .catch((error) => alert(error))
   }
 
+  handleUserSignUp() {
+    this.userService.createUser(this.props.email, this.props.password, this.props.firstName, this.props.lastName)
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.errors) {
+          this.props.dispatch(getMessageToUser(responseJson.errors))
+          this.props.dispatch(getSignUpFormActive(true))
+        } else {
+          let message = `Great ${this.props.firstName}! Please check your email at ${this.props.email} to confirm your account!`
+          let signUpData = {
+            messageToUser: message,
+            signUpFormActive: false,
+            signInFormActive: false,
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: ''
+          }
+          this.props.dispatch(getSignUpData(signUpData))
+        }
+      })
+      .catch((error) => alert(error))
+  }
+
   get fields() {
     if(this.props.signUpFormActive) {
       return(
         <div>
           <h4>First Name</h4>
-          <input className='firstNameInput' onChange={this.props.handleFirstName}></input>
+          <input className='firstNameInput' onChange={this.handleFirstName}></input>
           <h4>Last Name</h4>
-          <input className='lastNameInput' onChange={this.props.handleLastName}></input>
+          <input className='lastNameInput' onChange={this.handleLastName}></input>
         </div>
       )
     } else {
@@ -81,7 +125,7 @@ class CredentialForm extends Component {
       )
     } else {
       return (
-        <button className='signUpButton' onClick={this.props.handleUserSignUp}>
+        <button className='signUpButton' onClick={this.handleUserSignUp}>
           {this.buttonName}
         </button>
       )
@@ -92,9 +136,9 @@ class CredentialForm extends Component {
     return (
       <div>
         <h4>Email</h4>
-        <input className='emailInput' onChange={this.props.handleUserEmail}></input>
+        <input className='emailInput' onChange={this.handleUserEmail}></input>
         <h4>Password</h4>
-        <input className='passwordInput' type="password" onChange={this.props.handleUserPassword}></input>
+        <input className='passwordInput' type="password" onChange={this.handleUserPassword}></input>
         {this.fields}
         {this.buttons}
         <button className='cancelButton' onClick={this.props.handleCredentialForm}>Cancel</button>

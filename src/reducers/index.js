@@ -16,6 +16,11 @@ import challengeColorReducer from './challengeColorReducer'
 import emailReducer from './challengeColorReducer'
 import passwordReducer from './passwordReducer'
 import loggedInDataReducer from './loggedInDataReducer'
+import signUpDataReducer from './signUpDataReducer'
+import signUpFormActiveReducer from './signUpFormActiveReducer'
+import signInFormActiveReducer from './signInFormActiveReducer'
+import firstNameReducer from './firstNameReducer'
+import lastNameReducer from './lastNameReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -34,7 +39,12 @@ const rootReducer = combineReducers({
   challengeColor: challengeColorReducer,
   email: emailReducer,
   password: passwordReducer,
-  loggedInData: loggedInDataReducer
+  loggedInData: loggedInDataReducer,
+  signUpData: signUpDataReducer,
+  signUpFormActive: signUpFormActiveReducer,
+  signInFormActive: signInFormActiveReducer,
+  firstName: firstNameReducer,
+  lastName: lastNameReducer
 })
 
 export default rootReducer

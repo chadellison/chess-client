@@ -8,20 +8,39 @@ import { connect } from 'react-redux'
 import {
   getMoveLogActive,
   getLogout,
-  getHashedEmail,
-  getLoading,
   getChallengePlayer,
   getChallengeRobot,
   getChallengedName,
   getChallengedEmail,
-  getChallengeColor
+  getChallengeColor,
+  getMessageToUser,
+  getSignInFormActive,
+  getSignUpFormActive,
+  getEmail,
+  getPassword
 } from '../actions/index'
 
 class SideBar extends Component {
   constructor() {
     super()
-    this.handleMoveLog = this.handleMoveLog.bind(this)
-    this.handleLogout  = this.handleLogout.bind(this)
+    this.handleMoveLog        = this.handleMoveLog.bind(this)
+    this.handleLogout         = this.handleLogout.bind(this)
+    this.handleCredentialForm = this.handleCredentialForm.bind(this)
+  }
+
+  handleCredentialForm(event) {
+    if(event.target.textContent === 'Sign Up') {
+      this.props.dispatch(getSignUpFormActive(!this.props.signUpFormActive))
+    } else {
+      this.props.dispatch(getSignInFormActive(!this.props.signInFormActive))
+    }
+    if(event.target.textContent === 'Cancel') {
+      this.props.dispatch(getMessageToUser(''))
+      this.props.dispatch(getSignUpFormActive(false))
+      this.props.dispatch(getSignInFormActive(false))
+      this.props.dispatch(getEmail(''))
+      this.props.dispatch(getPassword(''))
+    }
   }
 
   handleChallenge(event) {
@@ -76,7 +95,7 @@ class SideBar extends Component {
       loggedIn: '',
       hashedEmail: '',
       messageToUser: 'successfully logged out',
-      // challengePlayer: false,
+      challengePlayer: false,
       myGamesActive: false,
       thumbNails: false,
       turn: 'white',
@@ -95,16 +114,16 @@ class SideBar extends Component {
   get credentialForm() {
     if (this.props.signUpFormActive || this.props.signInFormActive) {
       return <CredentialForm
-        handleUserEmail={this.props.handleUserEmail}
-        handleUserPassword={this.props.handleUserPassword}
-        handleCredentialForm={this.props.handleCredentialForm}
-        userEmail={this.props.email}
-        userPassword={this.props.password}
-        handleFirstName={this.props.handleFirstName}
-        handleLastName={this.props.handleLastName}
-        handleUserSignUp={this.props.handleUserSignUp}
-        signInFormActive={this.props.signInFormActive}
-        signUpFormActive={this.props.signUpFormActive}
+        // handleUserEmail={this.props.handleUserEmail}
+        // handleUserPassword={this.props.handleUserPassword}
+        // handleCredentialForm={this.props.handleCredentialForm}
+        // userEmail={this.props.email}
+        // userPassword={this.props.password}
+        // handleFirstName={this.props.handleFirstName}
+        // handleLastName={this.props.handleLastName}
+        // handleUserSignUp={this.props.handleUserSignUp}
+        // signInFormActive={this.props.signInFormActive}
+        // signUpFormActive={this.props.signUpFormActive}
       />
     } else {
       return null
@@ -119,8 +138,8 @@ class SideBar extends Component {
     } else {
       return (
         <div>
-          <button className='signInButton' onClick={this.props.handleCredentialForm}>Sign In</button>
-          <button className='signUpButton' onClick={this.props.handleCredentialForm}>Sign Up</button>
+          <button className='signInButton' onClick={this.handleCredentialForm}>Sign In</button>
+          <button className='signUpButton' onClick={this.handleCredentialForm}>Sign Up</button>
         </div>
       )
     }
@@ -309,12 +328,14 @@ class SideBar extends Component {
 const mapStateToProps = ({
   moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
   myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
-  currentGame, chessBoard, moves, loading, challengedName, challengedEmail
+  currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
+  signUpFormActive, signInFormActive
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
-    currentGame, chessBoard, moves, loading, challengedName, challengedEmail
+    currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
+    signUpFormActive, signInFormActive
   }
 }
 

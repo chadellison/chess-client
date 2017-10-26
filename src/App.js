@@ -30,10 +30,6 @@ class App extends Component {
       selected: null,
       signUpFormActive: false,
       signInFormActive: false,
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
       token: '',
       loggedIn: false,
       checkmate: false,
@@ -53,21 +49,14 @@ class App extends Component {
     this.moveLogic   = new MoveLogic()
 
     this.handleSelected        = this.handleSelected.bind(this)
-    this.handleCredentialForm  = this.handleCredentialForm.bind(this)
-    this.handleUserEmail       = this.handleUserEmail.bind(this)
-    this.handleUserPassword    = this.handleUserPassword.bind(this)
     this.move                  = this.move.bind(this)
     this.handleReset           = this.handleReset.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
     this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
-    this.handleFirstName       = this.handleFirstName.bind(this)
-    this.handleLastName        = this.handleLastName.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
 
-    // this.handleUserSignIn      = this.handleUserSignIn.bind(this)
-    this.handleUserSignUp      = this.handleUserSignUp.bind(this)
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
     this.handleArchiveGame     = this.handleArchiveGame.bind(this)
@@ -227,29 +216,6 @@ class App extends Component {
     })
   }
 
-  handleUserSignUp() {
-    this.userService.createUser(this.state.email, this.state.password, this.state.firstName, this.state.lastName)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState(
-          JsonResponse.handleSignUp(responseJson, this.state.firstName, this.state.email)
-        )
-      })
-      .catch((error) => alert(error))
-  }
-
-  // handleUserSignIn() {
-  //   this.props.dispatch(getLoading(true))
-  //   this.userService.signIn(this.state.email, this.state.password)
-  //     .then(response => response.json())
-  //     .then(responseJson => {
-  //       let loggedInState = JsonResponse.handleSignIn(responseJson)
-  //       localStorage.setItem('state', JSON.stringify(loggedInState))
-  //       this.setState(loggedInState)
-  //     })
-  //     .catch((error) => alert(error))
-  // }
-
   handleSubmitChallenge() {
     // this should move into sidebar these bits of state no longer exist
     let gameBody = {}
@@ -351,41 +317,6 @@ class App extends Component {
     this.setState({
       previousBoard: null
     })
-  }
-
-  handleCredentialForm(event) {
-    if(event.target.textContent === 'Sign Up') {
-      this.setState({
-        signUpFormActive: !this.state.signUpFormActive
-      })
-    } else {
-      this.setState({
-        signInFormActive: !this.state.signInFormActive
-      })
-    }
-    if(event.target.textContent === 'Cancel') {
-      this.props.dispatch(getMessageToUser(''))
-      this.setState({
-        signInFormActive: false,
-        signUpFormActive: false,
-        email: '',
-        password: ''
-      })
-    }
-  }
-
-  handleFirstName(event) {
-    this.setState({firstName: event.target.value})
-  }
-  handleLastName(event) {
-    this.setState({lastName: event.target.value})
-  }
-  handleUserEmail(event) {
-    this.setState({email: event.target.value})
-  }
-
-  handleUserPassword(event) {
-    this.setState({password: event.target.value})
   }
 
   handlePreviousBoard(event) {
@@ -555,15 +486,6 @@ class App extends Component {
           <SideBar
             signUpFormActive={this.state.signUpFormActive}
             signInFormActive={this.state.signInFormActive}
-            handleUserEmail={this.handleUserEmail}
-            handleUserPassword={this.handleUserPassword}
-            handleFirstName={this.handleFirstName}
-            handleLastName={this.handleLastName}
-            handleCredentialForm={this.handleCredentialForm}
-            userEmail={this.state.email}
-            userPassword={this.state.password}
-            // handleUserSignIn={this.handleUserSignIn}
-            handleUserSignUp={this.handleUserSignUp}
             loggedIn={this.state.loggedIn}
             moves={this.state.moves}
             handlePreviousBoard={this.handlePreviousBoard}

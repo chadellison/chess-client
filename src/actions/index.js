@@ -65,3 +65,23 @@ export const getPassword = (password) => {
 export const getLoggedInData = (loggedInData) => {
   return { type: 'GET_LOGGED_IN_DATA', loggedInData: loggedInData }
 }
+
+export const getSignUpData = (signUpData) => {
+  return { type: 'GET_SIGN_UP_DATA', signUpData: signUpData }
+}
+
+export const getSignUpFormActive = (signUpFormActive) => {
+  return { type: 'GET_SIGN_UP_FORM_ACTIVE', signUpFormActive: signUpFormActive }
+}
+
+export const getSignInFormActive = (signInFormActive) => {
+  return { type: 'GET_SIGN_IN_FORM_ACTIVE', signInFormActive: signInFormActive }
+}
+
+export const getFirstName = (firstName) => {
+  return { type: 'GET_FIRST_NAME', firstName: firstName }
+}
+
+export const getLastName = (lastName) => {
+  return { type: 'GET_LAST_NAME', lastName: lastName }
+}

@@ -31,15 +31,9 @@ class SideBar extends Component {
   handleCredentialForm(event) {
     if(event.target.textContent === 'Sign Up') {
       this.props.dispatch(getSignUpFormActive(!this.props.signUpFormActive))
-    } else {
-      this.props.dispatch(getSignInFormActive(!this.props.signInFormActive))
     }
-    if(event.target.textContent === 'Cancel') {
-      this.props.dispatch(getMessageToUser(''))
-      this.props.dispatch(getSignUpFormActive(false))
-      this.props.dispatch(getSignInFormActive(false))
-      this.props.dispatch(getEmail(''))
-      this.props.dispatch(getPassword(''))
+    if(event.target.textContent === 'Sign In') {
+      this.props.dispatch(getSignInFormActive(!this.props.signInFormActive))
     }
   }
 
@@ -113,18 +107,7 @@ class SideBar extends Component {
 
   get credentialForm() {
     if (this.props.signUpFormActive || this.props.signInFormActive) {
-      return <CredentialForm
-        // handleUserEmail={this.props.handleUserEmail}
-        // handleUserPassword={this.props.handleUserPassword}
-        // handleCredentialForm={this.props.handleCredentialForm}
-        // userEmail={this.props.email}
-        // userPassword={this.props.password}
-        // handleFirstName={this.props.handleFirstName}
-        // handleLastName={this.props.handleLastName}
-        // handleUserSignUp={this.props.handleUserSignUp}
-        // signInFormActive={this.props.signInFormActive}
-        // signUpFormActive={this.props.signUpFormActive}
-      />
+      return <CredentialForm />
     } else {
       return null
     }

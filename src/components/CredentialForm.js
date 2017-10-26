@@ -8,6 +8,7 @@ import {
   getMessageToUser,
   getSignUpData,
   getSignUpFormActive,
+  getSignInFormActive,
   getEmail,
   getPassword,
   getFirstName,
@@ -18,6 +19,8 @@ class CredentialForm extends Component {
   constructor() {
     super()
     this.userService = new UserService()
+
+    this.handleCancelCredentialForm = this.handleCancelCredentialForm.bind(this)
   }
 
   handleFirstName(event) {
@@ -33,6 +36,15 @@ class CredentialForm extends Component {
   handleUserPassword(event) {
       this.props.dispatch(getPassword(event.target.value))
   }
+
+  handleCancelCredentialForm() {
+    this.props.dispatch(getMessageToUser(''))
+    this.props.dispatch(getSignUpFormActive(false))
+    this.props.dispatch(getSignInFormActive(false))
+    this.props.dispatch(getEmail(''))
+    this.props.dispatch(getPassword(''))
+  }
+
 
   handleUserSignIn() {
     this.props.dispatch(getLoading(true))
@@ -141,7 +153,7 @@ class CredentialForm extends Component {
         <input className='passwordInput' type="password" onChange={this.handleUserPassword}></input>
         {this.fields}
         {this.buttons}
-        <button className='cancelButton' onClick={this.props.handleCredentialForm}>Cancel</button>
+        <button className='cancelButton' onClick={this.handleCancelCredentialForm}>Cancel</button>
       </div>
     )
   }

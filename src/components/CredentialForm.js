@@ -21,6 +21,11 @@ class CredentialForm extends Component {
     this.userService = new UserService()
 
     this.handleCancelCredentialForm = this.handleCancelCredentialForm.bind(this)
+    this.handleFirstName            = this.handleFirstName.bind(this)
+    this.handleLastName             = this.handleLastName.bind(this)
+    this.handleUserEmail            = this.handleUserEmail.bind(this)
+    this.handleUserPassword         = this.handleUserPassword.bind(this)
+    this.handleUserSignIn           = this.handleUserSignIn.bind(this)
   }
 
   handleFirstName(event) {

@@ -28,10 +28,7 @@ class App extends Component {
       previousBoard: null,
       moves: [],
       selected: null,
-      signUpFormActive: false,
-      signInFormActive: false,
       token: '',
-      loggedIn: false,
       checkmate: false,
       stalemate: false,
       crossedPawn: false,
@@ -484,9 +481,6 @@ class App extends Component {
           {this.gameView}
           {this.crossedPawn}
           <SideBar
-            signUpFormActive={this.state.signUpFormActive}
-            signInFormActive={this.state.signInFormActive}
-            loggedIn={this.state.loggedIn}
             moves={this.state.moves}
             handlePreviousBoard={this.handlePreviousBoard}
             handleReset={this.handleReset}

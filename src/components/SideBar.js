@@ -16,7 +16,6 @@ import {
   getMessageToUser,
   getSignInFormActive,
   getSignUpFormActive,
-  getEmail,
   getPassword
 } from '../actions/index'
 

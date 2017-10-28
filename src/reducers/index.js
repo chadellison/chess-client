@@ -15,12 +15,16 @@ import challengedEmailReducer from './challengedEmailReducer'
 import challengeColorReducer from './challengeColorReducer'
 import emailReducer from './emailReducer'
 import passwordReducer from './passwordReducer'
-import loggedInDataReducer from './loggedInDataReducer'
 import signUpDataReducer from './signUpDataReducer'
 import signUpFormActiveReducer from './signUpFormActiveReducer'
 import signInFormActiveReducer from './signInFormActiveReducer'
 import firstNameReducer from './firstNameReducer'
 import lastNameReducer from './lastNameReducer'
+import tokenReducer from './tokenReducer'
+import loggedInReducer from './loggedInReducer'
+import userGamesReducer from './userGamesReducer'
+import thumbnailsReducer from './thumbnailsReducer'
+import myGamesActiveReducer from './myGamesActiveReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -39,12 +43,16 @@ const rootReducer = combineReducers({
   challengeColor: challengeColorReducer,
   email: emailReducer,
   password: passwordReducer,
-  loggedInData: loggedInDataReducer,
   signUpData: signUpDataReducer,
   signUpFormActive: signUpFormActiveReducer,
   signInFormActive: signInFormActiveReducer,
   firstName: firstNameReducer,
-  lastName: lastNameReducer
+  lastName: lastNameReducer,
+  token: tokenReducer,
+  loggedIn: loggedInReducer,
+  userGames: userGamesReducer,
+  thumbnails: thumbnailsReducer,
+  myGamesActive: myGamesActiveReducer
 })
 
 export default rootReducer

@@ -4,7 +4,6 @@ import UserService from '../services/UserService'
 import { connect } from 'react-redux'
 import {
   getLoading,
-  getLoggedInData,
   getMessageToUser,
   getSignUpData,
   getSignUpFormActive,
@@ -12,7 +11,13 @@ import {
   getEmail,
   getPassword,
   getFirstName,
-  getLastName
+  getLastName,
+  getToken,
+  getLoggedIn,
+  getHashedEmail,
+  getThumbnails,
+  getUserGames,
+  getMyGamesActive
 } from '../actions/index'
 
 class CredentialForm extends Component {
@@ -62,26 +67,38 @@ class CredentialForm extends Component {
           this.props.dispatch(getMessageToUser(responseJson.errors))
           this.props.dispatch(getLoading(false))
         } else {
-          loggedInData = {
-            token: responseJson.data.attributes.token,
-            signInFormActive: false,
-            signUpFormActive: false,
-            loggedIn: true,
-            messageToUser: 'Welcome to Chess Mail!',
-            hashedEmail: responseJson.data.attributes.hashed_email,
-            email: '',
-            password: '',
-            firstName: responseJson.data.attributes.firstName,
-            lastName: responseJson.data.attributes.lastName,
-            userGames: responseJson.data.included,
-            thumbNails: true,
-            myGamesActive: true,
-            loading: false
-          }
+          this.props.dispatch(getToken(responseJson.data.attributes.token))
+          this.props.dispatch(getSignUpFormActive(false))
+          this.props.dispatch(getSignInFormActive(false))
+          this.props.dispatch(getLoggedIn(true))
+          this.props.dispatch(getMessageToUser('Welcome to Chess Mail!'))
+          this.props.dispatch(getHashedEmail(responseJson.data.attributes.hashed_email))
+          this.props.dispatch(getEmail(''))
+          this.props.dispatch(getPassword(''))
+          this.props.dispatch(getFirstName(responseJson.data.attributes.firstName))
+          this.props.dispatch(getLastName(responseJson.data.attributes.lastName))
+          this.props.dispatch(getUserGames(responseJson.data.included))
+          this.props.dispatch(getThumbnails(true))
+          this.props.dispatch(getMyGamesActive(true))
+          this.props.dispatch(getLoading(false))
+          // loggedInData = {
+          //   token: responseJson.data.attributes.token,
+          //   signInFormActive: false,
+          //   signUpFormActive: false,
+          //   loggedIn: true,
+          //   messageToUser: 'Welcome to Chess Mail!',
+          //   hashedEmail: responseJson.data.attributes.hashed_email,
+          //   email: '',
+          //   password: '',
+          //   firstName: responseJson.data.attributes.firstName,
+          //   lastName: responseJson.data.attributes.lastName,
+          //   userGames: responseJson.data.included,
+          //   thumbNails: true,
+          //   myGamesActive: true,
+          //   loading: false
+          // }
+          localStorage.setItem('state', JSON.stringify(loggedInData))
         }
-
-        localStorage.setItem('state', JSON.stringify(loggedInData))
-        this.props.dispatch(getLoggedInData(loggedInData))
       })
       .catch((error) => alert(error))
   }
@@ -166,12 +183,12 @@ class CredentialForm extends Component {
 
 const mapStateToProps = ({
   loading, email, password, token, signInFormActive, signUpFormActive, loggedIn,
-  messageToUser, hashedEmail, firstName, lastName, userGames, thumbNails,
+  messageToUser, hashedEmail, firstName, lastName, userGames, thumbnails,
   myGamesActive
  }) => {
   return {
     loading, email, password, token, signInFormActive, signUpFormActive, loggedIn,
-    messageToUser, hashedEmail, firstName, lastName, userGames, thumbNails,
+    messageToUser, hashedEmail, firstName, lastName, userGames, thumbnails,
     myGamesActive
   }
 }

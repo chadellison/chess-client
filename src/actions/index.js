@@ -62,10 +62,6 @@ export const getPassword = (password) => {
   return { type: 'GET_PASSWORD', password: password }
 }
 
-export const getLoggedInData = (loggedInData) => {
-  return { type: 'GET_LOGGED_IN_DATA', loggedInData: loggedInData }
-}
-
 export const getSignUpData = (signUpData) => {
   return { type: 'GET_SIGN_UP_DATA', signUpData: signUpData }
 }
@@ -84,4 +80,24 @@ export const getFirstName = (firstName) => {
 
 export const getLastName = (lastName) => {
   return { type: 'GET_LAST_NAME', lastName: lastName }
+}
+
+export const getToken = (token) => {
+  return { type: 'GET_TOKEN', token: token }
+}
+
+export const getLoggedIn = (loggedIn) => {
+  return { type: 'GET_LOGGED_IN', loggedIn: loggedIn }
+}
+
+export const getUserGames = (userGames) => {
+  return { type: 'GET_USER_GAMES', userGames: userGames }
+}
+
+export const getThumbnails = (thumbnails) => {
+  return { type: 'GET_THUMBNAILS', thumbnails: thumbnails }
+}
+
+export const getMyGamesActive = (myGamesActive) => {
+  return { type: 'GET_MY_GAMES_ACTIVE', myGamesActive: myGamesActive }
 }

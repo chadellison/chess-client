@@ -18,10 +18,6 @@ export const getMoveLogActive = (moveLogActive) => {
   return { type: 'GET_MOVE_LOG_ACTIVE', moveLogActive: moveLogActive }
 }
 
-export const getLogout = (logoutData) => {
-  return { type: 'GET_LOGOUT', logoutData: logoutData }
-}
-
 export const getMessageToUser = (message) => {
   return { type: 'GET_MESSAGE_TO_USER', messageToUser: message }
 }
@@ -100,4 +96,20 @@ export const getThumbnails = (thumbnails) => {
 
 export const getMyGamesActive = (myGamesActive) => {
   return { type: 'GET_MY_GAMES_ACTIVE', myGamesActive: myGamesActive }
+}
+
+export const getPlayerColor = (playerColor) => {
+  return { type: 'GET_PLAYER_COLOR', playerColor: playerColor }
+}
+
+export const getCurrentGameActive = (currentGameActive) => {
+  return { type: 'GET_CURRENT_GAME_ACTIVE', currentGameActive: currentGameActive }
+}
+
+export const getCurrentGame = (currentGame) => {
+  return { type: 'GET_CURRENT_GAME', currentGame: currentGame }
+}
+
+export const getMoves = (moves) => {
+  return { type: 'GET_MOVES', moves: moves }
 }

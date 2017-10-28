@@ -16,7 +16,18 @@ import {
   getMessageToUser,
   getSignInFormActive,
   getSignUpFormActive,
-  getPassword
+  getPassword,
+  getToken,
+  getHashedEmail,
+  getMyGamesActive,
+  getThumbnails,
+  getTurn,
+  getPlayerColor,
+  getCurrentGameActive,
+  getCurrentGame,
+  getChessBoard,
+  getMoves,
+  getLoggedIn
 } from '../actions/index'
 
 class SideBar extends Component {
@@ -81,27 +92,23 @@ class SideBar extends Component {
   }
 
   handleLogout() {
-    localStorage.removeItem('state')
+    this.props.dispatch(getToken(''))
+    this.props.dispatch(getLoggedIn(false))
+    this.props.dispatch(getHashedEmail(''))
+    this.props.dispatch(getMessageToUser('successfully logged out'))
     this.props.dispatch(getChallengePlayer(false))
-    let logoutData = {
-      token: '',
-      loggedIn: '',
-      hashedEmail: '',
-      messageToUser: 'successfully logged out',
-      challengePlayer: false,
-      myGamesActive: false,
-      thumbNails: false,
-      turn: 'white',
-      playerColor: 'white',
-      challengeColor: 'white',
-      currentGameActive: false,
-      currentGame: null,
-      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-      moves: [],
-      moveLogActive: false
-    }
+    this.props.dispatch(getMyGamesActive(false))
+    this.props.dispatch(getThumbnails(false))
+    this.props.dispatch(getTurn('white'))
+    this.props.dispatch(getPlayerColor('white'))
+    this.props.dispatch(getChallengeColor('white'))
+    this.props.dispatch(getCurrentGameActive(false))
+    this.props.dispatch(getCurrentGame(null))
+    this.props.dispatch(getChessBoard(JSON.parse(JSON.stringify(jsonChessBoard))))
+    this.props.dispatch(getMoves([]))
+    this.props.dispatch(getMoveLogActive(false))
 
-    this.props.dispatch(getLogout(logoutData))
+    localStorage.removeItem('state')
   }
 
   get credentialForm() {

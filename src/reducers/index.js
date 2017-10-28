@@ -4,7 +4,6 @@ import chessBoardReducer from './chessBoardReducer'
 import previousBoardReducer from './previousBoardReducer'
 import selectedReducer from './selectedReducer'
 import moveLogReducer from './moveLogReducer'
-import logoutReducer from './logoutReducer'
 import messageToUserReducer from './messageToUserReducer'
 import hashedEmailReducer from './hashedEmailReducer'
 import loadingReducer from './loadingReducer'
@@ -25,6 +24,10 @@ import loggedInReducer from './loggedInReducer'
 import userGamesReducer from './userGamesReducer'
 import thumbnailsReducer from './thumbnailsReducer'
 import myGamesActiveReducer from './myGamesActiveReducer'
+import playerColorReducer from './playerColorReducer'
+import currentGameActiveReducer from './currentGameActiveReducer'
+import currentGameReducer from './currentGameReducer'
+import movesReducer from './movesReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -32,7 +35,6 @@ const rootReducer = combineReducers({
   previousBoard: previousBoardReducer,
   selected: selectedReducer,
   moveLogActive: moveLogReducer,
-  logoutData: logoutReducer,
   messageToUser: messageToUserReducer,
   hashedEmail: hashedEmailReducer,
   loading: loadingReducer,
@@ -52,7 +54,11 @@ const rootReducer = combineReducers({
   loggedIn: loggedInReducer,
   userGames: userGamesReducer,
   thumbnails: thumbnailsReducer,
-  myGamesActive: myGamesActiveReducer
+  myGamesActive: myGamesActiveReducer,
+  playerColor: playerColorReducer,
+  currentGameActive: currentGameActiveReducer,
+  currentGame: currentGameReducer,
+  moves: movesReducer
 })
 
 export default rootReducer

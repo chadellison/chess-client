@@ -114,7 +114,7 @@ class ThumbNail extends Component {
       }
     })
 
-    return this.props.moveLogic.setBoard(gameMoves, board)
+    return this.moveLogic.setBoard(gameMoves, board)
   }
 
   boardRows() {

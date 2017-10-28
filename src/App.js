@@ -185,7 +185,7 @@ class App extends Component {
   }
 
   get gameView() {
-    if(this.props.thumbNails) {
+    if(this.props.thumbnails) {
       return (
         <ThumbNails
           handleAcceptChallenge={this.handleAcceptChallenge}
@@ -222,8 +222,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ thumbNails, userGames }) => {
-  return { thumbNails, userGames }
+const mapStateToProps = ({ thumbnails, userGames }) => {
+  return { thumbnails, userGames }
 }
 
 export default connect(mapStateToProps)(App)

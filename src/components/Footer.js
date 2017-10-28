@@ -16,7 +16,6 @@ class Footer extends Component {
 
   handleUpdatePage(event) {
     let currentPage = this.props.page
-
     if (event.target.classList.value.includes('right') && this.props.userGames.length === 6) {
       currentPage += 1
     }

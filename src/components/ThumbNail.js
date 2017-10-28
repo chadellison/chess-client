@@ -28,18 +28,11 @@ class ThumbNail extends Component {
 
   handleCurrentGame(game) {
     if (game.attributes.pending) {
-      // let messageToUser
-
       if (game.attributes.isChallenger) {
-        // messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
         this.props.dispatch(getMessageToUser(`${game.attributes.opponentName} has not yet accepted your challenge.`))
       } else {
-        // messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
         this.props.dispatch(getMessageToUser(`Awaiting your acceptance from ${game.attributes.opponentName}.`))
       }
-      // this.setState({
-      //   messageToUser: messageToUser
-      // })
     } else {
       this.refreshGame(game)
     }
@@ -60,17 +53,7 @@ class ThumbNail extends Component {
 
     let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
     let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
-    //
-    // this.setState({
-    //   myGamesActive: false,
-    //   thumbNails: false,
-    //   moves: gameMoves,
-    //   turn: turn,
-    //   playerColor: game.attributes.playerColor,
-    //   currentGameActive: true,
-    //   currentGame: game,
-    //   chessBoard: currentGameBoard
-    // })
+
     this.props.dispatch(getMyGamesActive(false))
     this.props.dispatch(getThumbnails(false))
     this.props.dispatch(getMoves(gameMoves))

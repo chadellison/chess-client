@@ -147,9 +147,9 @@ class SideBar extends Component {
       let moveLog
       if(this.props.moveLogActive) {
         moveLog = <MoveLog
-          cancelMoveLog={this.handleMoveLog}
-          moves={this.state.moves}
-          handlePreviousBoard={this.state.handlePreviousBoard}
+          handleMoveLog={this.handleMoveLog}
+          // moves={this.state.moves}
+          // handlePreviousBoard={this.handlePreviousBoard}
         />
       } else {
         moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>

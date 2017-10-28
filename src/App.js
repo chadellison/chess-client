@@ -49,7 +49,7 @@ class App extends Component {
     this.move                  = this.move.bind(this)
     this.handleReset           = this.handleReset.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
-    this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
+    // this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
@@ -316,18 +316,18 @@ class App extends Component {
     })
   }
 
-  handlePreviousBoard(event) {
-    let index = parseInt(event.target.id, 10)
-    let gameMoves = this.state.moves.slice(0, index + 1)
-    let board = JSON.parse(JSON.stringify(jsonChessBoard))
-
-    board = this.moveLogic.setBoard(gameMoves, board)
-
-    this.setState({
-      previousBoard: board,
-      selected: null
-    })
-  }
+  // handlePreviousBoard(event) {
+  //   let index = parseInt(event.target.id, 10)
+  //   let gameMoves = this.state.moves.slice(0, index + 1)
+  //   let board = JSON.parse(JSON.stringify(jsonChessBoard))
+  //
+  //   board = this.moveLogic.setBoard(gameMoves, board)
+  //
+  //   this.setState({
+  //     previousBoard: board,
+  //     selected: null
+  //   })
+  // }
 
   handleReset() {
     this.props.dispatch(getMessageToUser(''))
@@ -482,7 +482,7 @@ class App extends Component {
           {this.crossedPawn}
           <SideBar
             moves={this.state.moves}
-            handlePreviousBoard={this.handlePreviousBoard}
+            // handlePreviousBoard={this.handlePreviousBoard}
             handleReset={this.handleReset}
             challengePlayer={this.state.challengePlayer}
             challengeColor={this.state.challengeColor}

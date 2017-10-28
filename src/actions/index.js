@@ -6,8 +6,8 @@ export const getChessBoard = (chessBoard) => {
   return { type: 'GET_CHESSBOARD', chessBoard: chessBoard }
 }
 
-export const getPreviousBoard = (board) => {
-  return { type: 'GET_PREVIOUS_BOARD', previousBoard: board }
+export const getPreviousBoard = (previousBoard) => {
+  return { type: 'GET_PREVIOUS_BOARD', previousBoard: previousBoard }
 }
 
 export const getSelected = (selected) => {

@@ -7,7 +7,6 @@ import Loader from './Loader'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
-  getLogout,
   getChallengePlayer,
   getChallengeRobot,
   getChallengedName,
@@ -16,7 +15,6 @@ import {
   getMessageToUser,
   getSignInFormActive,
   getSignUpFormActive,
-  getPassword,
   getToken,
   getHashedEmail,
   getMyGamesActive,

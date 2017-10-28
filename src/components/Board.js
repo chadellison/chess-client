@@ -9,7 +9,6 @@ import {
   getSelected,
   getChessBoard,
   getMessageToUser,
-  getPreviousBoard,
   getCheckmate,
   getStalemate,
   getCrossedPawn,
@@ -39,7 +38,7 @@ class Board extends Component {
       let checkmate        = this.props.checkmate
       let stalemate        = this.props.stalemate
       // let messageToUser    = ''
-      let crossedPawn      = false
+      // let crossedPawn      = false
       // let color            = this.props.turn === 'white' ? 'black' : 'white'
       let updatedUserGames = this.props.userGames
 

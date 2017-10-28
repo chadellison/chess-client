@@ -5,8 +5,7 @@ import jsonChessBoard from '../jsonChessBoard'
 import MoveLogic from '../helpers/MoveLogic'
 import {
   getPreviousBoard,
-  getSelected,
-  getMoves
+  getSelected
 } from '../actions/index'
 
 class MoveLog extends Component {

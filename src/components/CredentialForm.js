@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import "../styles/CredentialForm.css"
-import jsonChessBoard from '../jsonChessBoard'
 import UserService from '../services/UserService'
 import GameService from '../services/GameService'
 import { connect } from 'react-redux'
@@ -19,8 +18,7 @@ import {
   getHashedEmail,
   getThumbnails,
   getUserGames,
-  getMyGamesActive,
-  getChessBoard
+  getMyGamesActive
 } from '../actions/index'
 
 class CredentialForm extends Component {
@@ -81,7 +79,6 @@ class CredentialForm extends Component {
     this.userService.signIn(this.props.email, this.props.password)
       .then(response => response.json())
       .then(responseJson => {
-        let loggedInData
 
         if (responseJson.errors) {
           this.props.dispatch(getMessageToUser(responseJson.errors))

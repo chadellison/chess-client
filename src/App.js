@@ -14,10 +14,8 @@ import GameService from './services/GameService'
 import { connect } from 'react-redux'
 import {
   getChessBoard,
-  getSelected,
   getMessageToUser,
   getLoading,
-  getCurrentGame,
   getUserGames
 } from './actions/index'
 

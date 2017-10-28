@@ -32,7 +32,6 @@ class App extends Component {
 
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
-    this.handleUpdatePage      = this.handleUpdatePage.bind(this)
 
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
@@ -159,67 +158,6 @@ class App extends Component {
     })
   }
 
-  // handleSelected(selectedPiece) {
-  //   if (this.props.chessBoard[selectedPiece.currentPosition].piece) {
-  //     if (selectedPiece.color === this.props.turn) {
-  //       if (!this.state.selected) {
-  //         if (this.state.currentGameActive && this.state.playerColor !== this.props.turn) {
-  //           this.props.dispatch(getMessageToUser(`You may only move the ${this.state.playerColor} pieces`))
-  //         } else {
-  //           let board = JSON.parse(JSON.stringify(this.props.chessBoard))
-  //           let piece = JSON.parse(JSON.stringify(selectedPiece))
-  //           let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
-  //
-  //           let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
-  //             return this.isValid(piece, move, board, gameMoves)
-  //           })
-  //
-  //           piece.availableMoves = availableMoves
-  //           board[piece.currentPosition].piece = piece
-  //
-  //           this.props.dispatch(getSelected(piece))
-  //           this.setState({
-  //             selected: piece,
-  //             chessBoard: board
-  //           })
-  //         }
-  //       }
-  //     } else {
-  //       this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
-  //     }
-  //   }
-  //   this.setState({
-  //     previousBoard: null
-  //   })
-  // }
-
-  // handlePreviousBoard(event) {
-  //   let index = parseInt(event.target.id, 10)
-  //   let gameMoves = this.state.moves.slice(0, index + 1)
-  //   let board = JSON.parse(JSON.stringify(jsonChessBoard))
-  //
-  //   board = this.moveLogic.setBoard(gameMoves, board)
-  //
-  //   this.setState({
-  //     previousBoard: board,
-  //     selected: null
-  //   })
-  // }
-
-  // handleReset() {
-  //   this.props.dispatch(getMessageToUser(''))
-  //   this.setState({
-  //     chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-  //     previousBoard: null,
-  //     moves: [],
-  //     turn: 'white',
-  //     checkmate: false,
-  //     stalemate: false,
-  //     selected: null,
-  //     crossedPawn: false
-  //   })
-  // }
-
   handleCurrentGame(game) {
     if (game.attributes.pending) {
       // let messageToUser
@@ -267,25 +205,25 @@ class App extends Component {
     })
   }
 
-  handleUpdatePage(event) {
-    let currentPage = this.state.page
-
-    if (event.target.classList.value.includes('right') && this.state.userGames.length === 6) {
-      currentPage += 1
-    }
-    if (event.target.classList.value.includes('left') && this.state.page > 1) {
-      currentPage -= 1
-    }
-
-    this.gameService.fetchGames(this.state.token, currentPage)
-    .then(response => response.json())
-    .then(responseJson => {
-      this.setState({
-        page: currentPage,
-        userGames: responseJson.data
-      })
-    })
-  }
+  // handleUpdatePage(event) {
+  //   let currentPage = this.state.page
+  //
+  //   if (event.target.classList.value.includes('right') && this.state.userGames.length === 6) {
+  //     currentPage += 1
+  //   }
+  //   if (event.target.classList.value.includes('left') && this.state.page > 1) {
+  //     currentPage -= 1
+  //   }
+  //
+  //   this.gameService.fetchGames(this.state.token, currentPage)
+  //   .then(response => response.json())
+  //   .then(responseJson => {
+  //     this.setState({
+  //       page: currentPage,
+  //       userGames: responseJson.data
+  //     })
+  //   })
+  // }
 
   get crossedPawn() {
     let crossedPawn
@@ -315,11 +253,9 @@ class App extends Component {
   }
 
   get gameView() {
-    if(this.state.thumbNails) {
+    if(this.props.thumbNails) {
       return (
         <ThumbNails
-          userGames={this.state.userGames}
-          moveLogic={this.moveLogic}
           handleCurrentGame={this.handleCurrentGame}
           handleAcceptChallenge={this.handleAcceptChallenge}
           handleArchiveGame={this.handleArchiveGame}
@@ -330,13 +266,7 @@ class App extends Component {
       return(
         <div>
           {this.gameData}
-          <Board chessBoard={this.board}
-            handleSelected={this.handleSelected}
-            isSelected={this.state.selected}
-            move={this.move}
-            currentGameActive={this.state.currentGameActive}
-            currentGame={this.state.currentGame}
-          />
+          <Board />
         </div>
       )
     }
@@ -349,29 +279,20 @@ class App extends Component {
           {this.gameView}
           {this.crossedPawn}
           <SideBar
-            moves={this.state.moves}
-            // handlePreviousBoard={this.handlePreviousBoard}
-            // handleReset={this.handleReset}
             challengePlayer={this.state.challengePlayer}
             challengeColor={this.state.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}
-            myGamesActive={this.state.myGamesActive}
-            currentGameActive={this.state.currentGameActive}
-            currentGame={this.state.currentGame}
             handleEndGame={this.handleEndGame}
           />
         </div>
-        <Footer
-          handleUpdatePage={this.handleUpdatePage}
-          myGamesActive={this.state.myGamesActive}
-        />
+        <Footer />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ turn, chessBoard, messageToUser, loading }) => {
-  return { turn, chessBoard, messageToUser, loading }
+const mapStateToProps = ({ thumbNails, userGames }) => {
+  return { thumbNails, userGames }
 }
 
 export default connect(mapStateToProps)(App)

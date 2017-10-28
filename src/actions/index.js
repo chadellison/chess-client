@@ -125,3 +125,7 @@ export const getCrossedPawn = (crossedPawn) => {
 export const getStalemate = (stalemate) => {
   return { type: 'GET_STALEMATE', stalemate: stalemate }
 }
+
+export const getPage = (page) => {
+  return { type: 'GET_PAGE', page: page }
+}

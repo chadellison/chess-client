@@ -31,6 +31,7 @@ import movesReducer from './movesReducer'
 import checkmateReducer from './checkmateReducer'
 import crossedPawnReducer from './crossedPawnReducer'
 import stalemateReducer from './stalemateReducer'
+import pageReducer from './pageReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -64,7 +65,8 @@ const rootReducer = combineReducers({
   moves: movesReducer,
   checkmate: checkmateReducer,
   crossedPawn: crossedPawnReducer,
-  stalemate: stalemateReducer
+  stalemate: stalemateReducer,
+  page: pageReducer
 })
 
 export default rootReducer

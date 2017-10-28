@@ -24,7 +24,6 @@ class Board extends Component {
     this.moveLogic = new MoveLogic()
     this.gameService = new GameService()
 
-    // this.handleSelected = this.handleSelected.bind(this)
     this.move = this.move.bind(this)
     this.isValid = this.isValid.bind(this)
   }
@@ -112,7 +111,7 @@ class Board extends Component {
           })
         }
       }
-      
+
       this.props.dispatch(getMoves(gameMoves))
       this.props.dispatch(getCheckmate(checkmate))
       this.props.dispatch(getStalemate(stalemate))
@@ -161,8 +160,6 @@ class Board extends Component {
           <Square key={columnIndex}
             styles={`col-xs-1 square${this.setOffset(columnIndex)} ${this.squareColor(square)}`}
             piece={this.props.chessBoard[square].piece}
-            handleSelected={this.handleSelected}
-            isSelected={this.props.selected}
             id={square}
             isValid={this.isValid}
             move={this.move}

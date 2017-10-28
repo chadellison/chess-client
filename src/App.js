@@ -157,73 +157,6 @@ class App extends Component {
     })
   }
 
-  // handleCurrentGame(game) {
-  //   if (game.attributes.pending) {
-  //     // let messageToUser
-  //
-  //     if (game.attributes.isChallenger) {
-  //       // messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
-  //       this.props.dispatch(getMessageToUser(`${game.attributes.opponentName} has not yet accepted your challenge.`))
-  //     } else {
-  //       // messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
-  //       this.props.dispatch(getMessageToUser(`Awaiting your acceptance from ${game.attributes.opponentName}.`))
-  //     }
-  //     // this.setState({
-  //     //   messageToUser: messageToUser
-  //     // })
-  //   } else {
-  //     this.refreshGame(game)
-  //   }
-  // }
-
-  // refreshGame(game) {
-  //   let board = JSON.parse(JSON.stringify(jsonChessBoard))
-  //   let gameMoves = game.included.map((piece) => {
-  //     return {
-  //       color: piece.attributes.color,
-  //       type: piece.attributes.pieceType,
-  //       currentPosition: piece.attributes.currentPosition,
-  //       startIndex: piece.attributes.startIndex,
-  //       hasMoved: piece.attributes.hasMoved,
-  //       movedTwo: piece.attributes.movedTwo
-  //     }
-  //   })
-  //
-  //   let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
-  //   let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
-  //
-  //   this.setState({
-  //     myGamesActive: false,
-  //     thumbNails: false,
-  //     moves: gameMoves,
-  //     turn: turn,
-  //     playerColor: game.attributes.playerColor,
-  //     currentGameActive: true,
-  //     currentGame: game,
-  //     chessBoard: currentGameBoard
-  //   })
-  // }
-
-  // handleUpdatePage(event) {
-  //   let currentPage = this.state.page
-  //
-  //   if (event.target.classList.value.includes('right') && this.state.userGames.length === 6) {
-  //     currentPage += 1
-  //   }
-  //   if (event.target.classList.value.includes('left') && this.state.page > 1) {
-  //     currentPage -= 1
-  //   }
-  //
-  //   this.gameService.fetchGames(this.state.token, currentPage)
-  //   .then(response => response.json())
-  //   .then(responseJson => {
-  //     this.setState({
-  //       page: currentPage,
-  //       userGames: responseJson.data
-  //     })
-  //   })
-  // }
-
   get crossedPawn() {
     let crossedPawn
     if (this.state.crossedPawn) {
@@ -255,7 +188,6 @@ class App extends Component {
     if(this.props.thumbNails) {
       return (
         <ThumbNails
-          handleCurrentGame={this.handleCurrentGame}
           handleAcceptChallenge={this.handleAcceptChallenge}
           handleArchiveGame={this.handleArchiveGame}
           handleEndGame={this.handleEndGame}

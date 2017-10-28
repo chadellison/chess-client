@@ -1,4 +1,4 @@
-const selectedReducer = (state = {}, action) => {
+const selectedReducer = (state = null, action) => {
   switch (action.type) {
     case 'GET_SELECTED':
       return action.selected

@@ -113,3 +113,15 @@ export const getCurrentGame = (currentGame) => {
 export const getMoves = (moves) => {
   return { type: 'GET_MOVES', moves: moves }
 }
+
+export const getCheckmate = (checkmate) => {
+  return { type: 'GET_CHECKMATE', checkmate: checkmate }
+}
+
+export const getCrossedPawn = (crossedPawn) => {
+  return { type: 'GET_CROSSED_PAWN', crossedPawn: crossedPawn }
+}
+
+export const getStalemate = (stalemate) => {
+  return { type: 'GET_STALEMATE', stalemate: stalemate }
+}

@@ -28,6 +28,9 @@ import playerColorReducer from './playerColorReducer'
 import currentGameActiveReducer from './currentGameActiveReducer'
 import currentGameReducer from './currentGameReducer'
 import movesReducer from './movesReducer'
+import checkmateReducer from './checkmateReducer'
+import crossedPawnReducer from './crossedPawnReducer'
+import stalemateReducer from './stalemateReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -58,7 +61,10 @@ const rootReducer = combineReducers({
   playerColor: playerColorReducer,
   currentGameActive: currentGameActiveReducer,
   currentGame: currentGameReducer,
-  moves: movesReducer
+  moves: movesReducer,
+  checkmate: checkmateReducer,
+  crossedPawn: crossedPawnReducer,
+  stalemate: stalemateReducer
 })
 
 export default rootReducer

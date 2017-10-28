@@ -24,8 +24,9 @@ class Board extends Component {
     this.moveLogic = new MoveLogic()
     this.gameService = new GameService()
 
-    this.handleSelected = this.handleSelected.bind(this)
+    // this.handleSelected = this.handleSelected.bind(this)
     this.move = this.move.bind(this)
+    this.isValid = this.isValid.bind(this)
   }
 
   move(coordinates) {
@@ -111,18 +112,7 @@ class Board extends Component {
           })
         }
       }
-
-      // this.setState({
-      //   // chessBoard: updatedBoard,
-      //   moves: gameMoves,
-      //   // turn: color,
-      //   checkmate: checkmate,
-      //   stalemate: stalemate,
-      //   // messageToUser: messageToUser,
-      //   selected: null,
-      //   crossedPawn: crossedPawn,
-      //   userGames: updatedUserGames
-      // })
+      
       this.props.dispatch(getMoves(gameMoves))
       this.props.dispatch(getCheckmate(checkmate))
       this.props.dispatch(getStalemate(stalemate))
@@ -130,16 +120,11 @@ class Board extends Component {
 
     } else {
       this.props.dispatch(getMessageToUser('Invalid Move'))
-      // this.setState({
-        // messageToUser: 'Invalid Move',
-      //   selected: null
-      // })
     }
     this.props.dispatch(getSelected(null))
   }
 
   updatedPiece(piece, coordinates) {
-    // don't mutate directly
     piece.currentPosition = coordinates
     piece.hasMoved = true
 
@@ -147,7 +132,6 @@ class Board extends Component {
   }
 
   pawnMovedTwo(piece, coordinates) {
-    // don't mutate directly
     if(piece.type === 'pawn' &&
       Math.abs(parseInt(coordinates[1], 10) -
       parseInt(this.props.selected.currentPosition[1], 10)) === 2) {
@@ -160,43 +144,6 @@ class Board extends Component {
     return (this.moveLogic.validMove(piece, coordinates, board, gameMoves) &&
       this.moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
     )
-  }
-
-  handleSelected(selectedPiece) {
-    if (this.props.chessBoard[selectedPiece.currentPosition].piece) {
-      if (selectedPiece.color === this.props.turn) {
-        if (!this.props.selected) {
-          if (this.props.currentGameActive && this.props.playerColor !== this.props.turn) {
-            this.props.dispatch(getMessageToUser(`You may only move the ${this.props.playerColor} pieces`))
-          } else {
-            let board = JSON.parse(JSON.stringify(this.props.chessBoard))
-            let piece = JSON.parse(JSON.stringify(selectedPiece))
-            let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
-
-            let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
-              return this.isValid(piece, move, board, gameMoves)
-            })
-
-            piece.availableMoves = availableMoves
-            board[piece.currentPosition].piece = piece
-
-            this.props.dispatch(getSelected(piece))
-            // this.setState({
-            //   selected: piece,
-            //   chessBoard: board
-            // })
-            this.props.dispatch(getSelected(piece))
-            this.props.dispatch(getChessBoard(board))
-          }
-        }
-      } else {
-        this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
-      }
-    }
-    this.props.dispatch(getPreviousBoard(null))
-    // this.setState({
-    //   previousBoard: null
-    // })
   }
 
   get playerColor() {
@@ -217,6 +164,7 @@ class Board extends Component {
             handleSelected={this.handleSelected}
             isSelected={this.props.selected}
             id={square}
+            isValid={this.isValid}
             move={this.move}
             playerColor={this.playerColor}
           />

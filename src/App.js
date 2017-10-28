@@ -24,20 +24,6 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      // chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-      // previousBoard: null,
-      // moves: [],
-      // selected: null,
-      // token: '',
-      // checkmate: false,
-      // stalemate: false,
-      // crossedPawn: false,
-      // playerColor: 'white',
-      // userGames: [],
-      // myGamesActive: false,
-      // thumbNails: false,
-      // currentGameActive: false,
-      // currentGame: null,
       page: 1
     }
 
@@ -45,11 +31,8 @@ class App extends Component {
     this.gameService = new GameService()
     this.moveLogic   = new MoveLogic()
 
-    // this.handleSelected        = this.handleSelected.bind(this)
-    // this.move                  = this.move.bind(this)
     this.handleReset           = this.handleReset.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
-    // this.handlePreviousBoard   = this.handlePreviousBoard.bind(this)
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
@@ -80,109 +63,6 @@ class App extends Component {
       this.props.dispatch(getLoading(false))
     }
   }
-
-  // isValid(piece, coordinates, board, gameMoves) {
-  //   return (this.moveLogic.validMove(piece, coordinates, board, gameMoves) &&
-  //     this.moveLogic.kingIsSafe(piece, coordinates, board, gameMoves)
-  //   )
-  // }
-
-  // move(coordinates) {
-  //   let piece     = JSON.parse(JSON.stringify(this.state.selected))
-  //   let board     = JSON.parse(JSON.stringify(this.props.chessBoard))
-  //   let gameMoves = JSON.parse(JSON.stringify(this.state.moves))
-  //
-  //   if(this.isValid(piece, coordinates, board, gameMoves)) {
-  //     this.props.dispatch(getTurn(this.props.turn))
-  //     let updatedBoard     = JSON.parse(JSON.stringify(this.props.chessBoard))
-  //     let checkmate        = this.state.checkmate
-  //     let stalemate        = this.state.stalemate
-  //     // let messageToUser    = ''
-  //     let crossedPawn      = false
-  //     // let color            = this.props.turn === 'white' ? 'black' : 'white'
-  //     let updatedUserGames = this.state.userGames
-  //
-  //     updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
-  //     updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
-  //     piece        = this.pawnMovedTwo(this.state.selected, coordinates)
-  //
-  //     if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
-  //       crossedPawn = true
-  //     }
-  //
-  //     updatedBoard[piece.currentPosition].piece = null
-  //
-  //     updatedBoard[coordinates].piece = piece
-  //     piece.currentPosition = coordinates
-  //     piece.hasMoved = true
-  //     gameMoves.push(piece)
-  //
-  //     this.props.dispatch(getChessBoard(updatedBoard))
-  //
-  //     if(this.state.currentGameActive) {
-  //       this.gameService.makeMove(this.state.currentGame.id, piece, this.state.token)
-  //       .then((response) => response.json())
-  //       .then((responseJson) => {
-  //         updatedUserGames = JsonResponse.handleMakeMove(responseJson, updatedUserGames, piece)
-  //       })
-  //       .catch((error) => alert(error))
-  //     }
-  //
-  //     if(this.moveLogic.checkmate(updatedBoard, gameMoves, this.props.turn)) {
-  //       checkmate = true
-  //       // messageToUser = `${this.props.turn} Wins!`
-  //       this.props.dispatch(getMessageToUser(`${this.props.turn} Wins!`))
-  //       if(this.state.currentGameActive) {
-  //         let outcome = `${this.props.turn} wins`
-  //         this.gameService.endGame(outcome, false, this.state.currentGame.id, this.state.token)
-  //         .then((response) => response.json())
-  //         .then((responseJson) => {
-  //           updatedUserGames = JsonResponse.handleEndGame(responseJson, updatedUserGames, outcome)
-  //         })
-  //       }
-  //     }
-  //
-  //     if(this.moveLogic.stalemate(updatedBoard, gameMoves, this.props.turn)) {
-  //       stalemate = true
-  //       // messageToUser = 'Draw!'
-  //       this.props.dispatch(getMessageToUser('Draw!'))
-  //       if(this.state.currentGameActive) {
-  //         this.gameService.endGame('draw', false, this.state.currentGame.id, this.state.token)
-  //         .then((response) => response.json())
-  //         .then((responseJson) => {
-  //           updatedUserGames = JsonResponse.handleEndGame(responseJson, updatedUserGames, 'draw')
-  //         })
-  //       }
-  //     }
-  //
-  //     this.setState({
-  //       // chessBoard: updatedBoard,
-  //       moves: gameMoves,
-  //       // turn: color,
-  //       checkmate: checkmate,
-  //       stalemate: stalemate,
-  //       // messageToUser: messageToUser,
-  //       selected: null,
-  //       crossedPawn: crossedPawn,
-  //       userGames: updatedUserGames
-  //     })
-  //   } else {
-  //     this.props.dispatch(getMessageToUser('Invalid Move'))
-  //     this.setState({
-  //       // messageToUser: 'Invalid Move',
-  //       selected: null
-  //     })
-  //   }
-  // }
-
-  // pawnMovedTwo(piece, coordinates) {
-  //   if(piece.type === 'pawn' &&
-  //     Math.abs(parseInt(coordinates[1], 10) -
-  //     parseInt(this.state.selected.currentPosition[1], 10)) === 2) {
-  //       piece.movedTwo = true
-  //   }
-  //   return piece
-  // }
 
   handleCrossedPawn(event) {
     let classNames = event.target.className.split("-")

@@ -12,10 +12,8 @@ export default class Square extends Component {
     if(this.props.piece) {
       return(
         <Piece
-          handleSelected={this.props.handleSelected}
+          isValid={this.props.isValid}
           piece={this.props.piece}
-          isSelected={this.props.isSelected}
-          playerColor={this.props.playerColor}
         />
       )
     } else {

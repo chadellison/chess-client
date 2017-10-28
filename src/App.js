@@ -33,7 +33,6 @@ class App extends Component {
 
     this.handleReset           = this.handleReset.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
-    this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
 
@@ -223,15 +222,6 @@ class App extends Component {
     })
   }
 
-  handleMyGamesActive() {
-    this.props.dispatch(getMessageToUser(''))
-    this.setState({
-      myGamesActive: !this.state.myGamesActive,
-      thumbNails: !this.state.thumbNails,
-      currentGameActive: !this.state.currentGameActive
-    })
-  }
-
   handleCurrentGame(game) {
     if (game.attributes.pending) {
       // let messageToUser
@@ -368,7 +358,6 @@ class App extends Component {
             challengeColor={this.state.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}
             myGamesActive={this.state.myGamesActive}
-            handleMyGamesActive={this.handleMyGamesActive}
             currentGameActive={this.state.currentGameActive}
             currentGame={this.state.currentGame}
             handleEndGame={this.handleEndGame}

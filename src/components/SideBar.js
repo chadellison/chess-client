@@ -36,6 +36,7 @@ class SideBar extends Component {
     this.handleMoveLog        = this.handleMoveLog.bind(this)
     this.handleLogout         = this.handleLogout.bind(this)
     this.handleCredentialForm = this.handleCredentialForm.bind(this)
+    this.handleMyGamesActive  = this.handleMyGamesActive.bind(this)
   }
 
   handleCredentialForm(event) {
@@ -109,6 +110,18 @@ class SideBar extends Component {
     this.props.dispatch(getMoveLogActive(false))
 
     localStorage.removeItem('state')
+  }
+
+  handleMyGamesActive() {
+    this.props.dispatch(getMessageToUser(''))
+    this.props.dispatch(getMyGamesActive(!this.state.myGamesActive))
+    this.props.dispatch(getThumbnails(!this.state.thumbNails))
+    this.props.dispatch(getCurrentGameActive(!this.state.currentGameActive))
+    // this.setState({
+    //   myGamesActive: !this.state.myGamesActive,
+    //   thumbNails: !this.state.thumbNails,
+    //   currentGameActive: !this.state.currentGameActive
+    // })
   }
 
   get credentialForm() {
@@ -259,7 +272,7 @@ class SideBar extends Component {
     if (this.props.loggedIn) {
       if (!this.props.myGamesActive) {
         return (
-          <button className='myGamesButton' onClick={this.props.handleMyGamesActive}>
+          <button className='myGamesButton' onClick={this.handleMyGamesActive}>
             My Games
           </button>
         )

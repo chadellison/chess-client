@@ -13,11 +13,10 @@ import UserService from './services/UserService'
 import GameService from './services/GameService'
 import { connect } from 'react-redux'
 import {
-  getTurn,
   getChessBoard,
   getSelected,
   getMessageToUser,
-  getLoading
+  getLoading,
 } from './actions/index'
 
 class App extends Component {
@@ -31,7 +30,6 @@ class App extends Component {
     this.gameService = new GameService()
     this.moveLogic   = new MoveLogic()
 
-    this.handleReset           = this.handleReset.bind(this)
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
     this.handleCurrentGame     = this.handleCurrentGame.bind(this)
     this.handleUpdatePage      = this.handleUpdatePage.bind(this)
@@ -208,19 +206,19 @@ class App extends Component {
   //   })
   // }
 
-  handleReset() {
-    this.props.dispatch(getMessageToUser(''))
-    this.setState({
-      chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
-      previousBoard: null,
-      moves: [],
-      turn: 'white',
-      checkmate: false,
-      stalemate: false,
-      selected: null,
-      crossedPawn: false
-    })
-  }
+  // handleReset() {
+  //   this.props.dispatch(getMessageToUser(''))
+  //   this.setState({
+  //     chessBoard: JSON.parse(JSON.stringify(jsonChessBoard)),
+  //     previousBoard: null,
+  //     moves: [],
+  //     turn: 'white',
+  //     checkmate: false,
+  //     stalemate: false,
+  //     selected: null,
+  //     crossedPawn: false
+  //   })
+  // }
 
   handleCurrentGame(game) {
     if (game.attributes.pending) {
@@ -353,7 +351,7 @@ class App extends Component {
           <SideBar
             moves={this.state.moves}
             // handlePreviousBoard={this.handlePreviousBoard}
-            handleReset={this.handleReset}
+            // handleReset={this.handleReset}
             challengePlayer={this.state.challengePlayer}
             challengeColor={this.state.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}

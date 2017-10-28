@@ -27,7 +27,12 @@ import {
   getCurrentGame,
   getChessBoard,
   getMoves,
-  getLoggedIn
+  getLoggedIn,
+  getPreviousBoard,
+  getCheckmate,
+  getStalemate,
+  getCrossedPawn,
+  getSelected
 } from '../actions/index'
 
 class SideBar extends Component {
@@ -37,6 +42,7 @@ class SideBar extends Component {
     this.handleLogout         = this.handleLogout.bind(this)
     this.handleCredentialForm = this.handleCredentialForm.bind(this)
     this.handleMyGamesActive  = this.handleMyGamesActive.bind(this)
+    this.handleReset          = this.handleReset.bind(this)
   }
 
   handleCredentialForm(event) {
@@ -117,11 +123,18 @@ class SideBar extends Component {
     this.props.dispatch(getMyGamesActive(!this.state.myGamesActive))
     this.props.dispatch(getThumbnails(!this.state.thumbNails))
     this.props.dispatch(getCurrentGameActive(!this.state.currentGameActive))
-    // this.setState({
-    //   myGamesActive: !this.state.myGamesActive,
-    //   thumbNails: !this.state.thumbNails,
-    //   currentGameActive: !this.state.currentGameActive
-    // })
+  }
+
+  handleReset() {
+    this.props.dispatch(getMessageToUser(''))
+    this.props.dispatch(getChessBoard(JSON.parse(JSON.stringify(jsonChessBoard))))
+    this.props.dispatch(getPreviousBoard(null))
+    this.props.dispatch(getMoves([]))
+    this.props.dispatch(getTurn())
+    this.props.dispatch(getCheckmate(false))
+    this.props.dispatch(getStalemate(false))
+    this.props.dispatch(getSelected(null))
+    this.props.dispatch(getCrossedPawn(false))
   }
 
   get credentialForm() {
@@ -177,7 +190,7 @@ class SideBar extends Component {
 
   get resetButton() {
     if(this.noFormsActive() && !this.props.currentGameActive) {
-      return <button className='resetButton' onClick={this.props.handleReset}>Reset</button>
+      return <button className='resetButton' onClick={this.handleReset}>Reset</button>
     } else {
       return null
     }

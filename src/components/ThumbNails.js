@@ -17,9 +17,9 @@ class ThumbNails extends Component {
       return (
         <ThumbNail key={game.id - index}
           game={game}
-          handleAcceptChallenge={this.props.handleAcceptChallenge}
-          handleArchiveGame={this.props.handleArchiveGame}
-          handleEndGame={this.props.handleEndGame}
+          // handleAcceptChallenge={this.props.handleAcceptChallenge}
+          // handleArchiveGame={this.props.handleArchiveGame}
+          // handleEndGame={this.props.handleEndGame}
         />
       )
     })

@@ -17,6 +17,8 @@ import {
   getSelected,
   getMessageToUser,
   getLoading,
+  getCurrentGame,
+  getUserGames
 } from './actions/index'
 
 class App extends Component {
@@ -33,8 +35,6 @@ class App extends Component {
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
 
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
-    this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
-    this.handleArchiveGame     = this.handleArchiveGame.bind(this)
     this.handleEndGame         = this.handleEndGame.bind(this)
   }
 
@@ -113,47 +113,20 @@ class App extends Component {
     .catch((error) => alert(error))
   }
 
-  handleAcceptChallenge(game_id) {
-    this.gameService.acceptGame(game_id, this.state.token)
-      .then(response => response.status)
-      .then(responseStatus => this.handleAcceptChallengeJsonResponse(responseStatus))
-      .catch((error) => alert(error))
-  }
-
-  handleAcceptChallengeJsonResponse(responseStatus) {
-    if (responseStatus === 204) {
-      this.gameService.fetchGames(this.state.token, this.state.page)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          userGames: responseJson.data
-        })
-      })
-    }
-  }
-
-  handleArchiveGame(game_id) {
-    this.gameService.archiveGame(game_id, this.state.token)
-    .then(response => response.status)
-    .then(responseStatus => {
-      if (responseStatus === 204 || responseStatus === 404) {
-        this.setState({
-          userGames: JsonResponse.handleArchiveGame(this.state.userGames, game_id)
-        })
-      }
-    })
-    .catch((error) => alert(error))
-  }
-
   handleEndGame(outcome, resign, game_id) {
-    this.gameService.endGame(outcome, resign, game_id, this.state.token)
+    this.gameService.endGame(outcome, resign, game_id, this.props.token)
     .then((response) => response.json())
     .then((responseJson) => {
       this.props.dispatch(getMessageToUser(outcome))
-      this.setState({
-        userGames: JsonResponse.handleEndGame(responseJson, this.state.userGames, outcome),
-        currentGame: responseJson.data,
+      let updatedUserGames = this.props.userGames.map((userGame) => {
+        if(userGame.id === responseJson.data.id) {
+          userGame.attributes.outcome = outcome
+        }
+        return userGame
       })
+
+      this.props.dispatch(getUserGames(updatedUserGames))
+      this.props.getCurrentGame(responseJson.data)
     })
   }
 
@@ -186,13 +159,7 @@ class App extends Component {
 
   get gameView() {
     if(this.props.thumbnails) {
-      return (
-        <ThumbNails
-          handleAcceptChallenge={this.handleAcceptChallenge}
-          handleArchiveGame={this.handleArchiveGame}
-          handleEndGame={this.handleEndGame}
-        />
-      )
+      return <ThumbNails handleEndGame={this.handleEndGame} />
     } else {
       return(
         <div>
@@ -222,8 +189,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ thumbnails, userGames }) => {
-  return { thumbnails, userGames }
+const mapStateToProps = ({ thumbnails, userGames, token, currentGame }) => {
+  return { thumbnails, userGames, token, currentGame }
 }
 
 export default connect(mapStateToProps)(App)

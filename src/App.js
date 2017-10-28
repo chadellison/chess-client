@@ -31,7 +31,6 @@ class App extends Component {
     this.moveLogic   = new MoveLogic()
 
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
-    this.handleCurrentGame     = this.handleCurrentGame.bind(this)
 
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleAcceptChallenge = this.handleAcceptChallenge.bind(this)
@@ -158,52 +157,52 @@ class App extends Component {
     })
   }
 
-  handleCurrentGame(game) {
-    if (game.attributes.pending) {
-      // let messageToUser
+  // handleCurrentGame(game) {
+  //   if (game.attributes.pending) {
+  //     // let messageToUser
+  //
+  //     if (game.attributes.isChallenger) {
+  //       // messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
+  //       this.props.dispatch(getMessageToUser(`${game.attributes.opponentName} has not yet accepted your challenge.`))
+  //     } else {
+  //       // messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
+  //       this.props.dispatch(getMessageToUser(`Awaiting your acceptance from ${game.attributes.opponentName}.`))
+  //     }
+  //     // this.setState({
+  //     //   messageToUser: messageToUser
+  //     // })
+  //   } else {
+  //     this.refreshGame(game)
+  //   }
+  // }
 
-      if (game.attributes.isChallenger) {
-        // messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
-        this.props.dispatch(getMessageToUser(`${game.attributes.opponentName} has not yet accepted your challenge.`))
-      } else {
-        // messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
-        this.props.dispatch(getMessageToUser(`Awaiting your acceptance from ${game.attributes.opponentName}.`))
-      }
-      // this.setState({
-      //   messageToUser: messageToUser
-      // })
-    } else {
-      this.refreshGame(game)
-    }
-  }
-
-  refreshGame(game) {
-    let board = JSON.parse(JSON.stringify(jsonChessBoard))
-    let gameMoves = game.included.map((piece) => {
-      return {
-        color: piece.attributes.color,
-        type: piece.attributes.pieceType,
-        currentPosition: piece.attributes.currentPosition,
-        startIndex: piece.attributes.startIndex,
-        hasMoved: piece.attributes.hasMoved,
-        movedTwo: piece.attributes.movedTwo
-      }
-    })
-
-    let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
-    let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
-
-    this.setState({
-      myGamesActive: false,
-      thumbNails: false,
-      moves: gameMoves,
-      turn: turn,
-      playerColor: game.attributes.playerColor,
-      currentGameActive: true,
-      currentGame: game,
-      chessBoard: currentGameBoard
-    })
-  }
+  // refreshGame(game) {
+  //   let board = JSON.parse(JSON.stringify(jsonChessBoard))
+  //   let gameMoves = game.included.map((piece) => {
+  //     return {
+  //       color: piece.attributes.color,
+  //       type: piece.attributes.pieceType,
+  //       currentPosition: piece.attributes.currentPosition,
+  //       startIndex: piece.attributes.startIndex,
+  //       hasMoved: piece.attributes.hasMoved,
+  //       movedTwo: piece.attributes.movedTwo
+  //     }
+  //   })
+  //
+  //   let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
+  //   let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+  //
+  //   this.setState({
+  //     myGamesActive: false,
+  //     thumbNails: false,
+  //     moves: gameMoves,
+  //     turn: turn,
+  //     playerColor: game.attributes.playerColor,
+  //     currentGameActive: true,
+  //     currentGame: game,
+  //     chessBoard: currentGameBoard
+  //   })
+  // }
 
   // handleUpdatePage(event) {
   //   let currentPage = this.state.page

@@ -2,9 +2,85 @@ import React, { Component } from 'react'
 import MiniSquare from './MiniSquare'
 import jsonChessBoard from '../jsonChessBoard'
 import '../styles/ThumbNail.css'
+import MoveLogic from '../helpers/MoveLogic'
 import LETTER_KEY from '../helpers/BoardHelper'
+import { connect } from 'react-redux'
+import {
+  getMessageToUser,
+  getMyGamesActive,
+  getThumbnails,
+  getMoves,
+  getTurn,
+  getPlayerColor,
+  getCurrentGameActive,
+  getCurrentGame,
+  getChessBoard,
+} from '../actions/index'
 
-export default class ThumbNail extends Component {
+class ThumbNail extends Component {
+  constructor() {
+    super()
+    this.moveLogic = new MoveLogic()
+
+    this.handleCurrentGame = this.handleCurrentGame.bind(this)
+    this.refreshGame = this.refreshGame.bind(this)
+  }
+
+  handleCurrentGame(game) {
+    if (game.attributes.pending) {
+      // let messageToUser
+
+      if (game.attributes.isChallenger) {
+        // messageToUser = `${game.attributes.opponentName} has not yet accepted your challenge.`
+        this.props.dispatch(getMessageToUser(`${game.attributes.opponentName} has not yet accepted your challenge.`))
+      } else {
+        // messageToUser = `Awaiting your acceptance from ${game.attributes.opponentName}.`
+        this.props.dispatch(getMessageToUser(`Awaiting your acceptance from ${game.attributes.opponentName}.`))
+      }
+      // this.setState({
+      //   messageToUser: messageToUser
+      // })
+    } else {
+      this.refreshGame(game)
+    }
+  }
+
+  refreshGame(game) {
+    let board = JSON.parse(JSON.stringify(jsonChessBoard))
+    let gameMoves = game.included.map((piece) => {
+      return {
+        color: piece.attributes.color,
+        type: piece.attributes.pieceType,
+        currentPosition: piece.attributes.currentPosition,
+        startIndex: piece.attributes.startIndex,
+        hasMoved: piece.attributes.hasMoved,
+        movedTwo: piece.attributes.movedTwo
+      }
+    })
+
+    let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
+    let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+    //
+    // this.setState({
+    //   myGamesActive: false,
+    //   thumbNails: false,
+    //   moves: gameMoves,
+    //   turn: turn,
+    //   playerColor: game.attributes.playerColor,
+    //   currentGameActive: true,
+    //   currentGame: game,
+    //   chessBoard: currentGameBoard
+    // })
+    this.props.dispatch(getMyGamesActive(false))
+    this.props.dispatch(getThumbnails(false))
+    this.props.dispatch(getMoves(gameMoves))
+    this.props.dispatch(getTurn(turn))
+    this.props.dispatch(getPlayerColor(game.attributes.playerColor))
+    this.props.dispatch(getCurrentGameActive(true))
+    this.props.dispatch(getCurrentGame(game))
+    this.props.dispatch(getChessBoard(currentGameBoard))
+  }
+
   thumbNailBoard() {
     let board = JSON.parse(JSON.stringify(jsonChessBoard))
     let gameMoves = this.props.game.included.map((piece) => {
@@ -132,7 +208,7 @@ export default class ThumbNail extends Component {
         </p>
         <div id={this.props.game.id}
           className={`thumbNailBoard ${this.playerColor}`}
-          onClick={() => this.props.handleCurrentGame(this.props.game)}>
+          onClick={() => this.handleCurrentGame(this.props.game)}>
             {this.currentSetup}
         </div>
         {this.archive}
@@ -140,3 +216,15 @@ export default class ThumbNail extends Component {
     )
   }
 }
+
+const mapStateToProps = ({
+  selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
+  moves, checkmate, stalemate, crossedPawn, userGames, currentGame
+}) => {
+  return {
+    selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
+    moves, checkmate, stalemate, crossedPawn, userGames, currentGame
+  }
+}
+
+export default connect(mapStateToProps)(ThumbNail)

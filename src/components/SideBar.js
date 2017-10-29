@@ -214,7 +214,7 @@ class SideBar extends Component {
     this.props.dispatch(getChessBoard(JSON.parse(JSON.stringify(jsonChessBoard))))
     this.props.dispatch(getPreviousBoard(null))
     this.props.dispatch(getMoves([]))
-    this.props.dispatch(getTurn())
+    this.props.dispatch(getTurn('white'))
     this.props.dispatch(getCheckmate(false))
     this.props.dispatch(getStalemate(false))
     this.props.dispatch(getSelected(null))

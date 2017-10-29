@@ -145,13 +145,21 @@ class Board extends Component {
     }
   }
 
+  currentBoard() {
+    if(this.props.previousBoard) {
+      return this.props.previousBoard
+    } else {
+      return this.props.chessBoard
+    }
+  }
+
   get currentSetup() {
     return this.boardRows().map((row, rowIndex) => {
       let eachRow = row.map((square, columnIndex) => {
         return(
           <Square key={columnIndex}
             styles={`col-xs-1 square${this.setOffset(columnIndex)} ${this.squareColor(square)}`}
-            piece={this.props.chessBoard[square].piece}
+            piece={this.currentBoard()[square].piece}
             id={square}
             isValid={this.isValid}
             move={this.move}
@@ -200,11 +208,13 @@ class Board extends Component {
 
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
-  moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token
+  moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
+  previousBoard
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
-    moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token
+    moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
+    previousBoard
   }
 }
 

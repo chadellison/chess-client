@@ -17,15 +17,10 @@ class MoveLog extends Component {
 
   handlePreviousBoard(event) {
     let index = parseInt(event.target.id, 10)
-    let gameMoves = this.props.moves.slice(0, index + 1)
+    let gameMoves = JSON.parse(JSON.stringify(this.props.moves.slice(0, index + 1)))
     let board = JSON.parse(JSON.stringify(jsonChessBoard))
 
     board = this.moveLogic.setBoard(gameMoves, board)
-    //
-    // this.setState({
-    //   previousBoard: board,
-    //   selected: null
-    // })
     this.props.dispatch(getPreviousBoard(board))
     this.props.dispatch(getSelected(null))
   }

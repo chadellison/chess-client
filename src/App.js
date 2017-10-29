@@ -49,14 +49,6 @@ class App extends Component {
     return crossedPawn
   }
 
-  get board() {
-    if(this.props.previousBoard) {
-      return this.props.previousBoard
-    } else {
-      return this.props.chessBoard
-    }
-  }
-
   get gameData() {
     if (this.props.currentGameActive) {
       return <Header currentGame={this.props.currentGame} />

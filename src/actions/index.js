@@ -1,5 +1,5 @@
 export const getTurn = (turn) => {
-  return { type: 'GET_TURN', turn: turn === 'white' ? 'black' : 'white' };
+  return { type: 'GET_TURN', turn: turn };
 };
 
 export const getChessBoard = (chessBoard) => {
@@ -47,7 +47,7 @@ export const getChallengedEmail = (challengedEmail) => {
 }
 
 export const getChallengeColor = (challengeColor) => {
-  return { type: 'GET_CHALLENGED_COLOR', challengeColor: challengeColor }
+  return { type: 'GET_CHALLENGE_COLOR', challengeColor: challengeColor }
 }
 
 export const getEmail = (email) => {

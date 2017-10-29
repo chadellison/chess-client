@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import '../styles/Square.css'
 import Piece from './Piece'
 import { connect } from 'react-redux'
-// import {} from '../actions/index'
 
 class Square extends Component {
   constructor() {
@@ -12,7 +11,13 @@ class Square extends Component {
 
   get piece() {
     if(this.props.piece) {
-      return <Piece isValid={this.props.isValid} piece={this.props.piece} />
+      return (
+        <Piece
+          isValid={this.props.isValid}
+          piece={this.props.piece}
+          colorOfPlayer={this.props.colorOfPlayer}
+        />
+      )
     } else {
       return null
     }

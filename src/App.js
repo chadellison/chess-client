@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import './styles/App.css'
 import Board from './components/Board.js'
 import ThumbNails from './components/ThumbNails.js'
-import JsonResponse from './helpers/JsonResponseHelper'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
 import SideBar from './components/SideBar'
 import Header from './components/Header'
@@ -11,7 +10,8 @@ import GameService from './services/GameService'
 import { connect } from 'react-redux'
 import {
   getMessageToUser,
-  getUserGames
+  getUserGames,
+  getCurrentGame
 } from './actions/index'
 
 class App extends Component {
@@ -35,7 +35,7 @@ class App extends Component {
       })
 
       this.props.dispatch(getUserGames(updatedUserGames))
-      this.props.getCurrentGame(responseJson.data)
+      this.props.dispatch(getCurrentGame(responseJson.data))
     })
   }
 

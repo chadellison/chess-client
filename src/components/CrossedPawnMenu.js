@@ -36,11 +36,6 @@ class CrossedPawnMenu extends Component {
     let board = JSON.parse(JSON.stringify(this.props.chessBoard))
     board[coordinates].piece.type = pieceType
 
-    // this.setState({
-    //   chessBoard: board,
-    //   crossedPawn: false
-    // })
-
     this.props.dispatch(getChessBoard(board))
     this.props.dispatch(getCrossedPawn(false))
   }
@@ -65,10 +60,8 @@ class CrossedPawnMenu extends Component {
   }
 }
 
-const mapStateToProps = ({
-}) => {
-  return {
-  }
+const mapStateToProps = () => {
+  return {}
 }
 
 export default connect(mapStateToProps)(CrossedPawnMenu)

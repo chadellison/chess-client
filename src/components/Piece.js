@@ -69,7 +69,8 @@ class Piece extends Component {
         id={this.props.piece.startIndex}
         className={
           `glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]}
-           piece-${this.props.piece.color} piece ${this.selected}`
+           piece-${this.props.piece.color} piece ${this.selected}
+           ${this.props.colorOfPlayer}`
          }
         onClick={() => this.handleSelected(this.props.piece)}
       />

@@ -52,6 +52,10 @@ class SideBar extends Component {
     this.handleReset           = this.handleReset.bind(this)
     this.updateSignInInfo      = this.updateSignInInfo.bind(this)
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
+    this.handleChallenge       = this.handleChallenge.bind(this)
+    this.handleChallengeColor  = this.handleChallengeColor.bind(this)
+    this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
+    this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
   }
 
   componentDidMount() {
@@ -107,20 +111,20 @@ class SideBar extends Component {
 
     }
     this.gameService.createGame(gameBody, this.props.token)
-    .then(response => response.json())
-    .then(responseJson => {
-      if (responseJson.errors) {
-        this.props.getMessageToUser(responseJson.errors)
-      } else {
-        let updatedUserGames = this.props.userGames
-        updatedUserGames.unshift(responseJson.data)
-        this.props.dispatch(getUserGames(updatedUserGames))
-        this.props.dispatch(getMessageToUser(`Your challenge has been submitted to ${this.props.challengedName}!`))
-        this.props.dispatch(getChallengePlayer(false))
-        this.props.dispatch(getChallengeRobot(false))
-        this.props.dispatch(getChallengedName(''))
-        this.props.dispatch(getChallengedEmail(''))
-      }
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.errors) {
+          this.props.dispatch(getMessageToUser(responseJson.errors))
+        } else {
+          let updatedUserGames = JSON.parse(JSON.stringify(this.props.userGames))
+          updatedUserGames.unshift(responseJson.data)
+          this.props.dispatch(getUserGames(updatedUserGames))
+          this.props.dispatch(getMessageToUser(`Your challenge has been submitted to ${this.props.challengedName}!`))
+          this.props.dispatch(getChallengePlayer(false))
+          this.props.dispatch(getChallengeRobot(false))
+          this.props.dispatch(getChallengedName(''))
+          this.props.dispatch(getChallengedEmail(''))
+        }
     })
     .catch((error) => alert(error))
   }
@@ -200,9 +204,9 @@ class SideBar extends Component {
 
   handleMyGamesActive() {
     this.props.dispatch(getMessageToUser(''))
-    this.props.dispatch(getMyGamesActive(!this.state.myGamesActive))
-    this.props.dispatch(getThumbnails(!this.state.thumbNails))
-    this.props.dispatch(getCurrentGameActive(!this.state.currentGameActive))
+    this.props.dispatch(getMyGamesActive(!this.props.myGamesActive))
+    this.props.dispatch(getThumbnails(!this.props.thumbNails))
+    this.props.dispatch(getCurrentGameActive(!this.props.currentGameActive))
   }
 
   handleReset() {
@@ -252,11 +256,7 @@ class SideBar extends Component {
     if(this.noFormsActive()) {
       let moveLog
       if(this.props.moveLogActive) {
-        moveLog = <MoveLog
-          handleMoveLog={this.handleMoveLog}
-          // moves={this.state.moves}
-          // handlePreviousBoard={this.handlePreviousBoard}
-        />
+        moveLog = <MoveLog handleMoveLog={this.handleMoveLog} />
       } else {
         moveLog = <button className='moveLogButton' onClick={this.handleMoveLog}>
           Move Log
@@ -422,15 +422,15 @@ class SideBar extends Component {
 
 const mapStateToProps = ({
   moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
-  myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
+  myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
-  signUpFormActive, signInFormActive
+  signUpFormActive, signInFormActive, userGames, challengeRobot
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
-    myGamesActive, thumbNails, turn, playerColor, challengerColor, currentGameActive,
+    myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
-    signUpFormActive, signInFormActive
+    signUpFormActive, signInFormActive, userGames, challengeRobot
   }
 }
 

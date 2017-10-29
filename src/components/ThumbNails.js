@@ -15,11 +15,10 @@ class ThumbNails extends Component {
     }
     return this.props.userGames.map((game, index) => {
       return (
-        <ThumbNail key={game.id - index}
+        <ThumbNail
+          key={game.id - index}
+          handleEndGame={this.props.handleEndGame}
           game={game}
-          // handleAcceptChallenge={this.props.handleAcceptChallenge}
-          // handleArchiveGame={this.props.handleArchiveGame}
-          // handleEndGame={this.props.handleEndGame}
         />
       )
     })

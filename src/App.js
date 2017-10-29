@@ -2,13 +2,11 @@ import React, {Component} from 'react'
 import './styles/App.css'
 import Board from './components/Board.js'
 import ThumbNails from './components/ThumbNails.js'
-import MoveLogic from './helpers/MoveLogic'
 import JsonResponse from './helpers/JsonResponseHelper'
 import CrossedPawnMenu from './components/CrossedPawnMenu'
 import SideBar from './components/SideBar'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import UserService from './services/UserService'
 import GameService from './services/GameService'
 import { connect } from 'react-redux'
 import {
@@ -19,13 +17,8 @@ import {
 class App extends Component {
   constructor() {
     super()
-    // this.state = {
-      // page: 1
-    // }
 
-    this.userService = new UserService()
     this.gameService = new GameService()
-    this.moveLogic   = new MoveLogic()
 
     this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
 

@@ -19,9 +19,9 @@ import {
 class App extends Component {
   constructor() {
     super()
-    this.state = {
-      page: 1
-    }
+    // this.state = {
+      // page: 1
+    // }
 
     this.userService = new UserService()
     this.gameService = new GameService()
@@ -65,15 +65,15 @@ class App extends Component {
   handleSubmitChallenge() {
     // this should move into sidebar these bits of state no longer exist
     let gameBody = {}
-    if(this.state.challengeRobot) {
+    if(this.props.challengeRobot) {
       gameBody.challengedName = 'robot'
       gameBody.challengedEmail = 'robot'
-      gameBody.challengerColor = this.state.challengeColor
+      gameBody.challengerColor = this.props.challengeColor
       gameBody.human = false
     } else {
-      gameBody.challengedName = this.state.challengedName
-      gameBody.challengedEmail = this.state.challengedEmail
-      gameBody.challengerColor = this.state.challengeColor
+      gameBody.challengedName = this.props.challengedName
+      gameBody.challengedEmail = this.props.challengedEmail
+      gameBody.challengerColor = this.props.challengeColor
       gameBody.human = true
 
     }
@@ -106,9 +106,9 @@ class App extends Component {
 
   get crossedPawn() {
     let crossedPawn
-    if (this.state.crossedPawn) {
+    if (this.props.crossedPawn) {
       crossedPawn = <CrossedPawnMenu
-        color={this.state.moves.slice(-1)[0].color}
+        color={this.props.moves.slice(-1)[0].color}
         handleCrossedPawn={this.handleCrossedPawn}
       />
     }
@@ -116,16 +116,16 @@ class App extends Component {
   }
 
   get board() {
-    if(this.state.previousBoard) {
-      return this.state.previousBoard
+    if(this.props.previousBoard) {
+      return this.props.previousBoard
     } else {
       return this.props.chessBoard
     }
   }
 
   get gameData() {
-    if (this.state.currentGameActive) {
-      return <Header currentGame={this.state.currentGame} />
+    if (this.props.currentGameActive) {
+      return <Header currentGame={this.props.currentGame} />
     } else {
       return null
     }
@@ -151,8 +151,8 @@ class App extends Component {
           {this.gameView}
           {this.crossedPawn}
           <SideBar
-            challengePlayer={this.state.challengePlayer}
-            challengeColor={this.state.challengeColor}
+            challengePlayer={this.props.challengePlayer}
+            challengeColor={this.props.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}
             handleEndGame={this.handleEndGame}
             updateSignInInfo={this.updateSignInInfo}
@@ -164,8 +164,12 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ thumbnails, userGames, token, currentGame }) => {
-  return { thumbnails, userGames, token, currentGame }
+const mapStateToProps = ({
+  thumbnails, userGames, token, currentGame, currentGameActive, previousBoard
+}) => {
+  return {
+    thumbnails, userGames, token, currentGame, currentGameActive, previousBoard
+  }
 }
 
 export default connect(mapStateToProps)(App)

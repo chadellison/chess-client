@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import ThumbNail from './ThumbNail'
 import '../styles/ThumbNails.css'
+import { connect } from 'react-redux'
 
-export default class ThumbNails extends Component {
+class ThumbNails extends Component {
   get thumbNails() {
+
     if (this.props.userGames.length === 0) {
       return (
         <p>
@@ -13,13 +15,10 @@ export default class ThumbNails extends Component {
     }
     return this.props.userGames.map((game, index) => {
       return (
-        <ThumbNail key={game.id - index}
-          game={game} moveLogic={this.props.moveLogic}
-          handleCurrentGame={this.props.handleCurrentGame}
-          handleAcceptChallenge={this.props.handleAcceptChallenge}
-          challengeAccepted={this.props.challengeAccepted}
-          handleArchiveGame={this.props.handleArchiveGame}
+        <ThumbNail
+          key={game.id - index}
           handleEndGame={this.props.handleEndGame}
+          game={game}
         />
       )
     })
@@ -34,3 +33,13 @@ export default class ThumbNails extends Component {
     )
   }
 }
+
+const mapStateToProps = ({
+  userGames
+}) => {
+  return {
+    userGames
+  }
+}
+
+export default connect(mapStateToProps)(ThumbNails)

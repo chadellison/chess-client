@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import '../styles/Square.css'
 import Piece from './Piece'
+import { connect } from 'react-redux'
 
-export default class Square extends Component {
+class Square extends Component {
   constructor() {
     super()
     this.handleMove = this.handleMove.bind(this)
@@ -10,12 +11,11 @@ export default class Square extends Component {
 
   get piece() {
     if(this.props.piece) {
-      return(
+      return (
         <Piece
-          handleSelected={this.props.handleSelected}
+          isValid={this.props.isValid}
           piece={this.props.piece}
-          isSelected={this.props.isSelected}
-          playerColor={this.props.playerColor}
+          colorOfPlayer={this.props.colorOfPlayer}
         />
       )
     } else {
@@ -24,7 +24,7 @@ export default class Square extends Component {
   }
 
   handleMove() {
-    if(this.props.isSelected) {
+    if(this.props.selected) {
       return this.props.move(this.props.id)
     } else {
       return null
@@ -32,7 +32,7 @@ export default class Square extends Component {
   }
 
   get availableMove() {
-      if(this.props.isSelected && this.props.isSelected.availableMoves.includes(this.props.id)) {
+      if(this.props.selected && this.props.selected.availableMoves.includes(this.props.id)) {
         return ' available'
       } else {
         return ''
@@ -47,3 +47,7 @@ export default class Square extends Component {
     )
   }
 }
+
+const mapStateToProps = ({ selected }) => { return { selected } }
+
+export default connect(mapStateToProps)(Square)

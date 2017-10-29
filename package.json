@@ -10,8 +10,11 @@
     "node": "^8.3.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
     "react-scripts": "1.0.10",
     "react-test-renderer": "^15.6.1",
+    "redux": "^3.7.2",
+    "redux-promise": "^0.5.3",
     "selenium-standalone": "^6.6.0",
     "webdriverio": "^4.8.0"
   },

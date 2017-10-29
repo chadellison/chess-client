@@ -20,33 +20,7 @@ class App extends Component {
 
     this.gameService = new GameService()
 
-    this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleEndGame         = this.handleEndGame.bind(this)
-  }
-
-  handleSubmitChallenge() {
-    // this should move into sidebar these bits of state no longer exist
-    let gameBody = {}
-    if(this.props.challengeRobot) {
-      gameBody.challengedName = 'robot'
-      gameBody.challengedEmail = 'robot'
-      gameBody.challengerColor = this.props.challengeColor
-      gameBody.human = false
-    } else {
-      gameBody.challengedName = this.props.challengedName
-      gameBody.challengedEmail = this.props.challengedEmail
-      gameBody.challengerColor = this.props.challengeColor
-      gameBody.human = true
-
-    }
-    this.gameService.createGame(gameBody, this.state.token)
-    .then(response => response.json())
-    .then(responseJson => {
-      this.setState(
-        JsonResponse.handleSubmitChallenge(responseJson, this.state.userGames, this.state.challengedName)
-      )
-    })
-    .catch((error) => alert(error))
   }
 
   handleEndGame(outcome, resign, game_id) {

@@ -45,12 +45,13 @@ class SideBar extends Component {
     super()
     this.gameService = new GameService()
 
-    this.handleMoveLog        = this.handleMoveLog.bind(this)
-    this.handleLogout         = this.handleLogout.bind(this)
-    this.handleCredentialForm = this.handleCredentialForm.bind(this)
-    this.handleMyGamesActive  = this.handleMyGamesActive.bind(this)
-    this.handleReset          = this.handleReset.bind(this)
-    this.updateSignInInfo     = this.updateSignInInfo.bind(this)
+    this.handleMoveLog         = this.handleMoveLog.bind(this)
+    this.handleLogout          = this.handleLogout.bind(this)
+    this.handleCredentialForm  = this.handleCredentialForm.bind(this)
+    this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
+    this.handleReset           = this.handleReset.bind(this)
+    this.updateSignInInfo      = this.updateSignInInfo.bind(this)
+    this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
   }
 
   componentDidMount() {
@@ -89,6 +90,39 @@ class SideBar extends Component {
     this.props.dispatch(getThumbnails(true))
     this.props.dispatch(getMyGamesActive(true))
     this.props.dispatch(getLoading(false))
+  }
+
+  handleSubmitChallenge() {
+    let gameBody = {}
+    if(this.props.challengeRobot) {
+      gameBody.challengedName = 'robot'
+      gameBody.challengedEmail = 'robot'
+      gameBody.challengerColor = this.props.challengeColor
+      gameBody.human = false
+    } else {
+      gameBody.challengedName = this.props.challengedName
+      gameBody.challengedEmail = this.props.challengedEmail
+      gameBody.challengerColor = this.props.challengeColor
+      gameBody.human = true
+
+    }
+    this.gameService.createGame(gameBody, this.props.token)
+    .then(response => response.json())
+    .then(responseJson => {
+      if (responseJson.errors) {
+        this.props.getMessageToUser(responseJson.errors)
+      } else {
+        let updatedUserGames = this.props.userGames
+        updatedUserGames.unshift(responseJson.data)
+        this.props.dispatch(getUserGames(updatedUserGames))
+        this.props.dispatch(getMessageToUser(`Your challenge has been submitted to ${this.props.challengedName}!`))
+        this.props.dispatch(getChallengePlayer(false))
+        this.props.dispatch(getChallengeRobot(false))
+        this.props.dispatch(getChallengedName(''))
+        this.props.dispatch(getChallengedEmail(''))
+      }
+    })
+    .catch((error) => alert(error))
   }
 
   handleCredentialForm(event) {
@@ -314,7 +348,7 @@ class SideBar extends Component {
         <div>
           {this.challengePlayerFields}
           {this.challengeColorButtons}
-          <button className='challengeButton' onClick={this.props.handleSubmitChallenge}>
+          <button className='challengeButton' onClick={this.handleSubmitChallenge}>
             Challenge
           </button>
           <button className='cancelButton' onClick={this.handleCancelChallenge}>

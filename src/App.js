@@ -20,39 +20,8 @@ class App extends Component {
 
     this.gameService = new GameService()
 
-    this.handleCrossedPawn     = this.handleCrossedPawn.bind(this)
-
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleEndGame         = this.handleEndGame.bind(this)
-  }
-
-  handleCrossedPawn(event) {
-    let classNames = event.target.className.split("-")
-    let pieceType
-
-    if (classNames.includes('knight piece')) {
-      pieceType = 'knight'
-    }
-    if (classNames.includes('bishop piece')) {
-      pieceType = 'bishop'
-    }
-
-    if (classNames.includes('tower piece')) {
-      pieceType = 'rook'
-    }
-
-    if (classNames.includes('queen piece')) {
-      pieceType = 'queen'
-    }
-
-    let coordinates = this.state.moves.slice(-1)[0].currentPosition
-    let board = JSON.parse(JSON.stringify(this.props.chessBoard))
-    board[coordinates].piece.type = pieceType
-
-    this.setState({
-      chessBoard: board,
-      crossedPawn: false
-    })
   }
 
   handleSubmitChallenge() {
@@ -102,7 +71,6 @@ class App extends Component {
     if (this.props.crossedPawn) {
       crossedPawn = <CrossedPawnMenu
         color={this.props.moves.slice(-1)[0].color}
-        handleCrossedPawn={this.handleCrossedPawn}
       />
     }
     return crossedPawn

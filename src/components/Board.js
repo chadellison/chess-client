@@ -35,21 +35,19 @@ class Board extends Component {
     if(this.isValid(piece, coordinates, board, gameMoves)) {
       this.props.dispatch(getTurn(this.props.turn))
       let updatedBoard     = JSON.parse(JSON.stringify(this.props.chessBoard))
-      let checkmate        = this.props.checkmate
-      let stalemate        = this.props.stalemate
-      let updatedUserGames = this.props.userGames
 
-      updatedBoard = this.moveLogic.isCastle(piece, coordinates, updatedBoard)
-      updatedBoard = this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)
+      this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, updatedBoard)))
+      this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)))
       piece        = this.pawnMovedTwo(this.props.selected, coordinates)
 
       if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
         this.props.dispatch(getCrossedPawn(true))
       }
 
+      updatedBoard = this.props.chessBoard
       updatedBoard[piece.currentPosition].piece = null
-
       updatedBoard[coordinates].piece = piece
+      this.props.dispatch(getChessBoard(updatedBoard))
       this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
       this.props.dispatch(getMoves(gameMoves.push(piece)))
 
@@ -57,62 +55,60 @@ class Board extends Component {
         this.gameService.makeMove(this.props.currentGame.id, piece, this.props.token)
         .then((response) => response.json())
         .then((responseJson) => {
-          updatedUserGames = updatedUserGames.map((userGame) => {
+          let updatedUserGames = this.props.userGames.map((userGame) => {
             if(userGame.id === responseJson.data.id) {
               userGame.included = responseJson.data.included
             }
             return userGame
           })
+          this.props.dispatch(getUserGames(updatedUserGames))
         })
         .catch((error) => alert(error))
       }
 
-      if(this.moveLogic.checkmate(updatedBoard, gameMoves, this.props.turn)) {
-        checkmate = true
-        this.props.dispatch(getMessageToUser(`${this.props.turn} Wins!`))
-        if(this.props.currentGameActive) {
-          let outcome = `${this.props.turn} wins`
-          this.gameService.endGame(outcome, false, this.props.currentGame.id, this.props.token)
-          .then((response) => response.json())
-          .then((responseJson) => {
-            updatedUserGames = updatedUserGames.map((userGame) => {
-              if(userGame.id === responseJson.data.id) {
-                userGame.attributes.outcome = outcome
-              }
-              return userGame
-            })
-          })
-        }
-      }
-
-      if(this.moveLogic.stalemate(updatedBoard, gameMoves, this.props.turn)) {
-        stalemate = true
-        this.props.dispatch(getMessageToUser('Draw!'))
-        if(this.props.currentGameActive) {
-          this.gameService.endGame('draw', false, this.props.currentGame.id, this.props.token)
-          .then((response) => response.json())
-          .then((responseJson) => {
-            updatedUserGames = updatedUserGames.map((userGame) => {
-              if(userGame.id === responseJson.data.id) {
-                userGame.attributes.outcome = 'draw'
-              }
-              return userGame
-            })
-          })
-        }
+      if(this.moveLogic.checkmate(updatedBoard, this.props.moves, this.props.turn) || this.moveLogic.stalemate(updatedBoard, this.props.moves, this.props.turn)) {
+        this.handleCheckmateOrStaleMate(updatedBoard)
       }
 
       this.props.dispatch(getTurn(this.props.turn === 'white' ? 'black' : 'white'))
       this.props.dispatch(getMoves(gameMoves))
-      this.props.dispatch(getCheckmate(checkmate))
-      this.props.dispatch(getStalemate(stalemate))
-      this.props.dispatch(getUserGames(updatedUserGames))
       this.props.dispatch(getChessBoard(updatedBoard))
 
     } else {
       this.props.dispatch(getMessageToUser('Invalid Move'))
     }
     this.props.dispatch(getSelected(null))
+  }
+
+  handleCheckmateOrStaleMate(updatedBoard) {
+    let outcome
+
+    if(this.moveLogic.stalemate(updatedBoard, this.props.moves, this.props.turn)) {
+      this.props.dispatch(getStalemate(true))
+      this.props.dispatch(getMessageToUser('Draw!'))
+      outcome = 'draw'
+    }
+    if(this.moveLogic.checkmate(updatedBoard, this.props.moves, this.props.turn)) {
+      this.props.dispatch(getCheckmate(true))
+      this.props.dispatch(getMessageToUser(`${this.props.turn} Wins!`))
+      outcome = `${this.props.turn} wins`
+    }
+
+    this.updateOutcome(outcome)
+  }
+
+  updateOutcome(outcome) {
+    this.gameService.endGame(outcome, false, this.props.currentGame.id, this.props.token)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      let updatedUserGames = this.props.userGames.map((userGame) => {
+        if(userGame.id === responseJson.data.id) {
+          userGame.attributes.outcome = outcome
+        }
+        return userGame
+      })
+      this.props.dispatch(getUserGames(updatedUserGames))
+    })
   }
 
   updatedPiece(piece, coordinates) {

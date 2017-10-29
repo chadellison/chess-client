@@ -19,8 +19,7 @@ class App extends Component {
     super()
 
     this.gameService = new GameService()
-
-    this.handleEndGame         = this.handleEndGame.bind(this)
+    this.handleEndGame = this.handleEndGame.bind(this)
   }
 
   handleEndGame(outcome, resign, game_id) {
@@ -85,13 +84,7 @@ class App extends Component {
         <div className='container-fluid'>
           {this.gameView}
           {this.crossedPawn}
-          <SideBar
-            challengePlayer={this.props.challengePlayer}
-            challengeColor={this.props.challengeColor}
-            handleSubmitChallenge={this.handleSubmitChallenge}
-            handleEndGame={this.handleEndGame}
-            updateSignInInfo={this.updateSignInInfo}
-          />
+          <SideBar handleEndGame={this.handleEndGame} />
         </div>
         <Footer />
       </div>

@@ -4,6 +4,7 @@ import jsonChessBoard from '../jsonChessBoard'
 import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
+import GameService from '../services/GameService'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
@@ -30,17 +31,64 @@ import {
   getCheckmate,
   getStalemate,
   getCrossedPawn,
-  getSelected
+  getSelected,
+  getLoading,
+  getEmail,
+  getPassword,
+  getFirstName,
+  getLastName,
+  getUserGames
 } from '../actions/index'
 
 class SideBar extends Component {
   constructor() {
     super()
+    this.gameService = new GameService()
+
     this.handleMoveLog        = this.handleMoveLog.bind(this)
     this.handleLogout         = this.handleLogout.bind(this)
     this.handleCredentialForm = this.handleCredentialForm.bind(this)
     this.handleMyGamesActive  = this.handleMyGamesActive.bind(this)
     this.handleReset          = this.handleReset.bind(this)
+    this.updateSignInInfo     = this.updateSignInInfo.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.dispatch(getChessBoard(jsonChessBoard))
+    if (localStorage.getItem('state')) {
+      let currentState = JSON.parse(localStorage.getItem('state'))
+
+      this.gameService.fetchGames(currentState.token, 1)
+        .then(response => response.json())
+        .then(responseJson => {
+          currentState.userGames = responseJson.data
+          this.props.dispatch(getLoading(false))
+          this.updateSignInInfo(currentState)
+        })
+        .catch((error) => {
+          localStorage.removeItem('state')
+          this.props.dispatch(getLoading(false))
+        })
+    } else {
+      this.props.dispatch(getLoading(false))
+    }
+  }
+
+  updateSignInInfo(userData) {
+    this.props.dispatch(getToken(userData.token))
+    this.props.dispatch(getSignUpFormActive(false))
+    this.props.dispatch(getSignInFormActive(false))
+    this.props.dispatch(getLoggedIn(true))
+    this.props.dispatch(getMessageToUser('Welcome to Chess Mail!'))
+    this.props.dispatch(getHashedEmail(userData.hashedEmail))
+    this.props.dispatch(getEmail(''))
+    this.props.dispatch(getPassword(''))
+    this.props.dispatch(getFirstName(userData.firstName))
+    this.props.dispatch(getLastName(userData.lastName))
+    this.props.dispatch(getUserGames(userData.userGames))
+    this.props.dispatch(getThumbnails(true))
+    this.props.dispatch(getMyGamesActive(true))
+    this.props.dispatch(getLoading(false))
   }
 
   handleCredentialForm(event) {
@@ -137,7 +185,7 @@ class SideBar extends Component {
 
   get credentialForm() {
     if (this.props.signUpFormActive || this.props.signInFormActive) {
-      return <CredentialForm />
+      return <CredentialForm updateSignInInfo={this.updateSignInInfo}/>
     } else {
       return null
     }

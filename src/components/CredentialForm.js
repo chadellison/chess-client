@@ -12,13 +12,7 @@ import {
   getEmail,
   getPassword,
   getFirstName,
-  getLastName,
-  getToken,
-  getLoggedIn,
-  getHashedEmail,
-  getThumbnails,
-  getUserGames,
-  getMyGamesActive
+  getLastName
 } from '../actions/index'
 
 class CredentialForm extends Component {
@@ -57,34 +51,17 @@ class CredentialForm extends Component {
     this.props.dispatch(getPassword(''))
   }
 
-  updateSignInInfo(userData) {
-    this.props.dispatch(getToken(userData.token))
-    this.props.dispatch(getSignUpFormActive(false))
-    this.props.dispatch(getSignInFormActive(false))
-    this.props.dispatch(getLoggedIn(true))
-    this.props.dispatch(getMessageToUser('Welcome to Chess Mail!'))
-    this.props.dispatch(getHashedEmail(userData.hashedEmail))
-    this.props.dispatch(getEmail(''))
-    this.props.dispatch(getPassword(''))
-    this.props.dispatch(getFirstName(userData.firstName))
-    this.props.dispatch(getLastName(userData.lastName))
-    this.props.dispatch(getUserGames(userData.userGames))
-    this.props.dispatch(getThumbnails(true))
-    this.props.dispatch(getMyGamesActive(true))
-    this.props.dispatch(getLoading(false))
-  }
-
   handleUserSignIn() {
+    let self = this
     this.props.dispatch(getLoading(true))
     this.userService.signIn(this.props.email, this.props.password)
       .then(response => response.json())
       .then(responseJson => {
-
         if (responseJson.errors) {
-          this.props.dispatch(getMessageToUser(responseJson.errors))
-          this.props.dispatch(getLoading(false))
+          self.props.dispatch(getMessageToUser(responseJson.errors))
+          self.props.dispatch(getLoading(false))
         } else {
-          this.updateSignInInfo(this.loggedInData(responseJson))
+          self.props.updateSignInInfo(this.loggedInData(responseJson))
           localStorage.setItem('state', JSON.stringify(this.loggedInData(responseJson)))
         }
       })

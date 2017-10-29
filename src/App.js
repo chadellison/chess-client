@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import './styles/App.css'
-import jsonChessBoard from './jsonChessBoard'
 import Board from './components/Board.js'
 import ThumbNails from './components/ThumbNails.js'
 import MoveLogic from './helpers/MoveLogic'
@@ -13,9 +12,7 @@ import UserService from './services/UserService'
 import GameService from './services/GameService'
 import { connect } from 'react-redux'
 import {
-  getChessBoard,
   getMessageToUser,
-  getLoading,
   getUserGames
 } from './actions/index'
 
@@ -34,27 +31,6 @@ class App extends Component {
 
     this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
     this.handleEndGame         = this.handleEndGame.bind(this)
-  }
-
-  componentDidMount() {
-    this.props.dispatch(getChessBoard(jsonChessBoard))
-    if (localStorage.getItem('state')) {
-      let currentState = JSON.parse(localStorage.getItem('state'))
-
-      this.gameService.fetchGames(currentState.token, 1)
-      .then(response => response.json())
-      .then(responseJson => {
-        currentState.userGames = responseJson.data
-        this.props.dispatch(getLoading(false))
-        this.setState(currentState)
-      })
-      .catch((error) => {
-        localStorage.removeItem('state')
-        this.props.dispatch(getLoading(false))
-      })
-    } else {
-      this.props.dispatch(getLoading(false))
-    }
   }
 
   handleCrossedPawn(event) {
@@ -179,6 +155,7 @@ class App extends Component {
             challengeColor={this.state.challengeColor}
             handleSubmitChallenge={this.handleSubmitChallenge}
             handleEndGame={this.handleEndGame}
+            updateSignInInfo={this.updateSignInInfo}
           />
         </div>
         <Footer />

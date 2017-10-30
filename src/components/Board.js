@@ -44,28 +44,10 @@ class Board extends Component {
         this.props.dispatch(getCrossedPawn(true))
       }
 
+      this.updateBoardAndPiece(coordinates, piece)
+      this.sendMove()
+
       updatedBoard = this.props.chessBoard
-      updatedBoard[piece.currentPosition].piece = null
-      updatedBoard[coordinates].piece = piece
-      this.props.dispatch(getChessBoard(updatedBoard))
-      this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
-      this.props.dispatch(getMoves(gameMoves.push(piece)))
-
-      if(this.props.currentGameActive) {
-        this.gameService.makeMove(this.props.currentGame.id, piece, this.props.token)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          let updatedUserGames = this.props.userGames.map((userGame) => {
-            if(userGame.id === responseJson.data.id) {
-              userGame.included = responseJson.data.included
-            }
-            return userGame
-          })
-          this.props.dispatch(getUserGames(updatedUserGames))
-        })
-        .catch((error) => alert(error))
-      }
-
       if(this.moveLogic.checkmate(updatedBoard, this.props.moves, this.props.turn) || this.moveLogic.stalemate(updatedBoard, this.props.moves, this.props.turn)) {
         this.handleCheckmateOrStaleMate(updatedBoard)
       }
@@ -78,6 +60,33 @@ class Board extends Component {
       this.props.dispatch(getMessageToUser('Invalid Move'))
     }
     this.props.dispatch(getSelected(null))
+  }
+
+  sendMove() {
+    if(this.props.currentGameActive) {
+      this.gameService.makeMove(this.props.currentGame.id, this.props.selected, this.props.token)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let updatedUserGames = this.props.userGames.map((userGame) => {
+          if(userGame.id === responseJson.data.id) {
+            userGame.included = responseJson.data.included
+          }
+          return userGame
+        })
+        this.props.dispatch(getUserGames(updatedUserGames))
+      })
+      .catch((error) => alert(error))
+    }
+  }
+
+  updateBoardAndPiece(coordinates, piece) {
+    let updatedBoard = this.props.chessBoard
+    let gameMoves = this.props.moves
+    updatedBoard[piece.currentPosition].piece = null
+    updatedBoard[coordinates].piece = piece
+    this.props.dispatch(getChessBoard(updatedBoard))
+    this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
+    this.props.dispatch(getMoves(gameMoves.push(piece)))
   }
 
   handleCheckmateOrStaleMate(updatedBoard) {

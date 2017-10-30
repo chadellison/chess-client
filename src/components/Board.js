@@ -34,37 +34,34 @@ class Board extends Component {
 
     if(this.isValid(piece, coordinates, board, gameMoves)) {
       this.props.dispatch(getTurn(this.props.turn))
-      let updatedBoard     = JSON.parse(JSON.stringify(this.props.chessBoard))
 
-      this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, updatedBoard)))
-      this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, updatedBoard)))
-      piece        = this.pawnMovedTwo(this.props.selected, coordinates)
+      this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, board)))
+
+      this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, board)))
+      piece        = this.pawnMovedTwo(piece, coordinates)
 
       if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
         this.props.dispatch(getCrossedPawn(true))
       }
 
-      this.updateBoardAndPiece(coordinates, piece)
+      this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
       this.sendMove()
 
-      updatedBoard = this.props.chessBoard
-      if(this.moveLogic.checkmate(updatedBoard, this.props.moves, this.props.turn) || this.moveLogic.stalemate(updatedBoard, this.props.moves, this.props.turn)) {
-        this.handleCheckmateOrStaleMate(updatedBoard)
+      if(this.moveLogic.checkmate(board, gameMoves, this.props.turn) || this.moveLogic.stalemate(board, gameMoves, this.props.turn)) {
+        this.handleCheckmateOrStaleMate(board)
       }
 
       this.props.dispatch(getTurn(this.props.turn === 'white' ? 'black' : 'white'))
-      this.props.dispatch(getMoves(gameMoves))
-      this.props.dispatch(getChessBoard(updatedBoard))
-
+      
     } else {
       this.props.dispatch(getMessageToUser('Invalid Move'))
     }
     this.props.dispatch(getSelected(null))
   }
 
-  sendMove() {
+  sendMove(piece) {
     if(this.props.currentGameActive) {
-      this.gameService.makeMove(this.props.currentGame.id, this.props.selected, this.props.token)
+      this.gameService.makeMove(this.props.currentGame.id, piece, this.props.token)
       .then((response) => response.json())
       .then((responseJson) => {
         let updatedUserGames = this.props.userGames.map((userGame) => {
@@ -79,14 +76,13 @@ class Board extends Component {
     }
   }
 
-  updateBoardAndPiece(coordinates, piece) {
-    let updatedBoard = this.props.chessBoard
-    let gameMoves = this.props.moves
-    updatedBoard[piece.currentPosition].piece = null
-    updatedBoard[coordinates].piece = piece
-    this.props.dispatch(getChessBoard(updatedBoard))
+  updateBoardAndPiece(coordinates, piece, board, gameMoves) {
+    board[piece.currentPosition].piece = null
+    board[coordinates].piece = piece
+    this.props.dispatch(getChessBoard(board))
     this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
-    this.props.dispatch(getMoves(gameMoves.push(piece)))
+    gameMoves.push(piece)
+    this.props.dispatch(getMoves(gameMoves))
   }
 
   handleCheckmateOrStaleMate(updatedBoard) {

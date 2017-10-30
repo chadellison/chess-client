@@ -96,7 +96,7 @@ class SideBar extends Component {
     this.props.dispatch(getLoading(false))
   }
 
-  handleSubmitChallenge() {
+  handleGameBody() {
     let gameBody = {}
     if(this.props.challengeRobot) {
       gameBody.challengedName = 'robot'
@@ -110,7 +110,11 @@ class SideBar extends Component {
       gameBody.human = true
 
     }
-    this.gameService.createGame(gameBody, this.props.token)
+    return gameBody
+  }
+
+  handleSubmitChallenge() {
+    this.gameService.createGame(this.handleGameBody(), this.props.token)
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.errors) {

@@ -4,6 +4,7 @@ import Square from './Square'
 import MoveLogic from '../helpers/MoveLogic'
 import LETTER_KEY from '../helpers/BoardHelper'
 import GameService from '../services/GameService'
+import jsonChessBoard from '../jsonChessBoard'
 import { connect } from 'react-redux'
 import {
   getSelected,
@@ -72,8 +73,34 @@ class Board extends Component {
         })
         this.props.dispatch(getUserGames(updatedUserGames))
       })
+      .then(() => {
+        if(!this.props.currentGame.human) {
+          this.aiMove()
+        }
+      })
       .catch((error) => alert(error))
     }
+  }
+
+  aiMove() {
+    let board = JSON.parse(JSON.stringify(jsonChessBoard))
+    let gameMoves = this.props.currentGame.included.map((piece) => {
+      return {
+        color: piece.attributes.color,
+        type: piece.attributes.pieceType,
+        currentPosition: piece.attributes.currentPosition,
+        startIndex: piece.attributes.startIndex,
+        hasMoved: piece.attributes.hasMoved,
+        movedTwo: piece.attributes.movedTwo
+      }
+    })
+
+    let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
+    let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+
+    this.props.dispatch(getMoves(gameMoves))
+    this.props.dispatch(getTurn(turn))
+    this.props.dispatch(getChessBoard(currentGameBoard))
   }
 
   updateBoardAndPiece(coordinates, piece, board, gameMoves) {

@@ -45,14 +45,14 @@ class Board extends Component {
       }
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
-      this.sendMove()
+      this.sendMove(piece)
 
       if(this.moveLogic.checkmate(board, gameMoves, this.props.turn) || this.moveLogic.stalemate(board, gameMoves, this.props.turn)) {
         this.handleCheckmateOrStaleMate(board)
       }
 
       this.props.dispatch(getTurn(this.props.turn === 'white' ? 'black' : 'white'))
-      
+
     } else {
       this.props.dispatch(getMessageToUser('Invalid Move'))
     }

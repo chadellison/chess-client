@@ -46,12 +46,12 @@ class Board extends Component {
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
       this.sendMove(piece)
+      let turn = this.props.turn === 'white' ? 'black' : 'white'
 
-      if(this.moveLogic.checkmate(board, gameMoves, this.props.turn) || this.moveLogic.stalemate(board, gameMoves, this.props.turn)) {
-        this.handleCheckmateOrStaleMate(board)
+      if(this.moveLogic.checkmate(board, gameMoves, turn) || this.moveLogic.stalemate(board, gameMoves, turn)) {
+        this.handleCheckmateOrStaleMate(board, gameMoves, turn)
       }
-
-      this.props.dispatch(getTurn(this.props.turn === 'white' ? 'black' : 'white'))
+      this.props.dispatch(getTurn(turn))
 
     } else {
       this.props.dispatch(getMessageToUser('Invalid Move'))
@@ -85,21 +85,23 @@ class Board extends Component {
     this.props.dispatch(getMoves(gameMoves))
   }
 
-  handleCheckmateOrStaleMate(updatedBoard) {
+  handleCheckmateOrStaleMate(updatedBoard, gameMoves, turn) {
     let outcome
 
-    if(this.moveLogic.stalemate(updatedBoard, this.props.moves, this.props.turn)) {
+    if(this.moveLogic.stalemate(updatedBoard, gameMoves, turn)) {
       this.props.dispatch(getStalemate(true))
       this.props.dispatch(getMessageToUser('Draw!'))
       outcome = 'draw'
     }
-    if(this.moveLogic.checkmate(updatedBoard, this.props.moves, this.props.turn)) {
+    if(this.moveLogic.checkmate(updatedBoard, gameMoves, turn)) {
       this.props.dispatch(getCheckmate(true))
       this.props.dispatch(getMessageToUser(`${this.props.turn} Wins!`))
       outcome = `${this.props.turn} wins`
     }
 
-    this.updateOutcome(outcome)
+    if(this.props.currentGameActive) {
+      this.updateOutcome(outcome)
+    }
   }
 
   updateOutcome(outcome) {

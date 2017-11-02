@@ -1,14 +1,14 @@
 .piece-black {
-    color: #262638;
+  color: #262638;
 }
 
 .piece-white {
-    color: #e3e3ed;
+  color: #e3e3ed;
 }
 
 .piece {
-    margin-top: 25%;
-    font-size: 3vw;
+  margin-top: 25%;
+  font-size: 3vw;
 }
 
 .piece:hover {

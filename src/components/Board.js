@@ -51,11 +51,15 @@ class Board extends Component {
 
       if(this.moveLogic.checkmate(board, gameMoves, turn) || this.moveLogic.stalemate(board, gameMoves, turn)) {
         this.handleCheckmateOrStaleMate(board, gameMoves, turn)
+      } else {
+        this.props.dispatch(getMessageToUser(''))
       }
       this.props.dispatch(getTurn(turn))
 
     } else {
-      this.props.dispatch(getMessageToUser('Invalid Move'))
+      if (!this.props.checkmate && !this.props.stalemate) {
+        this.props.dispatch(getMessageToUser('Invalid Move'))
+      }
     }
     this.props.dispatch(getSelected(null))
   }

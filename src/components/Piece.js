@@ -49,7 +49,9 @@ class Piece extends Component {
           }
         }
       } else {
-        this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
+        if (!this.props.checkmate && !this.props.stalemate) {
+          this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
+        }
       }
     }
     this.props.dispatch(getPreviousBoard(null))
@@ -80,11 +82,11 @@ class Piece extends Component {
 
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
-  moves, previousBoard
+  moves, previousBoard, checkmate, stalemate
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
-    moves, previousBoard
+    moves, previousBoard, checkmate, stalemate
   }
 }
 

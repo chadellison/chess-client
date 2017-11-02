@@ -3,7 +3,9 @@ import '../styles/CrossedPawnMenu.css'
 import { connect } from 'react-redux'
 import {
   getChessBoard,
-  getCrossedPawn
+  getCrossedPawn,
+  getSelected,
+  getTurn
 } from '../actions/index'
 
 class CrossedPawnMenu extends Component {
@@ -37,31 +39,42 @@ class CrossedPawnMenu extends Component {
     board[coordinates].piece.type = pieceType
 
     this.props.dispatch(getChessBoard(board))
+    this.props.sendMove(board[coordinates].piece)
     this.props.dispatch(getCrossedPawn(false))
+    this.props.dispatch(getSelected(null))
+    this.props.dispatch(getTurn(this.props.turn === 'white' ? 'black' : 'white'))
+  }
+
+  get background() {
+    return this.props.color === 'white' ? 'blackBackground' : 'whiteBackground'
   }
 
   render() {
     return(
-      <div className='crossedPawnMenu col-xs-2'>
-        <i className={`glyphicon glyphicon-knight piece-${this.props.color} piece`}
+      <div className={`crossedPawnMenu col-xs-3 col-xs-offset-3 ${this.background}`}>
+        <i className={`glyphicon glyphicon-knight piece-${this.props.color} piece selectPiece-${this.props.color}`}
           onClick={this.handleCrossedPawn}>
         </i>
-        <i className={`glyphicon glyphicon-bishop piece-${this.props.color} piece`}
-          onClick={this.props.handleCrossedPawn}>
+        <i className={`glyphicon glyphicon-bishop piece-${this.props.color} piece selectPiece-${this.props.color}`}
+          onClick={this.handleCrossedPawn}>
         </i>
-        <i className={`glyphicon glyphicon-tower piece-${this.props.color} piece`}
-          onClick={this.props.handleCrossedPawn}>
+        <i className={`glyphicon glyphicon-tower piece-${this.props.color} piece selectPiece-${this.props.color}`}
+          onClick={this.handleCrossedPawn}>
         </i>
-        <i className={`glyphicon glyphicon-queen piece-${this.props.color} piece`}
-          onClick={this.props.handleCrossedPawn}>
+        <i className={`glyphicon glyphicon-queen piece-${this.props.color} piece selectPiece-${this.props.color}`}
+          onClick={this.handleCrossedPawn}>
         </i>
       </div>
     )
   }
 }
 
-const mapStateToProps = () => {
-  return {}
+const mapStateToProps = ({
+  moves, chessBoard, crossedPawn, turn
+}) => {
+  return {
+    moves, chessBoard, crossedPawn, turn
+  }
 }
 
 export default connect(mapStateToProps)(CrossedPawnMenu)

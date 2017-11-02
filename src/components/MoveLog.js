@@ -16,13 +16,15 @@ class MoveLog extends Component {
   }
 
   handlePreviousBoard(event) {
-    let index = parseInt(event.target.id, 10)
-    let gameMoves = JSON.parse(JSON.stringify(this.props.moves.slice(0, index + 1)))
-    let board = JSON.parse(JSON.stringify(jsonChessBoard))
+    if (!this.props.crossedPawn) {
+      let index = parseInt(event.target.id, 10)
+      let gameMoves = JSON.parse(JSON.stringify(this.props.moves.slice(0, index + 1)))
+      let board = JSON.parse(JSON.stringify(jsonChessBoard))
 
-    board = this.moveLogic.setBoard(gameMoves, board)
-    this.props.dispatch(getPreviousBoard(board))
-    this.props.dispatch(getSelected(null))
+      board = this.moveLogic.setBoard(gameMoves, board)
+      this.props.dispatch(getPreviousBoard(board))
+      this.props.dispatch(getSelected(null))
+    }
   }
 
   get moves() {
@@ -57,10 +59,10 @@ class MoveLog extends Component {
 }
 
 const mapStateToProps = ({
-  moves, previousBoard, selected
+  moves, previousBoard, selected, crossedPawn
  }) => {
   return {
-    moves, previousBoard, selected
+    moves, previousBoard, selected, crossedPawn
   }
 }
 

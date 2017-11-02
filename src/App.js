@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import './styles/App.css'
 import Board from './components/Board.js'
 import ThumbNails from './components/ThumbNails.js'
-import CrossedPawnMenu from './components/CrossedPawnMenu'
 import SideBar from './components/SideBar'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -39,16 +38,6 @@ class App extends Component {
     })
   }
 
-  get crossedPawn() {
-    let crossedPawn
-    if (this.props.crossedPawn) {
-      crossedPawn = <CrossedPawnMenu
-        color={this.props.moves.slice(-1)[0].color}
-      />
-    }
-    return crossedPawn
-  }
-
   get gameData() {
     if (this.props.currentGameActive) {
       return <Header currentGame={this.props.currentGame} />
@@ -75,7 +64,6 @@ class App extends Component {
       <div className='App'>
         <div className='container-fluid'>
           {this.gameView}
-          {this.crossedPawn}
           <SideBar handleEndGame={this.handleEndGame} />
         </div>
         <Footer />

@@ -5,6 +5,7 @@ import MoveLogic from '../helpers/MoveLogic'
 import LETTER_KEY from '../helpers/BoardHelper'
 import GameService from '../services/GameService'
 import jsonChessBoard from '../jsonChessBoard'
+import CrossedPawnMenu from './CrossedPawnMenu'
 import { connect } from 'react-redux'
 import {
   getSelected,
@@ -24,8 +25,9 @@ class Board extends Component {
     this.moveLogic = new MoveLogic()
     this.gameService = new GameService()
 
-    this.move = this.move.bind(this)
-    this.isValid = this.isValid.bind(this)
+    this.move     = this.move.bind(this)
+    this.isValid  = this.isValid.bind(this)
+    this.sendMove = this.sendMove.bind(this)
   }
 
   move(coordinates) {
@@ -33,7 +35,10 @@ class Board extends Component {
     let board     = JSON.parse(JSON.stringify(this.props.chessBoard))
     let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
 
-    if(this.isValid(piece, coordinates, board, gameMoves)) {
+    if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
+      this.props.dispatch(getCrossedPawn(true))
+      this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
+    } else if(this.isValid(piece, coordinates, board, gameMoves)) {
       this.props.dispatch(getTurn(this.props.turn))
 
       this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, board)))
@@ -41,9 +46,7 @@ class Board extends Component {
       this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, board)))
       piece        = this.pawnMovedTwo(piece, coordinates)
 
-      if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
-        this.props.dispatch(getCrossedPawn(true))
-      }
+
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
       this.sendMove(piece)
@@ -55,13 +58,13 @@ class Board extends Component {
         this.props.dispatch(getMessageToUser(''))
       }
       this.props.dispatch(getTurn(turn))
-
+      this.props.dispatch(getSelected(null))
     } else {
       if (!this.props.checkmate && !this.props.stalemate) {
         this.props.dispatch(getMessageToUser('Invalid Move'))
       }
+      this.props.dispatch(getSelected(null))
     }
-    this.props.dispatch(getSelected(null))
   }
 
   sendMove(piece) {
@@ -233,10 +236,31 @@ class Board extends Component {
     return sum % 2 === 0 ? 'white' : 'black'
   }
 
+  get crossedPawnMenu() {
+    if (this.props.crossedPawn) {
+      return <CrossedPawnMenu color={this.props.moves.slice(-1)[0].color} sendMove={this.sendMove}/>
+    } else {
+      return null
+    }
+  }
+
+  get opacity() {
+    if (this.props.crossedPawn) {
+      return ' opaque'
+    } else {
+      return null
+    }
+  }
+
   render() {
-    return <div id='chessBoard' className={`col-md-9 col-xs-12 row ${this.playerColor}`}>
-      {this.currentSetup}
-    </div>
+    return(
+      <div>
+        {this.crossedPawnMenu}
+        <div id='chessBoard' className={`col-md-9 col-xs-12 row ${this.playerColor}${this.opacity}`}>
+          {this.currentSetup}
+        </div>
+      </div>
+    )
   }
 }
 

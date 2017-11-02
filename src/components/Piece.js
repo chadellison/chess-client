@@ -27,34 +27,36 @@ class Piece extends Component {
   }
 
   handleSelected(selectedPiece) {
-    if (this.props.chessBoard[selectedPiece.currentPosition].piece) {
-      if (selectedPiece.color === this.props.turn) {
-        if (!this.props.selected) {
-          if (this.props.currentGameActive && this.props.playerColor !== this.props.turn) {
-            this.props.dispatch(getMessageToUser(`You may only move the ${this.props.playerColor} pieces`))
-          } else {
-            let board = JSON.parse(JSON.stringify(this.props.chessBoard))
-            let piece = JSON.parse(JSON.stringify(selectedPiece))
-            let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
+    if (!this.props.crossedPawn) {
+      if (this.props.chessBoard[selectedPiece.currentPosition].piece) {
+        if (selectedPiece.color === this.props.turn) {
+          if (!this.props.selected) {
+            if (this.props.currentGameActive && this.props.playerColor !== this.props.turn) {
+              this.props.dispatch(getMessageToUser(`You may only move the ${this.props.playerColor} pieces`))
+            } else {
+              let board = JSON.parse(JSON.stringify(this.props.chessBoard))
+              let piece = JSON.parse(JSON.stringify(selectedPiece))
+              let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
 
-            let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
-              return this.props.isValid(piece, move, board, gameMoves)
-            })
+              let availableMoves = this.moveLogic.movesForPiece(piece, board, gameMoves).filter((move) => {
+                return this.props.isValid(piece, move, board, gameMoves)
+              })
 
-            piece.availableMoves = availableMoves
-            board[piece.currentPosition].piece = piece
+              piece.availableMoves = availableMoves
+              board[piece.currentPosition].piece = piece
 
-            this.props.dispatch(getSelected(piece))
-            this.props.dispatch(getChessBoard(board))
+              this.props.dispatch(getSelected(piece))
+              this.props.dispatch(getChessBoard(board))
+            }
+          }
+        } else {
+          if (!this.props.checkmate && !this.props.stalemate) {
+            this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
           }
         }
-      } else {
-        if (!this.props.checkmate && !this.props.stalemate) {
-          this.props.dispatch(getMessageToUser(`${this.props.turn}'s turn`))
-        }
       }
-    }
-    this.props.dispatch(getPreviousBoard(null))
+      this.props.dispatch(getPreviousBoard(null))
+    } 
   }
 
   get selected() {
@@ -82,11 +84,11 @@ class Piece extends Component {
 
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
-  moves, previousBoard, checkmate, stalemate
+  moves, previousBoard, checkmate, stalemate, crossedPawn
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
-    moves, previousBoard, checkmate, stalemate
+    moves, previousBoard, checkmate, stalemate, crossedPawn
   }
 }
 

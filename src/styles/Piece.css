@@ -12,11 +12,7 @@
 }
 
 .piece:hover {
-    opacity: .65;
-}
-
-.selected {
-    color: #4286f4;
+  opacity: .65;
 }
 
 .blackPlayer {

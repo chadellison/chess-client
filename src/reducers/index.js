@@ -33,6 +33,7 @@ import crossedPawnReducer from './crossedPawnReducer'
 import stalemateReducer from './stalemateReducer'
 import pageReducer from './pageReducer'
 import analyticsChartActiveReducer from './analyticsChartActiveReducer'
+import chartDataReducer from './chartDataReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -68,7 +69,8 @@ const rootReducer = combineReducers({
   crossedPawn: crossedPawnReducer,
   stalemate: stalemateReducer,
   page: pageReducer,
-  analyticsChartActive: analyticsChartActiveReducer
+  analyticsChartActive: analyticsChartActiveReducer,
+  chartData: chartDataReducer
 })
 
 export default rootReducer

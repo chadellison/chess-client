@@ -16,7 +16,7 @@ import {
   getCrossedPawn,
   getUserGames,
   getMoves,
-  getTurn
+  getTurn,
 } from '../actions/index'
 
 class Board extends Component {
@@ -51,6 +51,7 @@ class Board extends Component {
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
       this.sendMove(piece)
       let turn = this.props.turn === 'white' ? 'black' : 'white'
+
 
       if(this.moveLogic.checkmate(board, gameMoves, turn) || this.moveLogic.stalemate(board, gameMoves, turn)) {
         this.handleCheckmateOrStaleMate(board, gameMoves, turn)
@@ -267,12 +268,12 @@ class Board extends Component {
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
   moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-  previousBoard
+  previousBoard, chartData, analyticsChartActive
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
     moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-    previousBoard
+    previousBoard, chartData, analyticsChartActive
   }
 }
 

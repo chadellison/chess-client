@@ -133,3 +133,7 @@ export const getPage = (page) => {
 export const getAnalyticsChartActive = (analyticsChartAcitve) => {
   return { type: 'GET_ANALYTICS_CHART_ACTIVE', analyticsChartAcitve: analyticsChartAcitve }
 }
+
+export const getChartData = (chartData) => {
+  return { type: 'GET_CHART_DATA', chartData: chartData }
+}

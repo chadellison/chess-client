@@ -40,7 +40,8 @@ import {
   getFirstName,
   getLastName,
   getUserGames,
-  getAnalyticsChartActive
+  getAnalyticsChartActive,
+  getChartData
 } from '../actions/index'
 
 class SideBar extends Component {
@@ -240,6 +241,17 @@ class SideBar extends Component {
   }
 
   handleAnalyticsChart() {
+    if(!this.props.analyticsChartActive) {
+      this.gameService.fetchAnalytics(this.props.moves)
+      .then(response => response.json())
+      .then(responseJson => {
+        let chartData = [{ value: parseInt(responseJson.data.attributes.whiteWins, 10), key: 'white', color: '#cd853f' },
+          { value: parseInt(responseJson.data.attributes.blackWins, 10), key: 'black', color: '#8b4513' },
+          { value: parseInt(responseJson.data.attributes.draws, 10), key: 'draw', color: 'gray' }]
+        this.props.dispatch(getChartData(chartData))
+      })
+      .catch((error) => alert(error))
+    }
     this.props.dispatch(getAnalyticsChartActive(!this.props.analyticsChartActive))
   }
 
@@ -418,11 +430,7 @@ class SideBar extends Component {
         <div>
         <h3>Win Ratio</h3>
           <PieChart className='chart' animationDuration={500}
-            data={[
-              { value: 25, key: 1, color: '#8b4513' },
-              { value: 25, key: 2, color: '#cd853f' },
-              { value: 25, key: 3, color: 'gray' }
-            ]}
+            data={this.props.chartData}
           />
           <AnalysisKey handleAnalyticsChart={this.handleAnalyticsChart} />
         </div>
@@ -461,13 +469,15 @@ const mapStateToProps = ({
   moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
   myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
-  signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive
+  signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
+  whiteWins, blackWins, draws, chartData
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
-    signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive
+    signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
+    whiteWins, blackWins, draws, chartData
   }
 }
 

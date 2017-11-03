@@ -31,6 +31,18 @@ export default class GameService {
     )
   }
 
+  fetchAnalytics(moves) {
+    let moveSignature = moves.map((move) => ` ${move.startIndex}:${move.currentPosition}`).join().replace(/,/g,'')
+    let body = JSON.stringify({ moves: { moveSignature: moveSignature } })
+    return (
+      fetch(`${API_HOST}/api/v1/analytics`, {
+        method: 'PATCH',
+        headers: this.headers,
+        body: body
+      })
+    )
+  }
+
   makeMove(game_id, piece, token) {
     let body = JSON.stringify({
       move: {

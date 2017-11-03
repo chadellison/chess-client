@@ -5,6 +5,7 @@ import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
 import GameService from '../services/GameService'
+import AnalysisKey from './AnalysisKey'
 import PieChart from 'react-minimal-pie-chart'
 import { connect } from 'react-redux'
 import {
@@ -138,11 +139,12 @@ class SideBar extends Component {
 
   handleCredentialForm(event) {
     if(event.target.textContent === 'Sign Up') {
-      this.props.dispatch(getSignUpFormActive(!this.props.signUpFormActive))
+      this.props.dispatch(getSignUpFormActive(true))
     }
     if(event.target.textContent === 'Sign In') {
-      this.props.dispatch(getSignInFormActive(!this.props.signInFormActive))
+      this.props.dispatch(getSignInFormActive(true))
     }
+    this.props.dispatch(getAnalyticsChartActive(false))
   }
 
   handleChallenge(event) {
@@ -226,6 +228,7 @@ class SideBar extends Component {
     this.props.dispatch(getStalemate(false))
     this.props.dispatch(getSelected(null))
     this.props.dispatch(getCrossedPawn(false))
+    this.props.dispatch(getAnalyticsChartActive(false))
   }
 
   noFormsActive() {
@@ -413,7 +416,7 @@ class SideBar extends Component {
     if(this.props.analyticsChartActive) {
       return(
         <div>
-        <h3>Win Percentage</h3>
+        <h3>Win Ratio</h3>
           <PieChart className='chart' animationDuration={500}
             data={[
               { value: 25, key: 1, color: '#8b4513' },
@@ -421,25 +424,10 @@ class SideBar extends Component {
               { value: 25, key: 3, color: 'gray' }
             ]}
           />
-
-          <div className='analyticsKey container-fluid'>
-            <div className='row analyticsKey'>
-              <div className='whiteWinPercentage col-xs-1'></div>
-              <p className='col-xs-2 analyticsText'>White</p>
-            </div>
-            <div className='row analyticsKey'>
-              <div className='blackWinPercentage col-xs-1'></div>
-              <p className='col-xs-2 analyticsText'>Black</p>
-            </div>
-            <div className='row analyticsKey'>
-              <div className='drawPercentage col-xs-1'></div>
-              <p className='col-xs-2 analyticsText'>Draw</p>
-            </div>
-          </div>
-          <button className='analyticsButton' onClick={this.handleAnalyticsChart}>Hide Analytics</button>
+          <AnalysisKey handleAnalyticsChart={this.handleAnalyticsChart} />
         </div>
       )
-    } else {
+    } else if (!this.props.signUpFormActive && !this.props.signInFormActive) {
       return(<button className='analyticsButton' onClick={this.handleAnalyticsChart}>
         Analytics
       </button>)

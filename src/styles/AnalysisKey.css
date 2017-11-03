@@ -1,0 +1,24 @@
+.whiteWinPercentage {
+  width: 30px;
+  height: 30px;
+  background-color: #cd853f;
+  margin-left: 5%;
+}
+
+.blackWinPercentage {
+  width: 30px;
+  height: 30px;
+  background-color: #8b4513;
+  margin-left: 5%;
+}
+
+.drawPercentage {
+  width: 30px;
+  height: 30px;
+  background-color: gray;
+  margin-left: 5%;
+}
+
+.analyticsKey {
+  margin-bottom: 2%;
+}

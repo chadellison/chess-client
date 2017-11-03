@@ -7,13 +7,13 @@
     background-color: white;
 }
 
-.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGamesButton, .resignCurrentGameButton {
+.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGamesButton, .resignCurrentGameButton, .analyticsButton {
     width: 90%;
     margin: 10px;
     height: 30px;
 }
 
-.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .challengeButton:hover, .cancelButton:hover, .myGamesButton:hover, .resignCurrentGameButton:hover {
+.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .challengeButton:hover, .cancelButton:hover, .myGamesButton:hover, .resignCurrentGameButton:hover, .analyticsButton:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
@@ -57,4 +57,35 @@
 
 .challengeButton {
   min-height: 30px;
+}
+
+.chart {
+  margin: center;
+  text-align: center;
+  padding: 50px;
+}
+
+.whiteWinPercentage {
+  width: 30px;
+  height: 30px;
+  background-color: #cd853f;
+  margin-left: 5%;
+}
+
+.blackWinPercentage {
+  width: 30px;
+  height: 30px;
+  background-color: #8b4513;
+  margin-left: 5%;
+}
+
+.drawPercentage {
+  width: 30px;
+  height: 30px;
+  background-color: gray;
+  margin-left: 5%;
+}
+
+.analyticsKey {
+  margin-bottom: 2%;
 }

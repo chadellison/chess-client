@@ -5,6 +5,7 @@ import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
 import GameService from '../services/GameService'
+import PieChart from 'react-minimal-pie-chart'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
@@ -37,7 +38,8 @@ import {
   getPassword,
   getFirstName,
   getLastName,
-  getUserGames
+  getUserGames,
+  getAnalyticsChartActive
 } from '../actions/index'
 
 class SideBar extends Component {
@@ -56,6 +58,7 @@ class SideBar extends Component {
     this.handleChallengeColor  = this.handleChallengeColor.bind(this)
     this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
     this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
+    this.handleAnalyticsChart  = this.handleAnalyticsChart.bind(this)
   }
 
   componentDidMount() {
@@ -225,6 +228,18 @@ class SideBar extends Component {
     this.props.dispatch(getCrossedPawn(false))
   }
 
+  noFormsActive() {
+    return !this.props.signUpFormActive &&
+        !this.props.signInFormActive &&
+        !this.props.challengePlayer &&
+        !this.props.challengeRobot &&
+        !this.props.myGamesActive
+  }
+
+  handleAnalyticsChart() {
+    this.props.dispatch(getAnalyticsChartActive(!this.props.analyticsChartActive))
+  }
+
   get credentialForm() {
     if (this.props.signUpFormActive || this.props.signInFormActive) {
       return <CredentialForm updateSignInInfo={this.updateSignInInfo}/>
@@ -246,14 +261,6 @@ class SideBar extends Component {
         </div>
       )
     }
-  }
-
-  noFormsActive() {
-    return !this.props.signUpFormActive &&
-        !this.props.signInFormActive &&
-        !this.props.challengePlayer &&
-        !this.props.challengeRobot &&
-        !this.props.myGamesActive
   }
 
   get moveLog() {
@@ -402,6 +409,43 @@ class SideBar extends Component {
     }
   }
 
+  get analytics() {
+    if(this.props.analyticsChartActive) {
+      return(
+        <div>
+        <h3>Win Percentage</h3>
+          <PieChart className='chart' animationDuration={500}
+            data={[
+              { value: 25, key: 1, color: '#8b4513' },
+              { value: 25, key: 2, color: '#cd853f' },
+              { value: 25, key: 3, color: 'gray' }
+            ]}
+          />
+
+          <div className='analyticsKey container-fluid'>
+            <div className='row analyticsKey'>
+              <div className='whiteWinPercentage col-xs-1'></div>
+              <p className='col-xs-2 analyticsText'>White</p>
+            </div>
+            <div className='row analyticsKey'>
+              <div className='blackWinPercentage col-xs-1'></div>
+              <p className='col-xs-2 analyticsText'>Black</p>
+            </div>
+            <div className='row analyticsKey'>
+              <div className='drawPercentage col-xs-1'></div>
+              <p className='col-xs-2 analyticsText'>Draw</p>
+            </div>
+          </div>
+          <button className='analyticsButton' onClick={this.handleAnalyticsChart}>Hide Analytics</button>
+        </div>
+      )
+    } else {
+      return(<button className='analyticsButton' onClick={this.handleAnalyticsChart}>
+        Analytics
+      </button>)
+    }
+  }
+
   render() {
     return(
       <div className='sideBar col-md-2 col-xs-12'>
@@ -419,6 +463,7 @@ class SideBar extends Component {
         {this.challengeForm}
         {this.resignButton}
         {this.myGamesButton}
+        {this.analytics}
       </div>
     )
   }
@@ -428,13 +473,13 @@ const mapStateToProps = ({
   moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
   myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
-  signUpFormActive, signInFormActive, userGames, challengeRobot
+  signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
-    signUpFormActive, signInFormActive, userGames, challengeRobot
+    signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive
   }
 }
 

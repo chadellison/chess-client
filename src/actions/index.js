@@ -129,3 +129,7 @@ export const getStalemate = (stalemate) => {
 export const getPage = (page) => {
   return { type: 'GET_PAGE', page: page }
 }
+
+export const getAnalyticsChartActive = (analyticsChartAcitve) => {
+  return { type: 'GET_ANALYTICS_CHART_ACTIVE', analyticsChartAcitve: analyticsChartAcitve }
+}

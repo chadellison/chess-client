@@ -276,7 +276,7 @@ class Board extends Component {
     return(
       <div>
         {this.crossedPawnMenu}
-        <div id='chessBoard' className={`col-md-9 col-xs-12 row ${this.colorOfPlayer} ${this.opacity}`}>
+        <div id='chessBoard' className={`col-md-9 col-xs-12 container ${this.colorOfPlayer} ${this.opacity}`}>
           {this.currentSetup}
         </div>
       </div>

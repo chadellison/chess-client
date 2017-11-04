@@ -117,6 +117,7 @@ class SideBar extends Component {
   }
 
   handleSubmitChallenge() {
+    this.props.dispatch(getLoading(true))
     this.gameService.createGame(this.handleGameBody(), this.props.token)
       .then(response => response.json())
       .then(responseJson => {
@@ -131,6 +132,7 @@ class SideBar extends Component {
           this.props.dispatch(getChallengeRobot(false))
           this.props.dispatch(getChallengedName(''))
           this.props.dispatch(getChallengedEmail(''))
+          this.props.dispatch(getLoading(false))
         }
     })
     .catch((error) => alert(error))

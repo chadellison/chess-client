@@ -17,7 +17,8 @@ import {
   getUserGames,
   getMoves,
   getTurn,
-  getChartData
+  getChartData,
+  getLoading
 } from '../actions/index'
 
 class Board extends Component {
@@ -68,6 +69,7 @@ class Board extends Component {
 
   sendMove(piece) {
     if(this.props.currentGameActive) {
+      this.props.dispatch(getLoading(true))
       this.gameService.makeMove(this.props.currentGame.id, piece, this.props.token)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -83,6 +85,7 @@ class Board extends Component {
         if (this.props.currentGame.attributes.robot) {
           this.aiMove()
         }
+        this.props.dispatch(getLoading(false))
       })
       .catch((error) => alert(error))
     }

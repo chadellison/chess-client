@@ -83,7 +83,8 @@ class CredentialForm extends Component {
       userGames: responseJson.data.included,
       thumbNails: true,
       myGamesActive: true,
-      loading: false
+      loading: false,
+      analyticsChartActive: false
     }
   }
 

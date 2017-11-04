@@ -99,6 +99,7 @@ class SideBar extends Component {
     this.props.dispatch(getThumbnails(true))
     this.props.dispatch(getMyGamesActive(true))
     this.props.dispatch(getLoading(false))
+    this.props.dispatch(getAnalyticsChartActive(false))
   }
 
   handleGameBody() {
@@ -107,13 +108,11 @@ class SideBar extends Component {
       gameBody.challengedName = 'robot'
       gameBody.challengedEmail = 'robot'
       gameBody.challengerColor = this.props.challengeColor
-      gameBody.human = false
+      gameBody.robot = true
     } else {
       gameBody.challengedName = this.props.challengedName
       gameBody.challengedEmail = this.props.challengedEmail
       gameBody.challengerColor = this.props.challengeColor
-      gameBody.human = true
-
     }
     return gameBody
   }
@@ -208,6 +207,7 @@ class SideBar extends Component {
     this.props.dispatch(getChessBoard(JSON.parse(JSON.stringify(jsonChessBoard))))
     this.props.dispatch(getMoves([]))
     this.props.dispatch(getMoveLogActive(false))
+    this.props.dispatch(getAnalyticsChartActive(false))
 
     localStorage.removeItem('state')
   }
@@ -215,7 +215,7 @@ class SideBar extends Component {
   handleMyGamesActive() {
     this.props.dispatch(getMessageToUser(''))
     this.props.dispatch(getMyGamesActive(!this.props.myGamesActive))
-    this.props.dispatch(getThumbnails(!this.props.thumbNails))
+    this.props.dispatch(getThumbnails(!this.props.thumbnails))
     this.props.dispatch(getCurrentGameActive(!this.props.currentGameActive))
   }
 
@@ -435,10 +435,12 @@ class SideBar extends Component {
           <AnalysisKey handleAnalyticsChart={this.handleAnalyticsChart} />
         </div>
       )
-    } else if (!this.props.signUpFormActive && !this.props.signInFormActive) {
+    } else if (!this.props.signUpFormActive && !this.props.signInFormActive && !this.props.thumbnails) {
       return(<button className='analyticsButton' onClick={this.handleAnalyticsChart}>
         Analytics
       </button>)
+    } else {
+      return null
     }
   }
 
@@ -467,14 +469,14 @@ class SideBar extends Component {
 
 const mapStateToProps = ({
   moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
-  myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
+  myGamesActive, thumbnails, turn, playerColor, challengeColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
   signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
   whiteWins, blackWins, draws, chartData
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
-    myGamesActive, thumbNails, turn, playerColor, challengeColor, currentGameActive,
+    myGamesActive, thumbnails, turn, playerColor, challengeColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
     signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
     whiteWins, blackWins, draws, chartData

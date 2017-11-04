@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 
 class ThumbNails extends Component {
   get thumbNails() {
-
     if (this.props.userGames.length === 0) {
       return (
         <p>

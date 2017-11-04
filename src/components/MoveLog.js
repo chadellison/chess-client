@@ -59,8 +59,8 @@ class MoveLog extends Component {
     })
     return (
       <div className='row'>
-        <div className='col-xs-6 move'>White</div>
-        <div className='col-xs-6 move'>Black</div>
+        <div className='col-xs-6 moveColumn'>White</div>
+        <div className='col-xs-6 moveColumn'>Black</div>
         <hr className='lineBreak'></hr>
         {gameMoves}
       </div>

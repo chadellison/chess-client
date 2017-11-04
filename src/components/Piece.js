@@ -56,7 +56,7 @@ class Piece extends Component {
         }
       }
       this.props.dispatch(getPreviousBoard(null))
-    } 
+    }
   }
 
   get selected() {

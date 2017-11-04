@@ -175,7 +175,7 @@ class Board extends Component {
     )
   }
 
-  get playerColor() {
+  get colorOfPlayer() {
     if (this.props.currentGameActive && this.props.currentGame.attributes.playerColor === 'black') {
       return 'blackPlayer'
     } else {
@@ -201,7 +201,7 @@ class Board extends Component {
             id={square}
             isValid={this.isValid}
             move={this.move}
-            colorOfPlayer={this.playerColor}
+            colorOfPlayer={this.colorOfPlayer}
           />
         )
       })
@@ -247,9 +247,9 @@ class Board extends Component {
 
   get opacity() {
     if (this.props.crossedPawn) {
-      return ' opaque'
+      return 'opaque'
     } else {
-      return null
+      return ''
     }
   }
 
@@ -257,7 +257,7 @@ class Board extends Component {
     return(
       <div>
         {this.crossedPawnMenu}
-        <div id='chessBoard' className={`col-md-9 col-xs-12 row ${this.playerColor}${this.opacity}`}>
+        <div id='chessBoard' className={`col-md-9 col-xs-12 row ${this.colorOfPlayer} ${this.opacity}`}>
           {this.currentSetup}
         </div>
       </div>

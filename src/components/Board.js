@@ -48,6 +48,7 @@ class Board extends Component {
       piece = this.pawnMovedTwo(piece, coordinates)
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
+      this.sendMove(piece)
       this.updateAnalytics()
       let turn = this.props.turn === 'white' ? 'black' : 'white'
 
@@ -135,7 +136,6 @@ class Board extends Component {
     this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
     gameMoves.push(piece)
     this.props.dispatch(getMoves(gameMoves))
-    this.sendMove(piece)
   }
 
   handleCheckmateOrStaleMate(updatedBoard, gameMoves, turn) {

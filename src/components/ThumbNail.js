@@ -16,7 +16,8 @@ import {
   getCurrentGameActive,
   getCurrentGame,
   getChessBoard,
-  getUserGames
+  getUserGames,
+  getPreviousBoard
 } from '../actions/index'
 
 class ThumbNail extends Component {
@@ -93,6 +94,7 @@ class ThumbNail extends Component {
 
     this.props.dispatch(getMyGamesActive(false))
     this.props.dispatch(getThumbnails(false))
+    this.props.dispatch(getPreviousBoard(null))
     this.props.dispatch(getMoves(gameMoves))
     this.props.dispatch(getTurn(turn))
     this.props.dispatch(getPlayerColor(game.attributes.playerColor))

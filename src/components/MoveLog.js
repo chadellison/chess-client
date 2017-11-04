@@ -39,7 +39,7 @@ class MoveLog extends Component {
         let chartData = [
           { value: parseInt(responseJson.data.attributes.whiteWins, 10), color: '#cd853f' },
           { value: parseInt(responseJson.data.attributes.blackWins, 10), color: '#8b4513' },
-          { value: parseInt(responseJson.data.attributes.draws, 10), color: 'gray' }
+          { value: parseInt(responseJson.data.attributes.draws, 10), color: '#7d8ca3' }
         ]
         this.props.dispatch(getChartData(chartData))
       })

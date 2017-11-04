@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/Analytics.css'
 import AnalysisKey from './AnalysisKey'
+import '../styles/Analytics.css'
 import PieChart from 'react-simple-pie-chart'
 
 export default class Analytics extends Component {

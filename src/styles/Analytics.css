@@ -1,0 +1,14 @@
+.chart {
+  margin: auto;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 75%;
+  transform-origin: 50% 50%;
+	animation: scale .6s;
+}
+
+@keyframes scale {
+	from { transform: scale(.5); }
+	to { transform: scale(1); }
+}

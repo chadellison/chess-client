@@ -8,10 +8,10 @@ export default class Header extends Component {
   }
 
   get gravatar() {
-    if (this.props.currentGame.attributes.human) {
-      return `https://www.gravatar.com/avatar/${this.props.currentGame.attributes.opponentGravatar}`
-    } else {
+    if (this.props.currentGame.attributes.robot) {
       return `https://robohash.org/${this.props.currentGame.attributes.opponentGravatar}`
+    } else {
+      return `https://www.gravatar.com/avatar/${this.props.currentGame.attributes.opponentGravatar}`
     }
   }
 

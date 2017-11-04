@@ -17,6 +17,7 @@ import {
   getUserGames,
   getMoves,
   getTurn,
+  getChartData
 } from '../actions/index'
 
 class Board extends Component {
@@ -42,14 +43,11 @@ class Board extends Component {
       this.props.dispatch(getTurn(this.props.turn))
 
       this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, board)))
-
       this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, board)))
-      piece        = this.pawnMovedTwo(piece, coordinates)
-
-
+      piece = this.pawnMovedTwo(piece, coordinates)
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
-      this.sendMove(piece)
+      this.updateAnalytics()
       let turn = this.props.turn === 'white' ? 'black' : 'white'
 
 
@@ -82,9 +80,23 @@ class Board extends Component {
         this.props.dispatch(getUserGames(updatedUserGames))
       })
       .then(() => {
-        if(!this.props.currentGame.human) {
+        if (this.props.currentGame.attributes.robot) {
           this.aiMove()
         }
+      })
+      .catch((error) => alert(error))
+    }
+  }
+
+  updateAnalytics() {
+    if(this.props.analyticsChartActive) {
+      this.gameService.fetchAnalytics(this.props.moves)
+      .then(response => response.json())
+      .then(responseJson => {
+        let chartData = [{ value: parseInt(responseJson.data.attributes.whiteWins, 10), color: '#cd853f' },
+          { value: parseInt(responseJson.data.attributes.blackWins, 10), color: '#8b4513' },
+          { value: parseInt(responseJson.data.attributes.draws, 10), color: 'gray' }]
+        this.props.dispatch(getChartData(chartData))
       })
       .catch((error) => alert(error))
     }
@@ -118,6 +130,7 @@ class Board extends Component {
     this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
     gameMoves.push(piece)
     this.props.dispatch(getMoves(gameMoves))
+    this.sendMove(piece)
   }
 
   handleCheckmateOrStaleMate(updatedBoard, gameMoves, turn) {

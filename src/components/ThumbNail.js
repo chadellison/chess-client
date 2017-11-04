@@ -138,13 +138,12 @@ class ThumbNail extends Component {
   }
 
   get gravatar() {
-    if (this.props.game.attributes.human) {
-      return <img className='opponentGravatar' src={`https://www.gravatar.com/avatar/${this.props.game.attributes.opponentGravatar}`} alt='gravatar'/>
-    } else {
+    if (this.props.game.attributes.robot) {
       return <img className='opponentGravatar' src={`https://robohash.org/${this.props.game.attributes.opponentGravatar}`} alt='gravatar'/>
+    } else {
+      return <img className='opponentGravatar' src={`https://www.gravatar.com/avatar/${this.props.game.attributes.opponentGravatar}`} alt='gravatar'/>
     }
   }
-
 
   get currentSetup() {
     return this.boardRows().map((row, rowIndex) => {

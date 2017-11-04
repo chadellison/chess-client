@@ -5,8 +5,7 @@ import MoveLog from './MoveLog'
 import CredentialForm from './CredentialForm'
 import Loader from './Loader'
 import GameService from '../services/GameService'
-import AnalysisKey from './AnalysisKey'
-import PieChart from 'react-simple-pie-chart'
+import Analytics from './Analytics'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
@@ -158,11 +157,9 @@ class SideBar extends Component {
   handleCancelChallenge() {
     this.props.dispatch(getChallengePlayer(false))
     this.props.dispatch(getChallengeRobot(false))
-    this.setState({
-      challengedName: '',
-      challengedEmail: '',
-      challengeColor: 'whtie'
-    })
+    this.props.dispatch(getChallengedName(''))
+    this.props.dispatch(getChallengedEmail(''))
+    this.props.dispatch(getChallengeColor('white'))
   }
 
   handleChallengedInfo(event) {
@@ -217,6 +214,7 @@ class SideBar extends Component {
     this.props.dispatch(getMyGamesActive(!this.props.myGamesActive))
     this.props.dispatch(getThumbnails(!this.props.thumbnails))
     this.props.dispatch(getCurrentGameActive(!this.props.currentGameActive))
+    this.props.dispatch(getAnalyticsChartActive(false))
   }
 
   handleReset() {
@@ -245,9 +243,9 @@ class SideBar extends Component {
       this.gameService.fetchAnalytics(this.props.moves)
       .then(response => response.json())
       .then(responseJson => {
-        let chartData = [{ value: parseInt(responseJson.data.attributes.whiteWins, 10), key: 'white', color: '#cd853f' },
-          { value: parseInt(responseJson.data.attributes.blackWins, 10), key: 'black', color: '#8b4513' },
-          { value: parseInt(responseJson.data.attributes.draws, 10), key: 'draw', color: 'gray' }]
+        let chartData = [{ value: parseInt(responseJson.data.attributes.whiteWins, 10), color: '#cd853f' },
+          { value: parseInt(responseJson.data.attributes.blackWins, 10), color: '#8b4513' },
+          { value: parseInt(responseJson.data.attributes.draws, 10), color: 'gray' }]
         this.props.dispatch(getChartData(chartData))
       })
       .catch((error) => alert(error))
@@ -426,15 +424,7 @@ class SideBar extends Component {
 
   get analytics() {
     if(this.props.analyticsChartActive) {
-      return(
-        <div>
-          <h3>Win Ratio</h3>
-          <div className='chart'>
-            <PieChart slices={this.props.chartData} />
-          </div>
-          <AnalysisKey handleAnalyticsChart={this.handleAnalyticsChart} />
-        </div>
-      )
+      return <Analytics handleAnalyticsChart={this.handleAnalyticsChart} chartData={this.props.chartData} />
     } else if (!this.props.signUpFormActive && !this.props.signInFormActive && !this.props.thumbnails) {
       return(
         <button className='analyticsButton' onClick={this.handleAnalyticsChart}>
@@ -457,12 +447,12 @@ class SideBar extends Component {
           {this.props.hashedEmail !== '' ? <img className='gravatar' src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
         </div>
         {this.moveLog}
+        {this.analytics}
         {this.resetButton}
         {this.gamePlayButtons}
         {this.challengeForm}
         {this.resignButton}
         {this.myGamesButton}
-        {this.analytics}
       </div>
     )
   }

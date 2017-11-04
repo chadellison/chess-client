@@ -49,7 +49,6 @@ class Board extends Component {
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
       this.sendMove(piece)
-      this.updateAnalytics()
       let turn = this.props.turn === 'white' ? 'black' : 'white'
 
 
@@ -92,9 +91,9 @@ class Board extends Component {
     }
   }
 
-  updateAnalytics() {
+  updateAnalytics(gameMoves = this.props.moves) {
     if(this.props.analyticsChartActive) {
-      this.gameService.fetchAnalytics(this.props.moves)
+      this.gameService.fetchAnalytics(gameMoves)
       .then(response => response.json())
       .then(responseJson => {
         let chartData = [
@@ -127,6 +126,7 @@ class Board extends Component {
     this.props.dispatch(getMoves(gameMoves))
     this.props.dispatch(getTurn(turn))
     this.props.dispatch(getChessBoard(currentGameBoard))
+    this.updateAnalytics(gameMoves)
   }
 
   updateBoardAndPiece(coordinates, piece, board, gameMoves) {
@@ -136,6 +136,7 @@ class Board extends Component {
     this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
     gameMoves.push(piece)
     this.props.dispatch(getMoves(gameMoves))
+    this.updateAnalytics(gameMoves)
   }
 
   handleCheckmateOrStaleMate(updatedBoard, gameMoves, turn) {

@@ -217,6 +217,8 @@ class SideBar extends Component {
     this.props.dispatch(getThumbnails(!this.props.thumbnails))
     this.props.dispatch(getCurrentGameActive(!this.props.currentGameActive))
     this.props.dispatch(getAnalyticsChartActive(false))
+    this.props.dispatch(getCurrentGame({}))
+    this.props.dispatch(getMoves([]))
   }
 
   handleReset() {

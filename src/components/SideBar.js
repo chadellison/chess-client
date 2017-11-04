@@ -456,7 +456,6 @@ class SideBar extends Component {
         <div className='user-header'>
           {this.props.hashedEmail !== '' ? <img className='gravatar' src={`https://www.gravatar.com/avatar/${this.props.hashedEmail}`} alt="gravatar"/> : null}
         </div>
-
         {this.moveLog}
         {this.resetButton}
         {this.gamePlayButtons}

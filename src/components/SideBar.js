@@ -6,7 +6,7 @@ import CredentialForm from './CredentialForm'
 import Loader from './Loader'
 import GameService from '../services/GameService'
 import AnalysisKey from './AnalysisKey'
-import PieChart from 'react-minimal-pie-chart'
+import PieChart from 'react-simple-pie-chart'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
@@ -428,17 +428,19 @@ class SideBar extends Component {
     if(this.props.analyticsChartActive) {
       return(
         <div>
-        <h3>Win Ratio</h3>
-          <PieChart className='chart' animationDuration={500}
-            data={this.props.chartData}
-          />
+          <h3>Win Ratio</h3>
+          <div className='chart'>
+            <PieChart slices={this.props.chartData} />
+          </div>
           <AnalysisKey handleAnalyticsChart={this.handleAnalyticsChart} />
         </div>
       )
     } else if (!this.props.signUpFormActive && !this.props.signInFormActive && !this.props.thumbnails) {
-      return(<button className='analyticsButton' onClick={this.handleAnalyticsChart}>
-        Analytics
-      </button>)
+      return(
+        <button className='analyticsButton' onClick={this.handleAnalyticsChart}>
+          Analytics
+        </button>
+      )
     } else {
       return null
     }

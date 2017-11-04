@@ -60,7 +60,9 @@
 }
 
 .chart {
-  margin: center;
+  margin: auto;
   text-align: center;
-  padding: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 75%;
 }

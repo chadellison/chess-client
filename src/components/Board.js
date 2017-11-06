@@ -58,13 +58,12 @@ class Board extends Component {
         this.props.dispatch(getMessageToUser(''))
       }
       this.props.dispatch(getTurn(turn))
-      this.props.dispatch(getSelected(null))
     } else {
       if (!this.props.checkmate && !this.props.stalemate) {
         this.props.dispatch(getMessageToUser('Invalid Move'))
       }
-      this.props.dispatch(getSelected(null))
     }
+    this.props.dispatch(getSelected(null))
   }
 
   sendMove(piece) {

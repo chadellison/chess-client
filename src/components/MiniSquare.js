@@ -13,7 +13,7 @@ export default class MiniSquare extends Component {
   get miniPiece() {
     if(this.props.piece) {
       return(
-        <span className={`glyphicon glyphicon-${this.findPieceType()} miniPiece piece-${this.props.piece.color} ${this.props.playerColor}`}>
+        <span className={`glyphicon glyphicon-${this.findPieceType()} miniPiece piece-${this.props.piece.color}`}>
         </span>
       )
     } else {

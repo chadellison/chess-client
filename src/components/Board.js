@@ -193,14 +193,6 @@ class Board extends Component {
     )
   }
 
-  get colorOfPlayer() {
-    if (this.props.currentGameActive && this.props.currentGame.attributes.playerColor === 'black') {
-      return 'blackPlayer'
-    } else {
-      return ''
-    }
-  }
-
   currentBoard() {
     if(this.props.previousBoard) {
       return this.props.previousBoard
@@ -219,7 +211,6 @@ class Board extends Component {
             id={square}
             isValid={this.isValid}
             move={this.move}
-            colorOfPlayer={this.colorOfPlayer}
           />
         )
       })
@@ -238,8 +229,11 @@ class Board extends Component {
   boardRows() {
     let index = 0
     let boardToArray = Object.keys(this.props.chessBoard)
+    if (this.props.currentGameActive && this.props.currentGame.attributes.playerColor === 'black') {
+      boardToArray = boardToArray.reverse()
+    }
 
-    return Array.apply(null, {length: 8}).map(() => {
+    return Array.apply(null, { length: 8}).map(() => {
       return boardToArray.slice(index, index += 8)
     })
   }
@@ -275,7 +269,7 @@ class Board extends Component {
     return(
       <div>
         {this.crossedPawnMenu}
-        <div id='chessBoard' className={`col-md-9 col-xs-12 container ${this.colorOfPlayer} ${this.opacity}`}>
+        <div id='chessBoard' className={`col-md-9 col-xs-12 container ${this.opacity}`}>
           {this.currentSetup}
         </div>
       </div>

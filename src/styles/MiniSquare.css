@@ -14,7 +14,3 @@
 .miniPiece {
   margin-left: -6.5px;
 }
-
-.blackPlayer {
-  transform: rotate(180deg) scaleX(-1);
-}

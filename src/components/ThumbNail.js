@@ -123,6 +123,10 @@ class ThumbNail extends Component {
     let index = 0
     let boardToArray = Object.keys(this.thumbNailBoard())
 
+    if(this.props.game.attributes.playerColor === 'black') {
+      boardToArray = boardToArray.reverse()
+    }
+
     return Array.apply(null, {length: 8}).map(() => {
       return boardToArray.slice(index, index += 8)
     })
@@ -154,7 +158,6 @@ class ThumbNail extends Component {
           <MiniSquare key={columnIndex}
             color={this.squareColor(square)}
             piece={this.thumbNailBoard()[square].piece}
-            playerColor={this.playerColor}
           />
         )
       })
@@ -228,7 +231,7 @@ class ThumbNail extends Component {
           {this.gameState}
         </p>
         <div id={this.props.game.id}
-          className={`thumbNailBoard ${this.playerColor}`}
+          className={`thumbNailBoard`}
           onClick={() => this.handleCurrentGame(this.props.game)}>
             {this.currentSetup}
         </div>

@@ -14,7 +14,3 @@
 .piece:hover {
   opacity: .65;
 }
-
-.blackPlayer {
-  transform: rotate(180deg) scaleX(-1);
-}

@@ -39,7 +39,3 @@
   cursor: pointer;
   color: #ff6338;
 }
-
-.blackPlayer {
-  transform: rotate(180deg) scaleX(-1);
-}

@@ -15,7 +15,6 @@ class Square extends Component {
         <Piece
           isValid={this.props.isValid}
           piece={this.props.piece}
-          colorOfPlayer={this.props.colorOfPlayer}
         />
       )
     } else {

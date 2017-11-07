@@ -9,6 +9,7 @@
 .piece {
   margin-top: 25%;
   font-size: 3vw;
+  vertical-align: middle;
 }
 
 .piece:hover {

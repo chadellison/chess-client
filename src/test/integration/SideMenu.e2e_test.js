@@ -2,13 +2,15 @@ Feature('Side Menu')
 
 Scenario('user can see side bar', (I) => {
   I.amOnPage('/')
+  I.wait(1)
   I.see('Sign In')
   I.see('Sign Up')
   I.see('Move Log')
+  I.see('Analytics')
   I.see('Reset')
 })
 
-Scenario('user can see the game log', (I) => {
+Scenario('user can see the move log', (I) => {
   I.amOnPage('/')
   I.executeScript("document.getElementById('21').click();")
   I.click('div#e4')

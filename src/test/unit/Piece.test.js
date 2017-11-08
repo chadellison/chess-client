@@ -5,7 +5,7 @@ import { shallow } from 'enzyme'
 
 describe('Piece', () => {
   describe('#selected', () => {
-    it('returns selected when the current piece is the selected peice', () => {
+    xit('returns selected when the current piece is the selected peice', () => {
       const pieceObject = {
         "type": "knight",
         "color": "black",
@@ -19,7 +19,7 @@ describe('Piece', () => {
       expect(piece.instance().selected).toEqual('selected')
     })
 
-    it('returns an empty string when the current piece is not the selected piece', () => {
+    xit('returns an empty string when the current piece is not the selected piece', () => {
       const pieceObject = {
         "type": "knight",
         "color": "black",

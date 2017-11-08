@@ -6,7 +6,7 @@ import { shallow } from 'enzyme'
 
 describe('Square', () => {
   describe('#piece', () => {
-    it('returns a piece when one is on the square', () => {
+    xit('returns a piece when one is on the square', () => {
       const div = document.createElement('div')
       const pieceObject = {
         "type": "knight",
@@ -20,7 +20,7 @@ describe('Square', () => {
       expect(square.instance().piece).toEqual(<Piece piece={pieceObject}/>)
     })
 
-    it('returns null when there is not a piece in the square', () => {
+    xit('returns null when there is not a piece in the square', () => {
       const div = document.createElement('div')
       const pieceObject = null
       const square = shallow(<Square piece={pieceObject}/>, div)

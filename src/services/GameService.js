@@ -32,7 +32,7 @@ export default class GameService {
   }
 
   fetchAnalytics(notation) {
-    let body = JSON.stringify({ moves: { moveSignature: notation.join('.') } })
+    let body = JSON.stringify({ moves: { moveSignature: notation.join('') } })
     return (
       fetch(`${API_HOST}/api/v1/analytics`, {
         method: 'PATCH',
@@ -48,7 +48,8 @@ export default class GameService {
         startIndex: piece.startIndex,
         currentPosition: piece.currentPosition,
         movedTwo: piece.movedTwo,
-        pieceType: piece.type
+        pieceType: piece.type,
+        notation: piece.notation
       },
 
       token: token,

@@ -22,10 +22,9 @@ class MoveLog extends Component {
     if (!this.props.crossedPawn) {
       let index = parseInt(event.target.id, 10)
       let gameMoves = JSON.parse(JSON.stringify(this.props.moves.slice(0, index + 1)))
-      let notation = JSON.parse(JSON.stringify(this.props.notation.slice(0, index + 1)))
       let board = JSON.parse(JSON.stringify(jsonChessBoard))
 
-      this.updateAnalytics(notation)
+      this.updateAnalytics(gameMoves.map((move) => move.notation))
       board = this.moveLogic.setBoard(gameMoves, board)
       this.props.dispatch(getPreviousBoard(board))
       this.props.dispatch(getSelected(null))
@@ -54,7 +53,7 @@ class MoveLog extends Component {
         <div key={index} id={index}
           onClick={this.handlePreviousBoard}
           className='col-xs-6 move'>
-          {`${piece.type}: ${piece.currentPosition}`}
+          {`${piece.notation.slice(0, -1)}`}
         </div>
       )
     })

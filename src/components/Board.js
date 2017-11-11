@@ -18,8 +18,7 @@ import {
   getMoves,
   getTurn,
   getChartData,
-  getLoading,
-  getNotation
+  getLoading
 } from '../actions/index'
 
 class Board extends Component {
@@ -44,16 +43,15 @@ class Board extends Component {
     } else if(this.isValid(piece, coordinates, board, gameMoves)) {
       this.props.dispatch(getTurn(this.props.turn))
 
-      let updatedNotation = this.props.notation
-      updatedNotation.push(this.moveLogic.createNotation(piece, coordinates, board, gameMoves))
-      this.props.dispatch(getNotation(updatedNotation))
-      this.updateAnalytics(updatedNotation)
+      piece.notation = this.moveLogic.createNotation(piece, coordinates, board, gameMoves)
+
       this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, board)))
       this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, board)))
 
       piece = this.pawnMovedTwo(piece, coordinates)
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
+      this.updateAnalytics(gameMoves.map((move) => move.notation))
       this.sendMove(piece)
       let turn = this.props.turn === 'white' ? 'black' : 'white'
 
@@ -84,8 +82,7 @@ class Board extends Component {
           }
           return userGame
         })
-        this.props.dispatch(getNotation(responseJson.data.attributes.move_signature))
-        this.updateAnalytics(responseJson.data.attributes.move_signature)
+        this.updateAnalytics(responseJson.data.included.map((move) => move.attributes.notation))
         this.props.dispatch(getUserGames(updatedUserGames))
       })
       .then(() => {
@@ -123,7 +120,8 @@ class Board extends Component {
         currentPosition: piece.attributes.currentPosition,
         startIndex: piece.attributes.startIndex,
         hasMoved: piece.attributes.hasMoved,
-        movedTwo: piece.attributes.movedTwo
+        movedTwo: piece.attributes.movedTwo,
+        notation: piece.attributes.notation
       }
     })
 
@@ -286,12 +284,12 @@ class Board extends Component {
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
   moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-  previousBoard, chartData, analyticsChartActive, notation
+  previousBoard, chartData, analyticsChartActive
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
     moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-    previousBoard, chartData, analyticsChartActive, notation
+    previousBoard, chartData, analyticsChartActive
   }
 }
 

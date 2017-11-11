@@ -7,7 +7,7 @@ import {
   getCrossedPawn,
   getSelected,
   getTurn,
-  getNotation
+  getMoves
 } from '../actions/index'
 
 class CrossedPawnMenu extends Component {
@@ -39,16 +39,18 @@ class CrossedPawnMenu extends Component {
     let piece = JSON.parse(JSON.stringify(this.props.moves.slice(-3)[0]))
     let coordinates = JSON.parse(JSON.stringify(this.props.moves.slice(-1)[0])).currentPosition
     let board = JSON.parse(JSON.stringify(this.props.chessBoard))
-    let updatedNotation = this.props.notation
     let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
 
-    updatedNotation.push(this.moveLogic.createNotation(piece, coordinates, board, gameMoves, pieceType))
-    this.props.dispatch(getNotation(updatedNotation))
+    piece.notation = this.moveLogic.createNotation(piece, coordinates, board, gameMoves, pieceType)
+    piece.currentPosition = coordinates
+    piece.type = pieceType
 
+    gameMoves[gameMoves.length - 1] = piece
     board[coordinates].piece.type = pieceType
-
+    board[coordinates].piece.currentPosition = coordinates
+    this.props.dispatch(getMoves(gameMoves))
     this.props.dispatch(getChessBoard(board))
-    this.props.sendMove(board[coordinates].piece)
+    this.props.sendMove(piece)
     this.props.dispatch(getCrossedPawn(false))
     this.props.dispatch(getSelected(null))
     this.props.dispatch(getTurn(this.props.turn === 'white' ? 'black' : 'white'))
@@ -79,10 +81,10 @@ class CrossedPawnMenu extends Component {
 }
 
 const mapStateToProps = ({
-  moves, chessBoard, crossedPawn, turn, notation, selected
+  moves, chessBoard, crossedPawn, turn, selected
 }) => {
   return {
-    moves, chessBoard, crossedPawn, turn, notation, selected
+    moves, chessBoard, crossedPawn, turn, selected
   }
 }
 

@@ -137,7 +137,3 @@ export const getAnalyticsChartActive = (analyticsChartAcitve) => {
 export const getChartData = (chartData) => {
   return { type: 'GET_CHART_DATA', chartData: chartData }
 }
-
-export const getNotation = (notation) => {
-  return { type: 'GET_NOTATION', notation: notation }
-}

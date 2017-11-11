@@ -21,7 +21,7 @@ export default class MoveLogic {
     notation += this.capturePiece(notation, board, coordinates, piece)
     notation += coordinates
     notation += this.upgradedPawn(piece, pieceType)
-    return notation
+    return notation + '.'
   }
 
   upgradedPawn(piece, pieceType) {

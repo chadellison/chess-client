@@ -17,8 +17,7 @@ import {
   getCurrentGame,
   getChessBoard,
   getUserGames,
-  getPreviousBoard,
-  getNotation
+  getPreviousBoard
 } from '../actions/index'
 
 class ThumbNail extends Component {
@@ -86,7 +85,8 @@ class ThumbNail extends Component {
         currentPosition: piece.attributes.currentPosition,
         startIndex: piece.attributes.startIndex,
         hasMoved: piece.attributes.hasMoved,
-        movedTwo: piece.attributes.movedTwo
+        movedTwo: piece.attributes.movedTwo,
+        notation: piece.attributes.notation
       }
     })
 
@@ -102,7 +102,6 @@ class ThumbNail extends Component {
     this.props.dispatch(getCurrentGameActive(true))
     this.props.dispatch(getCurrentGame(game))
     this.props.dispatch(getChessBoard(currentGameBoard))
-    this.props.dispatch(getNotation(game.attributes.move_signature))
   }
 
   thumbNailBoard() {

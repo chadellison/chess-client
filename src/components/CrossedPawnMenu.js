@@ -1,17 +1,19 @@
 import React, { Component } from 'react'
 import '../styles/CrossedPawnMenu.css'
+import MoveLogic from '../helpers/MoveLogic'
 import { connect } from 'react-redux'
 import {
   getChessBoard,
   getCrossedPawn,
   getSelected,
-  getTurn
+  getTurn,
+  getNotation
 } from '../actions/index'
 
 class CrossedPawnMenu extends Component {
   constructor() {
     super()
-
+    this.moveLogic         = new MoveLogic()
     this.handleCrossedPawn = this.handleCrossedPawn.bind(this)
   }
 
@@ -34,8 +36,15 @@ class CrossedPawnMenu extends Component {
       pieceType = 'queen'
     }
 
-    let coordinates = this.props.moves.slice(-1)[0].currentPosition
+    let piece = JSON.parse(JSON.stringify(this.props.moves.slice(-3)[0]))
+    let coordinates = JSON.parse(JSON.stringify(this.props.moves.slice(-1)[0])).currentPosition
     let board = JSON.parse(JSON.stringify(this.props.chessBoard))
+    let updatedNotation = this.props.notation
+    let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
+
+    updatedNotation.push(this.moveLogic.createNotation(piece, coordinates, board, gameMoves, pieceType))
+    this.props.dispatch(getNotation(updatedNotation))
+
     board[coordinates].piece.type = pieceType
 
     this.props.dispatch(getChessBoard(board))
@@ -70,10 +79,10 @@ class CrossedPawnMenu extends Component {
 }
 
 const mapStateToProps = ({
-  moves, chessBoard, crossedPawn, turn
+  moves, chessBoard, crossedPawn, turn, notation, selected
 }) => {
   return {
-    moves, chessBoard, crossedPawn, turn
+    moves, chessBoard, crossedPawn, turn, notation, selected
   }
 }
 

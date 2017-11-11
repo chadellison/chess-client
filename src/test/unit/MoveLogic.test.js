@@ -1529,4 +1529,22 @@ describe('MoveLogic', () => {
 
     })
   })
+
+  describe('#similarPieces',  () => {
+    xit('#test', () => {
+
+    })
+  })
+
+  describe('#findStartNotation',  () => {
+    xit('#test', () => {
+
+    })
+  })
+
+  describe('#createNotation',  () => {
+    xit('#test', () => {
+
+    })
+  })
 })

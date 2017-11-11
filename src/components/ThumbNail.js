@@ -17,7 +17,8 @@ import {
   getCurrentGame,
   getChessBoard,
   getUserGames,
-  getPreviousBoard
+  getPreviousBoard,
+  getNotation
 } from '../actions/index'
 
 class ThumbNail extends Component {
@@ -101,6 +102,7 @@ class ThumbNail extends Component {
     this.props.dispatch(getCurrentGameActive(true))
     this.props.dispatch(getCurrentGame(game))
     this.props.dispatch(getChessBoard(currentGameBoard))
+    this.props.dispatch(getNotation(game.attributes.move_signature))
   }
 
   thumbNailBoard() {

@@ -40,7 +40,8 @@ import {
   getLastName,
   getUserGames,
   getAnalyticsChartActive,
-  getChartData
+  getChartData,
+  getNotation
 } from '../actions/index'
 
 class SideBar extends Component {
@@ -205,6 +206,7 @@ class SideBar extends Component {
     this.props.dispatch(getCurrentGame(null))
     this.props.dispatch(getChessBoard(JSON.parse(JSON.stringify(jsonChessBoard))))
     this.props.dispatch(getMoves([]))
+    this.props.dispatch(getNotation([]))
     this.props.dispatch(getMoveLogActive(false))
     this.props.dispatch(getAnalyticsChartActive(false))
 
@@ -219,6 +221,7 @@ class SideBar extends Component {
     this.props.dispatch(getAnalyticsChartActive(false))
     this.props.dispatch(getCurrentGame({}))
     this.props.dispatch(getMoves([]))
+    this.props.dispatch(getNotation([]))
   }
 
   handleReset() {
@@ -232,6 +235,7 @@ class SideBar extends Component {
     this.props.dispatch(getSelected(null))
     this.props.dispatch(getCrossedPawn(false))
     this.props.dispatch(getAnalyticsChartActive(false))
+    this.props.dispatch(getNotation([]))
   }
 
   noFormsActive() {
@@ -244,7 +248,7 @@ class SideBar extends Component {
 
   handleAnalyticsChart() {
     if(!this.props.analyticsChartActive) {
-      this.gameService.fetchAnalytics(this.props.moves)
+      this.gameService.fetchAnalytics(this.props.notation)
       .then(response => response.json())
       .then(responseJson => {
         let chartData = [{ value: parseInt(responseJson.data.attributes.whiteWins, 10), color: '#cd853f' },
@@ -467,14 +471,14 @@ const mapStateToProps = ({
   myGamesActive, thumbnails, turn, playerColor, challengeColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
   signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
-  whiteWins, blackWins, draws, chartData
+  whiteWins, blackWins, draws, chartData, notation
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbnails, turn, playerColor, challengeColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
     signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
-    whiteWins, blackWins, draws, chartData
+    whiteWins, blackWins, draws, chartData, notation
   }
 }
 

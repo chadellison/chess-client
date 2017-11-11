@@ -1,6 +1,78 @@
 import LETTER_KEY from './BoardHelper'
 
+const PIECE_NOTATION_KEY = {
+  'knight': 'N',
+  'bishop': 'B',
+  'rook': 'R',
+  'queen': 'Q',
+  'king': 'K',
+  'pawn': ''
+}
+
 export default class MoveLogic {
+  createNotation(piece, coordinates, board, gameMoves, pieceType) {
+    if (piece.type === 'king' && coordinates[0] &&
+      Math.abs(LETTER_KEY[piece.currentPosition[0]] - LETTER_KEY[coordinates[0]]) === 2) {
+        return coordinates[0] === 'c' ? 'O-O-O.' : 'O-O.'
+    }
+
+    let notation = PIECE_NOTATION_KEY[piece.type]
+    notation += this.findStartNotation(piece, coordinates, board, gameMoves)
+    notation += this.capturePiece(notation, board, coordinates, piece)
+    notation += coordinates
+    notation += this.upgradedPawn(piece, pieceType)
+    return notation
+  }
+
+  upgradedPawn(piece, pieceType) {
+    if (pieceType && pieceType !== piece.type) {
+      return '=' + PIECE_NOTATION_KEY[pieceType]
+    } else {
+      return ''
+    }
+  }
+
+  capturePiece(notation, board, coordinates, piece) {
+    if (board[coordinates].piece) {
+      return notation === '' ? piece.currentPosition[0] + 'x' : 'x'
+    } else {
+      return ''
+    }
+  }
+
+  findStartNotation(piece, coordinates, board, gameMoves) {
+    let startNotation = ''
+
+    let pieces = Object.values(board).filter((boardPiece) => {
+      return (boardPiece.piece &&
+        boardPiece.piece.color === piece.color &&
+        boardPiece.piece.type === piece.type &&
+        this.validMove(boardPiece.piece, coordinates, board, gameMoves))
+    }).map((boardPiece) => boardPiece.piece)
+
+    if (pieces.length > 1) {
+      pieces = this.similarPieces(0, pieces, piece)
+      if (pieces.length > 1) {
+        pieces = this.similarPieces(1, pieces, piece)
+        if (pieces.length > 1) {
+          startNotation = piece.currentPosition
+        } else {
+          startNotation = piece.currentPosition[1]
+        }
+      } else {
+        startNotation = piece.currentPosition[0]
+      }
+    }
+
+    return startNotation
+  }
+
+  similarPieces(index, samePieces, piece) {
+    return samePieces.filter((boardPiece) => {
+      return boardPiece.currentPosition[index] === piece.currentPosition[index]
+    })
+  }
+
   movesLeft(position) {
     let moves = []
     let column = position[0]

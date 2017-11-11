@@ -18,7 +18,8 @@ import {
   getMoves,
   getTurn,
   getChartData,
-  getLoading
+  getLoading,
+  getNotation
 } from '../actions/index'
 
 class Board extends Component {
@@ -43,8 +44,13 @@ class Board extends Component {
     } else if(this.isValid(piece, coordinates, board, gameMoves)) {
       this.props.dispatch(getTurn(this.props.turn))
 
+      let updatedNotation = this.props.notation
+      updatedNotation.push(this.moveLogic.createNotation(piece, coordinates, board, gameMoves))
+      this.props.dispatch(getNotation(updatedNotation))
+      this.updateAnalytics(updatedNotation)
       this.props.dispatch(getChessBoard(this.moveLogic.isCastle(piece, coordinates, board)))
       this.props.dispatch(getChessBoard(this.moveLogic.isEnPassant(piece, coordinates, board)))
+
       piece = this.pawnMovedTwo(piece, coordinates)
 
       this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
@@ -78,6 +84,8 @@ class Board extends Component {
           }
           return userGame
         })
+        this.props.dispatch(getNotation(responseJson.data.attributes.move_signature))
+        this.updateAnalytics(responseJson.data.attributes.move_signature)
         this.props.dispatch(getUserGames(updatedUserGames))
       })
       .then(() => {
@@ -90,9 +98,9 @@ class Board extends Component {
     }
   }
 
-  updateAnalytics(gameMoves = this.props.moves) {
+  updateAnalytics(notation) {
     if(this.props.analyticsChartActive) {
-      this.gameService.fetchAnalytics(gameMoves)
+      this.gameService.fetchAnalytics(notation)
       .then(response => response.json())
       .then(responseJson => {
         let chartData = [
@@ -125,7 +133,6 @@ class Board extends Component {
     this.props.dispatch(getMoves(gameMoves))
     this.props.dispatch(getTurn(turn))
     this.props.dispatch(getChessBoard(currentGameBoard))
-    this.updateAnalytics(gameMoves)
   }
 
   updateBoardAndPiece(coordinates, piece, board, gameMoves) {
@@ -135,7 +142,6 @@ class Board extends Component {
     this.props.dispatch(getSelected(this.updatedPiece(piece, coordinates)))
     gameMoves.push(piece)
     this.props.dispatch(getMoves(gameMoves))
-    this.updateAnalytics(gameMoves)
   }
 
   handleCheckmateOrStaleMate(updatedBoard, gameMoves, turn) {
@@ -280,12 +286,12 @@ class Board extends Component {
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
   moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-  previousBoard, chartData, analyticsChartActive
+  previousBoard, chartData, analyticsChartActive, notation
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
     moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-    previousBoard, chartData, analyticsChartActive
+    previousBoard, chartData, analyticsChartActive, notation
   }
 }
 

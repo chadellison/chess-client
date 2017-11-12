@@ -35,7 +35,10 @@ export default class MoveLogic {
   capturePiece(notation, board, coordinates, piece) {
     if (board[coordinates].piece) {
       return notation === '' ? piece.currentPosition[0] + 'x' : 'x'
-    } else {
+    } else if(piece.type === 'pawn' && piece.currentPosition[0] !== coordinates[0]) {
+      return notation === '' ? piece.currentPosition[0] + 'x' : 'x'
+    }
+    else {
       return ''
     }
   }

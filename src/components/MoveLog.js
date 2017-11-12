@@ -53,7 +53,7 @@ class MoveLog extends Component {
         <div key={index} id={index}
           onClick={this.handlePreviousBoard}
           className='col-xs-6 move'>
-          {`${piece.notation.slice(0, -1)}`}
+          {`${piece.notation.replace('.', '')}`}
         </div>
       )
     })

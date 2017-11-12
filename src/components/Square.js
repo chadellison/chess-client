@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../styles/Square.css'
 import Piece from './Piece'
 import { connect } from 'react-redux'
+import { DropTarget } from 'react-drag-drop-container';
 
 class Square extends Component {
   constructor() {
@@ -40,9 +41,11 @@ class Square extends Component {
 
   render() {
     return(
-      <div id={this.props.id} className={`${this.props.styles}${this.availableMove}`} onClick={this.handleMove}>
-        {this.piece}
-      </div>
+      <DropTarget targetKey='dropSquare' dropData={{id: this.props.id}} onHit={(this.handleMove)}>
+        <div id={this.props.id} className={`${this.props.styles}${this.availableMove}`} onClick={this.handleMove}>
+          {this.piece}
+        </div>
+      </DropTarget>
     )
   }
 }

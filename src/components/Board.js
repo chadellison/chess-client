@@ -37,9 +37,10 @@ class Board extends Component {
     let board     = JSON.parse(JSON.stringify(this.props.chessBoard))
     let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
 
-    if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8')) {
-      this.props.dispatch(getCrossedPawn(true))
-      this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
+    if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8') &&
+      this.isValid(piece, coordinates, board, gameMoves)) {
+        this.props.dispatch(getCrossedPawn(true))
+        this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
     } else if(this.isValid(piece, coordinates, board, gameMoves)) {
       this.props.dispatch(getTurn(this.props.turn))
 

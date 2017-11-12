@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../styles/Piece.css'
 import MoveLogic from '../helpers/MoveLogic'
 import { connect } from 'react-redux'
+import { DragDropContainer } from 'react-drag-drop-container'
 import {
   getSelected,
   getChessBoard,
@@ -69,14 +70,19 @@ class Piece extends Component {
 
   render() {
     return(
-      <i
-        id={this.props.piece.startIndex}
-        className={
-          `glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]}
-           piece-${this.props.piece.color} piece ${this.selected}`
-         }
-        onClick={() => this.handleSelected(this.props.piece)}
-      />
+      <DragDropContainer
+        targetKey='dropSquare'
+        dragData={{piece: this.props.piece}}
+        returnToBase={true}
+        onDragStart={() => this.handleSelected(this.props.piece)}>
+        <i
+          id={this.props.piece.startIndex}
+          className={
+            `glyphicon glyphicon-${PIECE_KEY[this.props.piece.type]}
+             piece-${this.props.piece.color} piece ${this.selected}`
+           }
+        />
+      </DragDropContainer>
     )
   }
 }

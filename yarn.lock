@@ -5700,6 +5700,10 @@ react-dom@^15.6.1:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
+react-drag-drop-container@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-drag-drop-container/-/react-drag-drop-container-4.0.1.tgz#adfe5f1c5d25e251f973bbb5dbc5748a5113e42d"
+
 react-error-overlay@^1.0.9:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-1.0.10.tgz#da8cd1eafac41afdca2a33792b23694ef6c528f1"

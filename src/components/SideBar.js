@@ -6,6 +6,7 @@ import CredentialForm from './CredentialForm'
 import Loader from './Loader'
 import GameService from '../services/GameService'
 import Analytics from './Analytics'
+import ColorSelection from './ColorSelection'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
@@ -177,10 +178,10 @@ class SideBar extends Component {
   handleChallengeColor(event) {
     let color
 
-    if(event.target.textContent === 'White') {
+    if(event.target.className.includes('white')) {
       color = 'white'
     }
-    if(event.target.textContent === 'Black') {
+    if(event.target.className.includes('black')) {
       color = 'black'
     }
     this.props.dispatch(getChallengeColor(color))
@@ -326,26 +327,16 @@ class SideBar extends Component {
 
   get challengeColorButtons() {
     if(this.props.challengeColor === 'white') {
-      return(
-        <div>
-          <div className='button col-xs-4 color-white underline' onClick={this.handleChallengeColor}>
-            White
-          </div>
-          <div className='button col-xs-4 color-black' onClick={this.handleChallengeColor}>
-            Black
-          </div>
-        </div>
+      return (
+        <ColorSelection handleChallengeColor={this.handleChallengeColor}
+          select={'white'}
+        />
       )
     } else {
-      return(
-        <div>
-          <div className='button col-xs-4 color-white' onClick={this.handleChallengeColor}>
-            White
-          </div>
-          <div className='button col-xs-4 color-black underline' onClick={this.handleChallengeColor}>
-            Black
-          </div>
-        </div>
+      return (
+        <ColorSelection handleChallengeColor={this.handleChallengeColor}
+          select={'black'}
+        />
       )
     }
   }

@@ -54,24 +54,6 @@
   padding: 5px;
 }
 
-.color-black, .color-white {
-  color: #262638;
-  margin: 10px;
-  margin-left: 20px;
-  height: 30px;
-  font-size:14px;
-  margin-bottom: 10px;
-  background-color: white;
-}
-
-.color-black:hover, .color-white:hover {
-  cursor: pointer;
-}
-
-.underline {
-  border-bottom: 5px solid #262638;
-}
-
 .opponentGravatar {
   border-radius: 50%;
   width: 30px;

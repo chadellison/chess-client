@@ -1,0 +1,36 @@
+.selectColor {
+  border: 1px solid #c64747;
+  border-radius: 50%;
+}
+
+.notSelected {
+  opacity: .5;
+}
+
+.division {
+  border: 1px solid #262638;
+  border-radius: 50%;
+}
+
+.color-black, .color-white {
+  margin: 10px;
+  margin-top: 20px;
+  margin-left: 20px;
+  font-size:14px;
+  margin-bottom: 10px;
+  background-color: white;
+  padding: 5px;
+}
+
+.color-black {
+  color: #262638;
+}
+
+.color-white {
+  color: #abaeb2;
+  color: #262638;
+}
+
+.color-black:hover, .color-white:hover {
+  cursor: pointer;
+}

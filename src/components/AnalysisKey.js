@@ -13,11 +13,11 @@ class AnalysisKey extends Component {
       return '0%'
     } else {
       if (color === 'white') {
-        return `${Math.round((whiteWins / totalGames) * 100)}%`
+        return `${Math.round((whiteWins / totalGames) * 10000) / 100}%`
       } else if(color === 'black') {
-        return `${Math.round((blackWins / totalGames) * 100)}%`
+        return `${Math.round((blackWins / totalGames) * 10000) / 100}%`
       } else {
-        return `${Math.round((draws / totalGames) * 100)}%`
+        return `${Math.round((draws / totalGames) * 10000) / 100}%`
       }
     }
   }

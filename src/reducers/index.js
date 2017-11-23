@@ -14,7 +14,6 @@ import challengedEmailReducer from './challengedEmailReducer'
 import challengeColorReducer from './challengeColorReducer'
 import emailReducer from './emailReducer'
 import passwordReducer from './passwordReducer'
-import signUpDataReducer from './signUpDataReducer'
 import signUpFormActiveReducer from './signUpFormActiveReducer'
 import signInFormActiveReducer from './signInFormActiveReducer'
 import firstNameReducer from './firstNameReducer'
@@ -51,7 +50,6 @@ const rootReducer = combineReducers({
   challengeColor: challengeColorReducer,
   email: emailReducer,
   password: passwordReducer,
-  signUpData: signUpDataReducer,
   signUpFormActive: signUpFormActiveReducer,
   signInFormActive: signInFormActiveReducer,
   firstName: firstNameReducer,

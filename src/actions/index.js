@@ -58,10 +58,6 @@ export const getPassword = (password) => {
   return { type: 'GET_PASSWORD', password: password }
 }
 
-export const getSignUpData = (signUpData) => {
-  return { type: 'GET_SIGN_UP_DATA', signUpData: signUpData }
-}
-
 export const getSignUpFormActive = (signUpFormActive) => {
   return { type: 'GET_SIGN_UP_FORM_ACTIVE', signUpFormActive: signUpFormActive }
 }

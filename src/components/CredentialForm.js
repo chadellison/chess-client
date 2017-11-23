@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import {
   getLoading,
   getMessageToUser,
-  getSignUpData,
   getSignUpFormActive,
   getSignInFormActive,
   getEmail,
@@ -27,6 +26,7 @@ class CredentialForm extends Component {
     this.handleUserEmail            = this.handleUserEmail.bind(this)
     this.handleUserPassword         = this.handleUserPassword.bind(this)
     this.handleUserSignIn           = this.handleUserSignIn.bind(this)
+    this.handleUserSignUp           = this.handleUserSignUp.bind(this)
   }
 
   handleFirstName(event) {
@@ -52,16 +52,15 @@ class CredentialForm extends Component {
   }
 
   handleUserSignIn() {
-    let self = this
     this.props.dispatch(getLoading(true))
     this.userService.signIn(this.props.email, this.props.password)
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.errors) {
-          self.props.dispatch(getMessageToUser(responseJson.errors))
-          self.props.dispatch(getLoading(false))
+          this.props.dispatch(getMessageToUser(responseJson.errors))
+          this.props.dispatch(getLoading(false))
         } else {
-          self.props.updateSignInInfo(this.loggedInData(responseJson))
+          this.props.updateSignInInfo(this.loggedInData(responseJson))
           localStorage.setItem('state', JSON.stringify(this.loggedInData(responseJson)))
         }
       })
@@ -89,6 +88,7 @@ class CredentialForm extends Component {
   }
 
   handleUserSignUp() {
+    this.props.dispatch(getLoading(true))
     this.userService.createUser(this.props.email, this.props.password, this.props.firstName, this.props.lastName)
       .then(response => response.json())
       .then(responseJson => {
@@ -97,17 +97,16 @@ class CredentialForm extends Component {
           this.props.dispatch(getSignUpFormActive(true))
         } else {
           let message = `Great ${this.props.firstName}! Please check your email at ${this.props.email} to confirm your account!`
-          let signUpData = {
-            messageToUser: message,
-            signUpFormActive: false,
-            signInFormActive: false,
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: ''
-          }
-          this.props.dispatch(getSignUpData(signUpData))
+
+          this.props.dispatch(getMessageToUser(message))
+          this.props.dispatch(getSignUpFormActive(false))
+          this.props.dispatch(getSignInFormActive(false))
+          this.props.dispatch(getEmail(''))
+          this.props.dispatch(getPassword(''))
+          this.props.dispatch(getFirstName(''))
+          this.props.dispatch(getLastName(''))
         }
+        this.props.dispatch(getLoading(false))
       })
       .catch((error) => alert(error))
   }

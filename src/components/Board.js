@@ -55,8 +55,7 @@ class Board extends Component {
       this.updateAnalytics(gameMoves.map((move) => move.notation))
       this.sendMove(piece)
       let turn = this.props.turn === 'white' ? 'black' : 'white'
-
-
+      
       if(this.moveLogic.checkmate(board, gameMoves, turn) || this.moveLogic.stalemate(board, gameMoves, turn)) {
         this.handleCheckmateOrStaleMate(board, gameMoves, turn)
       } else {

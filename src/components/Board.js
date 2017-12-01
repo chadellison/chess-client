@@ -254,7 +254,8 @@ class Board extends Component {
   }
 
   robotsPlay() {
-    this.gameService.makeAiMove(this.props.moves.map((move) => move.notation), this.props.aiGameId)
+    if(this.props.aiGameId) {
+      this.gameService.makeAiMove(this.props.moves.map((move) => move.notation), this.props.aiGameId)
       .then((response) => response.json())
       .then((responseJson) => {
         this.aiMove(responseJson.data)
@@ -262,15 +263,24 @@ class Board extends Component {
         let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
         let color = JSON.parse(JSON.stringify(this.props.turn))
 
-        if(this.moveLogic.checkmate(chessBoard, gameMoves, color) ||
-          this.moveLogic.stalemate(chessBoard, gameMoves, color) || this.props.moves.length > 200) {
-            alert('game over')
-          } else {
-            console.log(gameMoves)
-            this.robotsPlay()
-          }
+        this.updateAnalytics(gameMoves.map((move) => move.notation))
+
+        if(this.moveLogic.checkmate(chessBoard, gameMoves, color)) {
+          let message = color === 'white' ? 'Black Wins!' : 'White Wins!'
+          this.props.dispatch(getMessageToUser(message))
+          this.props.dispatch(setAiGameId(null))
+        } else if(this.moveLogic.stalemate(chessBoard, gameMoves, color)) {
+          this.props.dispatch(getMessageToUser('Draw by stalemate'))
+          this.props.dispatch(setAiGameId(null))
+        } else if(this.props.moves.length > 200) {
+          this.props.dispatch(getMessageToUser('Draw by agreement'))
+          this.props.dispatch(setAiGameId(null))
+        } else {
+          this.robotsPlay()
+        }
       })
       .catch((error) => alert(error))
+    }
   }
 
   get currentSetup() {

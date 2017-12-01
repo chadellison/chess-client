@@ -41,7 +41,8 @@ import {
   getLastName,
   getUserGames,
   getAnalyticsChartActive,
-  getChartData
+  getChartData,
+  setAiGameId
 } from '../actions/index'
 
 class SideBar extends Component {
@@ -233,6 +234,7 @@ class SideBar extends Component {
     this.props.dispatch(getSelected(null))
     this.props.dispatch(getCrossedPawn(false))
     this.props.dispatch(getAnalyticsChartActive(false))
+    this.props.dispatch(setAiGameId(null))
   }
 
   noFormsActive() {

@@ -19,7 +19,7 @@ class MoveLog extends Component {
   }
 
   handlePreviousBoard(event) {
-    if (!this.props.crossedPawn) {
+    if (!this.props.crossedPawn && !this.props.aiGameId) {
       let index = parseInt(event.target.id, 10)
       let gameMoves = JSON.parse(JSON.stringify(this.props.moves.slice(0, index + 1)))
       let board = JSON.parse(JSON.stringify(jsonChessBoard))
@@ -72,17 +72,21 @@ class MoveLog extends Component {
         <button onClick={this.props.handleMoveLog} className='hideMoveLogButton'>
           Hide
         </button>
-        {this.moves}
+        <div className='moveLog'>
+          {this.moves}
+        </div>
       </div>
     )
   }
 }
 
 const mapStateToProps = ({
-  moves, previousBoard, selected, crossedPawn, analyticsChartActive, notation
+  moves, previousBoard, selected, crossedPawn, analyticsChartActive, notation,
+  aiGameId
  }) => {
   return {
-    moves, previousBoard, selected, crossedPawn, analyticsChartActive, notation
+    moves, previousBoard, selected, crossedPawn, analyticsChartActive, notation,
+    aiGameId
   }
 }
 

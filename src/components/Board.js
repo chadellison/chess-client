@@ -317,10 +317,10 @@ class Board extends Component {
   }
 
   get watchRobotsPlay() {
-    if (!this.props.loggedIn) {
-      return <button onClick={this.handleWatchRobots}>Watch Robots Play</button>
-    } else {
+    if (this.props.loggedIn || this.props.aiGameId) {
       return null
+    } else {
+      return <button onClick={this.handleWatchRobots}>Watch Robots Play</button>
     }
   }
 

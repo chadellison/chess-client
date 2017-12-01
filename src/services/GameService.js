@@ -22,6 +22,15 @@ export default class GameService {
     )
   }
 
+  createAiGame() {
+    return (
+      fetch(`${API_HOST}/api/v1/ai_game`, {
+        method: 'POST',
+        headers: this.headers
+      })
+    )
+  }
+
   fetchGames(token, page) {
     return (
       fetch(`${API_HOST}/api/v1/games?token=${token}&page=${page}`, {
@@ -36,6 +45,17 @@ export default class GameService {
     return (
       fetch(`${API_HOST}/api/v1/analytics`, {
         method: 'PATCH',
+        headers: this.headers,
+        body: body
+      })
+    )
+  }
+
+  makeAiMove(notation, aiGameId) {
+    let body = JSON.stringify({ move: { moveSignature: notation.join('') }, gameId: aiGameId })
+    return (
+      fetch(`${API_HOST}/api/v1/ai_move`, {
+        method: 'POST',
         headers: this.headers,
         body: body
       })

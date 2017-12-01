@@ -133,3 +133,7 @@ export const getAnalyticsChartActive = (analyticsChartAcitve) => {
 export const getChartData = (chartData) => {
   return { type: 'GET_CHART_DATA', chartData: chartData }
 }
+
+export const setAiGameId = (aiGameId) => {
+  return { type: 'SET_AI_GAME_ID', aiGameId: aiGameId }
+}

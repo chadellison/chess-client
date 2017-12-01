@@ -33,6 +33,7 @@ import stalemateReducer from './stalemateReducer'
 import pageReducer from './pageReducer'
 import analyticsChartActiveReducer from './analyticsChartActiveReducer'
 import chartDataReducer from './chartDataReducer'
+import aiGameIdReducer from './aiGameIdReducer'
 
 const rootReducer = combineReducers({
   turn: turnReducer,
@@ -68,7 +69,8 @@ const rootReducer = combineReducers({
   stalemate: stalemateReducer,
   page: pageReducer,
   analyticsChartActive: analyticsChartActiveReducer,
-  chartData: chartDataReducer
+  chartData: chartDataReducer,
+  aiGameId: aiGameIdReducer
 })
 
 export default rootReducer

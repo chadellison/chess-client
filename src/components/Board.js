@@ -18,7 +18,8 @@ import {
   getMoves,
   getTurn,
   getChartData,
-  getLoading
+  getLoading,
+  setAiGameId
 } from '../actions/index'
 
 class Board extends Component {
@@ -27,9 +28,10 @@ class Board extends Component {
     this.moveLogic = new MoveLogic()
     this.gameService = new GameService()
 
-    this.move     = this.move.bind(this)
-    this.isValid  = this.isValid.bind(this)
-    this.sendMove = this.sendMove.bind(this)
+    this.move              = this.move.bind(this)
+    this.isValid           = this.isValid.bind(this)
+    this.sendMove          = this.sendMove.bind(this)
+    this.handleWatchRobots = this.handleWatchRobots.bind(this)
   }
 
   move(coordinates) {
@@ -55,7 +57,7 @@ class Board extends Component {
       this.updateAnalytics(gameMoves.map((move) => move.notation))
       this.sendMove(piece)
       let turn = this.props.turn === 'white' ? 'black' : 'white'
-      
+
       if(this.moveLogic.checkmate(board, gameMoves, turn) || this.moveLogic.stalemate(board, gameMoves, turn)) {
         this.handleCheckmateOrStaleMate(board, gameMoves, turn)
       } else {
@@ -87,7 +89,7 @@ class Board extends Component {
       })
       .then(() => {
         if (this.props.currentGame.attributes.robot) {
-          this.aiMove()
+          this.aiMove(this.props.currentGame.included)
         }
         this.props.dispatch(getLoading(false))
       })
@@ -111,9 +113,9 @@ class Board extends Component {
     }
   }
 
-  aiMove() {
+  aiMove(moves) {
     let board = JSON.parse(JSON.stringify(jsonChessBoard))
-    let gameMoves = this.props.currentGame.included.map((piece) => {
+    let gameMoves = moves.map((piece) => {
       return {
         color: piece.attributes.color,
         type: piece.attributes.pieceType,
@@ -205,23 +207,6 @@ class Board extends Component {
     }
   }
 
-  get currentSetup() {
-    return this.boardRows().map((row, rowIndex) => {
-      let eachRow = row.map((square, columnIndex) => {
-        return(
-          <Square key={columnIndex}
-            styles={`col-xs-1 square${this.setOffset(columnIndex)} ${this.squareColor(square)}`}
-            piece={this.currentBoard()[square].piece}
-            id={square}
-            isValid={this.isValid}
-            move={this.move}
-          />
-        )
-      })
-    return <div key={rowIndex} className="row">{eachRow}</div>
-    })
-  }
-
   setOffset(index) {
     if(index % 8 === 0) {
       return ' col-xs-offset-2'
@@ -253,6 +238,58 @@ class Board extends Component {
     return sum % 2 === 0 ? 'white' : 'black'
   }
 
+  handleWatchRobots() {
+    this.gameService.createAiGame()
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.errors) {
+          this.props.dispatch(getMessageToUser('The robots were unable to play'))
+        } else {
+          this.props.dispatch(setAiGameId(responseJson.data.id))
+          this.robotsPlay()
+          this.props.dispatch(getMessageToUser('Robot vs Robot'))
+        }
+      })
+      .catch((error) => alert(error))
+  }
+
+  robotsPlay() {
+    this.gameService.makeAiMove(this.props.moves.map((move) => move.notation), this.props.aiGameId)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.aiMove(responseJson.data)
+        let chessBoard = JSON.parse(JSON.stringify(this.props.chessBoard))
+        let gameMoves = JSON.parse(JSON.stringify(this.props.moves))
+        let color = JSON.parse(JSON.stringify(this.props.turn))
+
+        if(this.moveLogic.checkmate(chessBoard, gameMoves, color) ||
+          this.moveLogic.stalemate(chessBoard, gameMoves, color) || this.props.moves.length > 200) {
+            alert('game over')
+          } else {
+            console.log(gameMoves)
+            this.robotsPlay()
+          }
+      })
+      .catch((error) => alert(error))
+  }
+
+  get currentSetup() {
+    return this.boardRows().map((row, rowIndex) => {
+      let eachRow = row.map((square, columnIndex) => {
+        return(
+          <Square key={columnIndex}
+            styles={`col-xs-1 square${this.setOffset(columnIndex)} ${this.squareColor(square)}`}
+            piece={this.currentBoard()[square].piece}
+            id={square}
+            isValid={this.isValid}
+            move={this.move}
+          />
+        )
+      })
+    return <div key={rowIndex} className="row">{eachRow}</div>
+    })
+  }
+
   get crossedPawnMenu() {
     if (this.props.crossedPawn) {
       return <CrossedPawnMenu color={this.props.moves.slice(-1)[0].color} sendMove={this.sendMove}/>
@@ -269,12 +306,21 @@ class Board extends Component {
     }
   }
 
+  get watchRobotsPlay() {
+    if (!this.props.loggedIn) {
+      return <button onClick={this.handleWatchRobots}>Watch Robots Play</button>
+    } else {
+      return null
+    }
+  }
+
   render() {
     return(
       <div>
         {this.crossedPawnMenu}
         <div id='chessBoard' className={`col-md-9 col-xs-12 container ${this.opacity}`}>
           {this.currentSetup}
+          {this.watchRobotsPlay}
         </div>
       </div>
     )
@@ -284,12 +330,12 @@ class Board extends Component {
 const mapStateToProps = ({
   selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
   moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-  previousBoard, chartData, analyticsChartActive
+  previousBoard, chartData, analyticsChartActive, loggedIn, aiGameId
 }) => {
   return {
     selected, chessBoard, currentGameActive, playerColor, turn, messageToUser,
     moves, checkmate, stalemate, crossedPawn, userGames, currentGame, token,
-    previousBoard, chartData, analyticsChartActive
+    previousBoard, chartData, analyticsChartActive, loggedIn, aiGameId
   }
 }
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import MiniSquare from './MiniSquare'
-import jsonChessBoard from '../jsonChessBoard'
 import '../styles/ThumbNail.css'
 import MoveLogic from '../helpers/MoveLogic'
 import GameService from '../services/GameService'
 import LETTER_KEY from '../helpers/BoardHelper'
+import deserialize from '../helpers/Deserializer'
 import { connect } from 'react-redux'
 import {
   getMessageToUser,
@@ -77,8 +77,19 @@ class ThumbNail extends Component {
   }
 
   refreshGame(game) {
-    let board = JSON.parse(JSON.stringify(jsonChessBoard))
-    let gameMoves = game.included.map((piece) => {
+    let gameMoves = game.included.moves.map((piece) => {
+      return {
+        color: piece.attributes.color,
+        type: piece.attributes.pieceType,
+        currentPosition: piece.attributes.currentPosition,
+        startIndex: piece.attributes.startIndex,
+        hasMoved: piece.attributes.hasMoved,
+        movedTwo: piece.attributes.movedTwo,
+        notation: piece.attributes.notation
+      }
+    })
+
+    let gamePieces = game.included.pieces.map((piece) => {
       return {
         color: piece.attributes.color,
         type: piece.attributes.pieceType,
@@ -91,7 +102,7 @@ class ThumbNail extends Component {
     })
 
     let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
-    let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+    let currentGameBoard = this.moveLogic.setPieces(gamePieces)
 
     this.props.dispatch(getMyGamesActive(false))
     this.props.dispatch(getThumbnails(false))
@@ -105,19 +116,8 @@ class ThumbNail extends Component {
   }
 
   thumbNailBoard() {
-    let board = JSON.parse(JSON.stringify(jsonChessBoard))
-    let gameMoves = this.props.game.included.map((piece) => {
-      return {
-        color: piece.attributes.color,
-        type: piece.attributes.pieceType,
-        currentPosition: piece.attributes.currentPosition,
-        startIndex: piece.attributes.startIndex,
-        hasMoved: piece.attributes.hasMoved,
-        movedTwo: piece.attributes.movedTwo
-      }
-    })
-
-    return this.moveLogic.setBoard(gameMoves, board)
+    let gamePieces = this.props.game.included.pieces
+    return this.moveLogic.setPieces(gamePieces.map((piece) => deserialize(piece)))
   }
 
   boardRows() {
@@ -187,7 +187,7 @@ class ThumbNail extends Component {
     if (this.props.game.attributes.outcome) {
       return <p>{this.props.game.attributes.outcome}</p>
     } else {
-      let color = this.props.game.included.length % 2 === 0 ? 'White' : 'Black'
+      let color = this.props.game.included.moves.length % 2 === 0 ? 'White' : 'Black'
       return <p>{`${color} to move`}</p>
     }
   }

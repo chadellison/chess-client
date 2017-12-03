@@ -1547,4 +1547,10 @@ describe('MoveLogic', () => {
 
     })
   })
+
+  describe('#setPieces', () => {
+    xit('#test', () => {
+
+    })
+  })
 })

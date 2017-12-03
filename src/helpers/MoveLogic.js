@@ -1,4 +1,5 @@
 import LETTER_KEY from './BoardHelper'
+import emptyBoard from '../emptyBoard'
 
 const PIECE_NOTATION_KEY = {
   'knight': 'N',
@@ -488,6 +489,16 @@ export default class MoveLogic {
       board[piece.currentPosition].piece = piece
       piecesAndMoves[piece.startIndex] = piece.currentPosition
     })
+    return board
+  }
+
+  setPieces(pieces) {
+    let board = JSON.parse(JSON.stringify(emptyBoard))
+
+    pieces.forEach((piece) => {
+      board[piece.currentPosition].piece = piece
+    })
+
     return board
   }
 }

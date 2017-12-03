@@ -62,7 +62,7 @@ export default class GameService {
     )
   }
 
-  makeMove(game_id, piece, token) {
+  makeMove(gameId, piece, token) {
     let body = JSON.stringify({
       move: {
         startIndex: piece.startIndex,
@@ -73,7 +73,7 @@ export default class GameService {
       },
 
       token: token,
-      game_id: game_id
+      gameId: gameId
     })
     return (
       fetch(`${API_HOST}/api/v1/moves`, {

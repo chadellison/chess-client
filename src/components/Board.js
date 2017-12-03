@@ -3,8 +3,8 @@ import '../styles/Board.css'
 import Square from './Square'
 import MoveLogic from '../helpers/MoveLogic'
 import LETTER_KEY from '../helpers/BoardHelper'
+import deserialize from '../helpers/Deserializer'
 import GameService from '../services/GameService'
-import jsonChessBoard from '../jsonChessBoard'
 import CrossedPawnMenu from './CrossedPawnMenu'
 import { connect } from 'react-redux'
 import {
@@ -84,12 +84,12 @@ class Board extends Component {
           }
           return userGame
         })
-        this.updateAnalytics(responseJson.data.included.map((move) => move.attributes.notation))
+        this.updateAnalytics(responseJson.data.included.moves.map((move) => move.attributes.notation))
         this.props.dispatch(getUserGames(updatedUserGames))
       })
       .then(() => {
         if (this.props.currentGame.attributes.robot) {
-          this.aiMove(this.props.currentGame.included)
+          this.aiMove(this.props.currentGame)
         }
         this.props.dispatch(getLoading(false))
       })
@@ -113,22 +113,11 @@ class Board extends Component {
     }
   }
 
-  aiMove(moves) {
-    let board = JSON.parse(JSON.stringify(jsonChessBoard))
-    let gameMoves = moves.map((piece) => {
-      return {
-        color: piece.attributes.color,
-        type: piece.attributes.pieceType,
-        currentPosition: piece.attributes.currentPosition,
-        startIndex: piece.attributes.startIndex,
-        hasMoved: piece.attributes.hasMoved,
-        movedTwo: piece.attributes.movedTwo,
-        notation: piece.attributes.notation
-      }
-    })
-
+  aiMove(game) {
+    let gamePieces = game.included.pieces.map((piece) => deserialize(piece))
+    let gameMoves = game.included.moves.map((move) => deserialize(move))
     let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
-    let currentGameBoard = this.moveLogic.setBoard(gameMoves, board)
+    let currentGameBoard = this.moveLogic.setPieces(gamePieces)
 
     this.props.dispatch(getMoves(gameMoves))
     this.props.dispatch(getTurn(turn))

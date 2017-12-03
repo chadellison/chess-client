@@ -30,13 +30,13 @@
 	}
 }
 
-.moveLogButton, .logOutButton, .resetButton, .challengeButton, .cancelButton, .myGamesButton, .resignCurrentGameButton, .analyticsButton {
+.moveLogButton, .logOutButton, .resetButton, .cancelButton, .myGamesButton, .resignCurrentGameButton, .analyticsButton {
     width: 90%;
     margin: 10px;
     height: 30px;
 }
 
-.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .challengeButton:hover, .cancelButton:hover, .myGamesButton:hover, .resignCurrentGameButton:hover, .analyticsButton:hover {
+.moveLogButton:hover, .logOutButton:hover, .resetButton:hover, .cancelButton:hover, .myGamesButton:hover, .resignCurrentGameButton:hover, .analyticsButton:hover {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
@@ -46,20 +46,8 @@
     width: 50px;
 }
 
-.challengedEmail, .challengedFirstName {
-  width: 90%;
-  margin: 10px;
-  height: 30px;
-  font-size: 16px;
-  padding: 5px;
-}
-
 .opponentGravatar {
   border-radius: 50%;
   width: 30px;
   margin: 5px;
-}
-
-.challengeButton {
-  min-height: 30px;
 }

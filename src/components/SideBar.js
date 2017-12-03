@@ -6,14 +6,12 @@ import CredentialForm from './CredentialForm'
 import Loader from './Loader'
 import GameService from '../services/GameService'
 import Analytics from './Analytics'
-import ColorSelection from './ColorSelection'
+import GamePlayButton from './GamePlayButton'
+import ChallengeForm from './ChallengeForm'
 import { connect } from 'react-redux'
 import {
   getMoveLogActive,
   getChallengePlayer,
-  getChallengeRobot,
-  getChallengedName,
-  getChallengedEmail,
   getChallengeColor,
   getMessageToUser,
   getSignInFormActive,
@@ -56,11 +54,6 @@ class SideBar extends Component {
     this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
     this.handleReset           = this.handleReset.bind(this)
     this.updateSignInInfo      = this.updateSignInInfo.bind(this)
-    this.handleSubmitChallenge = this.handleSubmitChallenge.bind(this)
-    this.handleChallenge       = this.handleChallenge.bind(this)
-    this.handleChallengeColor  = this.handleChallengeColor.bind(this)
-    this.handleCancelChallenge = this.handleCancelChallenge.bind(this)
-    this.handleChallengedInfo  = this.handleChallengedInfo.bind(this)
     this.handleAnalyticsChart  = this.handleAnalyticsChart.bind(this)
   }
 
@@ -103,43 +96,6 @@ class SideBar extends Component {
     this.props.dispatch(getAnalyticsChartActive(false))
   }
 
-  handleGameBody() {
-    let gameBody = {}
-    if(this.props.challengeRobot) {
-      gameBody.challengedName = 'robot'
-      gameBody.challengedEmail = 'robot'
-      gameBody.challengerColor = this.props.challengeColor
-      gameBody.robot = true
-    } else {
-      gameBody.challengedName = this.props.challengedName
-      gameBody.challengedEmail = this.props.challengedEmail
-      gameBody.challengerColor = this.props.challengeColor
-    }
-    return gameBody
-  }
-
-  handleSubmitChallenge() {
-    this.props.dispatch(getLoading(true))
-    this.gameService.createGame(this.handleGameBody(), this.props.token)
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.errors) {
-          this.props.dispatch(getMessageToUser(responseJson.errors))
-        } else {
-          let updatedUserGames = JSON.parse(JSON.stringify(this.props.userGames))
-          updatedUserGames.unshift(responseJson.data)
-          this.props.dispatch(getUserGames(updatedUserGames))
-          this.props.dispatch(getMessageToUser(`Your challenge has been submitted to ${this.props.challengedName}!`))
-          this.props.dispatch(getChallengePlayer(false))
-          this.props.dispatch(getChallengeRobot(false))
-          this.props.dispatch(getChallengedName(''))
-          this.props.dispatch(getChallengedEmail(''))
-          this.props.dispatch(getLoading(false))
-        }
-    })
-    .catch((error) => alert(error))
-  }
-
   handleCredentialForm(event) {
     if(event.target.textContent === 'Sign Up') {
       this.props.dispatch(getSignUpFormActive(true))
@@ -148,44 +104,6 @@ class SideBar extends Component {
       this.props.dispatch(getSignInFormActive(true))
     }
     this.props.dispatch(getAnalyticsChartActive(false))
-  }
-
-  handleChallenge(event) {
-    if(event.target.textContent === 'Play Robot') {
-      this.props.dispatch(getChallengeRobot(true))
-    } else {
-      this.props.dispatch(getChallengePlayer(true))
-    }
-  }
-
-  handleCancelChallenge() {
-    this.props.dispatch(getChallengePlayer(false))
-    this.props.dispatch(getChallengeRobot(false))
-    this.props.dispatch(getChallengedName(''))
-    this.props.dispatch(getChallengedEmail(''))
-    this.props.dispatch(getChallengeColor('white'))
-  }
-
-  handleChallengedInfo(event) {
-    if(event.target.className === 'challengedFirstName') {
-      this.props.dispatch(getChallengedName(event.target.value))
-    }
-
-    if(event.target.className === 'challengedEmail') {
-      this.props.dispatch(getChallengedEmail(event.target.value))
-    }
-  }
-
-  handleChallengeColor(event) {
-    let color
-
-    if(event.target.className.includes('white')) {
-      color = 'white'
-    }
-    if(event.target.className.includes('black')) {
-      color = 'black'
-    }
-    this.props.dispatch(getChallengeColor(color))
   }
 
   handleMoveLog() {
@@ -300,8 +218,10 @@ class SideBar extends Component {
   }
 
   get resetButton() {
+    let content = this.props.aiGameId ? 'Stop' : 'Reset'
+
     if(this.noFormsActive() && !this.props.currentGameActive) {
-      return <button className='resetButton' onClick={this.handleReset}>Reset</button>
+      return <button className='resetButton' onClick={this.handleReset}>{content}</button>
     } else {
       return null
     }
@@ -314,48 +234,8 @@ class SideBar extends Component {
         !this.props.currentGameActive) {
       return(
         <div>
-          <button className='challengeButton' onClick={this.handleChallenge}>
-            Play Robot
-          </button>
-          <button className='challengeButton' onClick={this.handleChallenge}>
-            Challenge Player
-          </button>
-        </div>
-      )
-    } else {
-      return null
-    }
-  }
-
-  get challengeColorButtons() {
-    if(this.props.challengeColor === 'white') {
-      return (
-        <ColorSelection handleChallengeColor={this.handleChallengeColor}
-          select={'white'}
-        />
-      )
-    } else {
-      return (
-        <ColorSelection handleChallengeColor={this.handleChallengeColor}
-          select={'black'}
-        />
-      )
-    }
-  }
-
-  get challengePlayerFields() {
-    if(this.props.challengePlayer) {
-      return (
-        <div>
-          <h5>Enter the name and email of the person you would like to challenge</h5>
-          <input className='challengedFirstName'
-            placeholder='Name'
-            onChange={this.handleChallengedInfo}>
-          </input>
-          <input className='challengedEmail'
-            placeholder='Email'
-            onChange={this.handleChallengedInfo}>
-          </input>
+          <GamePlayButton content='Play Robot' />
+          <GamePlayButton content='Challenge Player' />
         </div>
       )
     } else {
@@ -365,18 +245,7 @@ class SideBar extends Component {
 
   get challengeForm() {
     if(this.props.challengePlayer || this.props.challengeRobot) {
-      return(
-        <div>
-          {this.challengePlayerFields}
-          {this.challengeColorButtons}
-          <button className='challengeButton' onClick={this.handleSubmitChallenge}>
-            Challenge
-          </button>
-          <button className='cancelButton' onClick={this.handleCancelChallenge}>
-            Cancel
-          </button>
-        </div>
-      )
+      return <ChallengeForm />
     } else {
       return null
     }
@@ -460,14 +329,14 @@ const mapStateToProps = ({
   myGamesActive, thumbnails, turn, playerColor, challengeColor, currentGameActive,
   currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
   signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
-  whiteWins, blackWins, draws, chartData
+  whiteWins, blackWins, draws, chartData, aiGameId
  }) => {
   return {
     moveLogActive, token, loggedIn, hashedEmail, messageToUser, challengePlayer,
     myGamesActive, thumbnails, turn, playerColor, challengeColor, currentGameActive,
     currentGame, chessBoard, moves, loading, challengedName, challengedEmail,
     signUpFormActive, signInFormActive, userGames, challengeRobot, analyticsChartActive,
-    whiteWins, blackWins, draws, chartData
+    whiteWins, blackWins, draws, chartData, aiGameId
   }
 }
 

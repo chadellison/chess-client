@@ -1,0 +1,7 @@
+.challengedEmail, .challengedFirstName {
+  width: 90%;
+  margin: 10px;
+  height: 30px;
+  font-size: 16px;
+  padding: 5px;
+}

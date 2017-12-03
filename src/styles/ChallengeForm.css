@@ -1,0 +1,9 @@
+.cancelButton {
+  width: 90%;
+  margin: 10px;
+  height: 30px;
+}
+
+.cancelButton:hover {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}

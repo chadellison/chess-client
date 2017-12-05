@@ -48,13 +48,13 @@ class SideBar extends Component {
     super()
     this.gameService = new GameService()
 
-    this.handleMoveLog         = this.handleMoveLog.bind(this)
-    this.handleLogout          = this.handleLogout.bind(this)
-    this.handleCredentialForm  = this.handleCredentialForm.bind(this)
-    this.handleMyGamesActive   = this.handleMyGamesActive.bind(this)
-    this.handleReset           = this.handleReset.bind(this)
-    this.updateSignInInfo      = this.updateSignInInfo.bind(this)
-    this.handleAnalyticsChart  = this.handleAnalyticsChart.bind(this)
+    this.handleMoveLog        = this.handleMoveLog.bind(this)
+    this.handleLogout         = this.handleLogout.bind(this)
+    this.handleCredentialForm = this.handleCredentialForm.bind(this)
+    this.handleMyGamesActive  = this.handleMyGamesActive.bind(this)
+    this.handleReset          = this.handleReset.bind(this)
+    this.updateSignInInfo     = this.updateSignInInfo.bind(this)
+    this.handleAnalyticsChart = this.handleAnalyticsChart.bind(this)
   }
 
   componentDidMount() {

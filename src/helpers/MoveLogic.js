@@ -418,7 +418,16 @@ export default class MoveLogic {
 
     let caseTwo = this.insufficientPieces(chessBoard, 'white') &&
       this.insufficientPieces(chessBoard, 'black')
-    return caseOne || caseTwo
+
+    let caseThree = this.threeFoldRepitition(gameMoves)
+    return caseOne || caseTwo || caseThree
+  }
+
+  threeFoldRepitition(gameMoves) {
+    return (gameMoves.length > 9 &&
+      gameMoves.slice(gameMoves.length - (gameMoves.length - 10), gameMoves.length - 1)
+        .map((move) => `${move.startIndex}:${move.currentPosition}`)
+        .filter((move, index, self) => index === self.indexOf(move)).length < 5)
   }
 
   insufficientPieces(chessBoard, color) {

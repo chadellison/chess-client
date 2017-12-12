@@ -1494,6 +1494,12 @@ describe('MoveLogic', () => {
     })
   })
 
+  describe('#threeFoldRepitition', () => {
+    xit('test', () => {
+      
+    })
+  })
+
   describe('#cannotMove', () => {
     xit('test', () => {
 

@@ -6,6 +6,7 @@ import LETTER_KEY from '../helpers/BoardHelper'
 import deserialize from '../helpers/Deserializer'
 import GameService from '../services/GameService'
 import CrossedPawnMenu from './CrossedPawnMenu'
+import moveAudio from '../audio/moveAudio.wav'
 import { connect } from 'react-redux'
 import {
   getSelected,
@@ -25,8 +26,9 @@ import {
 class Board extends Component {
   constructor() {
     super()
-    this.moveLogic = new MoveLogic()
+    this.moveLogic   = new MoveLogic()
     this.gameService = new GameService()
+    this.moveAudio   = new Audio(moveAudio)
 
     this.move              = this.move.bind(this)
     this.isValid           = this.isValid.bind(this)
@@ -41,9 +43,11 @@ class Board extends Component {
 
     if(piece.type === 'pawn' && (coordinates[1] === '1' || coordinates[1] === '8') &&
       this.isValid(piece, coordinates, board, gameMoves)) {
+        this.moveAudio.play()
         this.props.dispatch(getCrossedPawn(true))
         this.updateBoardAndPiece(coordinates, piece, board, gameMoves)
     } else if(this.isValid(piece, coordinates, board, gameMoves)) {
+      this.moveAudio.play()
       this.props.dispatch(getTurn(this.props.turn))
 
       piece.notation = this.moveLogic.createNotation(piece, coordinates, board, gameMoves)
@@ -118,7 +122,7 @@ class Board extends Component {
     let gameMoves = game.included.moves.map((move) => deserialize(move))
     let turn = gameMoves.length % 2 === 0 ? 'white' : 'black'
     let currentGameBoard = this.moveLogic.setPieces(gamePieces)
-
+    this.moveAudio.play()
     this.props.dispatch(getMoves(gameMoves))
     this.props.dispatch(getTurn(turn))
     this.props.dispatch(getChessBoard(currentGameBoard))

@@ -424,10 +424,11 @@ export default class MoveLogic {
   }
 
   threeFoldRepitition(gameMoves) {
-    return (gameMoves.length > 9 &&
-      gameMoves.slice(gameMoves.length - (gameMoves.length - 10), gameMoves.length - 1)
-        .map((move) => `${move.startIndex}:${move.currentPosition}`)
-        .filter((move, index, self) => index === self.indexOf(move)).length < 5)
+    if (gameMoves.length > 9) {
+      return gameMoves.slice(gameMoves.length - 10, gameMoves.length - 1)
+               .map((move) => `${move.startIndex}:${move.currentPosition}`)
+               .filter((move, index, self) => index === self.indexOf(move)).length < 5
+    }
   }
 
   insufficientPieces(chessBoard, color) {

@@ -51,13 +51,11 @@ export default class GameService {
     )
   }
 
-  makeAiMove(notation, aiGameId) {
-    let body = JSON.stringify({ move: { moveSignature: notation.join('') }, gameId: aiGameId })
+  fetchAiMove(notation, aiGameId) {
     return (
-      fetch(`${API_HOST}/api/v1/ai_move`, {
-        method: 'POST',
-        headers: this.headers,
-        body: body
+      fetch(`${API_HOST}/api/v1/moves/${aiGameId}`, {
+        method: 'GET',
+        headers: this.headers
       })
     )
   }
@@ -73,7 +71,7 @@ export default class GameService {
       },
 
       token: token,
-      gameId: gameId
+      id: gameId
     })
     return (
       fetch(`${API_HOST}/api/v1/moves`, {

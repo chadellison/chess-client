@@ -33,12 +33,6 @@ class ThumbNails extends Component {
   }
 }
 
-const mapStateToProps = ({
-  userGames
-}) => {
-  return {
-    userGames
-  }
-}
+const mapStateToProps = (userGames) => userGames
 
 export default connect(mapStateToProps)(ThumbNails)

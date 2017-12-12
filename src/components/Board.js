@@ -248,7 +248,7 @@ class Board extends Component {
 
   robotsPlay() {
     if(this.props.aiGameId) {
-      this.gameService.makeAiMove(this.props.moves.map((move) => move.notation), this.props.aiGameId)
+      this.gameService.fetchAiMove(this.props.moves.map((move) => move.notation), this.props.aiGameId)
       .then((response) => response.json())
       .then((responseJson) => {
         this.aiMove(responseJson.data)

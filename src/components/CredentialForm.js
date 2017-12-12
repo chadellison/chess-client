@@ -11,7 +11,8 @@ import {
   getEmail,
   getPassword,
   getFirstName,
-  getLastName
+  getLastName,
+  setAiGameId
 } from '../actions/index'
 
 class CredentialForm extends Component {
@@ -52,6 +53,7 @@ class CredentialForm extends Component {
   }
 
   handleUserSignIn() {
+    this.props.dispatch(setAiGameId(null))
     this.props.dispatch(getLoading(true))
     this.userService.signIn(this.props.email, this.props.password)
       .then(response => response.json())
@@ -88,6 +90,7 @@ class CredentialForm extends Component {
   }
 
   handleUserSignUp() {
+    this.props.dispatch(setAiGameId(null))
     this.props.dispatch(getLoading(true))
     this.userService.createUser(this.props.email, this.props.password, this.props.firstName, this.props.lastName)
       .then(response => response.json())

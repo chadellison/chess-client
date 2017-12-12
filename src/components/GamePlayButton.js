@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../styles/GamePlayButton.css'
-import { connect } from 'react-redux'
 import { getChallengePlayer, getChallengeRobot } from '../actions/index'
+import { connect } from 'react-redux'
 
 class GamePlayButton extends Component {
   constructor() {
@@ -25,5 +25,10 @@ class GamePlayButton extends Component {
     )
   }
 }
-const mapStateToProps = () => {}
+
+const mapStateToProps = ({
+}) => {
+  return {}
+}
+
 export default connect(mapStateToProps)(GamePlayButton)

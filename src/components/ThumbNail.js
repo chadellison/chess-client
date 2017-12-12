@@ -185,10 +185,10 @@ class ThumbNail extends Component {
 
   get gameState() {
     if (this.props.game.attributes.outcome) {
-      return <p>{this.props.game.attributes.outcome}</p>
+      return this.props.game.attributes.outcome
     } else {
       let color = this.props.game.included.moves.length % 2 === 0 ? 'White' : 'Black'
-      return <p>{`${color} to move`}</p>
+      return `${color} to move`
     }
   }
 

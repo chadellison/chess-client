@@ -140,13 +140,13 @@ class CredentialForm extends Component {
   get buttons() {
     if (this.props.signInFormActive) {
       return (
-        <button className='signInButton' onClick={this.handleUserSignIn}>
+        <button className='signInButton btn-warning' onClick={this.handleUserSignIn}>
           {this.buttonName}
         </button>
       )
     } else {
       return (
-        <button className='signUpButton' onClick={this.handleUserSignUp}>
+        <button className='signUpButton btn-primary' onClick={this.handleUserSignUp}>
           {this.buttonName}
         </button>
       )

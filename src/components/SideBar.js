@@ -194,8 +194,8 @@ class SideBar extends Component {
     } else {
       return (
         <div>
-          <button className='signInButton' onClick={this.handleCredentialForm}>Sign In</button>
-          <button className='signUpButton' onClick={this.handleCredentialForm}>Sign Up</button>
+          <button className='signInButton btn-warning' onClick={this.handleCredentialForm}>Sign In</button>
+          <button className='signUpButton btn-primary' onClick={this.handleCredentialForm}>Sign Up</button>
         </div>
       )
     }
